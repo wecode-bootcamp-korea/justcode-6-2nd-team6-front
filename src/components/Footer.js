@@ -27,7 +27,7 @@ const StyledFooter = styled.footer`
                  li{
                     margin-right: 20px;
                     a{
-                        font:bold 14px/1 'apple' ;
+                        font:bold 14px/1 'NanumBarunGothic' ;
                         color: #000;
                     }
                  }
@@ -54,7 +54,7 @@ const StyledFooter = styled.footer`
       li{
         margin: 20px 0px;
         a{        
-            font : 13px/1 'apple';
+            font : 13px/1 'NanumBarunGothic';
             color: #4a4a4a;
         }
         &::after{
@@ -70,7 +70,7 @@ const StyledFooter = styled.footer`
        }
        .footer-address-top{
         margin-bottom: 20px;
-        font : 13px/1 'apple';
+        font : 13px/1 'NanumBarunGothic';
             color: #4a4a4a;
             span{
                 &::after{
@@ -90,7 +90,7 @@ const StyledFooter = styled.footer`
         .ilever{
             margin-bottom: 20px;
         }
-        font : 13px/1 'apple';
+        font : 13px/1 'NanumBarunGothic';
             color: #4a4a4a;
             span{
                 &::after{
@@ -107,7 +107,7 @@ const StyledFooter = styled.footer`
        .footer-copyright{
         display: flex;
         justify-content: space-between;
-        font : 12px/1 'apple';
+        font : 12px/1 'NanumBarunGothic';
             color: #4a4a4a;
             span{
             &:nth-of-type(1){
