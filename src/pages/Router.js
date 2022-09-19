@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Playbar from "../components/playbar/Playbar";
 
 function Router() {
   return (
@@ -6,6 +7,7 @@ function Router() {
       <Routes>
         <Route></Route>
       </Routes>
+      <Playbar />
     </BrowserRouter>
   );
 }
