@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-
 import styled from "styled-components";
-import AudioPlayer from "react-h5-audio-player";
 import MusicPlayer from "./MusicPlayer";
+import PlayList from "./PlayList";
 
 const StyledPlaybar = styled.div`
   .flex-center {
@@ -10,6 +9,7 @@ const StyledPlaybar = styled.div`
     align-items: center;
     justify-content: center;
   }
+
   .playbar-inner-box {
     position: fixed;
     bottom: 0;
@@ -18,7 +18,6 @@ const StyledPlaybar = styled.div`
     height: 120px;
     background: black;
     color: white;
-    font-size: 52px;
     font-family: "NanumBarunGothic", sans-serif;
 
     .song-info-box {
@@ -74,6 +73,8 @@ const StyledPlaybar = styled.div`
     }
   }
 
+  // 확장된 플레이어 css
+
   .expanded-player-inner-box {
     position: absolute;
     top: 0;
@@ -82,8 +83,12 @@ const StyledPlaybar = styled.div`
     flex-direction: column;
     background: #262626;
     color: white;
-    font-size: 52px;
     font-family: "NanumBarunGothic", sans-serif;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: black;
+    }
 
     .close {
       position: fixed;
@@ -212,6 +217,7 @@ const Playbar = () => {
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
+        {!isExpandedClicked || <PlayList />}
       </div>
     </StyledPlaybar>
   );
