@@ -7,7 +7,7 @@ const StyledHeader = styled.header`
 	.header-inner-box {
 		position: fixed;
 		display: flex;
-		width: 1280px;
+		width: 100%;
 		height: 100px;
 		margin: 0 auto;
 		background: #fff;
@@ -69,7 +69,7 @@ const StyledHeader = styled.header`
 		/* 크리에이터/로그인/회원가입 박스 */
 		.header-login-box {
 			position: relative;
-			left: 30px;
+			right: 30px;
 			display: flex;
             justify-content: flex-end;
             width: 30%;
