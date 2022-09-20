@@ -23,7 +23,7 @@ const StyledPlaybar = styled.div`
     .song-info-box {
       position: fixed;
       left: 30px;
-      .img {
+      .cover {
         width: 72px;
         height: 72px;
         margin-right: 20px;
@@ -85,11 +85,6 @@ const StyledPlaybar = styled.div`
     color: white;
     font-family: "NanumBarunGothic", sans-serif;
 
-    &::-webkit-scrollbar {
-      width: 10px;
-      background-color: black;
-    }
-
     .close {
       position: fixed;
       top: 50px;
@@ -110,7 +105,7 @@ const StyledPlaybar = styled.div`
       position: relative;
       display: flex;
       flex-direction: column;
-      .img {
+      .cover {
         width: 420px;
         height: 420px;
         margin: 100px 0 80px 0;
@@ -193,7 +188,7 @@ const Playbar = () => {
           <img
             src={musicTracks[trackIndex].img}
             alt="album cover"
-            className="img"
+            className="cover"
           />
           <div className="song-info-wrapper">
             <div className="title">{musicTracks[trackIndex].name}</div>
@@ -217,7 +212,9 @@ const Playbar = () => {
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
-        {!isExpandedClicked || <PlayList />}
+        {!isExpandedClicked || (
+          <PlayList musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
+        )}
       </div>
     </StyledPlaybar>
   );

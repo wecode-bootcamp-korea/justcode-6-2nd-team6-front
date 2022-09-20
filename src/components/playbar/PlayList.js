@@ -1,18 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { IoSearchSharp } from "react-icons/io5";
-import { IoFileTrayOutline } from "react-icons/io5";
+import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
+import { BsChevronUp, BsChevronDown } from "react-icons/bs";
+import PlayListMusic from "./PlayListMusic";
 
 const StyledPlayList = styled.div`
-  .flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .play-list-inner-box {
     flex-direction: column;
     width: 670px;
@@ -54,13 +49,41 @@ const StyledPlayList = styled.div`
         }
       }
     }
+    .music-container {
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 670px;
+      margin-top: 20px;
+      border-radius: 7.5px;
+      background-color: #181818;
+
+      .play-list-title {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 22.5px;
+        font-size: 18px;
+        border-bottom: 1.5px solid #262626;
+
+        .button {
+          color: #85a0a0;
+          transform: scale(1.25);
+          cursor: pointer;
+        }
+      }
+
+      .play-list-music-container {
+        margin: 10px 0;
+      }
+    }
   }
 `;
 
-const PlayList = () => {
+const PlayList = ({ musicTracks, setMusicTracks }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
+  const [isPlayListOpened, setIsPlayListOpened] = useState(true);
 
   return (
     <StyledPlayList>
@@ -126,8 +149,31 @@ const PlayList = () => {
 
           <div className="menu-wrapper flex-center">
             <div className="menu">편집</div>
-            <div className="menu">그룹접기</div>
           </div>
+        </div>
+        <div className="music-container flex-center">
+          <div className="play-list-title">
+            <div className="title">현재 재생목록</div>
+            {isPlayListOpened ? (
+              <BsChevronUp
+                className="button"
+                onClick={() => setIsPlayListOpened(!isPlayListOpened)}
+              />
+            ) : (
+              <BsChevronDown
+                className="button"
+                onClick={() => setIsPlayListOpened(!isPlayListOpened)}
+              />
+            )}
+          </div>
+          {!isPlayListOpened || (
+            <div className="play-list-music-container">
+              <PlayListMusic
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+              />
+            </div>
+          )}
         </div>
       </div>
     </StyledPlayList>
