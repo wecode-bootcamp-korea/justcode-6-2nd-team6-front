@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from '../../Images/logo.png'
 
@@ -148,12 +148,53 @@ const StyledTerms = styled.div`
                 background:#3d40ff ;
                 font: bold 16px/1 'apple';
                 color: #fff;
+                border: none;
+                cursor: pointer;
+                &:disabled{
+                    background:#ddd ;
+                    cursor: default;
+                }
             }
         }
         }
 `;
 
 const Terms = () => {
+    const [checkList, setCheckList] = useState ([]);
+    const [activate, setActivate] = useState('button');
+    const [disabled, setDisabled] = useState(true)
+
+    // 전체동의시 모든 체크박스 활성화
+    const checkAll = (e) => {
+        if (checkList.length === 5){
+            setDisabled(false);
+        } else{
+            setDisabled(true);
+        }
+        e.target.checked ? setCheckList(['terms1','terms2','terms3','terms4','terms5']) : setCheckList([]);
+    };
+
+        // 전체체크 선택시 전체선택 및 해제
+        const handleCheck = (e) => {
+            e.target.checked ? setCheckList([...checkList, e.target.name])
+            : setCheckList(checkList.filter((el) => el !== e.target.name));
+        };
+
+        // 필수체크 풀리면 버튼활성화 해제
+        useEffect(()=>{
+            if(checkList.includes('terms1') && checkList.includes('terms2') && checkList.includes('terms3')) {
+                setDisabled(false)
+            }else{
+                setDisabled(true)
+            }
+        }, [checkList])
+
+
+
+
+
+
+
     return (
         <StyledTerms>
             <div className="terms-inner-box">
@@ -165,44 +206,44 @@ const Terms = () => {
                         <span className='terms-title'>이용약관</span>
                         <ul>
                             <li>
-                                <input type="checkbox" name='terms1' id='terms1' />
-                                <label for='terms1'></label>
+                                <input type="checkbox" name='terms1' id='terms1' checked={checkList.includes('terms1') ? true : false} onChange={handleCheck} />
+                                <label for='terms1' ></label>
                                 <span><span className='text-color'>(필수)</span> 이용약관</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name=' terms2' id='terms2' />
-                                <label for='terms2'></label>
+                            <input type="checkbox" name='terms2' id='terms2' checked={checkList.includes('terms2') ? true : false} onChange={handleCheck} />
+                                <label for='terms2' ></label>
                                 <span><span className='text-color'>(필수)</span> 개인정보 수집 및 이용 안내</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='terms3' id='terms3' />
-                                <label for='terms3'></label>
+                            <input type="checkbox" name='terms3' id='terms3' checked={checkList.includes('terms3') ? true : false} onChange={handleCheck} />
+                                <label for='terms3' ></label>
                                 <span><span className='text-color'>(필수)</span> 제 3자 제공 동의</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='terms4' id='terms4' />
-                                <label for='terms4'></label>
+                            <input type="checkbox" name='terms4' id='terms4' checked={checkList.includes('terms4') ? true : false} onChange={handleCheck} />
+                                <label for='terms4' ></label>
                                 <span><span>(선택)</span> 제 3자 제공 동의(선택)</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name=' terms-all' id='terms-all' />
-                                <label for='terms-all'></label>
+                            <input type="checkbox" name='terms5' id='terms5' checked={checkList.includes('terms5') ? true : false} onChange={handleCheck} />
+                                <label for='terms5' ></label>
                                 <span><span>(선택)</span> 이벤트/혜택 알림 동의</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
 
                         </ul>
                         <div className='all-access'>
-                            <input type="checkbox" name='save-id' id='save-id' />
+                            <input type="checkbox" name='save-id' id='save-id' onClick={checkAll}/>
                             <label for='save-id'></label>
                             <span className='all-access-text'>전체동의</span>
                             <span className='all-access-text'>(선택) 이벤트/혜택 알림을 포함하여 모두 동의합니다.</span>
                         </div>
-                        <a href="/certification" className='terms-next-btn'>다음</a>
+                        <button href="/certification" className='terms-next-btn' disabled={disabled}>다음</button>
                     </div>
                 </div>
             </div>

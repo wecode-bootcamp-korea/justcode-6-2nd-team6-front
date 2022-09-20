@@ -101,7 +101,7 @@ const Header = () => {
 			<div className='header-inner-box'>
 				{/* 로고박스 */}
 				<div className='header-logo-box'>
-					<a href='#' className='header-logo'>
+					<a href='/' className='header-logo'>
 						<img src={logo} alt='Florida로고' />
 					</a>
 				</div>
@@ -110,13 +110,13 @@ const Header = () => {
 				<div className='header-nav-box'>
 					<ul className='header-nav-list'>
 						<li>
-							<a href='#'>둘러보기</a>
+							<a href='/browse'>둘러보기</a>
 						</li>
 						<li>
-							<a href='#'>보관함</a>
+							<a href='/storage/mylist'>보관함</a>
 						</li>
 						<li>
-							<a href='#'>이용권</a>
+							<a href='/purchase/voucher'>이용권</a>
 						</li>
 					</ul>
 				</div>
@@ -132,7 +132,7 @@ const Header = () => {
 					<div className='header-login-menu-box'>
 						<ul className='header-login-menu-list'>
 							<li>
-								<a href='#'>크리에이터 스튜디오</a>
+								<a href='/promotion/cms/flocreators'>크리에이터 스튜디오</a>
 							</li>
 							<li>
 								{/* 스테이트로 닉네임값을 받아와야함 */}
