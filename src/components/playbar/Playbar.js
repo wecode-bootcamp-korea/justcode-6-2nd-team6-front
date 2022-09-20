@@ -33,7 +33,7 @@ const StyledPlaybar = styled.div`
         width: 72px;
         height: 72px;
         margin-right: 20px;
-        border-radius: 10%;
+        border-radius: 5px;
       }
 
       .song-info-wrapper {
@@ -117,8 +117,8 @@ const StyledPlaybar = styled.div`
       .cover {
         width: 420px;
         height: 420px;
-        margin: 150px 0 90px 0;
-        border-radius: 2.5%;
+        margin: 140px 0 80px 0;
+        border-radius: 10px;
       }
       .song-info-wrapper {
         position: relative;

@@ -36,10 +36,11 @@ const StyledPlayList = styled.div`
 
     .play-list-menu {
       justify-content: space-between;
-      margin-top: 40px;
+      margin-top: 30px;
+      height: 40px;
       width: 670px;
       color: #85a0a0;
-      font-size: 15px;
+      font-size: 16px;
 
       .menu {
         margin: 0 10px;
@@ -50,11 +51,51 @@ const StyledPlayList = styled.div`
         }
       }
     }
+
+    .play-list-search {
+      position: relative;
+      justify-content: space-between;
+      margin-top: 30px;
+      height: 40px;
+      width: 670px;
+      color: #85a0a0;
+      font-size: 16px;
+
+      .input-box {
+        input[type="text"] {
+          position: relative;
+          left: -17px;
+          width: 500px;
+          height: 40px;
+          border-radius: 100px;
+          padding: 10px;
+          padding-left: 40px;
+          border: none;
+          background-color: #313131;
+          color: white;
+          font-family: "NanumBarunGothic", sans-serif;
+          font-size: 16px;
+        }
+
+        svg {
+          position: relative;
+          top: 5.5px;
+          left: 15px;
+          z-index: 3;
+        }
+      }
+
+      .cancel {
+        margin: 0 10px;
+        cursor: pointer;
+      }
+    }
+
     .music-container {
       flex-direction: column;
       justify-content: flex-start;
       width: 670px;
-      margin-top: 20px;
+      margin-top: 15px;
       border-radius: 7.5px;
       background-color: #181818;
 
@@ -85,6 +126,15 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   const [isArtistClicked, setIsArtistClicked] = useState(false);
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
   const [isPlayListOpened, setIsPlayListOpened] = useState(true);
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const filteredTracks = musicTracks.filter((el) => {
+    return el.name
+      .replace(/(\s*)/g, "")
+      .toUpperCase()
+      .includes(inputValue.replace(/(\s*)/g, "").toUpperCase());
+  });
 
   return (
     <StyledPlayList>
@@ -100,6 +150,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsPlayListClicked(true);
               setIsArtistClicked(false);
               setIsSimilarClicked(false);
+              setIsSearchClicked(false);
             }}
           >
             <RiPlayListFill className="icon" size="20" />
@@ -113,6 +164,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsPlayListClicked(false);
               setIsArtistClicked(true);
               setIsSimilarClicked(false);
+              setIsSearchClicked(false);
             }}
           >
             <BiMicrophone className="icon" size="20" />
@@ -128,30 +180,61 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsPlayListClicked(false);
               setIsArtistClicked(false);
               setIsSimilarClicked(true);
+              setIsSearchClicked(false);
             }}
           >
             <FiMusic className="icon" size="20" />
             유사곡
           </div>
         </div>
-        <div className="play-list-menu flex-center">
-          <div className="menu-wrapper flex-center">
-            <div className="menu flex-center">
-              <IoSearchSharp size="17" className="icon" />
-              검색
-            </div>
-            {!isPlayListClicked || (
-              <div className="menu flex-center">
-                <IoFileTrayOutline size="17" className="icon" />내 리스트
-                가져오기
+        {isSearchClicked || (
+          <div className="play-list-menu flex-center">
+            <div className="menu-wrapper flex-center">
+              <div
+                className="menu flex-center"
+                onClick={() => setIsSearchClicked(true)}
+              >
+                <IoSearchSharp size="18" className="icon" />
+                검색
               </div>
-            )}
-          </div>
 
-          <div className="menu-wrapper flex-center">
-            {!isPlayListClicked || <div className="menu">편집</div>}
+              {!isPlayListClicked || (
+                <div className="menu flex-center">
+                  <IoFileTrayOutline size="18" className="icon" />내 리스트
+                  가져오기
+                </div>
+              )}
+            </div>
+
+            <div className="menu-wrapper flex-center">
+              {!isPlayListClicked || <div className="menu">편집</div>}
+            </div>
           </div>
-        </div>
+        )}
+        {!isSearchClicked || (
+          <div className="play-list-search flex-center">
+            <div className="input-box">
+              <IoSearchSharp size="20" />
+              <input
+                type="text"
+                placeholder={
+                  isPlayListClicked
+                    ? "재생목록에서 검색해주세요"
+                    : "하단의 곡 리스트에서 검색해주세요"
+                }
+                autoComplete="off"
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  console.log(inputValue);
+                }}
+              />
+            </div>
+
+            <div className="cancel" onClick={() => setIsSearchClicked(false)}>
+              취소
+            </div>
+          </div>
+        )}
         <div className="music-container flex-center">
           <div className="play-list-title">
             <div className="title">현재 재생목록</div>
@@ -169,11 +252,19 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
           </div>
           {!isPlayListOpened || (
             <div className="play-list-music-container">
-              <PlayListMusic
-                musicTracks={musicTracks}
-                setMusicTracks={setMusicTracks}
-                setTrackIndex={setTrackIndex}
-              />
+              {isSearchClicked ? (
+                <PlayListMusic
+                  musicTracks={filteredTracks}
+                  setMusicTracks={setMusicTracks}
+                  setTrackIndex={setTrackIndex}
+                />
+              ) : (
+                <PlayListMusic
+                  musicTracks={musicTracks}
+                  setMusicTracks={setMusicTracks}
+                  setTrackIndex={setTrackIndex}
+                />
+              )}
             </div>
           )}
         </div>
