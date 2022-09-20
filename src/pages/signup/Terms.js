@@ -53,7 +53,7 @@ const StyledTerms = styled.div`
                     input[type='checkbox'] {
                   display: none;
                 }
-                input[id='save-id'] + label {
+                input[type='checkbox'] + label {
                   display: inline-block;
                   width: 20px;
                   height: 20px;
@@ -62,7 +62,7 @@ const StyledTerms = styled.div`
                   background: #fff;
                   cursor: pointer;
                 }
-                input[id='save-id']:checked + label {
+                input[type='checkbox']:checked + label {
                   position: relative;
                   background:#3d40ff ;
                   &::before {
@@ -96,10 +96,11 @@ const StyledTerms = styled.div`
             }
             .all-access{
                 width: 100%;
+                margin-top: 30px;
                 input[type='checkbox'] {
                   display: none;
                 }
-                input[id='save-id'] + label {
+                input[type='checkbox'] + label {
                   display: inline-block;
                   width: 20px;
                   height: 20px;
@@ -108,7 +109,7 @@ const StyledTerms = styled.div`
                   background: #fff;
                   cursor: pointer;
                 }
-                input[id='save-id']:checked + label {
+                input[type='checkbox']:checked + label {
                   position: relative;
                   background:#3d40ff ;
                   &::before {
@@ -164,32 +165,32 @@ const Terms = () => {
                         <span className='terms-title'>이용약관</span>
                         <ul>
                             <li>
-                                <input type="checkbox" name='save-id' id='save-id' />
-                                <label for='save-id'></label>
+                                <input type="checkbox" name='terms1' id='terms1' />
+                                <label for='terms1'></label>
                                 <span><span className='text-color'>(필수)</span> 이용약관</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='save-id' id='save-id' />
-                                <label for='save-id'></label>
+                                <input type="checkbox" name=' terms2' id='terms2' />
+                                <label for='terms2'></label>
                                 <span><span className='text-color'>(필수)</span> 개인정보 수집 및 이용 안내</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='save-id' id='save-id' />
-                                <label for='save-id'></label>
+                                <input type="checkbox" name='terms3' id='terms3' />
+                                <label for='terms3'></label>
                                 <span><span className='text-color'>(필수)</span> 제 3자 제공 동의</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='save-id' id='save-id' />
-                                <label for='save-id'></label>
+                                <input type="checkbox" name='terms4' id='terms4' />
+                                <label for='terms4'></label>
                                 <span><span>(선택)</span> 제 3자 제공 동의(선택)</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
                             <li>
-                                <input type="checkbox" name='save-id' id='save-id' />
-                                <label for='save-id'></label>
+                                <input type="checkbox" name=' terms-all' id='terms-all' />
+                                <label for='terms-all'></label>
                                 <span><span>(선택)</span> 이벤트/혜택 알림 동의</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
@@ -201,7 +202,7 @@ const Terms = () => {
                             <span className='all-access-text'>전체동의</span>
                             <span className='all-access-text'>(선택) 이벤트/혜택 알림을 포함하여 모두 동의합니다.</span>
                         </div>
-                        <a href="#" className='terms-next-btn'>다음</a>
+                        <a href="/certification" className='terms-next-btn'>다음</a>
                     </div>
                 </div>
             </div>

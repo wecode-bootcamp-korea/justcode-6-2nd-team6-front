@@ -132,7 +132,7 @@ const StyledLogin = styled.div`
                     }
                 }
                 .link-signup{
-                    cursor: pointer;
+                    color: #000;
                 }
             }
             /* T로그인 / 휴대폰번호로그인 */
@@ -235,7 +235,7 @@ const Login = () => {
                                     <a href="#">비밀번호 찾기</a>
                                 </li>
                             </ul>
-                            <span className='link-signup'>회원가입</span>
+                            <a href='/signup' className='link-signup'>회원가입</a>
                         </div>
 
                         {/* T아이디로 로그인 / 휴대폰 번호로 로그인 */}
