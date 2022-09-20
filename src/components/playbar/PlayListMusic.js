@@ -50,13 +50,13 @@ const StyledPlayListMusic = styled.div`
   }
 `;
 
-const PlayListMusic = ({ musicTracks, setMusicTracks }) => {
+const PlayListMusic = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   console.log(musicTracks);
-  const musics = musicTracks.map((el, i) => {
+  const mapMusic = musicTracks.map((el, i) => {
     console.log("el", el, "i", i);
     return (
       <div className="play-list-music-inner-box" key={el.key}>
-        <div className="song-info flex-center">
+        <div className="song-info flex-center" onClick={() => setTrackIndex(i)}>
           <img src={el.img} alt="cover" className="cover" />
           <div className="title-and-artist">
             <div className="title">{el.name}</div>
@@ -72,7 +72,7 @@ const PlayListMusic = ({ musicTracks, setMusicTracks }) => {
     );
   });
 
-  return <StyledPlayListMusic>{musics}</StyledPlayListMusic>;
+  return <StyledPlayListMusic>{mapMusic}</StyledPlayListMusic>;
 };
 
 export default PlayListMusic;

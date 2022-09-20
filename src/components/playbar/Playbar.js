@@ -213,7 +213,11 @@ const Playbar = () => {
           />
         )}
         {!isExpandedClicked || (
-          <PlayList musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
+          <PlayList
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
+            setTrackIndex={setTrackIndex}
+          />
         )}
       </div>
     </StyledPlaybar>

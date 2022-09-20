@@ -79,7 +79,7 @@ const StyledPlayList = styled.div`
   }
 `;
 
-const PlayList = ({ musicTracks, setMusicTracks }) => {
+const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
@@ -171,6 +171,7 @@ const PlayList = ({ musicTracks, setMusicTracks }) => {
               <PlayListMusic
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
+                setTrackIndex={setTrackIndex}
               />
             </div>
           )}
