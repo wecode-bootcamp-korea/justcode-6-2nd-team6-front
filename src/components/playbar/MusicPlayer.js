@@ -37,6 +37,10 @@ const StyledMusicPlayer = styled.div`
         display: none;
       }
 
+      .rhap_progress-bar-show-download {
+        background-color: #222222;
+      }
+
       .rhap_download-progress {
         background-color: #323232;
       }
@@ -73,8 +77,10 @@ const StyledMusicPlayer = styled.div`
       }
 
       .rhap_repeat-button {
+        color: #545454;
+        transform: scale(1.1);
         &:hover {
-          color: #3d3d3f;
+          color: #1b1b1b;
           transition: 0s ease-out;
         }
       }
@@ -106,6 +112,10 @@ const StyledMusicPlayer = styled.div`
 
       .rhap_progress-indicator {
         display: none;
+      }
+
+      .rhap_progress-bar-show-download {
+        background-color: #222222;
       }
 
       .rhap_download-progress {
@@ -140,6 +150,7 @@ const StyledMusicPlayer = styled.div`
       }
 
       .rhap_repeat-button {
+        transform: scale(1.1);
         &:hover {
           color: #3d3d3f;
           transition: 0s ease-out;

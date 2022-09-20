@@ -5,6 +5,7 @@ import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
+
 import PlayListMusic from "./PlayListMusic";
 
 const StyledPlayList = styled.div`
@@ -148,7 +149,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
           </div>
 
           <div className="menu-wrapper flex-center">
-            <div className="menu">편집</div>
+            {!isPlayListClicked || <div className="menu">편집</div>}
           </div>
         </div>
         <div className="music-container flex-center">
