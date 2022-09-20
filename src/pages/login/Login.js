@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import LoginFooter from '../../components/LoginFooter';
-import { emailValidator, passwordvalidator } from '../../components/regexValidator';
+import { emailValidator } from '../../components/regexValidator';
 
 const StyledLogin = styled.div`
 .login-inner-box{
