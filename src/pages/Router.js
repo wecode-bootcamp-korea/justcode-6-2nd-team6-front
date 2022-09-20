@@ -1,12 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Login from './login/Login';
-import Signup from './signup/Signup';
-import Terms from './signup/Terms';
-
-
-
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Login from "./login/Login";
+import Signup from "./signup/Signup";
+import Terms from "./signup/Terms";
+import Main from "./main/Main";
 
 function Router() {
   return (
@@ -14,10 +12,9 @@ function Router() {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />}/>
-        <Route path="/terms" element={<Terms />}/>
-
-
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/" element={<Main />} />
       </Routes>
       <Footer />
     </BrowserRouter>
