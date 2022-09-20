@@ -1,0 +1,52 @@
+{
+  "releaseData": [
+    {
+      "releaseId": 1,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 2,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 3,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 4,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 5,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 6,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 7,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    },
+    {
+      "releaseId": 8,
+      "releaseAlbum": "/Images/album-cover.jpg",
+      "releaseSong": "granola bars",
+      "releaseSinger": "UPSAHL"
+    }
+  ]
+}
