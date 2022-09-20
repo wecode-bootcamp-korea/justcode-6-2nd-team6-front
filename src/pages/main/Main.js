@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import FirstSection from "./sections/FirstSection";
+import SecondSection from "./sections/SecondSection";
 
 const StyledMain = styled.main`
   div.main-inner-box {
@@ -10,9 +11,10 @@ const StyledMain = styled.main`
     justify-content: center;
     font-family: "NanumBarunGothic", sans-serif;
 
+
     div.main-wrap {
       margin-top: 120px;
-      background-color: #fff;
+
     }
   }
 `;
@@ -23,6 +25,7 @@ const Main = () => {
       <div className="main-inner-box">
         <div className="main-wrap">
           <FirstSection />
+          <SecondSection />
         </div>
       </div>
     </StyledMain>
