@@ -1,0 +1,84 @@
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+const StyledPopup = styled.div`
+.popup-inner-box{
+    position: fixed;
+    background: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    .popup{
+        position: fixed;
+        top: 40%;
+        right: 35%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 400px;
+        height: 190px;
+        padding: 30px;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 10px;
+        font: 16px/1 'NBG';
+        .popup-date{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            font: 18px/1 'apple';
+        }
+        .popup-text{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 30px;
+            .bold{
+                margin-bottom: 10px;
+                font: bold 20px/1 'apple';
+                color:#3f3fff;
+            }
+        }
+  .close-text{
+    font: 12px/1 'apple';
+    color: #3f3fff;
+  }
+    }
+}
+`
+
+
+const Popup = () => {
+    const [year, setYear] = useState('0000')
+    const [month, setMonth] = useState('00')
+    const [date, setDate] = useState('00')
+    const [timer, setTimer] = useState(true)
+
+    useEffect(() => {
+        setTimeout(() => { setTimer(false) }, 1500)
+    })
+
+    return (
+        <StyledPopup>
+            {timer === true ? <div className="popup-inner-box">
+                <div className="popup">
+                    <span className='popup-date'>{year}년 {month}월 {date}일</span>
+                    <span className='popup-text'><span className='bold'>FLORIDA</span>이벤트/혜택 알림이 수신 동의 처리되었습니다.</span>
+                    <span className='close-text'>해당 창은 2초뒤에 자동으로 사라집니다.</span>
+                </div>
+            </div> : null}
+
+        </StyledPopup>
+    );
+};
+
+
+
+export default Popup;

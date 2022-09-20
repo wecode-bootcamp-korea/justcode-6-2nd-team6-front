@@ -225,8 +225,8 @@ const Login = () => {
     // 비밀번호 토글버튼
     const [blind, setBlind] = useState(false)
     const [input, setInput] = React.useState({ email: '', password: '' })
-    const [errorMessage, seterrorMessage] = useState('')
-    const [disabled,setDisabled] = useState(true)
+
+    const [disabled, setDisabled] = useState(true)
 
     const handleChange = (e) => {
         setInput({
@@ -234,18 +234,13 @@ const Login = () => {
         })
     }
 
-    const formSubmitter = (e) => {
-        e.preventDefault()
-        if (!emailValidator(input.email)) return seterrorMessage('잘못된 이메일 형식입니다.')
-    }
-
-    useEffect(()=>{
-        if(input.email.includes('@') && input.password.length >6) {
+    useEffect(() => {
+        if (input.email.includes('@') && input.password.length > 6) {
             setDisabled(false)
-        }else{
+        } else {
             setDisabled(true)
         }
-    },[input])
+    }, [input])
 
 
 
@@ -255,20 +250,19 @@ const Login = () => {
                 <div className="login-container">
                     {/* 웹접근성 스크린 리더기 부분 */}
                     <h1 className='hidden'>로그인</h1>
-                    <form className="login-form-inner-box" onSubmit={formSubmitter}>
+                    <form className="login-form-inner-box">
 
                         {/* 아이디창 */}
                         <div className="login-form-id">
                             <input type="text" placeholder='아이디(이메일)' name='email' onChange={handleChange}
                             />
-                            {errorMessage.length > 4 && <span className='error-msg'>{errorMessage}</span>}
                         </div>
 
                         {/* 페스워드창 */}
                         <div className="login-form-pwd">
-                            <input type={blind === false ? 'text' : 'password'} placeholder='비밀번호' name='password' onChange={handleChange}
+                            <input type={blind === false ? 'password' : 'text'} placeholder='비밀번호' name='password' onChange={handleChange}
                             />
-                            <span className='blind-pwd' onClick={() => { setBlind(!blind) }}>{blind === false ? <AiFillEye /> : <AiFillEyeInvisible />}</span>
+                            <span className='blind-pwd' onClick={() => { setBlind(!blind) }}>{blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
                         </div>
 
                         {/* 아이디 저장버튼 */}
@@ -279,9 +273,10 @@ const Login = () => {
                         </div>
 
                         {/* 로그인버튼 */}
-                        <button href="#" className='login-btn' disabled={disabled}>
+                        <button  className='login-btn' disabled={disabled}>
                             <span>로그인</span>
                         </button>
+                      
 
                         {/* 아이디 비밀번호 찾기 */}
                         <div className="login-find-idpw">
