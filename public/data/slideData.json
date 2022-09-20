@@ -1,0 +1,28 @@
+{
+  "slideData": [
+    {
+      "id": 1,
+      "slideSongImg": "../../src/Images/album-cover.jpg",
+      "slideSongName": "Natural",
+      "slideSinger": "Imagine Dragons"
+    },
+    {
+      "id": 2,
+      "slideSongImg": "../../src/Images/album-cover.jpg",
+      "slideSongName": "Full Nelson",
+      "slideSinger": "Limp Bizkit"
+    },
+    {
+      "id": 3,
+      "slideSongImg": "../../src/Images/album-cover.jpg",
+      "slideSongName": "Fighting",
+      "slideSinger": "Yellowcard"
+    },
+    {
+      "id": 4,
+      "slideSongImg": "../../src/Images/album-cover.jpg",
+      "slideSongName": "Uma Thurman",
+      "slideSinger": "Fall Out Boy"
+    }
+  ]
+}
