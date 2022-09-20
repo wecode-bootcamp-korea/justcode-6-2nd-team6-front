@@ -23,15 +23,19 @@ const StyledPlaybar = styled.div`
     .song-info-box {
       position: fixed;
       left: 30px;
+
       .cover {
         width: 72px;
         height: 72px;
         margin-right: 20px;
         border-radius: 10%;
       }
+
       .song-info-wrapper {
         display: flex;
+        justify-content: center;
         flex-direction: column;
+
         .title {
           font-size: 20px;
         }
@@ -42,6 +46,7 @@ const StyledPlaybar = styled.div`
         }
       }
     }
+
     .like {
       position: fixed;
       right: 115px;
@@ -76,14 +81,19 @@ const StyledPlaybar = styled.div`
   // 확장된 플레이어 css
 
   .expanded-player-inner-box {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    min-height: 120vh;
+    position: fixed;
+    bottom: 0;
     flex-direction: column;
+    width: 100%;
+    height: 100vh;
     background: #262626;
     color: white;
+    overflow-y: auto;
     font-family: "NanumBarunGothic", sans-serif;
+
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
 
     .close {
       position: fixed;
@@ -108,7 +118,7 @@ const StyledPlaybar = styled.div`
       .cover {
         width: 420px;
         height: 420px;
-        margin: 100px 0 80px 0;
+        margin: 1000px 0 80px 0;
         border-radius: 2.5%;
       }
       .song-info-wrapper {
@@ -142,6 +152,13 @@ const StyledPlaybar = styled.div`
         brightness(98%) contrast(96%);
       cursor: pointer;
     }
+  }
+  .blind-fold {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: #262626;
   }
 `;
 

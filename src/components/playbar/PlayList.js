@@ -63,7 +63,7 @@ const StyledPlayList = styled.div`
         width: 100%;
         padding: 22.5px;
         font-size: 18px;
-        border-bottom: 1.5px solid #262626;
+        border-bottom: 1px solid #262626;
 
         .button {
           color: #85a0a0;

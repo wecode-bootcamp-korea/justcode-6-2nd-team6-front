@@ -51,9 +51,7 @@ const StyledPlayListMusic = styled.div`
 `;
 
 const PlayListMusic = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
-  console.log(musicTracks);
   const mapMusic = musicTracks.map((el, i) => {
-    console.log("el", el, "i", i);
     return (
       <div className="play-list-music-inner-box" key={el.key}>
         <div className="song-info flex-center" onClick={() => setTrackIndex(i)}>
