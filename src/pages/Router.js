@@ -6,6 +6,11 @@ import Signup from "./signup/Signup";
 import Terms from "./signup/Terms";
 import Main from "./main/Main";
 import AlbumTrack from "../components/AlbumTrack";
+import Certification from "./signup/Certification";
+import Signform from "./signup/Signform";
+import Playbar from "../components/playbar/Playbar";
+import Purchase from "./purchase/Purchase";
+import Voucher from "./purchase/Voucher";
 
 function Router() {
   return (
@@ -17,8 +22,14 @@ function Router() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/" element={<Main />} />
         <Route path="/detailed" element={<AlbumTrack />} />
+        <Route path="/certification" element={<Certification />} />
+        <Route path="/signform" element={<Signform />} />
+        <Route path="/purchase" element={<Purchase />}>
+          <Route path="voucher" element={<Voucher />}></Route>
+        </Route>
       </Routes>
       <Footer />
+      <Playbar />
     </BrowserRouter>
   );
 }

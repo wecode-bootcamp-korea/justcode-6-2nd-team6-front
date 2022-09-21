@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import LoginFooter from '../../components/LoginFooter';
+import { emailValidator } from '../../components/regexValidator';
 
 const StyledLogin = styled.div`
 .login-inner-box{
@@ -31,13 +32,20 @@ const StyledLogin = styled.div`
             width: 100%;
             /* 아이디창 */
             .login-form-id{
+                position: relative;
                 input[type=text]{
                     width: 400px;
                     height: 50px;
                     margin-bottom: 30px;
                     border: none;
                     border-bottom: 1px solid #eee;
-
+                }
+                .error-msg{
+                    display: flex;
+                    position: absolute;
+                    bottom: 10px;
+                    font: 12px/1 'apple';
+            color: red;
                 }
             }
             /* 페스워드창 */
@@ -50,13 +58,19 @@ const StyledLogin = styled.div`
                     border: none;
                     border-bottom: 1px solid #eee;
                 }
+                input[type=text]{
+                    width: 400px;
+                    height: 50px;
+                    border: none;
+                    border-bottom: 1px solid #eee;
+                }
                 .blind-pwd{
                     position: absolute;
                     top: 10px;
                     right:15px;
                     font-size: 25px;
                     color: #ccc;
-
+                    cursor: pointer;
                 }
             }
             /* 아이디 저장벝튼 */
@@ -102,14 +116,27 @@ const StyledLogin = styled.div`
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background: #d9d9ff;
+                background:#3d40ff ;
                 width: 400px;
                 height: 50px;
+                border: none;
+                cursor: pointer;
+                &:disabled{
+                    background:#ddd ;
+                    cursor: default;}
                 span{
                     font:bold 18px/1 'NanumBarunGothic'; 
                     color: #fff;
                 }
             }
+            .login-btn-on{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #3f3fff;
+                width: 400px;
+                height: 50px;
+                border: none;}
             /* 아아디 비밀번호 찾기 */
             .login-find-idpw{
                 display: flex;
@@ -132,7 +159,7 @@ const StyledLogin = styled.div`
                     }
                 }
                 .link-signup{
-                    cursor: pointer;
+                    color: #000;
                 }
             }
             /* T로그인 / 휴대폰번호로그인 */
@@ -194,23 +221,48 @@ const StyledLogin = styled.div`
 `
 
 const Login = () => {
+
+    // 비밀번호 토글버튼
+    const [blind, setBlind] = useState(false)
+    const [input, setInput] = React.useState({ email: '', password: '' })
+
+    const [disabled, setDisabled] = useState(true)
+
+    const handleChange = (e) => {
+        setInput({
+            ...input, [e.target.name]: e.target.value
+        })
+    }
+
+    useEffect(() => {
+        if (input.email.includes('@') && input.password.length > 6) {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        }
+    }, [input])
+
+
+
     return (
         <StyledLogin>
             <div className="login-inner-box">
                 <div className="login-container">
                     {/* 웹접근성 스크린 리더기 부분 */}
                     <h1 className='hidden'>로그인</h1>
-                    <div className="login-form-inner-box">
+                    <form className="login-form-inner-box">
 
                         {/* 아이디창 */}
                         <div className="login-form-id">
-                            <input type="text" placeholder='아이디(이메일)' />
+                            <input type="text" placeholder='아이디(이메일)' name='email' onChange={handleChange}
+                            />
                         </div>
 
                         {/* 페스워드창 */}
                         <div className="login-form-pwd">
-                            <input type="password" placeholder='비밀번호' name="" id="" />
-                            <span className='blind-pwd'><AiFillEye/></span>
+                            <input type={blind === false ? 'password' : 'text'} placeholder='비밀번호' name='password' onChange={handleChange}
+                            />
+                            <span className='blind-pwd' onClick={() => { setBlind(!blind) }}>{blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
                         </div>
 
                         {/* 아이디 저장버튼 */}
@@ -221,9 +273,10 @@ const Login = () => {
                         </div>
 
                         {/* 로그인버튼 */}
-                        <a href="#" className='login-btn'>
+                        <button  className='login-btn' disabled={disabled}>
                             <span>로그인</span>
-                        </a>
+                        </button>
+                      
 
                         {/* 아이디 비밀번호 찾기 */}
                         <div className="login-find-idpw">
@@ -235,7 +288,7 @@ const Login = () => {
                                     <a href="#">비밀번호 찾기</a>
                                 </li>
                             </ul>
-                            <span className='link-signup'>회원가입</span>
+                            <a href='/signup' className='link-signup'>회원가입</a>
                         </div>
 
                         {/* T아이디로 로그인 / 휴대폰 번호로 로그인 */}
@@ -260,11 +313,11 @@ const Login = () => {
                                 <span className='hidden'>애플로그인</span>
                             </a>
                         </div>
-                    </div>
+                    </form>
 
                 </div>
 
-                <LoginFooter/>
+                <LoginFooter />
             </div>
         </StyledLogin>
     );
