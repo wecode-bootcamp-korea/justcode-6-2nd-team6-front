@@ -6,7 +6,6 @@ import Certification from './signup/Certification';
 import Signform from './signup/Signform';
 import Signup from './signup/Signup';
 import Terms from './signup/Terms';
-
 import Playbar from '../components/playbar/Playbar';
 import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';

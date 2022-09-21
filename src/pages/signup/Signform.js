@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from '../../Images/logo.png'
+
+
+
 
 const StyledSignform = styled.div`
       input[type=text]{
                     height: 50px;
                     margin-bottom: 50px;
+                    padding-left: 10px;
+                    border: none;
+                    border-bottom: 1px solid #eee;
+                }
+      input[type=number]{
+                    height: 50px;
+                    margin-bottom: 50px;
+                    padding-left: 10px;
                     border: none;
                     border-bottom: 1px solid #eee;
                 }
                 input[type=password]{
                     height: 50px;
                     margin-bottom: 50px;
+                    padding-left: 10px;
                     border: none;
                     border-bottom: 1px solid #eee;
                 }
@@ -87,12 +99,11 @@ display: flex;
                 margin-right: 20px;
             }
             .id-error{
-                display: none;
                 position: absolute;
                 left: 95px;
                 top: 60px;
                 font: 12px/1 'apple';
-                color: red;
+                color: #3f3fff;
             }
         }
 
@@ -111,23 +122,14 @@ display: flex;
                 top: 60px;
                 left: 0%;
                 font: 12px/1 'apple';
-                color: #000;
-            }
-            .pwd-access{
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0%;
-                font: 12px/1 'apple';
                 color: #3f3fff;
             }
             .pwd-unacces{
-                display: none;
                 position: absolute;
                 top: 160px;
                 left: 0;
                 font: 12px/1 'apple';
-                color: red;
+                color: #3f3fff;
             }
             .re-pwd-access{
                 display: none;
@@ -148,6 +150,11 @@ display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
+            input[type=number]{
+                padding-left: 10px;
+                width: 200px;
+                margin-right: 20px;
+            }
             input[type=text]{
                 padding-left: 10px;
                 width: 200px;
@@ -157,26 +164,33 @@ display: flex;
                 font: 18px/1 'apple';
                 margin-right: 20px;
             }
+            .hyphen{
+                position: relative;
+                bottom: 20px;
+            }
             .bullet{
                 position: absolute;
                 right: 130px;
                 top: 12px;
-                font:bold 25px/1 'apple'
+                font:bold 25px/1 'apple';
+            }
+            .birth-access{
+                position: absolute;
+                top: 60px;
+                left: 95px;
+                font: 12px/1 'apple';
+                color: #3f3fff;
+            }
+            .gender-access{
+                position: absolute;
+                top: 60px;
+                left: 340px;
+                font: 12px/1 'apple';
+                color: #3f3fff;
             }
         }
         /* 본인인증 버튼 */
-        .signform-btn{
-display: flex;
-justify-content: center;
-align-items: center;
-width: 400px;
-height: 50px;
-margin-bottom: 50px;
-background-color: #ccc ;
-color: #fff;
-}
-/* 클레스명이 변경됬을때 표시되는 CSS */
-.signform-btn-on{
+.signform-btn{
 display: flex;
 justify-content: center;
 align-items: center;
@@ -185,13 +199,114 @@ height: 50px;
 margin-bottom: 50px;
 background-color: #3d40ff ;
 color: #fff;
+&:disabled{
+                    background:#ddd ;
+                    cursor: default;
+                }
 }
         }}
 `
 
 const Signform = () => {
-    const [userName, setUserName] = useState('김플로')
-    const [userPhone, setUserPhone] = useState('01000000000')
+    const selectList = ['naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'gmail.com', 'hotmail.com', 'lycos.co.kr', 'empal.com', 'cyworld.com', 'yahoo.co.kr', 'paran.com', '직접입력']
+
+    const selectOption = selectList.map((item) => { return (<option value={item} key={item}>{item}</option>) })
+
+    // Input값을 담을 스테이트
+    const [emailId, setEmailId] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
+    const [birth, setBirth] = useState('');
+    const [gender, setGender] = useState('');
+
+    // 오류메세지
+    const [pwdError, setPwdError] =useState('');
+    const [emailError, setEmailError] =useState('');
+    const [birthError, setBirthError] =useState('')
+    const [genderError, setGenderError] =useState('')
+
+    // 가입완료 버튼 토글
+    const [disabled, setDisabled] = useState(true)
+
+    // Input Value값 담을 함수
+    const onChangeEmilId = (e) => {
+        setEmailId(e.target.value);
+    }
+    const onChangeEmilAddress = (e) => {
+        setEmailAddress(e.target.value);
+    }
+    const onChangePassword = (e) => {
+        setPassword(e.target.value);
+    }
+    const onChangeRePassword = (e) => {
+        setRePassword(e.target.value);
+    }
+    const onChangeBirth = (e) => {
+        setBirth(e.target.value);
+    }
+    const onChangeGender = (e) => {
+        setGender(e.target.value);
+    }
+
+    useEffect(() => {
+        if (emailId.length > 8 && password.length > 8 && birth.length > 5 && gender.length > 0 && password === rePassword ) {
+            return setDisabled(false)
+        } else {
+            return setDisabled(true)
+        }
+    },[])
+
+    useEffect(()=>{
+        if(password.length < 1 || rePassword.length < 1){
+            return setPwdError('비밀번호를 입력해주세요')
+        } else if(password === rePassword) {
+            return setPwdError('비밀번호가 일치합니다.')
+        } else {
+            setPwdError('앗! 비밀번호가 일치하지 않습니다.')
+        }
+    },[password, rePassword])
+
+    useEffect(()=>{
+        if(emailId.length < 1){
+            return setEmailError('이메일을 입력해주세요')
+        } else if(emailId.length > 7){
+            return setEmailError('사용가능한 이메일 입니다.')
+        } else{
+            return setEmailError('정확한 이메일을 작성해 주세요')
+        }
+    },[emailId])
+
+    useEffect(()=>{
+        if(birth.length < 1){
+            return setBirthError('생년월일을 입력해주세요')
+        } else if(birth.length < 6){
+            return setBirthError('')
+        } else if(birth.length > 6){
+            return setBirthError('생년월알 6자리를 초과했습니다.')
+        }
+    },[birth])
+
+    useEffect(()=>{
+        if(gender.length < 1 && gender.length < 2){
+            return setGenderError('주민등록번호 앞에 한자리수를 입력해주세요')
+        } else if(gender.valueOf('1')==='1' ){
+            return setGenderError('')
+        }  else if(gender.valueOf('2')==='2' ){
+            return setGenderError('')
+        }else if(gender.valueOf('3')==='3' ){
+            return setGenderError('')
+        }  else if(gender.valueOf('4')==='4' ){
+            return setGenderError('')
+        }
+         else{
+            return setGenderError('정확한 주민등록번호 앞자리를 입력해주세요')
+        }
+    },[gender])
+    
+
+
+
     return (
         <StyledSignform>
             <div className="signform-inner-box">
@@ -205,58 +320,43 @@ const Signform = () => {
                         <div className="signform-title-text">
                             <span>회원가입</span>
                         </div>
-                        <div className="signform-sub-text">
-                            <span>이름 : {userName} / </span>
-                            <span> 휴대폰 번호 : {userPhone} </span>
-                        </div>
                     </div>
                     {/* form박스 - 이메일 */}
                     <div className="email-box">
                         <div className="signform-form-box">
-                            <input type="text" placeholder='아이디(이메일)' /> <span>@</span>
+                            <input type="text" placeholder='아이디(이메일)' onChange={onChangeEmilId} /> <span>@</span>
                             <span className="id-error">
-                                올바른 이메일 형식이 아닙니다.
+                             {emailError}
                             </span>
-                            <select name="email" id="email">
-                                <option value="naver.com">naver.com</option>
-                                <option value="hanmail.net">hanmail.net</option>
-                                <option value="daum.net">daum.net</option>
-                                <option value="nate.com">nate.com</option>
-                                <option value="gmail.com">gmail.com</option>
-                                <option value="hotmail.com">hotmail.com</option>
-                                <option value="lycos.co.kr">lycos.co.kr</option>
-                                <option value="empal.com">empal.com</option>
-                                <option value="cyworld.com">cyworld.com</option>
-                                <option value="yahoo.co.kr">yahoo.co.kr</option>
-                                <option value="paran.com">paran.com</option>
-                                <option value="dreamwiz.com">dreamwiz.com</option>
-                                <option value="직접입력">직접입력</option>
+                            <select name="email" id="email" onChange={onChangeEmilAddress}>
+                                {selectOption}
                             </select>
                         </div>
                     </div>
 
                     {/* form박스 - 비밀번호 */}
                     <div className="password-box">
-                        <input type="password" placeholder='비밀번호' name="pwd" id="pwd" />
+                        <input type="password" placeholder='비밀번호' name="pwd" id="pwd" onChange={onChangePassword} />
                         {/* 기본으로 보여줄 PW 조건 */}
-                        <span className='pwd-text'>영문 대문자/소문자/숫자/특수문자 섞어 2가지 조합으로<br />최소 6~15 자리로 입력해주세요</span>
-                        {/* 조건에 부합했을떄 뜨는 text */}
-                        <span className='pwd-access'>사용 가능한 비밀번호입니다.</span>
-                        <input type="password" placeholder='비밀번호 재확인' name="re-pwd" id="re-pwd" />
-                        {/* 비밀번호가 맞지않을경우 text */}
-                        <span className='pwd-unacces'>앗! 비밀번호가 일치하지 않습니다.</span>
-                        {/* 비밀번호가 일치했을때 text */}
-                        <span className='re-pwd-access'>비밀번호가 일치합니다..</span>
+                        <span className='pwd-text'>영문과 숫자 조합으로 최소 6-15자로 입력해주세요</span>
+                        <input type="password" placeholder='비밀번호 재확인' name="re-pwd" id="re-pwd" onChange={onChangeRePassword}/>
+                        {/* 비밀번호 일치/오류 text */}
+                        <span className='pwd-unacces'>{pwdError}</span>
+
 
                     </div>
 
                     {/* form박스 - 주민번호 */}
                     <div className="birthday">
-                        <input type="text" placeholder='생년월일 (ex.880101)' /><span>-</span>
-                        <input type="text" /><span className='bullet'>••••••</span>
+                        <input type="number" placeholder='생년월일 (ex.880101)' onChange={onChangeBirth} maxLength={'6'} /><span className='hyphen'>-</span>
+                        <input type="text" maxLength={'1'} onChange={onChangeGender} /><span className='bullet'>••••••</span>
+                        <span className='birth-access'>{birthError}</span>
+                        <span className="gender-access">
+                            {genderError}
+                        </span>
                     </div>
 
-                    <a href="/" className='signform-btn'>가입 완료</a>
+                    <button type='submit' disabled={disabled} className='signform-btn'>가입 완료</button>
                 </div>
             </div>
         </StyledSignform>

@@ -208,6 +208,7 @@ const Certification = () => {
     })
     //  번호인증 버튼 Validation
     useEffect(() => {
+        
         if (phone.length > 10) {
             setCertificationBtn(false)
         } else {
@@ -218,27 +219,7 @@ const Certification = () => {
 
 
     // 타이머 함수
-    const Timer = () => {
-        useEffect(() => {
-            let intervalId;
-            if (isActive) {
-                intervalId = setInterval(() => {
-                  const secondCounter = counter % 60;
-                  const minuteCounter = Math.floor(counter / 60);
-          
-                  const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}`: secondCounter;
-                  const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}`: minuteCounter;
-          
-                  setSecond(computedSecond);
-                  setMinute(computedMinute);
-          
-                  setCounter(counter => counter + 1);
-                }, 1000)
-              }
-          
-              return () => clearInterval(intervalId);
-            }, [isActive, counter])
-    }
+
 
 
 
@@ -266,17 +247,18 @@ const Certification = () => {
                         <form className="certification-tel-input">
                             <input type="number" placeholder='휴대폰 번호(-제외)' name="phonenumber" id="phonenumber" onChange={onChangePhone} />
                             {phone.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetPhone}>X</button> : null}
-                            <button type='submit' disabled={certificationBtn} className='submit-btn' onClick={()=>{setIsActive(!isActive)}}>인증번호 전송</button>
+                            <button disabled={certificationBtn} className='submit-btn' onClick={()=>{}}>인증번호 전송</button>
                         </form>
                     </div>
 
-                    <form className="certification-number-box">
+                        { certificationBtn === false  ?  <form className="certification-number-box">
                         <input type="text" placeholder='인증번호' onChange={onChangeCertification} />
                         {certification.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetCertification}>X</button> : null}
                         <span className='timer'>{minute}:{second}</span>
-                    </form>
-
-                    <button href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</button>
+                    </form> : null }
+               
+                    {disabled === false ? <a href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</a> :                     <button href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</button>}
+     
 
                 </div>
             </div>
