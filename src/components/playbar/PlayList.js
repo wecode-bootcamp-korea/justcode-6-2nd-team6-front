@@ -259,7 +259,13 @@ const PlayList = ({
         )}
         <div className="music-container flex-center">
           <div className="play-list-title">
-            <div className="title">현재 재생목록</div>
+            <div className="title">
+              {isPlayListClicked
+                ? "현재 재생목록"
+                : isArtistClicked
+                ? "같은 아티스트의 음악"
+                : "같은 장르의 음악"}
+            </div>
             {isPlayListOpened ? (
               <BsChevronUp
                 className="button"
