@@ -7,8 +7,9 @@ import { BsFillPlayCircleFill } from "react-icons/bs";
 
 const StyledSection = styled.section`
   width: 1080px;
-  height: 500px;
+  height: 400px;
   margin: 0 auto;
+  display: block;
   position: relative;
 
   section.first-section-inner-box {
