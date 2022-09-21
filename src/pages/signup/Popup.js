@@ -26,6 +26,7 @@ const StyledPopup = styled.div`
         border: 1px solid #000;
         border-radius: 10px;
         font: 16px/1 'NBG';
+        cursor: default;
         .popup-date{
             display: flex;
             justify-content: center;
@@ -42,6 +43,7 @@ const StyledPopup = styled.div`
             margin-bottom: 30px;
             .bold{
                 margin-bottom: 10px;
+                text-align: center;
                 font: bold 20px/1 'apple';
                 color:#3f3fff;
             }

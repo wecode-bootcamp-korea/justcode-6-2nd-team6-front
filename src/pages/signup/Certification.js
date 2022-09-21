@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LoginFooter from '../../components/LoginFooter';
 
 const StyledCertification = styled.div`
@@ -70,7 +70,7 @@ const StyledCertification = styled.div`
             /* 폰번호 */
             .certification-tel-input{
                 position: relative;
-                input[type=tel]{
+                input[type=number]{
                     width: 400px;
                     height: 50px;
                     margin-bottom: 30px;
@@ -81,7 +81,7 @@ const StyledCertification = styled.div`
                 .reset-btn{
                     position: absolute;
                     top: 12px;
-                    right: 120px;
+                    right: 105px;
                     background: none;
                     border: none;
                     font-size: 18px;
@@ -91,21 +91,7 @@ const StyledCertification = styled.div`
                 .submit-btn{
                     position: absolute;
                     top: 10px;
-                    right: 10px;
-                    width: 100px;
-                    height: 30px;
-                    padding: 5px;
-                    border: none;
-                    border-radius: 30px;
-                    background: #ccc;
-                    color: #fff;
-                    cursor: pointer;
-                }
-                /* 클레스명이 변경됬을때 표시되는 CSS */
-                .submit-btn-on{
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
+                    right: 5px;
                     width: 100px;
                     height: 30px;
                     padding: 5px;
@@ -114,6 +100,10 @@ const StyledCertification = styled.div`
                     background: #3d40ff;
                     color: #fff;
                     cursor: pointer;
+                    &:disabled{
+                    background:#ddd ;
+                    cursor: default;
+                }
                 }
             }
         }
@@ -155,25 +145,103 @@ const StyledCertification = styled.div`
                 width: 400px;
                 height: 50px;
                 margin-bottom: 50px;
-                background-color: #ccc ;
-                color: #fff;
-            }
-            /* 클레스명이 변경됬을때 표시되는 CSS */
-            .certification-btn-on{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 400px;
-                height: 50px;
-                margin-bottom: 50px;
                 background-color: #3d40ff ;
+                border: none;
                 color: #fff;
+                &:disabled{
+                    background:#ddd ;
+                    cursor: default;
+                }
             }
     }
 }
 `
 
 const Certification = () => {
+    // Input값을 담을 State생성
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [certification, setCertification] = useState('')
+    // 본인인증 완료 버튼 토글
+    const [disabled, setDisabled] = useState(true)
+    const [certificationBtn, setCertificationBtn] = useState(true)
+
+    // 타이머 State
+    const [second, setSecond] = useState('00');
+    const [minute, setMinute] = useState('00');
+    const [isActive, setIsActive] = useState(false);
+    const [counter, setCounter] = useState(0)
+
+    // 이름 Input값 State에 담는 함수
+    const onChangeName = (e) => {
+        setName(e.target.value);
+    };
+    // 이름 초기화 함수
+    const onResetName = () => {
+        setName(' ');
+    }
+
+    // 핸드폰번호 Input값 State에 담는 함수
+    const onChangePhone = (e) => {
+        setPhone(e.target.value);
+    };
+    // 핸드폰번호 초기화 함수
+    const onResetPhone = () => {
+        setPhone(' ');
+    }
+    // 인증번호 Input값 State에 담는 함수
+    const onChangeCertification = (e) => {
+        setCertification(e.target.value);
+    };
+    // 인증번호 초기화 함수
+    const onResetCertification = () => {
+        setCertification(' ');
+    }
+
+    // 본인인증 완료 버튼 Validation
+    useEffect(() => {
+        if (name.length > 2 && phone.length > 10 && certification.length > 5) {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        }
+    })
+    //  번호인증 버튼 Validation
+    useEffect(() => {
+        if (phone.length > 10) {
+            setCertificationBtn(false)
+        } else {
+            setCertificationBtn(true)
+        }
+    })
+
+
+
+    // 타이머 함수
+    const Timer = () => {
+        useEffect(() => {
+            let intervalId;
+            if (isActive) {
+                intervalId = setInterval(() => {
+                  const secondCounter = counter % 60;
+                  const minuteCounter = Math.floor(counter / 60);
+          
+                  const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}`: secondCounter;
+                  const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}`: minuteCounter;
+          
+                  setSecond(computedSecond);
+                  setMinute(computedMinute);
+          
+                  setCounter(counter => counter + 1);
+                }, 1000)
+              }
+          
+              return () => clearInterval(intervalId);
+            }, [isActive, counter])
+    }
+
+
+
     return (
         <StyledCertification>
             <div className="certification-inner-box">
@@ -188,26 +256,27 @@ const Certification = () => {
                     {/* 본인인증 폼박스 */}
                     <div className="certification-form-box">
                         {/* 이름 */}
-                        <div className="certification-name-input">
-                            <input type="text" placeholder='이름' />
-                            <button className='reset-btn'>X</button>
-                            <span className='name-error'>올바른 이름 형식이 아닙니다.</span>
-                        </div>
+                        <form className="certification-name-input">
+                            <input type="text" placeholder='이름' onChange={onChangeName} />
+                            {name.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetName}>X</button> : null}
+
+
+                        </form>
                         {/* 폰번호 */}
-                        <div className="certification-tel-input">
-                            <input type="tel" placeholder='휴대폰 번호(-제외)' name="phonenumber" id="phonenumber" />
-                            <button className='reset-btn'>X</button>
-                            <button className='submit-btn'>인증번호 전송</button>
-                        </div>
+                        <form className="certification-tel-input">
+                            <input type="number" placeholder='휴대폰 번호(-제외)' name="phonenumber" id="phonenumber" onChange={onChangePhone} />
+                            {phone.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetPhone}>X</button> : null}
+                            <span type='submit' disabled={certificationBtn} className='submit-btn' onClick={()=>{setIsActive(!isActive)}}>인증번호 전송</span>
+                        </form>
                     </div>
 
-                    <div className="certification-number-box">
-                    <input type="text" placeholder='인증번호' />
-                            <button className='reset-btn'>X</button>
-                            <span className='timer'>00:00</span>
-                    </div>
+                    <form className="certification-number-box">
+                        <input type="text" placeholder='인증번호' onChange={onChangeCertification} />
+                        {certification.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetCertification}>X</button> : null}
+                        <span className='timer'>{minute}:{second}</span>
+                    </form>
 
-                    <a href="/signform" className="certification-btn">본인인증 완료</a>
+                    <button href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</button>
 
                 </div>
             </div>

@@ -168,6 +168,7 @@ const Terms = () => {
     const [activate, setActivate] = useState('button');
     const [disabled, setDisabled] = useState(true)
     const [toggle, setToggle] = useState(false)
+    const [toggle2, setToggle2] = useState(false)
 
     // 전체동의시 모든 체크박스 활성화
     const checkAll = (e) => {
@@ -236,7 +237,7 @@ const Terms = () => {
                             </li>
                             <li>
                                 <input type="checkbox" name='terms5' id='terms5' checked={checkList.includes('terms5') ? true : false} onChange={handleCheck} />
-                                <label for='terms5' ></label>
+                                <label for='terms5' onClick={() => { setToggle(!toggle) }}>{toggle === true ? <Popup /> : null}</label>
                                 <span><span>(선택)</span> 이벤트/혜택 알림 동의</span>
                                 <span className='specialty'>전문보기</span>
                             </li>
@@ -244,7 +245,7 @@ const Terms = () => {
                         </ul>
                         <div className='all-access'>
                             <input type="checkbox" name='save-id' id='save-id' onClick={checkAll} />
-                            <label for='save-id' onClick={() => { setToggle(!toggle) }}>{toggle === true ? <Popup /> : null}</label>
+                            <label for='save-id' onClick={() => { setToggle2(!toggle2) }}>{toggle2 === true ? <Popup /> : null}</label>
                             <span className='all-access-text'>전체동의</span>
                             <span className='all-access-text'>(선택) 이벤트/혜택 알림을 포함하여 모두 동의합니다.</span>
                         </div>
