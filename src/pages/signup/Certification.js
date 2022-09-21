@@ -266,7 +266,7 @@ const Certification = () => {
                         <form className="certification-tel-input">
                             <input type="number" placeholder='휴대폰 번호(-제외)' name="phonenumber" id="phonenumber" onChange={onChangePhone} />
                             {phone.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetPhone}>X</button> : null}
-                            <span type='submit' disabled={certificationBtn} className='submit-btn' onClick={()=>{setIsActive(!isActive)}}>인증번호 전송</span>
+                            <button type='submit' disabled={certificationBtn} className='submit-btn' onClick={()=>{setIsActive(!isActive)}}>인증번호 전송</button>
                         </form>
                     </div>
 

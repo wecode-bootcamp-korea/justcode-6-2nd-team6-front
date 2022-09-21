@@ -11,7 +11,7 @@ const StyledHeader = styled.header`
 		height: 100px;
 		margin: 0 auto;
 		background: #fff;
-
+		z-index: 10;
 		/* 로고박스 */
 		.header-logo-box {
 			display: flex;
