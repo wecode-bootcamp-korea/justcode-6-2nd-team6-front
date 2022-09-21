@@ -1,10 +1,14 @@
 * {
   box-sizing: border-box;
 }
-.hidden{
+.hidden {
   position: relative;
   top: -999999999999px;
   opacity: 0;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 @font-face {
