@@ -4,6 +4,7 @@ import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
 import { VscNewFolder } from "react-icons/vsc";
 
+import MyPlayList from "./MyPlayList";
 import styled from "styled-components";
 import MusicPlayer from "./MusicPlayer";
 import PlayList from "./PlayList";
@@ -165,6 +166,7 @@ const StyledPlaybar = styled.div`
 const Playbar = () => {
   const [isExpandedClicked, setIsExpandedClicked] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
   const [musicTracks, setMusicTracks] = useState([
     {
       name: "재생목록이 비어있습니다.",
@@ -213,7 +215,11 @@ const Playbar = () => {
             {!isExpandedClicked || (
               <div className="like-and-add">
                 <IoMdHeartEmpty className="like" size="32" />
-                <VscNewFolder className="add-play-list" size="30" />
+                <VscNewFolder
+                  className="add-play-list"
+                  size="30"
+                  onClick={() => setIsMyPlayListClicked(true)}
+                />
               </div>
             )}
           </div>
@@ -236,8 +242,14 @@ const Playbar = () => {
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
             setTrackIndex={setTrackIndex}
+            isMyPlayListClicked={isMyPlayListClicked}
+            setIsMyPlayListClicked={setIsMyPlayListClicked}
           />
         )}
+        <MyPlayList
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+        />
       </div>
     </StyledPlaybar>
   );

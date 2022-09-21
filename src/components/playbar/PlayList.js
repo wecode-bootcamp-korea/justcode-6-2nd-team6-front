@@ -121,7 +121,13 @@ const StyledPlayList = styled.div`
   }
 `;
 
-const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
+const PlayList = ({
+  musicTracks,
+  setMusicTracks,
+  setTrackIndex,
+  isMyPlayListClicked,
+  setIsMyPlayListClicked,
+}) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
@@ -229,11 +235,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               <IoSearchSharp size="20" />
               <input
                 type="text"
-                placeholder={
-                  isPlayListClicked
-                    ? "재생목록에서 검색해주세요"
-                    : "하단의 곡 리스트에서 검색해주세요"
-                }
+                placeholder="곡 제목으로 검색해 주세요"
                 autoComplete="off"
                 value={inputValue}
                 onChange={(e) => {
