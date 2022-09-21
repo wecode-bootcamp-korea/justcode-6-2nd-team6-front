@@ -12,6 +12,9 @@ import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 
 function Router() {
+  
+  
+
   return (
     <BrowserRouter>
       <Header />
