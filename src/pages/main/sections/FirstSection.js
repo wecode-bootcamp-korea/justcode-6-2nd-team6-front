@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsFillPlayCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const StyledSection = styled.section`
   width: 1080px;
@@ -124,6 +125,8 @@ const FirstSection = () => {
   const [titleList, setTitleList] = useState([]);
   const [songList, setSongList] = useState([]);
 
+  const clickAlbum = () => {};
+
   useEffect(() => {
     fetch("/data/slideData.json")
       .then((res) => res.json())
@@ -151,7 +154,7 @@ const FirstSection = () => {
               <div key={result.titleId} className="first-section-wrap">
                 {/* 첫번째 슬라이드 */}
                 <div className="first-section-slider-box">
-                  <a href="#" className="first-section-slider-flex">
+                  <Link to="/detailed" className="first-section-slider-flex">
                     {/* 플리 소개 */}
                     <div className="first-section-slider-info">
                       <h4 className="first-section-slider-title">
@@ -198,7 +201,7 @@ const FirstSection = () => {
                       </ul>
                     </div>
                     {/* 플리 노래리스트 끝 */}
-                  </a>
+                  </Link>
                 </div>
               </div>
             );

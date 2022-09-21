@@ -5,6 +5,7 @@ import Login from "./login/Login";
 import Signup from "./signup/Signup";
 import Terms from "./signup/Terms";
 import Main from "./main/Main";
+import AlbumTrack from "../components/AlbumTrack";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/" element={<Main />} />
+        <Route path="/detailed" element={<AlbumTrack />} />
       </Routes>
       <Footer />
     </BrowserRouter>
