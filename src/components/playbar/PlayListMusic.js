@@ -52,22 +52,26 @@ const StyledPlayListMusic = styled.div`
 
 const PlayListMusic = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   const mapMusic = musicTracks.map((el, i) => {
-    return (
-      <div className="play-list-music-inner-box" key={el.key}>
-        <div className="song-info flex-center" onClick={() => setTrackIndex(i)}>
-          <img src={el.img} alt="cover" className="cover" />
-          <div className="title-and-artist">
-            <div className="title">{el.name}</div>
-            <div className="artist">{el.artist}</div>
+    if (el.src !== "")
+      return (
+        <div className="play-list-music-inner-box" key={el.key}>
+          <div
+            className="song-info flex-center"
+            onClick={() => setTrackIndex(i)}
+          >
+            <img src={el.img} alt="cover" className="cover" />
+            <div className="title-and-artist">
+              <div className="title">{el.name}</div>
+              <div className="artist">{el.artist}</div>
+            </div>
+          </div>
+
+          <div className="icons">
+            <VscNewFolder className="add-play-list" />
+            <AiOutlineMore className="more" />
           </div>
         </div>
-
-        <div className="icons">
-          <VscNewFolder className="add-play-list" />
-          <AiOutlineMore className="more" />
-        </div>
-      </div>
-    );
+      );
   });
 
   return <StyledPlayListMusic>{mapMusic}</StyledPlayListMusic>;

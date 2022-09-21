@@ -129,11 +129,23 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  const filteredTracks = musicTracks.filter((el) => {
-    return el.name
-      .replace(/(\s*)/g, "")
-      .toUpperCase()
-      .includes(inputValue.replace(/(\s*)/g, "").toUpperCase());
+  const filteredTracks = musicTracks.map((el) => {
+    console.log(el);
+    if (
+      el.name
+        .replace(/(\s*)/g, "")
+        .toUpperCase()
+        .includes(inputValue.replace(/(\s*)/g, "").toUpperCase())
+    ) {
+      return el;
+    } else
+      return {
+        key: el.key,
+        name: "none",
+        artist: "none",
+        img: "",
+        src: "",
+      };
   });
 
   return (
@@ -223,9 +235,9 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
                     : "하단의 곡 리스트에서 검색해주세요"
                 }
                 autoComplete="off"
+                value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value);
-                  console.log(inputValue);
                 }}
               />
             </div>
