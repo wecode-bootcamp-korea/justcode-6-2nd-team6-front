@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@mui/material/Modal";
 import Dialog from "@mui/material/Dialog";
@@ -80,29 +81,48 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const MyPlayList = ({ isMyPlayListClicked, setIsMyPlayListClicked }) => {
+const MyPlayList = ({
+  isMyPlayListClicked,
+  setIsMyPlayListClicked,
+  playingMusicId,
+  selectedSongId,
+  isGetMyPlayListClicked,
+  setIsGetMyPlayListClicked,
+}) => {
   const arr = [1, 2, 3, 4, 5, 6, 7];
+
+  if (selectedSongId == Infinity) {
+    console.log("playingMusicId", playingMusicId);
+  } else console.log("selectedSongId", selectedSongId);
+
   return (
     <StyledDialog
       open={isMyPlayListClicked}
-      onClose={() => setIsMyPlayListClicked(false)}
+      onClose={() => {
+        setIsMyPlayListClicked(false);
+        setTimeout(() => setIsGetMyPlayListClicked(false), 200);
+      }}
     >
-      <div className="my-play-list-inner-box">
-        <div className="title">내 리스트에 담기</div>
-        <div className="play-lists">
-          <div className="add-list-box">
-            <div className="add-list-cover">
-              <AiOutlinePlus />
+      {isGetMyPlayListClicked ? (
+        <div>내 리스트 가져오기 클릭시 나오는 내용</div>
+      ) : (
+        <div className="my-play-list-inner-box">
+          <div className="title">내 리스트에 담기</div>
+          <div className="play-lists">
+            <div className="add-list-box">
+              <div className="add-list-cover">
+                <AiOutlinePlus />
+              </div>
+              <div className="play-list-info">
+                <div className="add-list">새로운 리스트 추가하기</div>
+              </div>
             </div>
-            <div className="play-list-info">
-              <div className="add-list">새로운 리스트 추가하기</div>
-            </div>
+            {arr.map(() => (
+              <PlayListBar />
+            ))}
           </div>
-          {arr.map(() => (
-            <PlayListBar />
-          ))}
         </div>
-      </div>
+      )}
     </StyledDialog>
   );
 };
@@ -112,7 +132,7 @@ const PlayListBar = () => {
     <div className="play-list-bar-inner-box">
       <img src="/Images/nothing.png" alt="playlist cover" className="cover" />
       <div className="play-list-info">
-        <div className="album-title">앨범 제목</div>
+        <div className="album-title">플레이리스트 제목</div>
         <div className="num">3곡</div>
       </div>
     </div>

@@ -50,7 +50,13 @@ const StyledPlayListMusic = styled.div`
   }
 `;
 
-const PlayListMusic = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
+const PlayListMusic = ({
+  musicTracks,
+  setMusicTracks,
+  setTrackIndex,
+  setIsMyPlayListClicked,
+  setSelectedSongId,
+}) => {
   const mapMusic = musicTracks.map((el, i) => {
     if (el.src !== "")
       return (
@@ -67,7 +73,13 @@ const PlayListMusic = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
           </div>
 
           <div className="icons">
-            <VscNewFolder className="add-play-list" />
+            <VscNewFolder
+              className="add-play-list"
+              onClick={() => {
+                setSelectedSongId(el.id);
+                setIsMyPlayListClicked(true);
+              }}
+            />
             <AiOutlineMore className="more" />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
@@ -125,8 +125,11 @@ const PlayList = ({
   musicTracks,
   setMusicTracks,
   setTrackIndex,
+  trackIndex,
   isMyPlayListClicked,
   setIsMyPlayListClicked,
+  setSelectedSongId,
+  setIsGetMyPlayListClicked,
 }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
@@ -136,7 +139,6 @@ const PlayList = ({
   const [inputValue, setInputValue] = useState("");
 
   const filteredTracks = musicTracks.map((el) => {
-    console.log(el);
     if (
       el.name
         .replace(/(\s*)/g, "")
@@ -217,7 +219,13 @@ const PlayList = ({
               </div>
 
               {!isPlayListClicked || (
-                <div className="menu flex-center">
+                <div
+                  className="menu flex-center"
+                  onClick={() => {
+                    setIsMyPlayListClicked(true);
+                    setIsGetMyPlayListClicked(true);
+                  }}
+                >
                   <IoFileTrayOutline size="18" className="icon" />내 리스트
                   가져오기
                 </div>
@@ -271,12 +279,16 @@ const PlayList = ({
                   musicTracks={filteredTracks}
                   setMusicTracks={setMusicTracks}
                   setTrackIndex={setTrackIndex}
+                  setSelectedSongId={setSelectedSongId}
+                  setIsMyPlayListClicked={setIsMyPlayListClicked}
                 />
               ) : (
                 <PlayListMusic
                   musicTracks={musicTracks}
                   setMusicTracks={setMusicTracks}
                   setTrackIndex={setTrackIndex}
+                  setSelectedSongId={setSelectedSongId}
+                  setIsMyPlayListClicked={setIsMyPlayListClicked}
                 />
               )}
             </div>

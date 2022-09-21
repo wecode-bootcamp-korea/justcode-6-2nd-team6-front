@@ -164,11 +164,14 @@ const StyledPlaybar = styled.div`
 `;
 
 const Playbar = () => {
-  const [isExpandedClicked, setIsExpandedClicked] = useState(false);
-  const [trackIndex, setTrackIndex] = useState(0);
-  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
+  const [trackIndex, setTrackIndex] = useState(0); // 위 현재 음악 재생목록 오픈
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
+  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
+  const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [musicTracks, setMusicTracks] = useState([
     {
+      id: 0,
       name: "재생목록이 비어있습니다.",
       artist: "비어있음",
       img: "/Images/nothing.png",
@@ -218,7 +221,10 @@ const Playbar = () => {
                 <VscNewFolder
                   className="add-play-list"
                   size="30"
-                  onClick={() => setIsMyPlayListClicked(true)}
+                  onClick={() => {
+                    setIsMyPlayListClicked(true);
+                    setSelectedSongId(Infinity);
+                  }}
                 />
               </div>
             )}
@@ -242,13 +248,20 @@ const Playbar = () => {
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
             setTrackIndex={setTrackIndex}
+            trackIndex={trackIndex}
             isMyPlayListClicked={isMyPlayListClicked}
             setIsMyPlayListClicked={setIsMyPlayListClicked}
+            setSelectedSongId={setSelectedSongId}
+            setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
           />
         )}
         <MyPlayList
           isMyPlayListClicked={isMyPlayListClicked}
           setIsMyPlayListClicked={setIsMyPlayListClicked}
+          playingMusicId={musicTracks[trackIndex].id}
+          selectedSongId={selectedSongId}
+          isGetMyPlayListClicked={isGetMyPlayListClicked}
+          setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
         />
       </div>
     </StyledPlaybar>
