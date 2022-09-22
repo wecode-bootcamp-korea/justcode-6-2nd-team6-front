@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import banner from '../../Images/banner.png';
-import nextarrow from '../../Images/next.png';
 
 const StyledVoucher = styled.div`
   .voucher-wrap {
@@ -55,7 +53,6 @@ const StyledVoucher = styled.div`
                     text-align: left;
                     .subject {
                       font-size: 16px;
-                      font-weight: 600;
                       color: #181818;
                     }
                   }
@@ -74,7 +71,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: #3f3fff;
                         vertical-align: middle;
                       }
@@ -183,7 +180,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price-box > .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: white;
                       }
                     }
@@ -237,7 +234,11 @@ const Voucher = () => {
         <ul className='voucher-cardlist'>
           <li>
             <div className='voucher-carditem voucher-banner'>
-              <img alt='베너홍보' src={banner} className='voucher-banner-img' />
+              <img
+                alt='베너홍보'
+                src='/Images/banner.png'
+                className='voucher-banner-img'
+              />
               <div className='voucher-banner-item'>
                 <div className='card-left'>
                   <h3 className='name'>(첫 구매) 무제한 듣기 정기결제</h3>
@@ -265,7 +266,7 @@ const Voucher = () => {
                   이용권 자세히보기
                   <img
                     alt='화살표'
-                    src={nextarrow}
+                    src='/Images/next.png'
                     className='next-arrow-img'
                   />
                 </button>
@@ -339,7 +340,11 @@ const Voucher = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>
@@ -408,7 +413,11 @@ const Voucher = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>
@@ -441,7 +450,11 @@ const Voucher = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>
@@ -510,7 +523,11 @@ const Voucher = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>
