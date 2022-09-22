@@ -188,7 +188,7 @@ const Affiliate = () => {
           <li>
             <div className='affilite-carditem'>
               <div className='card-left'>
-                <h3 className='name'>Wavve&FLOrida 무제한 이용권</h3>
+                <h3 className='name'>Wave&FLOrida 무제한 이용권</h3>
                 <p className='desc'>
                   이용권 하나로 모든 음악과 방송, 영화, 해외시리즈까지!
                 </p>
@@ -196,7 +196,7 @@ const Affiliate = () => {
               <div className='card-right'>
                 <div className='item'>
                   <span className='price-box'>
-                    <span className='subject'>Wavve&FLOrida 무제한 이용권</span>
+                    <span className='subject'>Wave&FLOrida 무제한 이용권</span>
                     <span className='price'>
                       <em>12,500</em>원
                     </span>
@@ -237,16 +237,16 @@ const Affiliate = () => {
           <li>
             <div className='affilite-carditem'>
               <div className='card-left'>
-                <h3 className='name'>YES24 북클럽 X FLOrida 99 요금제</h3>
+                <h3 className='name'>NO24 북클럽 X FLOrida 99 요금제</h3>
                 <p className='desc'>
-                  YES24 북클럽 X FLOrida 결합상품 책과 음악, 무제한으로 즐기기
+                  NO24 북클럽 X FLOrida 결합상품 책과 음악, 무제한으로 즐기기
                 </p>
               </div>
               <div className='card-right'>
                 <div className='item'>
                   <span className='price-box'>
                     <span className='subject'>
-                      YES24 북클럽 X FLOrida 99 요금제
+                      NO24 북클럽 X FLOrida 99 요금제
                     </span>
                     <span className='price'>
                       <em>9,000</em>원
@@ -300,9 +300,9 @@ const Affiliate = () => {
                   이용권 구매 관련 문의사항은 각 상품 별 구매처에 문의해주세요.
                 </li>
                 <li>
-                  wavve&FLOrida 무제한 : FLOrida 1:1 문의 또는 1599-6034(유료)
+                  wave&FLOrida 무제한 : FLOrida 1:1 문의 또는 1599-6034(유료)
                 </li>
-                <li>YES24 북클럽 X FLOrida 99 요금제 : 1544-3800</li>
+                <li>NO24 북클럽 X FLOrida 99 요금제 : 1544-3800</li>
               </ul>
             </li>
           </ul>
