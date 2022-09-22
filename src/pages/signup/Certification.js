@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import LoginFooter from '../../components/LoginFooter';
+
 
 const StyledCertification = styled.div`
 .certification-inner-box{
@@ -157,10 +160,8 @@ const StyledCertification = styled.div`
 }
 `
 
-const Certification = () => {
+const Certification = ({ name, setName, phone, setPhone }) => {
     // Input값을 담을 State생성
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
     const [certification, setCertification] = useState('')
     // 본인인증 완료 버튼 토글
     const [disabled, setDisabled] = useState(true)
@@ -171,6 +172,7 @@ const Certification = () => {
     const [minute, setMinute] = useState('00');
     const [isActive, setIsActive] = useState(false);
     const [counter, setCounter] = useState(0)
+    const [verifyCode, setverifyCode] = useState('')
 
     // 이름 Input값 State에 담는 함수
     const onChangeName = (e) => {
@@ -205,20 +207,60 @@ const Certification = () => {
         } else {
             setDisabled(true)
         }
-    })
+    }, [name, phone, certification])
     //  번호인증 버튼 Validation
     useEffect(() => {
-        
+
         if (phone.length > 10) {
             setCertificationBtn(false)
         } else {
             setCertificationBtn(true)
         }
-    })
-
-
+    }, [phone])
 
     // 타이머 함수
+
+    // 번호인증 검증버튼 Axios
+    const isCertification= () => {
+        axios
+            .post('http://localhost:8000/users/verify', {
+                phone: phone,
+                verifyCode: verifyCode
+            })
+            .then(response => {
+                // Handle success.
+                console.log('Well done!');
+                console.log('User profile', response.data.user);
+                console.log('User token', response.data.jwt);
+                localStorage.setItem('token', response.data.jwt);
+                Navigate('/signform')
+            })
+            .catch(error => {
+                // Handle error.
+                console.log('An error occurred:', error.response);
+            });
+
+    }
+
+    // 인증번호 발송 Axios
+    const isSend =() => {
+        axios
+        .post('http://localhost:8000/users/send', {
+            phone: phone,
+        })
+        .then(response => {
+            // Handle success.
+            console.log('Well done!');
+            console.log('User profile', response.data.user);
+            console.log('User token', response.data.jwt);
+            localStorage.setItem('token', response.data.jwt);
+        })
+        .catch(error => {
+            // Handle error.
+            console.log('An error occurred:', error.response);
+        });
+
+    }
 
 
 
@@ -247,18 +289,18 @@ const Certification = () => {
                         <form className="certification-tel-input">
                             <input type="number" placeholder='휴대폰 번호(-제외)' name="phonenumber" id="phonenumber" onChange={onChangePhone} />
                             {phone.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetPhone}>X</button> : null}
-                            <button disabled={certificationBtn} className='submit-btn' onClick={()=>{}}>인증번호 전송</button>
+                            <button disabled={certificationBtn} className='submit-btn' onClick={isCertification}>인증번호 전송</button>
                         </form>
                     </div>
 
-                        { certificationBtn === false  ?  <form className="certification-number-box">
+                    {certificationBtn === false ? <form className="certification-number-box">
                         <input type="text" placeholder='인증번호' onChange={onChangeCertification} />
                         {certification.length > 0 ? <button type='reset' className='reset-btn' onClick={onResetCertification}>X</button> : null}
                         <span className='timer'>{minute}:{second}</span>
-                    </form> : null }
-               
-                    {disabled === false ? <a href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</a> :                     <button href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</button>}
-     
+                    </form> : null}
+
+                    {disabled === false ? <a href="/signform" className="certification-btn" disabled={disabled} onClick={isCertification}>본인인증 완료</a> : <button href="/signform" className="certification-btn" disabled={disabled}>본인인증 완료</button>}
+
 
                 </div>
             </div>

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import LoginFooter from '../../components/LoginFooter';
+import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 const StyledLogin = styled.div`
 .login-inner-box{
@@ -241,7 +243,27 @@ const Login = () => {
         }
     }, [input])
 
+    // 로그인 Axios
+    const isLogin = () =>{
+        axios
+        .post('http://localhost:8000/users/signup', {
+            email: input.email, 
+            password: input.password
+        })
+        .then(response => {
+          // Handle success.
+          console.log('Well done!');
+          console.log('User profile', response.data.user);
+          console.log('User token', response.data.jwt);
+          localStorage.setItem('token', response.data.jwt);
+          Navigate('/')
+        })
+        .catch(error => {
+          // Handle error.
+          console.log('An error occurred:', error.response);
+        });
 
+    }
 
     return (
         <StyledLogin>

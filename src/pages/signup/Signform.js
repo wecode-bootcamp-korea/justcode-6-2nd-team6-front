@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../Images/logo.png'
+
 
 
 
@@ -196,9 +199,12 @@ justify-content: center;
 align-items: center;
 width: 400px;
 height: 50px;
+margin-top: 30px;
 margin-bottom: 50px;
 background-color: #3d40ff ;
+border: none;
 color: #fff;
+cursor: pointer;
 &:disabled{
                     background:#ddd ;
                     cursor: default;
@@ -207,7 +213,10 @@ color: #fff;
         }}
 `
 
-const Signform = () => {
+const Signform = ({name, setName, phone, setPhone}) => {
+
+
+
     const selectList = ['naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'gmail.com', 'hotmail.com', 'lycos.co.kr', 'empal.com', 'cyworld.com', 'yahoo.co.kr', 'paran.com', '직접입력']
 
     const selectOption = selectList.map((item) => { return (<option value={item} key={item}>{item}</option>) })
@@ -221,10 +230,10 @@ const Signform = () => {
     const [gender, setGender] = useState('');
 
     // 오류메세지
-    const [pwdError, setPwdError] =useState('');
-    const [emailError, setEmailError] =useState('');
-    const [birthError, setBirthError] =useState('')
-    const [genderError, setGenderError] =useState('')
+    const [pwdError, setPwdError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [birthError, setBirthError] = useState('')
+    const [genderError, setGenderError] = useState('')
 
     // 가입완료 버튼 토글
     const [disabled, setDisabled] = useState(true)
@@ -249,61 +258,90 @@ const Signform = () => {
         setGender(e.target.value);
     }
 
+    // 가입 버튼 Validation
     useEffect(() => {
-        if (emailId.length > 8 && password.length > 8 && birth.length > 5 && gender.length > 0 && password === rePassword ) {
+        if (emailId.length > 8 && password.length > 6 && birth.length > 5 && gender.length > 0 && password === rePassword) {
             return setDisabled(false)
         } else {
             return setDisabled(true)
         }
-    },[])
+    })
 
-    useEffect(()=>{
-        if(password.length < 1 || rePassword.length < 1){
+    // 비밀번호 Validation
+    useEffect(() => {
+        if (password.length < 1 || rePassword.length < 1) {
             return setPwdError('비밀번호를 입력해주세요')
-        } else if(password === rePassword) {
+        } else if (password === rePassword) {
             return setPwdError('비밀번호가 일치합니다.')
         } else {
             setPwdError('앗! 비밀번호가 일치하지 않습니다.')
         }
-    },[password, rePassword])
+    }, [password, rePassword])
 
-    useEffect(()=>{
-        if(emailId.length < 1){
+    // 이메일 Validation
+    useEffect(() => {
+        if (emailId.length < 1) {
             return setEmailError('이메일을 입력해주세요')
-        } else if(emailId.length > 7){
+        } else if (emailId.length > 7) {
             return setEmailError('사용가능한 이메일 입니다.')
-        } else{
+        } else {
             return setEmailError('정확한 이메일을 작성해 주세요')
         }
-    },[emailId])
+    }, [emailId])
 
-    useEffect(()=>{
-        if(birth.length < 1){
+    // 생년월일 Validation
+    useEffect(() => {
+        if (birth.length < 1) {
             return setBirthError('생년월일을 입력해주세요')
-        } else if(birth.length < 6){
+        } else if (birth.length < 6) {
             return setBirthError('')
-        } else if(birth.length > 6){
+        } else if (birth.length > 6) {
             return setBirthError('생년월알 6자리를 초과했습니다.')
         }
-    },[birth])
+    }, [birth])
 
-    useEffect(()=>{
-        if(gender.length < 1 && gender.length < 2){
+    // 주민등록 뒷번호 Validation
+    useEffect(() => {
+        if (gender.length < 1 && gender.length < 2) {
             return setGenderError('주민등록번호 앞에 한자리수를 입력해주세요')
-        } else if(gender.valueOf('1')==='1' ){
+        } else if (gender.valueOf('1') === '1') {
             return setGenderError('')
-        }  else if(gender.valueOf('2')==='2' ){
+        } else if (gender.valueOf('2') === '2') {
             return setGenderError('')
-        }else if(gender.valueOf('3')==='3' ){
+        } else if (gender.valueOf('3') === '3') {
             return setGenderError('')
-        }  else if(gender.valueOf('4')==='4' ){
+        } else if (gender.valueOf('4') === '4') {
             return setGenderError('')
         }
-         else{
+        else {
             return setGenderError('정확한 주민등록번호 앞자리를 입력해주세요')
         }
-    },[gender])
-    
+    }, [gender])
+
+    // POST 코드
+    const register = () =>{
+        axios
+        .post('http://localhost:8000/users/signup', {
+            email: emailId, 
+            password: password, 
+            name: name, 
+            phone: phone, 
+            birth: birth
+        })
+        .then(response => {
+          // Handle success.
+          console.log('Well done!');
+          console.log('User profile', response.data.user);
+          console.log('User token', response.data.jwt);
+          localStorage.setItem('token', response.data.jwt);
+          Navigate('/')
+        })
+        .catch(error => {
+          // Handle error.
+          console.log('An error occurred:', error.response);
+        });
+
+    }
 
 
 
@@ -320,13 +358,16 @@ const Signform = () => {
                         <div className="signform-title-text">
                             <span>회원가입</span>
                         </div>
+                        <div className="signform-sub-text">
+                            <span>이름:{name}</span> <span>휴대폰번호:{phone}</span>
+                            </div>
                     </div>
                     {/* form박스 - 이메일 */}
                     <div className="email-box">
                         <div className="signform-form-box">
                             <input type="text" placeholder='아이디(이메일)' onChange={onChangeEmilId} /> <span>@</span>
                             <span className="id-error">
-                             {emailError}
+                                {emailError}
                             </span>
                             <select name="email" id="email" onChange={onChangeEmilAddress}>
                                 {selectOption}
@@ -339,7 +380,7 @@ const Signform = () => {
                         <input type="password" placeholder='비밀번호' name="pwd" id="pwd" onChange={onChangePassword} />
                         {/* 기본으로 보여줄 PW 조건 */}
                         <span className='pwd-text'>영문과 숫자 조합으로 최소 6-15자로 입력해주세요</span>
-                        <input type="password" placeholder='비밀번호 재확인' name="re-pwd" id="re-pwd" onChange={onChangeRePassword}/>
+                        <input type="password" placeholder='비밀번호 재확인' name="re-pwd" id="re-pwd" onChange={onChangeRePassword} />
                         {/* 비밀번호 일치/오류 text */}
                         <span className='pwd-unacces'>{pwdError}</span>
 
@@ -356,7 +397,7 @@ const Signform = () => {
                         </span>
                     </div>
 
-                    <button type='submit' disabled={disabled} className='signform-btn'>가입 완료</button>
+                    <button type='submit' disabled={disabled} className='signform-btn' onClick={register}>가입 완료</button>
                 </div>
             </div>
         </StyledSignform>

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Login from './login/Login';
@@ -10,9 +11,20 @@ import Playbar from '../components/playbar/Playbar';
 import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 
+
+
+
 function Router() {
-  
-  
+  const [userInfo, setUserInfo] = useState({
+    isLogin: false,
+    token: '',
+    user_id: ''
+  });
+
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+
+
 
   return (
     <BrowserRouter>
@@ -21,8 +33,8 @@ function Router() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/terms' element={<Terms />} />
-        <Route path='/certification' element={<Certification />} />
-        <Route path='/signform' element={<Signform />} />
+        <Route path='/certification' element={<Certification name={name} setName={setName} phone={phone} setPhone={setPhone} />} />
+        <Route path='/signform' element={<Signform name={name} setName={setName} phone={phone} setPhone={setPhone} />} />
         <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
         </Route>
