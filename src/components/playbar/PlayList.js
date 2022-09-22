@@ -329,6 +329,7 @@ const PlayList = ({
                 <PlayListMusic
                   musicTracks={filteredTracks}
                   setMusicTracks={setMusicTracks}
+                  trackIndex={trackIndex}
                   setTrackIndex={setTrackIndex}
                   selectedSongId={selectedSongId}
                   setSelectedSongId={setSelectedSongId}
@@ -340,6 +341,7 @@ const PlayList = ({
                 <PlayListMusic
                   musicTracks={musicTracks}
                   setMusicTracks={setMusicTracks}
+                  trackIndex={trackIndex}
                   setTrackIndex={setTrackIndex}
                   selectedSongId={selectedSongId}
                   setSelectedSongId={setSelectedSongId}
