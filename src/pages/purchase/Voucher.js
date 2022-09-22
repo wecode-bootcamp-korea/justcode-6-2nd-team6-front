@@ -55,7 +55,6 @@ const StyledVoucher = styled.div`
                     text-align: left;
                     .subject {
                       font-size: 16px;
-                      font-weight: 600;
                       color: #181818;
                     }
                   }
@@ -74,7 +73,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: #3f3fff;
                         vertical-align: middle;
                       }
@@ -183,7 +182,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price-box > .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: white;
                       }
                     }

@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png'
+import logo from '../../Images/logo.png';
 
 
 
 
 
 const StyledSignform = styled.div`
+
       input[type=text]{
                     height: 50px;
                     margin-bottom: 50px;
@@ -44,48 +45,60 @@ display: flex;
     width: 1280px;
     padding: 100px;
     margin: 0 auto;
-    .signform-logo-box{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 200px;
-        height: 300px;
-        margin-top: 100px;
-        img{
-            width: 100%;
-        }
-    }
-    .signform-container{
+    .signform-logo-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 300px;
+      margin-top: 100px;
+      img {
         width: 100%;
+      }
+    }
+    .signform-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 60%;
+      height: 100%;
+      border: 1px solid #eee;
+      padding-top: 0px;
+      padding: 0px;
+      margin: 0 auto;
+      /* 제목 */
+      .signform-title-box {
         display: flex;
-         flex-direction: column;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        width: 60%;
-        height: 100%;
-        border: 1px solid #eee;
-        padding-top: 0px;
-        padding: 0px;
-        margin: 0 auto;
-        /* 제목 */
-        .signform-title-box{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            .signform-title-text{
-                width: 100%;
-                margin-top: 50px;
-                margin-bottom: 20px;
-                text-align: center;
-                font: bold 30px/1 'apple';
-            }
-            .signform-sub-text{
-                font: 16px/1 'apple';
-                color: #444;
-                margin-bottom: 70px;
-            }
+        .signform-title-text {
+          width: 100%;
+          margin-top: 50px;
+          margin-bottom: 20px;
+          text-align: center;
+          font: bold 30px/1 'apple';
         }
+        .signform-sub-text {
+          font: 16px/1 'apple';
+          color: #444;
+          margin-bottom: 70px;
+        }
+      }
+      /* form박스 - 이메일 */
+      .email-box {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        input[type='text'] {
+          width: 200px;
+          margin-right: 20px;
+        }
+
         /* form박스 - 이메일 */
         .email-box{
             position: relative;
@@ -109,6 +122,16 @@ display: flex;
                 color: #3f3fff;
             }
         }
+        .id-error {
+          display: none;
+          position: absolute;
+          left: 95px;
+          top: 60px;
+          font: 12px/1 'apple';
+          color: red;
+        }
+      }
+
 
         /* form박스 - 비밀번호 */
         .password-box{
@@ -144,8 +167,50 @@ display: flex;
             }
             
 
-        }
 
+      /* form박스 - 비밀번호 */
+      .password-box {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        input[type='password'] {
+          width: 460px;
+        }
+        .pwd-text {
+          position: absolute;
+          top: 60px;
+          left: 0%;
+          font: 12px/1 'apple';
+          color: #000;
+        }
+        .pwd-access {
+          display: none;
+          position: absolute;
+          top: 60px;
+          left: 0%;
+          font: 12px/1 'apple';
+          color: #3f3fff;
+
+        }
+        .pwd-unacces {
+          display: none;
+          position: absolute;
+          top: 160px;
+          left: 0;
+          font: 12px/1 'apple';
+          color: red;
+        }
+        .re-pwd-access {
+          display: none;
+          position: absolute;
+          top: 160px;
+          left: 0%;
+          font: 12px/1 'apple';
+          color: #3f3fff;
+        }
+      }
         /* form박스 - 주민번호 */
         .birthday{
             position: relative;
@@ -210,10 +275,10 @@ cursor: pointer;
                     cursor: default;
                 }
 }
-        }}
-`
+        }}}`
 
-const Signform = ({name, setName, phone, setPhone}) => {
+
+const Signform = ({ name, setName, phone, setPhone }) => {
 
 
 
@@ -319,29 +384,8 @@ const Signform = ({name, setName, phone, setPhone}) => {
     }, [gender])
 
     // POST 코드
-    const register = () =>{
-        axios
-        .post('http://localhost:8000/users/signup', {
-            email: emailId, 
-            password: password, 
-            name: name, 
-            phone: phone, 
-            birth: birth
-        })
-        .then(response => {
-          // Handle success.
-          console.log('Well done!');
-          console.log('User profile', response.data.user);
-          console.log('User token', response.data.jwt);
-          localStorage.setItem('token', response.data.jwt);
-          Navigate('/')
-        })
-        .catch(error => {
-          // Handle error.
-          console.log('An error occurred:', error.response);
-        });
 
-    }
+
 
 
 
@@ -360,7 +404,7 @@ const Signform = ({name, setName, phone, setPhone}) => {
                         </div>
                         <div className="signform-sub-text">
                             <span>이름:{name}</span> <span>휴대폰번호:{phone}</span>
-                            </div>
+                        </div>
                     </div>
                     {/* form박스 - 이메일 */}
                     <div className="email-box">
@@ -384,24 +428,47 @@ const Signform = ({name, setName, phone, setPhone}) => {
                         {/* 비밀번호 일치/오류 text */}
                         <span className='pwd-unacces'>{pwdError}</span>
 
+                        {/* form박스 - 비밀번호 */}
+                        <div className='password-box'>
+                            <input type='password' placeholder='비밀번호' name='pwd' id='pwd' />
+                            {/* 기본으로 보여줄 PW 조건 */}
+                            <span className='pwd-text'>
+                                영문 대문자/소문자/숫자/특수문자 섞어 2가지 조합으로
+                                <br />
+                                최소 6~15 자리로 입력해주세요
+                            </span>
+                            {/* 조건에 부합했을떄 뜨는 text */}
+                            <span className='pwd-access'>사용 가능한 비밀번호입니다.</span>
+                            <input
+                                type='password'
+                                placeholder='비밀번호 재확인'
+                                name='re-pwd'
+                                id='re-pwd'
+                            />
+                            {/* 비밀번호가 맞지않을경우 text */}
+                            <span className='pwd-unacces'>
+                                앗! 비밀번호가 일치하지 않습니다.
+                            </span>
+                            {/* 비밀번호가 일치했을때 text */}
+                            <span className='re-pwd-access'>비밀번호가 일치합니다..</span>
+                        </div>
 
+                        {/* form박스 - 주민번호 */}
+                        <div className="birthday">
+                            <input type="number" placeholder='생년월일 (ex.880101)' onChange={onChangeBirth} maxLength={'6'} /><span className='hyphen'>-</span>
+                            <input type="text" maxLength={'1'} onChange={onChangeGender} /><span className='bullet'>••••••</span>
+                            <span className='birth-access'>{birthError}</span>
+                            <span className="gender-access">
+                                {genderError}
+                            </span>
+                        </div>
+
+                        <button type='submit' disabled={disabled} className='signform-btn' onClick={register}>가입 완료</button>
                     </div>
-
-                    {/* form박스 - 주민번호 */}
-                    <div className="birthday">
-                        <input type="number" placeholder='생년월일 (ex.880101)' onChange={onChangeBirth} maxLength={'6'} /><span className='hyphen'>-</span>
-                        <input type="text" maxLength={'1'} onChange={onChangeGender} /><span className='bullet'>••••••</span>
-                        <span className='birth-access'>{birthError}</span>
-                        <span className="gender-access">
-                            {genderError}
-                        </span>
-                    </div>
-
-                    <button type='submit' disabled={disabled} className='signform-btn' onClick={register}>가입 완료</button>
                 </div>
-            </div>
         </StyledSignform>
     );
+
 };
 
 export default Signform;
