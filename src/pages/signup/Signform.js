@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png';
 
 const StyledSignform = styled.div`
   input[type='text'] {
@@ -196,7 +195,7 @@ const Signform = () => {
       <div className='signform-inner-box'>
         {/* 로고박스 */}
         <a className='signform-logo-box'>
-          <img src={logo} alt='플로리다로고' />
+          <img src='/Images/logo.png' alt='플로리다로고' />
         </a>
         <div className='signform-container'>
           {/* 제목 */}

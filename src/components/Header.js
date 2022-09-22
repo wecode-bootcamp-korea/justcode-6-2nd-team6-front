@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import logo from '../Images/logo.png';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 const StyledHeader = styled.header`
@@ -102,7 +101,7 @@ const Header = () => {
         {/* 로고박스 */}
         <div className='header-logo-box'>
           <a href='/' className='header-logo'>
-            <img src={logo} alt='Florida로고' />
+            <img src='/Images/logo.png' alt='Florida로고' />
           </a>
         </div>
 
