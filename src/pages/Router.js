@@ -10,6 +10,7 @@ import Terms from './signup/Terms';
 import Playbar from '../components/playbar/Playbar';
 import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
+import Affiliate from './purchase/Affiliate';
 
 function Router() {
   
@@ -26,6 +27,7 @@ function Router() {
         <Route path='/signform' element={<Signform />} />
         <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
+          <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
       </Routes>
       <Footer />
