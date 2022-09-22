@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png';
 import Popup from './Popup';
 
 const StyledTerms = styled.div`
@@ -208,7 +207,7 @@ const Terms = () => {
     <StyledTerms>
       <div className='terms-inner-box'>
         <a className='terms-logo-box'>
-          <img src={logo} alt='플로리다로고' />
+          <img src='/Images/logo.png' alt='플로리다로고' />
         </a>
         <div className='terms-container'>
           <div className='terms-list-inner-box'>
