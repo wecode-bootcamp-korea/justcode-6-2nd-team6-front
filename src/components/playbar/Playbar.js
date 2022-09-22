@@ -95,6 +95,10 @@ const StyledPlaybar = styled.div`
     overflow-y: auto;
     font-family: "NanumBarunGothic", sans-serif;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     .close {
       position: fixed;
       top: 50px;
