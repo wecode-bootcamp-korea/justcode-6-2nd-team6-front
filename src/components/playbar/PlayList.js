@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
+import { MdOutlineCancel } from "react-icons/md";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 
 import PlayListMusic from "./PlayListMusic";
@@ -85,6 +86,17 @@ const StyledPlayList = styled.div`
         }
       }
 
+      .delete {
+        margin-left: -15px;
+        color: #757575;
+        transform: scale(1.1);
+        cursor: pointer;
+
+        &:hover {
+          color: #353535;
+        }
+      }
+
       .cancel {
         margin: 0 10px;
         cursor: pointer;
@@ -128,8 +140,11 @@ const PlayList = ({
   trackIndex,
   isMyPlayListClicked,
   setIsMyPlayListClicked,
+  selectedSongId,
   setSelectedSongId,
   setIsGetMyPlayListClicked,
+  isMoreMenuClicked,
+  setIsMoreMenuClicked,
 }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
@@ -137,6 +152,12 @@ const PlayList = ({
   const [isPlayListOpened, setIsPlayListOpened] = useState(true);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isSearchClicked !== false) inputRef.current.focus();
+  }, [isSearchClicked]);
 
   const filteredTracks = musicTracks.map((el) => {
     if (
@@ -171,6 +192,7 @@ const PlayList = ({
               setIsArtistClicked(false);
               setIsSimilarClicked(false);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <RiPlayListFill className="icon" size="20" />
@@ -185,6 +207,7 @@ const PlayList = ({
               setIsArtistClicked(true);
               setIsSimilarClicked(false);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <BiMicrophone className="icon" size="20" />
@@ -201,6 +224,7 @@ const PlayList = ({
               setIsArtistClicked(false);
               setIsSimilarClicked(true);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <FiMusic className="icon" size="20" />
@@ -212,7 +236,10 @@ const PlayList = ({
             <div className="menu-wrapper flex-center">
               <div
                 className="menu flex-center"
-                onClick={() => setIsSearchClicked(true)}
+                onClick={() => {
+                  setIsSearchClicked(true);
+                  setIsMoreMenuClicked(false);
+                }}
               >
                 <IoSearchSharp size="18" className="icon" />
                 검색
@@ -224,6 +251,7 @@ const PlayList = ({
                   onClick={() => {
                     setIsMyPlayListClicked(true);
                     setIsGetMyPlayListClicked(true);
+                    setIsMoreMenuClicked(false);
                   }}
                 >
                   <IoFileTrayOutline size="18" className="icon" />내 리스트
@@ -232,9 +260,16 @@ const PlayList = ({
               )}
             </div>
 
-            <div className="menu-wrapper flex-center">
-              {!isPlayListClicked || <div className="menu">편집</div>}
-            </div>
+            {!isPlayListClicked || (
+              <div
+                className="menu"
+                onClick={() => {
+                  setIsMoreMenuClicked(false);
+                }}
+              >
+                편집
+              </div>
+            )}
           </div>
         )}
         {!isSearchClicked || (
@@ -246,8 +281,15 @@ const PlayList = ({
                 placeholder="곡 제목으로 검색해 주세요"
                 autoComplete="off"
                 value={inputValue}
+                ref={inputRef}
                 onChange={(e) => {
                   setInputValue(e.target.value);
+                }}
+              />
+              <MdOutlineCancel
+                className="delete"
+                onClick={() => {
+                  setInputValue("");
                 }}
               />
             </div>
@@ -269,7 +311,10 @@ const PlayList = ({
             {isPlayListOpened ? (
               <BsChevronUp
                 className="button"
-                onClick={() => setIsPlayListOpened(!isPlayListOpened)}
+                onClick={() => {
+                  setIsPlayListOpened(!isPlayListOpened);
+                  setIsMoreMenuClicked(false);
+                }}
               />
             ) : (
               <BsChevronDown
@@ -285,16 +330,22 @@ const PlayList = ({
                   musicTracks={filteredTracks}
                   setMusicTracks={setMusicTracks}
                   setTrackIndex={setTrackIndex}
+                  selectedSongId={selectedSongId}
                   setSelectedSongId={setSelectedSongId}
                   setIsMyPlayListClicked={setIsMyPlayListClicked}
+                  isMoreMenuClicked={isMoreMenuClicked}
+                  setIsMoreMenuClicked={setIsMoreMenuClicked}
                 />
               ) : (
                 <PlayListMusic
                   musicTracks={musicTracks}
                   setMusicTracks={setMusicTracks}
                   setTrackIndex={setTrackIndex}
+                  selectedSongId={selectedSongId}
                   setSelectedSongId={setSelectedSongId}
                   setIsMyPlayListClicked={setIsMyPlayListClicked}
+                  isMoreMenuClicked={isMoreMenuClicked}
+                  setIsMoreMenuClicked={setIsMoreMenuClicked}
                 />
               )}
             </div>

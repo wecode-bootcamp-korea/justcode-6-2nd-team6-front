@@ -173,6 +173,7 @@ const Playbar = () => {
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
+  const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [musicTracks, setMusicTracks] = useState([
     {
       id: 0,
@@ -255,8 +256,11 @@ const Playbar = () => {
             trackIndex={trackIndex}
             isMyPlayListClicked={isMyPlayListClicked}
             setIsMyPlayListClicked={setIsMyPlayListClicked}
+            selectedSongId={selectedSongId}
             setSelectedSongId={setSelectedSongId}
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+            isMoreMenuClicked={isMoreMenuClicked}
+            setIsMoreMenuClicked={setIsMoreMenuClicked}
           />
         )}
         <MyPlayList
