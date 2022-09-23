@@ -33,7 +33,6 @@ function Router() {
         </Route>
       </Routes>
       <Footer />
-      <Playbar />
     </BrowserRouter>
   );
 }

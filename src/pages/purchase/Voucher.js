@@ -1,7 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
-import banner from '../../Images/banner.png';
-import nextarrow from '../../Images/next.png';
+import React from "react";
+import styled from "styled-components";
 
 const StyledVoucher = styled.div`
   .voucher-wrap {
@@ -55,7 +53,6 @@ const StyledVoucher = styled.div`
                     text-align: left;
                     .subject {
                       font-size: 16px;
-                      font-weight: 600;
                       color: #181818;
                     }
                   }
@@ -74,7 +71,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: #3f3fff;
                         vertical-align: middle;
                       }
@@ -183,7 +180,7 @@ const StyledVoucher = styled.div`
                         text-decoration: line-through;
                       }
                       .price-box > .price {
-                        font-size: 22px;
+                        font-size: 20px;
                         color: white;
                       }
                     }
@@ -233,27 +230,31 @@ const StyledVoucher = styled.div`
 const Voucher = () => {
   return (
     <StyledVoucher>
-      <div className='voucher-wrap'>
-        <ul className='voucher-cardlist'>
+      <div className="voucher-wrap">
+        <ul className="voucher-cardlist">
           <li>
-            <div className='voucher-carditem voucher-banner'>
-              <img alt='베너홍보' src={banner} className='voucher-banner-img' />
-              <div className='voucher-banner-item'>
-                <div className='card-left'>
-                  <h3 className='name'>(첫 구매) 무제한 듣기 정기결제</h3>
+            <div className="voucher-carditem voucher-banner">
+              <img
+                alt="베너홍보"
+                src="/Images/banner.png"
+                className="voucher-banner-img"
+              />
+              <div className="voucher-banner-item">
+                <div className="card-left">
+                  <h3 className="name">(첫 구매) 무제한 듣기 정기결제</h3>
                 </div>
-                <div className='card-right'>
-                  <ul className='voucher-list-sub'>
+                <div className="card-right">
+                  <ul className="voucher-list-sub">
                     <li>
-                      <div className='item'>
-                        <div className='item-right'>
-                          <span className='price-box'>
-                            <del className='first-cost'>정가 8,000원</del>
-                            <span className='price'>
+                      <div className="item">
+                        <div className="item-right">
+                          <span className="price-box">
+                            <del className="first-cost">정가 8,000원</del>
+                            <span className="price">
                               <em>100</em>원
                             </span>
                           </span>
-                          <button type='button' className='btn-buy'>
+                          <button type="button" className="btn-buy">
                             구매
                           </button>
                         </div>
@@ -261,75 +262,75 @@ const Voucher = () => {
                     </li>
                   </ul>
                 </div>
-                <button type='button' className='btn-detail'>
+                <button type="button" className="btn-detail">
                   이용권 자세히보기
                   <img
-                    alt='화살표'
-                    src={nextarrow}
-                    className='next-arrow-img'
+                    alt="화살표"
+                    src="/Images/next.png"
+                    className="next-arrow-img"
                   />
                 </button>
               </div>
             </div>
           </li>
           <li>
-            <div className='voucher-carditem'>
-              <div className='card-left'>
-                <h3 className='name'>무제한 듣기+오프라인 재생</h3>
-                <p className='desc'>
+            <div className="voucher-carditem">
+              <div className="card-left">
+                <h3 className="name">무제한 듣기+오프라인 재생</h3>
+                <p className="desc">
                   기기제한 없음, 무제한 스트리밍, 오프라인 재생
                 </p>
               </div>
-              <div className='card-right'>
-                <ul className='voucher-list-sub'>
+              <div className="card-right">
+                <ul className="voucher-list-sub">
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>정기결제</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">정기결제</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 11,000원</del>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 11,000원</del>
+                          <span className="price">
                             <em>10,900</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>첫 달 100원</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">첫 달 100원</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 10,900원</del>
-                          <span className='price color-red'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 10,900원</del>
+                          <span className="price color-red">
                             <em>100</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>1개월 권</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">1개월 권</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <span className="price">
                             <em>11,000</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
@@ -337,68 +338,72 @@ const Voucher = () => {
                   </li>
                 </ul>
               </div>
-              <button type='button' className='btn-detail'>
+              <button type="button" className="btn-detail">
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt="화살표"
+                  src="/Images/next.png"
+                  className="next-arrow-img"
+                />
               </button>
             </div>
           </li>
           <li>
-            <div className='voucher-carditem'>
-              <div className='card-left'>
-                <h3 className='name'>무제한 듣기</h3>
-                <p className='desc'>기기제한 없음, 무제한 스트리밍</p>
+            <div className="voucher-carditem">
+              <div className="card-left">
+                <h3 className="name">무제한 듣기</h3>
+                <p className="desc">기기제한 없음, 무제한 스트리밍</p>
               </div>
-              <div className='card-right'>
-                <ul className='voucher-list-sub'>
+              <div className="card-right">
+                <ul className="voucher-list-sub">
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>정기결제</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">정기결제</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 8,000원</del>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 8,000원</del>
+                          <span className="price">
                             <em>7,900</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>첫 달 100원</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">첫 달 100원</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 7,900원</del>
-                          <span className='price color-red'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 7,900원</del>
+                          <span className="price color-red">
                             <em>100</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>1개월 권</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">1개월 권</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <span className="price">
                             <em>8,000</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
@@ -406,32 +411,36 @@ const Voucher = () => {
                   </li>
                 </ul>
               </div>
-              <button type='button' className='btn-detail'>
+              <button type="button" className="btn-detail">
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt="화살표"
+                  src="/Images/next.png"
+                  className="next-arrow-img"
+                />
               </button>
             </div>
           </li>
           <li>
-            <div className='voucher-carditem'>
-              <div className='card-left'>
-                <h3 className='name'>300회 듣기</h3>
-                <p className='desc'>기기제한 없음, 횟수 제한</p>
+            <div className="voucher-carditem">
+              <div className="card-left">
+                <h3 className="name">300회 듣기</h3>
+                <p className="desc">기기제한 없음, 횟수 제한</p>
               </div>
-              <div className='card-right'>
-                <ul className='voucher-list-sub'>
+              <div className="card-right">
+                <ul className="voucher-list-sub">
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>1개월권</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">1개월권</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <span className="price">
                             <em>4,800</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
@@ -439,68 +448,72 @@ const Voucher = () => {
                   </li>
                 </ul>
               </div>
-              <button type='button' className='btn-detail'>
+              <button type="button" className="btn-detail">
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt="화살표"
+                  src="/Images/next.png"
+                  className="next-arrow-img"
+                />
               </button>
             </div>
           </li>
           <li>
-            <div className='voucher-carditem'>
-              <div className='card-left'>
-                <h3 className='name'>모바일 무제한 듣기</h3>
-                <p className='desc'>모바일 전용, 무제한 스트리밍</p>
+            <div className="voucher-carditem">
+              <div className="card-left">
+                <h3 className="name">모바일 무제한 듣기</h3>
+                <p className="desc">모바일 전용, 무제한 스트리밍</p>
               </div>
-              <div className='card-right'>
-                <ul className='voucher-list-sub'>
+              <div className="card-right">
+                <ul className="voucher-list-sub">
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>정기결제</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">정기결제</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 7,000원</del>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 7,000원</del>
+                          <span className="price">
                             <em>6,900</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>첫 달 100원</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">첫 달 100원</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <del className='first-cost'>정가 6,900원</del>
-                          <span className='price color-red'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <del className="first-cost">정가 6,900원</del>
+                          <span className="price color-red">
                             <em>100</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <div className='item'>
-                      <div className='item-left'>
-                        <span className='subject'>1개월 권</span>
+                    <div className="item">
+                      <div className="item-left">
+                        <span className="subject">1개월 권</span>
                       </div>
-                      <div className='item-right'>
-                        <span className='price-box'>
-                          <span className='price'>
+                      <div className="item-right">
+                        <span className="price-box">
+                          <span className="price">
                             <em>7,000</em>원
                           </span>
                         </span>
-                        <button type='button' className='btn-buy'>
+                        <button type="button" className="btn-buy">
                           구매
                         </button>
                       </div>
@@ -508,15 +521,19 @@ const Voucher = () => {
                   </li>
                 </ul>
               </div>
-              <button type='button' className='btn-detail'>
+              <button type="button" className="btn-detail">
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt="화살표"
+                  src="/Images/next.png"
+                  className="next-arrow-img"
+                />
               </button>
             </div>
           </li>
         </ul>
-        <div className='pass-notice'>
-          <h3 className='notice-title'>이용권 유의사항</h3>
+        <div className="pass-notice">
+          <h3 className="notice-title">이용권 유의사항</h3>
         </div>
       </div>
     </StyledVoucher>

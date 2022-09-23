@@ -1,16 +1,17 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import styled from "styled-components";
 
 const StyledPurchase = styled.section`
   .purchase-main {
+    font-family: "NanumBarunGothic", sans-serif;
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
     .purchase-inner-box {
       display: flex;
       flex-direction: column;
-      width: 955px;
+      width: 1030px;
       max-width: 1600px;
       min-width: 800px;
       position: relative;
@@ -26,7 +27,6 @@ const StyledPurchase = styled.section`
           margin: 0 15px;
           padding: 7px 12px;
           vertical-align: top;
-          font-weight: 600;
           color: black;
           /* 해당 탭에만 적용되는 style */
           /* color: white;
@@ -68,21 +68,21 @@ const StyledPurchase = styled.section`
 const Purchase = () => {
   return (
     <StyledPurchase>
-      <section className='purchase-main'>
-        <div className='purchase-inner-box'>
-          <div className='purchase-tab'>
-            <Link to='/purchase/voucher'>
-              <div className='purchase-voucher'>이용권</div>
+      <section className="purchase-main">
+        <div className="purchase-inner-box">
+          <div className="purchase-tab">
+            <Link to="/purchase/voucher">
+              <div className="purchase-voucher">이용권</div>
             </Link>
-            <Link to='/purchase/affliate'>
-              <div className='purchase-affiliate'>제휴</div>
+            <Link to="/purchase/affiliate">
+              <div className="purchase-affiliate">제휴</div>
             </Link>
-            <Link to='/purchase/my'>
-              <div className='purchase-my'>MY</div>
+            <Link to="/purchase/my">
+              <div className="purchase-my">MY</div>
             </Link>
           </div>
-          <div className='purchase-coupon'>
-            <button type='button' className='btn-coupon'>
+          <div className="purchase-coupon">
+            <button type="button" className="btn-coupon">
               쿠폰
             </button>
           </div>
