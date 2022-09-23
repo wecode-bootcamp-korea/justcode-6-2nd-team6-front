@@ -1,10 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png';
-import wavve from '../../Images/letter-w.png';
-import bookclub from '../../Images/book-club.png';
-import nextarrow from '../../Images/next.png';
-import plus from '../../Images/add.png';
 
 const StyledAffiliate = styled.div`
   .affiliate-wrap {
@@ -209,17 +204,21 @@ const Affiliate = () => {
                 <ul className='voucher-combi-list'>
                   <li>
                     <div className='combi-logo'>
-                      <img alt='FLORIDA' src={logo} />
+                      <img alt='플로리다로고' src='/Images/logo.png' />
                     </div>
                     <div className='combi-info'>
                       <strong className='subject'>무제한 듣기</strong>
                       <p className='desc'>기기제한 없음, 무제한 스트리밍</p>
                     </div>
                   </li>
-                  <img alt='plus' src={plus} className='plus-img' />
+                  <img
+                    alt='플러스'
+                    src='/Images/plus.png'
+                    className='plus-img'
+                  />
                   <li>
                     <div className='combi-logo'>
-                      <img alt='wavve' src={wavve} />
+                      <img alt='웨이브' src='/Images/letter-w.png' />
                     </div>
                     <div className='combi-info'>
                       <strong className='subject'>Basic</strong>
@@ -230,7 +229,11 @@ const Affiliate = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>
@@ -260,17 +263,21 @@ const Affiliate = () => {
                 <ul className='voucher-combi-list'>
                   <li>
                     <div className='combi-logo'>
-                      <img alt='FLORIDA' src={logo} />
+                      <img alt='플로리다로고' src='/Images/logo.png' />
                     </div>
                     <div className='combi-info'>
                       <strong className='subject'>모바일 무제한 듣기</strong>
                       <p className='desc'>모바일 전용, 무제한 스트리밍</p>
                     </div>
                   </li>
-                  <img alt='plus' src={plus} className='plus-img' />
+                  <img
+                    alt='플러스'
+                    src='/Images/plus.png'
+                    className='plus-img'
+                  />
                   <li>
                     <div className='combi-logo'>
-                      <img alt='bookclub' src={bookclub} />
+                      <img alt='북클럽' src='/Images/book-club.png' />
                     </div>
                     <div className='combi-info'>
                       <strong className='subject'>eBook 무제한 독서</strong>
@@ -281,7 +288,11 @@ const Affiliate = () => {
               </div>
               <button type='button' className='btn-detail'>
                 이용권 자세히 보기
-                <img alt='화살표' src={nextarrow} className='next-arrow-img' />
+                <img
+                  alt='화살표'
+                  src='/Images/next.png'
+                  className='next-arrow-img'
+                />
               </button>
             </div>
           </li>

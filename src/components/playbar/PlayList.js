@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
+import { MdOutlineCancel } from "react-icons/md";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 
 import PlayListMusic from "./PlayListMusic";
@@ -85,6 +86,17 @@ const StyledPlayList = styled.div`
         }
       }
 
+      .delete {
+        margin-left: -15px;
+        color: #757575;
+        transform: scale(1.1);
+        cursor: pointer;
+
+        &:hover {
+          color: #353535;
+        }
+      }
+
       .cancel {
         margin: 0 10px;
         cursor: pointer;
@@ -121,7 +133,19 @@ const StyledPlayList = styled.div`
   }
 `;
 
-const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
+const PlayList = ({
+  musicTracks,
+  setMusicTracks,
+  setTrackIndex,
+  trackIndex,
+  isMyPlayListClicked,
+  setIsMyPlayListClicked,
+  selectedSongId,
+  setSelectedSongId,
+  setIsGetMyPlayListClicked,
+  isMoreMenuClicked,
+  setIsMoreMenuClicked,
+}) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
@@ -129,11 +153,28 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  const filteredTracks = musicTracks.filter((el) => {
-    return el.name
-      .replace(/(\s*)/g, "")
-      .toUpperCase()
-      .includes(inputValue.replace(/(\s*)/g, "").toUpperCase());
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isSearchClicked !== false) inputRef.current.focus();
+  }, [isSearchClicked]);
+
+  const filteredTracks = musicTracks.map((el) => {
+    if (
+      el.name
+        .replace(/(\s*)/g, "")
+        .toUpperCase()
+        .includes(inputValue.replace(/(\s*)/g, "").toUpperCase())
+    ) {
+      return el;
+    } else
+      return {
+        key: el.key,
+        name: "none",
+        artist: "none",
+        img: "",
+        src: "",
+      };
   });
 
   return (
@@ -151,6 +192,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsArtistClicked(false);
               setIsSimilarClicked(false);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <RiPlayListFill className="icon" size="20" />
@@ -165,6 +207,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsArtistClicked(true);
               setIsSimilarClicked(false);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <BiMicrophone className="icon" size="20" />
@@ -181,6 +224,7 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               setIsArtistClicked(false);
               setIsSimilarClicked(true);
               setIsSearchClicked(false);
+              setIsMoreMenuClicked(false);
             }}
           >
             <FiMusic className="icon" size="20" />
@@ -192,23 +236,40 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
             <div className="menu-wrapper flex-center">
               <div
                 className="menu flex-center"
-                onClick={() => setIsSearchClicked(true)}
+                onClick={() => {
+                  setIsSearchClicked(true);
+                  setIsMoreMenuClicked(false);
+                }}
               >
                 <IoSearchSharp size="18" className="icon" />
                 검색
               </div>
 
               {!isPlayListClicked || (
-                <div className="menu flex-center">
+                <div
+                  className="menu flex-center"
+                  onClick={() => {
+                    setIsMyPlayListClicked(true);
+                    setIsGetMyPlayListClicked(true);
+                    setIsMoreMenuClicked(false);
+                  }}
+                >
                   <IoFileTrayOutline size="18" className="icon" />내 리스트
                   가져오기
                 </div>
               )}
             </div>
 
-            <div className="menu-wrapper flex-center">
-              {!isPlayListClicked || <div className="menu">편집</div>}
-            </div>
+            {!isPlayListClicked || (
+              <div
+                className="menu"
+                onClick={() => {
+                  setIsMoreMenuClicked(false);
+                }}
+              >
+                편집
+              </div>
+            )}
           </div>
         )}
         {!isSearchClicked || (
@@ -217,15 +278,18 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
               <IoSearchSharp size="20" />
               <input
                 type="text"
-                placeholder={
-                  isPlayListClicked
-                    ? "재생목록에서 검색해주세요"
-                    : "하단의 곡 리스트에서 검색해주세요"
-                }
+                placeholder="곡 제목으로 검색해 주세요"
                 autoComplete="off"
+                value={inputValue}
+                ref={inputRef}
                 onChange={(e) => {
                   setInputValue(e.target.value);
-                  console.log(inputValue);
+                }}
+              />
+              <MdOutlineCancel
+                className="delete"
+                onClick={() => {
+                  setInputValue("");
                 }}
               />
             </div>
@@ -237,11 +301,20 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
         )}
         <div className="music-container flex-center">
           <div className="play-list-title">
-            <div className="title">현재 재생목록</div>
+            <div className="title">
+              {isPlayListClicked
+                ? "현재 재생목록"
+                : isArtistClicked
+                ? "같은 아티스트의 음악"
+                : "같은 장르의 음악"}
+            </div>
             {isPlayListOpened ? (
               <BsChevronUp
                 className="button"
-                onClick={() => setIsPlayListOpened(!isPlayListOpened)}
+                onClick={() => {
+                  setIsPlayListOpened(!isPlayListOpened);
+                  setIsMoreMenuClicked(false);
+                }}
               />
             ) : (
               <BsChevronDown
@@ -256,13 +329,25 @@ const PlayList = ({ musicTracks, setMusicTracks, setTrackIndex }) => {
                 <PlayListMusic
                   musicTracks={filteredTracks}
                   setMusicTracks={setMusicTracks}
+                  trackIndex={trackIndex}
                   setTrackIndex={setTrackIndex}
+                  selectedSongId={selectedSongId}
+                  setSelectedSongId={setSelectedSongId}
+                  setIsMyPlayListClicked={setIsMyPlayListClicked}
+                  isMoreMenuClicked={isMoreMenuClicked}
+                  setIsMoreMenuClicked={setIsMoreMenuClicked}
                 />
               ) : (
                 <PlayListMusic
                   musicTracks={musicTracks}
                   setMusicTracks={setMusicTracks}
+                  trackIndex={trackIndex}
                   setTrackIndex={setTrackIndex}
+                  selectedSongId={selectedSongId}
+                  setSelectedSongId={setSelectedSongId}
+                  setIsMyPlayListClicked={setIsMyPlayListClicked}
+                  isMoreMenuClicked={isMoreMenuClicked}
+                  setIsMoreMenuClicked={setIsMoreMenuClicked}
                 />
               )}
             </div>

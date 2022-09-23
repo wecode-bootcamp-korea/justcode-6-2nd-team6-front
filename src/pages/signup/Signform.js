@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Navigate, NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png'
+
 
 
 const StyledSignform = styled.div`
@@ -211,7 +211,7 @@ cursor: pointer;
 `
 
 const Signform = () => {
-
+    const navigate = useNavigate()
 
     const selectList = ['naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'gmail.com', 'hotmail.com', 'lycos.co.kr', 'empal.com', 'cyworld.com', 'yahoo.co.kr', 'paran.com', '직접입력']
 
@@ -333,11 +333,12 @@ const Signform = () => {
         })
         .then(response => {
           // Handle success.
-          console.log('Well done!');
+          let token = response.data.token
+          localStorage.setItem('token', token);
+          console.log('로그인이 완료되었습니다!!');
+          console.log('User token', response.data.token);
           console.log('User profile', response.data.user);
-          console.log('User token', response.data.jwt);
-          localStorage.setItem('token', response.data.jwt);
-          Navigate('/')
+          navigate('/')
         })
         .catch(error => {
           // Handle error.
@@ -346,9 +347,11 @@ const Signform = () => {
 
     }
 
+
     // 로컬스토리지 name/phone 값 가져오기
     const name = window.localStorage.getItem('name-state')
     const phone = window.localStorage.getItem('phone-state')
+
 
 
 
@@ -357,7 +360,7 @@ const Signform = () => {
             <div className="signform-inner-box">
                 {/* 로고박스 */}
                 <NavLink to="/" className="signform-logo-box">
-                    <img src={logo} alt="플로리다로고" />
+                    <img src={process.env.PUBLIC_URL + '/Images/logo.png' } alt="플로리다로고" />
                 </NavLink>
                 <div className="signform-container">
                     {/* 제목 */}

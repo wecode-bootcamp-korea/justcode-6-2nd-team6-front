@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../Images/logo.png';
 import Popup from './Popup';
 
 const StyledTerms = styled.div`
@@ -207,9 +206,11 @@ const Terms = () => {
   return (
     <StyledTerms>
       <div className='terms-inner-box'>
+
         <NavLink to='/' className='terms-logo-box'>
-          <img src={logo} alt='플로리다로고' />
+          <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt='플로리다로고' />
         </NavLink>
+
         <div className='terms-container'>
           <div className='terms-list-inner-box'>
             <span className='terms-title'>이용약관</span>

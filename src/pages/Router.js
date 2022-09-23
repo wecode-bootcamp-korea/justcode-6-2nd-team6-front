@@ -11,18 +11,12 @@ import Playbar from '../components/playbar/Playbar';
 import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 import Affiliate from './purchase/Affiliate';
+import My from './purchase/My';
 
 
 
 function Router() {
-
-
-
-
-
   return (
-    // Redux-toolkit 저장소 지정
-
       <BrowserRouter>
         <Header />
         <Routes>
@@ -39,7 +33,6 @@ function Router() {
         <Footer />
         <Playbar />
       </BrowserRouter>
-
   );
 }
 

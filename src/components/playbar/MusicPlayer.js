@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -164,6 +165,7 @@ const MusicPlayer = ({
   trackIndex,
   setTrackIndex,
   musicTracks,
+  setMusicTracks,
   isExpandedClicked,
 }) => {
   const handleClickPrevious = () => {
@@ -177,6 +179,23 @@ const MusicPlayer = ({
       currentTrack < musicTracks.length - 1 ? currentTrack + 1 : 0
     );
   };
+
+  const player = useRef();
+
+  // 음악 mockdata 불러오기
+  useEffect(() => {
+    const getTrackList = async () => {
+      await fetch("http://localhost:3000/music-track-data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.length !== 0) setMusicTracks(data);
+        });
+
+      setTimeout(() => player.current.audio.current.pause(), 100);
+    };
+    getTrackList();
+  }, []);
 
   return (
     <StyledMusicPlayer>
@@ -197,6 +216,8 @@ const MusicPlayer = ({
           onClickPrevious={handleClickPrevious}
           onClickNext={handleClickNext}
           onEnded={handleClickNext}
+          autoPlay={false}
+          ref={player}
         />
       </div>
     </StyledMusicPlayer>
