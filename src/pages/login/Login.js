@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import LoginFooter from '../../components/LoginFooter';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 const StyledLogin = styled.div`
 .login-inner-box{
@@ -222,7 +223,7 @@ const StyledLogin = styled.div`
 `
 
 const Login = () => {
-
+const navigate = useNavigate()
     // 비밀번호 토글버튼
     const [blind, setBlind] = useState(false)
     const [input, setInput] = React.useState({ email: '', password: '' })
@@ -244,23 +245,25 @@ const Login = () => {
     }, [input])
 
     // 로그인 Axios
-    const isLogin = () =>{
+    const isLogin = (e) =>{
+        e.preventDefault()
         axios
-        .post('http://localhost:8000/users/signup', {
-            email: input.email, 
-            password: input.password
+        .post('http://localhost:8000/users/login', {
+            'email': input.email, 
+            'password': input.password
         })
         .then(response => {
           // Handle success.
-          console.log('Well done!');
+          let token = response.data.token
+          localStorage.setItem('token', token);
+          console.log('로그인이 완료되었습니다!!');
+          console.log('User token', response.data.token);
           console.log('User profile', response.data.user);
-          console.log('User token', response.data.jwt);
-          localStorage.setItem('token', response.data.jwt);
-          Navigate('/')
+          navigate('/')
         })
         .catch(error => {
           // Handle error.
-          console.log('An error occurred:', error.response);
+          console.log('로그인에 실패 했습니다.', error.response);
         });
 
     }
@@ -275,13 +278,13 @@ const Login = () => {
 
                         {/* 아이디창 */}
                         <div className="login-form-id">
-                            <input type="text" placeholder='아이디(이메일)' name='email' onChange={handleChange}
+                            <input type="text" placeholder='아이디(이메일)' name='email' onChange={handleChange} value={input.email}
                             />
                         </div>
 
                         {/* 페스워드창 */}
                         <div className="login-form-pwd">
-                            <input type={blind === false ? 'password' : 'text'} placeholder='비밀번호' name='password' onChange={handleChange}
+                            <input type={blind === false ? 'password' : 'text'} placeholder='비밀번호' name='password' onChange={handleChange} value={input.password}
                             />
                             <span className='blind-pwd' onClick={() => { setBlind(!blind) }}>{blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
                         </div>
@@ -294,8 +297,8 @@ const Login = () => {
                         </div>
 
                         {/* 로그인버튼 */}
-                        <button  className='login-btn' disabled={disabled}>
-                            <span>로그인</span>
+                        <button  className='login-btn' disabled={disabled} onClick={isLogin}>
+                            로그인
                         </button>
                       
 
@@ -303,36 +306,36 @@ const Login = () => {
                         <div className="login-find-idpw">
                             <ul>
                                 <li>
-                                    <a href="#">아이디 찾기</a>
+                                    <NavLink to="#">아이디 찾기</NavLink>
                                 </li>
                                 <li>
-                                    <a href="#">비밀번호 찾기</a>
+                                    <NavLink to="#">비밀번호 찾기</NavLink>
                                 </li>
                             </ul>
-                            <a href='/signup' className='link-signup'>회원가입</a>
+                            <NavLink to='/signup' className='link-signup'>회원가입</NavLink>
                         </div>
 
                         {/* T아이디로 로그인 / 휴대폰 번호로 로그인 */}
                         <div className="login-btn-box">
-                            <a href="#" className='t-login'>
+                            <NavLink to="#" className='t-login'>
                                 <span>T아이디로 로그인</span>
-                            </a>
-                            <a href="#" className='tel-login'>
+                            </NavLink>
+                            <NavLink to="#" className='tel-login'>
                                 <span>휴대폰 번호로 로그인</span>
-                            </a>
+                            </NavLink>
                         </div>
 
                         {/* SNS로그인 */}
                         <div className="login-sns-box">
-                            <a href="" className='naver-login'>
+                            <NavLink to="" className='naver-login'>
                                 <span className='hidden'>네이버로그인</span>
-                            </a>
-                            <a href="" className='kakao-login'>
+                            </NavLink>
+                            <NavLink to="" className='kakao-login'>
                                 <span className='hidden'>카카오로그인</span>
-                            </a>
-                            <a href="" className='apple-login'>
+                            </NavLink>
+                            <NavLink to="" className='apple-login'>
                                 <span className='hidden'>애플로그인</span>
-                            </a>
+                            </NavLink>
                         </div>
                     </form>
 

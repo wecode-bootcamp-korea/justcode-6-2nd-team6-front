@@ -1,11 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../Images/logo.png'
-
-
-
 
 
 const StyledSignform = styled.div`
@@ -213,8 +210,7 @@ cursor: pointer;
         }}
 `
 
-const Signform = ({name, setName, phone, setPhone}) => {
-
+const Signform = () => {
 
 
     const selectList = ['naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'gmail.com', 'hotmail.com', 'lycos.co.kr', 'empal.com', 'cyworld.com', 'yahoo.co.kr', 'paran.com', '직접입력']
@@ -228,6 +224,7 @@ const Signform = ({name, setName, phone, setPhone}) => {
     const [rePassword, setRePassword] = useState('');
     const [birth, setBirth] = useState('');
     const [gender, setGender] = useState('');
+
 
     // 오류메세지
     const [pwdError, setPwdError] = useState('');
@@ -266,6 +263,7 @@ const Signform = ({name, setName, phone, setPhone}) => {
             return setDisabled(true)
         }
     })
+
 
     // 비밀번호 Validation
     useEffect(() => {
@@ -320,13 +318,18 @@ const Signform = ({name, setName, phone, setPhone}) => {
 
     // POST 코드
     const register = () =>{
+        console.log(emailId);
+        console.log(password);
+        console.log(name);
+        console.log(phone);
+        console.log(birth);
         axios
         .post('http://localhost:8000/users/signup', {
-            email: emailId, 
-            password: password, 
-            name: name, 
-            phone: phone, 
-            birth: birth
+            'email': emailId, 
+            'password': password, 
+            'name': name, 
+            'phone': phone, 
+            'birth': birth
         })
         .then(response => {
           // Handle success.
@@ -343,15 +346,19 @@ const Signform = ({name, setName, phone, setPhone}) => {
 
     }
 
+    // 로컬스토리지 name/phone 값 가져오기
+    const name = window.localStorage.getItem('name-state')
+    const phone = window.localStorage.getItem('phone-state')
+
 
 
     return (
         <StyledSignform>
             <div className="signform-inner-box">
                 {/* 로고박스 */}
-                <a className="signform-logo-box">
+                <NavLink to="/" className="signform-logo-box">
                     <img src={logo} alt="플로리다로고" />
-                </a>
+                </NavLink>
                 <div className="signform-container">
                     {/* 제목 */}
                     <div className="signform-title-box">
@@ -383,8 +390,6 @@ const Signform = ({name, setName, phone, setPhone}) => {
                         <input type="password" placeholder='비밀번호 재확인' name="re-pwd" id="re-pwd" onChange={onChangeRePassword} />
                         {/* 비밀번호 일치/오류 text */}
                         <span className='pwd-unacces'>{pwdError}</span>
-
-
                     </div>
 
                     {/* form박스 - 주민번호 */}

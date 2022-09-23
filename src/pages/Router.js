@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Login from './login/Login';
@@ -14,36 +14,32 @@ import Affiliate from './purchase/Affiliate';
 
 
 
-
 function Router() {
-  const [userInfo, setUserInfo] = useState({
-    isLogin: false,
-    token: '',
-    user_id: ''
-  });
 
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+
 
 
 
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/terms' element={<Terms />} />
-        <Route path='/certification' element={<Certification name={name} setName={setName} phone={phone} setPhone={setPhone} />} />
-        <Route path='/signform' element={<Signform name={name} setName={setName} phone={phone} setPhone={setPhone} />} />
-        <Route path='/purchase' element={<Purchase />}>
-          <Route path='voucher' element={<Voucher />}></Route>
-          <Route path='affiliate' element={<Affiliate />}></Route>
-        </Route>
-      </Routes>
-      <Footer />
-      <Playbar />
-    </BrowserRouter>
+    // Redux-toolkit 저장소 지정
+
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/terms' element={<Terms />} />
+          <Route path='/certification' element={<Certification />}/>
+          <Route path='/signform' element={<Signform />} />
+          <Route path='/purchase' element={<Purchase />}>
+            <Route path='voucher' element={<Voucher />}></Route>
+            <Route path='affiliate' element={<Affiliate />}></Route>
+          </Route>
+        </Routes>
+        <Footer />
+        <Playbar />
+      </BrowserRouter>
+
   );
 }
 
