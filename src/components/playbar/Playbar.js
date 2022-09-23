@@ -169,9 +169,8 @@ const StyledPlaybar = styled.div`
   }
 `;
 
-const Playbar = () => {
+const Playbar = ({ sessionTracks, trackIndex, setTrackIndex }) => {
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
-  const [trackIndex, setTrackIndex] = useState(0); // 위 현재 음악 재생목록 오픈
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
@@ -234,6 +233,7 @@ const Playbar = () => {
           setTrackIndex={setTrackIndex}
           isExpandedClicked={isExpandedClicked}
           setMusicTracks={setMusicTracks}
+          sessionTracks={sessionTracks}
         ></MusicPlayer>
         {isExpandedClicked || <HiOutlineHeart className="like" />}
         {isExpandedClicked || (

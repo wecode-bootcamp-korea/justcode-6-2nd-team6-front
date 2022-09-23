@@ -208,8 +208,8 @@ const MyPlayList = ({
                 </div>
               </div>
             )}
-            {arr.map(() => (
-              <PlayListBar />
+            {arr.map((el, i) => (
+              <PlayListBar key={arr[i]} />
             ))}
           </div>
         </div>

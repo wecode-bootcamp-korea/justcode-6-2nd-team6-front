@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
-import { FiMusic } from "react-icons/fi";
+import { FiMusic, FiEdit } from "react-icons/fi";
 import { MdOutlineCancel } from "react-icons/md";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
@@ -222,7 +222,7 @@ const PlayList = ({
       setCheckedList([...checkedList, item]);
     } else if (checked === true) {
       setCheckedList(checkedList.filter((el) => el !== item));
-    } else console.log("no..");
+    }
     console.log(checkedList);
   };
 
@@ -336,13 +336,14 @@ const PlayList = ({
 
             {!isPlayListClicked || (
               <div
-                className="menu"
+                className="menu flex-center"
                 onClick={() => {
                   setIsMoreMenuClicked(false);
                   setIsEditClicked(!isEditClicked);
                   setCheckedList([]);
                 }}
               >
+                {isEditClicked || <FiEdit size="18" className="icon" />}
                 {isEditClicked ? "완료" : "편집"}
               </div>
             )}
