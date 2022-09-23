@@ -96,7 +96,7 @@ const StyledSection = styled.section`
         /* 발매 음악 앨범 리스트 앨범 링크 */
         a.second-section-album-link {
           postion: relative;
-          z-index: 1;
+          z-index: auto;
 
           div.second-section-album-img-box {
             postion: relative;
@@ -112,7 +112,7 @@ const StyledSection = styled.section`
         /* 발매 음악 앨범 리스트 재생 버튼 */
         button.second-section-play-button {
           position: absolute;
-          z-index: 3;
+          z-index: auto;
           right: -5px;
           bottom: -1px;
           border: none;
@@ -159,7 +159,7 @@ const SecondSection = () => {
           {/*오늘 발매 음악 제목 */}
           <div className="second-section-title-box">
             <h3 className="second-section-title">
-              <Link to="/detailed" className="second-section-title-link">
+              <Link to="/detail" className="second-section-title-link">
                 <span className="second-section-today-music">
                   오늘 발매 음악
                 </span>
@@ -229,7 +229,7 @@ const SecondSection = () => {
                   className="second-section-album-box"
                 >
                   <div className="second-section-album-list">
-                    <Link to="/detailed" className="second-section-album-link">
+                    <Link to="/detail" className="second-section-album-link">
                       <div className="second-section-album-img-box">
                         <img
                           className="second-section-album-cover"
