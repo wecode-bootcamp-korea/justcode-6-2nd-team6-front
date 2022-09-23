@@ -38,7 +38,7 @@ const Test = ({ setTrackIndex, musicTracks, setMusicTracks }) => {
 
   useEffect(() => {
     sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
-    if (musicTracks.length !== 0) setTrackIndex(musicTracks.length - 1);
+    if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
   return (
@@ -51,7 +51,7 @@ const Test = ({ setTrackIndex, musicTracks, setMusicTracks }) => {
               <button
                 onClick={() => {
                   if (!musicTracks.includes(el))
-                    setMusicTracks([...musicTracks, el]);
+                    setMusicTracks([el, ...musicTracks]);
                   else alert("현재 재생목록에 이미 존재하는 곡입니다.");
                 }}
               >

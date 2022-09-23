@@ -162,8 +162,8 @@ const MyPlayLists = ({
         <div className="my-play-list-inner-box">
           <div className="title">내 리스트 가져오기</div>
           <div className="play-lists">
-            {arr.map(() => (
-              <PlayListBar />
+            {arr.map((el, i) => (
+              <PlayListBar key={arr[i]} />
             ))}
           </div>
         </div>

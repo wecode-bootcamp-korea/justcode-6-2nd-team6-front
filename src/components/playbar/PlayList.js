@@ -473,6 +473,7 @@ const PlayList = ({
                       })
                     );
                     setCheckedList([]);
+                    setTrackIndex(0);
                   }}
                 >
                   <VscTrash className="icon" />
