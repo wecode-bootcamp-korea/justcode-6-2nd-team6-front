@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import FirstSection from "./sections/FirstSection";
 import SecondSection from "./sections/SecondSection";
+import Container from "@mui/material/Container";
 
 const StyledMain = styled.main`
   div.main-inner-box {
@@ -21,14 +22,16 @@ const StyledMain = styled.main`
 
 const Main = () => {
   return (
-    <StyledMain>
-      <div className="main-inner-box">
-        <div className="main-wrap">
-          <FirstSection />
-          <SecondSection />
+    <Container fixed>
+      <StyledMain>
+        <div className="main-inner-box">
+          <div className="main-wrap">
+            <FirstSection />
+            <SecondSection />
+          </div>
         </div>
-      </div>
-    </StyledMain>
+      </StyledMain>
+    </Container>
   );
 };
 
