@@ -16,7 +16,7 @@ import Affiliate from "./purchase/Affiliate";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
-  const [musicTracks, setMusicTracks] = useState([]);
+  const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   return (
     <BrowserRouter>
       <Header />

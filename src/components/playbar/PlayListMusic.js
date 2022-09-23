@@ -145,6 +145,7 @@ const PlayListMusic = ({
                 className="checkbox"
                 value={el.id}
                 checked={checkedList.includes(el.id) ? true : false}
+                onChange={() => {}}
               />
             )}
             <div

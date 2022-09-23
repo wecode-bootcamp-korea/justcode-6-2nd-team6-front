@@ -143,6 +143,7 @@ const MyPlayLists = ({
     if (isAddNewPlayListClicked !== false) inputRef.current.focus();
   }, [isAddNewPlayListClicked]);
 
+  // 맨 위의 플레이리스트 추가 눌렀을 때, playingMusicId 출력, 아니라면 selectedSongId 출력
   if (selectedSongId == Infinity) {
     console.log("playingMusicId", playingMusicId);
   } else console.log("selectedSongId", selectedSongId);

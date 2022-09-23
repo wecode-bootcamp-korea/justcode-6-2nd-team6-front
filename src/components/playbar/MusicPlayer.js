@@ -205,7 +205,6 @@ const MusicPlayer = ({
           showSkipControls={true}
           showJumpControls={false}
           layout={isExpandedClicked ? "stack" : "stacked-reverse"}
-          onPlay={(e) => console.log("onPlay")}
           volume={0.5}
           onClickPrevious={handleClickPrevious}
           onClickNext={handleClickNext}

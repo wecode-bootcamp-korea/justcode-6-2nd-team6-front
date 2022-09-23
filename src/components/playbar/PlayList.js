@@ -400,7 +400,7 @@ const PlayList = ({
               />
             )}
           </div>
-          {!isPlayListOpened || (
+          {!isPlayListOpened || musicTracks.length === 0 || (
             <div className="play-list-music-container">
               {isSearchClicked ? (
                 <PlayListMusic
