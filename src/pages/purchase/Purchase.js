@@ -70,7 +70,6 @@ const Purchase = () => {
     <StyledPurchase>
       <section className='purchase-main'>
         <div className='purchase-inner-box'>
-          {/* 예시 */}
           <ul className='purchase-tab'>
             <li>
               <NavLink
@@ -97,7 +96,6 @@ const Purchase = () => {
               </NavLink>
             </li>
           </ul>
-          {/* 예시 */}
           <div className='purchase-coupon'>
             <button type='button' className='btn-coupon'>
               쿠폰
