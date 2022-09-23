@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { BsFillPlayCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Slider from 'react-slick';
+import NextArrow from '../arrowIcon/NextArrow';
+import PrevArrow from '../arrowIcon/PrevArrow';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { BsFillPlayCircleFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const StyledSection = styled.section`
   width: 1080px;
@@ -18,24 +20,38 @@ const StyledSection = styled.section`
   }
 `;
 
+const DivNext = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: -50px;
+  text-align: right;
+  line-height: 30px;
+  z-index: 5;
+`;
+
+const DivPrev = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: -50px;
+  text-align: left;
+  line-height: 30px;
+  z-index: 5;
+`;
+
 const StyledSlider = styled(Slider)`
-  width: 70%
   margin: 0 auto;
 
-  botton.slick-arrow.slick-prev {
+  button.slick-arrow.slick-prev {
     width: 30px;
     height: 30px;
   }
 
-  .slick-prev:before {
-    width:30px;
-    height:30px;
-    color: black;
-    content: '<';
-  }
+  .slick-prev:before,
   .slick-next:before {
-    color: black;
-    content: '>';
+    opacity: 0;
+    display: none;
   }
 
   div.first-section-slider-box {
@@ -52,12 +68,11 @@ const StyledSlider = styled(Slider)`
       background-position: 50%;
       background-repeat: no-repeat;
       background-size: cover;
+    }
   }
-
   div.first-section-slider-info {
     width: 280px;
     padding: 40px 0 10px 0;
-    font-weight: 800;
     line-height: 40px;
     color: #fff;
 
@@ -84,8 +99,8 @@ const StyledSlider = styled(Slider)`
       border-radius: 50%;
 
       .first-section-play-button {
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
         color: white;
       }
     }
@@ -109,9 +124,16 @@ const StyledSlider = styled(Slider)`
       display: flex;
       flex-direction: column;
       justify-content: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       line-height: 25px;
       font-size: 17px;
       color: white;
+
+      div.first-section-playlist-singer {
+        color: #b0afba;
+      }
     }
   }
 
@@ -120,17 +142,15 @@ const StyledSlider = styled(Slider)`
     height: 55px;
     margin: auto 0;
     border-radius: 7px;
-  }  
+  }
 `;
 
 const FirstSection = () => {
   const [titleList, setTitleList] = useState([]);
   const [songList, setSongList] = useState([]);
 
-  const clickAlbum = () => {};
-
   useEffect(() => {
-    fetch("/data/slideData.json")
+    fetch('/data/slideData.json')
       .then((res) => res.json())
       .then((data) => {
         setTitleList(data.slideData.slideTitleData);
@@ -146,54 +166,65 @@ const FirstSection = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 2,
+    nextArrow: (
+      <DivNext>
+        <NextArrow />
+      </DivNext>
+    ),
+    prevArrow: (
+      <DivPrev>
+        <PrevArrow />
+      </DivPrev>
+    ),
   };
+
   return (
     <StyledSection>
-      <section className="first-section-inner-box">
+      <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
           {titleList.map((result) => {
             return (
-              <div key={result.titleId} className="first-section-wrap">
+              <div key={result.titleId} className='first-section-wrap'>
                 {/* 첫번째 슬라이드 */}
-                <div className="first-section-slider-box">
-                  <Link to="/detail" className="first-section-slider-flex">
+                <div className='first-section-slider-box'>
+                  <Link to='/detail' className='first-section-slider-flex'>
                     {/* 플리 소개 */}
-                    <div className="first-section-slider-info">
-                      <h4 className="first-section-slider-title">
+                    <div className='first-section-slider-info'>
+                      <h4 className='first-section-slider-title'>
                         {result.listTitle}
                       </h4>
-                      <div className="first-section-slider-date">
+                      <div className='first-section-slider-date'>
                         {result.listTotal}
-                        <span className="first-section-stick">|</span>
+                        <span className='first-section-stick'>|</span>
                         {result.listDate}
                       </div>
                       <button
-                        title="퇴근 후 쇠질엔 이만한 플리가 없지😎"
-                        type="button"
-                        className="first-section-button"
+                        title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
+                        type='button'
+                        className='first-section-button'
                       >
-                        <BsFillPlayCircleFill className="first-section-play-button" />
+                        <BsFillPlayCircleFill className='first-section-play-button' />
                       </button>
                     </div>
                     {/* 노래리스트 */}
-                    <div className="first-section-playlist-wrap">
-                      <ul className="first-section-playlist-box">
+                    <div className='first-section-playlist-wrap'>
+                      <ul className='first-section-playlist-box'>
                         {songList.map((song) => {
                           return (
                             <li
                               key={song.songId}
-                              className="first-section-playlist-list"
+                              className='first-section-playlist-list'
                             >
                               <img
-                                alt="앨범 표지"
+                                alt='앨범 표지'
                                 src={song.slideSongImg}
-                                className="first-section-album-cover"
+                                className='first-section-album-cover'
                               />
-                              <div className="first-section-playlist-box-info">
-                                <strong className="first-section-playlist-song">
+                              <div className='first-section-playlist-box-info'>
+                                <strong className='first-section-playlist-song'>
                                   {song.slideSongName}
                                 </strong>
-                                <div className="first-section-playlist-singer">
+                                <div className='first-section-playlist-singer'>
                                   {song.slideSinger}
                                 </div>
                               </div>
