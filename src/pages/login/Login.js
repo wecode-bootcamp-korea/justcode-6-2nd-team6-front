@@ -237,7 +237,7 @@ const navigate = useNavigate()
     }
 
     useEffect(() => {
-        if (input.email.includes('@') && input.password.length > 6) {
+        if ( input.password.length > 6) {
             setDisabled(false)
         } else {
             setDisabled(true)
