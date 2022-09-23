@@ -12,6 +12,7 @@ import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 import Affiliate from './purchase/Affiliate';
 import My from './purchase/My';
+import  { Addtab, Browsemenu, } from '../components/Browsemenu';
 
 
 
@@ -25,10 +26,12 @@ function Router() {
           <Route path='/terms' element={<Terms />} />
           <Route path='/certification' element={<Certification />}/>
           <Route path='/signform' element={<Signform />} />
+          <Route path='/browse/:category' element={<Browsemenu />} />
           <Route path='/purchase' element={<Purchase />}>
             <Route path='voucher' element={<Voucher />}></Route>
             <Route path='affiliate' element={<Affiliate />}></Route>
           </Route>
+          
         </Routes>
         <Footer />
         <Playbar />

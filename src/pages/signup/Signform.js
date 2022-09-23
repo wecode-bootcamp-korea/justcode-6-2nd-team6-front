@@ -91,7 +91,7 @@ display: flex;
             align-items: center;
             width: 100%;
             input[type=text]{
-                width: 200px;
+                width: 460px;
                 margin-right: 20px;
             }
             span{
@@ -213,13 +213,8 @@ cursor: pointer;
 const Signform = () => {
     const navigate = useNavigate()
 
-    const selectList = ['naver.com', 'hanmail.net', 'daum.net', 'nate.com', 'gmail.com', 'hotmail.com', 'lycos.co.kr', 'empal.com', 'cyworld.com', 'yahoo.co.kr', 'paran.com', '직접입력']
-
-    const selectOption = selectList.map((item) => { return (<option value={item} key={item}>{item}</option>) })
-
     // Input값을 담을 스테이트
     const [emailId, setEmailId] = useState('');
-    const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
     const [birth, setBirth] = useState('');
@@ -238,9 +233,6 @@ const Signform = () => {
     // Input Value값 담을 함수
     const onChangeEmilId = (e) => {
         setEmailId(e.target.value);
-    }
-    const onChangeEmilAddress = (e) => {
-        setEmailAddress(e.target.value);
     }
     const onChangePassword = (e) => {
         setPassword(e.target.value);
@@ -280,7 +272,7 @@ const Signform = () => {
     useEffect(() => {
         if (emailId.length < 1) {
             return setEmailError('이메일을 입력해주세요')
-        } else if (emailId.length > 7) {
+        } else if (emailId.length > 7 && emailId.includes('@') && emailId.includes('.')) {
             return setEmailError('사용가능한 이메일 입니다.')
         } else {
             return setEmailError('정확한 이메일을 작성해 주세요')
@@ -352,6 +344,13 @@ const Signform = () => {
     const name = window.localStorage.getItem('name-state')
     const phone = window.localStorage.getItem('phone-state')
 
+    // 창닫을때 로컬스토리지 비우는 코드
+    window.onbeforeunload = function() {
+        localStorage.removeItem('name-state');
+        localStorage.removeItem('phone-state');
+        return '';
+    }
+
 
 
 
@@ -375,13 +374,10 @@ const Signform = () => {
                     {/* form박스 - 이메일 */}
                     <div className="email-box">
                         <div className="signform-form-box">
-                            <input type="text" placeholder='아이디(이메일)' onChange={onChangeEmilId} /> <span>@</span>
+                            <input type="text" placeholder='아이디(이메일)' onChange={onChangeEmilId} />
                             <span className="id-error">
                                 {emailError}
                             </span>
-                            <select name="email" id="email" onChange={onChangeEmilAddress}>
-                                {selectOption}
-                            </select>
                         </div>
                     </div>
 
