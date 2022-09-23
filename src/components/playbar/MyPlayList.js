@@ -66,7 +66,7 @@ const StyledDialog = styled(Dialog)`
           .confirm {
             margin-right: 10px;
 
-            color: blue;
+            color: #3f3fff;
             cursor: pointer;
           }
         }
@@ -77,7 +77,7 @@ const StyledDialog = styled(Dialog)`
         align-items: center;
         height: 80px;
         border-bottom: 1px solid #f2f2f2;
-        color: blue;
+        color: #3f3fff;
         cursor: pointer;
 
         .add-list-cover {
@@ -199,7 +199,7 @@ const MyPlayList = ({
                   <AiOutlinePlus />
                 </div>
                 <div className="play-list-info">
-                  <div className="add-list">내 리스트 가져오기</div>
+                  <div className="add-list">새로운 리스트 추가하기</div>
                 </div>
               </div>
             )}

@@ -6,6 +6,8 @@ import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { MdOutlineCancel } from "react-icons/md";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
+import { AiOutlineCheck } from "react-icons/ai";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
 
 import PlayListMusic from "./PlayListMusic";
 
@@ -130,6 +132,64 @@ const StyledPlayList = styled.div`
         margin: 10px 0;
       }
     }
+
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 50px;
+      right: calc(50% - 150px);
+      width: 300px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 33.3%;
+        padding: 30px 0;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:nth-of-type(2) {
+          .wrapper {
+            border-right: 2px solid #5252ff;
+            border-left: 2px solid #5252ff;
+          }
+        }
+
+        .wrapper {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+
+          .checklist-counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 60px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #3f3fff;
+            border-radius: 100%;
+            background-color: white;
+            color: #3f3fff;
+            font-weight: 700;
+            z-index: 1;
+          }
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -151,7 +211,18 @@ const PlayList = ({
   const [isSimilarClicked, setIsSimilarClicked] = useState(false);
   const [isPlayListOpened, setIsPlayListOpened] = useState(true);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [checkedList, setCheckedList] = useState([]);
+
+  const onCheckedElement = (checked, item) => {
+    if (checked === false) {
+      setCheckedList([...checkedList, item]);
+    } else if (checked === true) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    } else console.log("no..");
+    console.log(checkedList);
+  };
 
   const inputRef = useRef();
 
@@ -239,6 +310,7 @@ const PlayList = ({
                 onClick={() => {
                   setIsSearchClicked(true);
                   setIsMoreMenuClicked(false);
+                  setIsEditClicked(false);
                 }}
               >
                 <IoSearchSharp size="18" className="icon" />
@@ -265,9 +337,10 @@ const PlayList = ({
                 className="menu"
                 onClick={() => {
                   setIsMoreMenuClicked(false);
+                  setIsEditClicked(!isEditClicked);
                 }}
               >
-                편집
+                {isEditClicked ? "완료" : "편집"}
               </div>
             )}
           </div>
@@ -348,11 +421,39 @@ const PlayList = ({
                   setIsMyPlayListClicked={setIsMyPlayListClicked}
                   isMoreMenuClicked={isMoreMenuClicked}
                   setIsMoreMenuClicked={setIsMoreMenuClicked}
+                  isEditClicked={isEditClicked}
+                  checkedList={checkedList}
+                  onCheckedElement={onCheckedElement}
                 />
               )}
             </div>
           )}
         </div>
+        {!isEditClicked || (
+          <div className="edit-inner-box">
+            <div className="edit-container">
+              <div className="edit-box">
+                <div className="wrapper">
+                  <div className="checklist-counter">{checkedList.length}</div>
+                  <AiOutlineCheck className="icon" />
+                  <div className="text">선택해제</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div className="wrapper">
+                  <VscNewFolder className="icon" />
+                  <div className="text">내 리스트</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div className="wrapper">
+                  <VscTrash className="icon" />
+                  <div className="text">삭제</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </StyledPlayList>
   );

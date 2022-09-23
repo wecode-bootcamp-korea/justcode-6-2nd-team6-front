@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { AiOutlineMore } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
@@ -5,7 +6,6 @@ import { IoDiscOutline } from "react-icons/io5";
 import { VscNewFolder } from "react-icons/vsc";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { MdEqualizer } from "react-icons/md";
-import { useState } from "react";
 
 const StyledPlayListMusic = styled.div`
   display: flex;
@@ -21,6 +21,9 @@ const StyledPlayListMusic = styled.div`
       padding: 10px 0;
       cursor: pointer;
 
+      .checkbox {
+        margin-right: 20px;
+      }
       .cover {
         width: 50px;
         height: 50px;
@@ -34,7 +37,7 @@ const StyledPlayListMusic = styled.div`
         height: 50px;
         border-radius: 5px;
         margin-right: 20px;
-        color: blue;
+        color: #3f3fff;
         background-size: cover;
       }
 
@@ -50,12 +53,12 @@ const StyledPlayListMusic = styled.div`
     }
 
     .playing-title-and-artist {
-      color: blue;
+      color: #3f3fff;
       .title {
       }
       .artist {
         margin-top: 10px;
-        color: blue;
+        color: #3f3fff;
         font-size: 14px;
       }
     }
@@ -96,7 +99,7 @@ const StyledPlayListMusic = styled.div`
         cursor: pointer;
 
         &:hover {
-          color: blue;
+          color: #3f3fff;
           background-color: #f5f5f5;
         }
 
@@ -119,6 +122,9 @@ const PlayListMusic = ({
   setSelectedSongId,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
+  isEditClicked,
+  checkedList,
+  onCheckedElement,
 }) => {
   const mapMusic = musicTracks.map((el, i) => {
     if (el.src !== "")
@@ -127,10 +133,20 @@ const PlayListMusic = ({
           <div
             className="song-info flex-center"
             onClick={() => {
-              setTrackIndex(i);
+              if (isEditClicked === false) setTrackIndex(i);
+              else if (isEditClicked === true)
+                onCheckedElement(checkedList.includes(el.id), el.id);
               setIsMoreMenuClicked(false);
             }}
           >
+            {!isEditClicked || (
+              <input
+                type="checkbox"
+                className="checkbox"
+                value={el.id}
+                checked={checkedList.includes(el.id) ? true : false}
+              />
+            )}
             <div
               style={{
                 backgroundImage:
@@ -178,7 +194,6 @@ const PlayListMusic = ({
                 else setIsMoreMenuClicked(true);
               }}
             />
-            {/* el.id !== selectedSongId 가 없으면 static 포지션을 가진 부모의 menulist가 출력됨 */}
             {el.id !== selectedSongId || !isMoreMenuClicked || (
               <div
                 className="more-menu-list"
