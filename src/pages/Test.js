@@ -23,7 +23,7 @@ const StyledTest = styled.div`
   }
 `;
 
-const Test = ({ sessionTracks, setSessionTracks, setTrackIndex }) => {
+const Test = ({ setTrackIndex, musicTracks, setMusicTracks }) => {
   const [testSongs, setTestSongs] = useState([
     { key: 0, id: 0, name: "", artist: "", img: "", src: "" },
   ]);
@@ -37,9 +37,9 @@ const Test = ({ sessionTracks, setSessionTracks, setTrackIndex }) => {
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem("tracks", JSON.stringify(sessionTracks));
-    if (sessionTracks.length !== 0) setTrackIndex(sessionTracks.length - 1);
-  }, [sessionTracks]);
+    sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
+    if (musicTracks.length !== 0) setTrackIndex(musicTracks.length - 1);
+  }, [musicTracks]);
 
   return (
     <StyledTest>
@@ -50,8 +50,8 @@ const Test = ({ sessionTracks, setSessionTracks, setTrackIndex }) => {
               <div>{el.name}</div>
               <button
                 onClick={() => {
-                  if (!sessionTracks.includes(el))
-                    setSessionTracks([...sessionTracks, el]);
+                  if (!musicTracks.includes(el))
+                    setMusicTracks([...musicTracks, el]);
                   else alert("현재 재생목록에 이미 존재하는 곡입니다.");
                 }}
               >

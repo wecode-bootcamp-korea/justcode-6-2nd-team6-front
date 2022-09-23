@@ -169,22 +169,18 @@ const StyledPlaybar = styled.div`
   }
 `;
 
-const Playbar = ({ sessionTracks, trackIndex, setTrackIndex }) => {
+const Playbar = ({
+  trackIndex,
+  setTrackIndex,
+  musicTracks,
+  setMusicTracks,
+}) => {
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
-  const [musicTracks, setMusicTracks] = useState([
-    {
-      id: 0,
-      name: "재생목록이 비어있습니다.",
-      artist: "비어있음",
-      img: "/Images/nothing.png",
-      src: "",
-    },
-  ]);
 
   return (
     <StyledPlaybar>
@@ -205,13 +201,23 @@ const Playbar = ({ sessionTracks, trackIndex, setTrackIndex }) => {
         )}
         <div className="song-info-box flex-center">
           <img
-            src={musicTracks[trackIndex].img}
+            src={
+              musicTracks.length === 0
+                ? "/Images/nothing.png"
+                : musicTracks[trackIndex].img
+            }
             alt="album cover"
             className="cover"
           />
           <div className="song-info-wrapper">
-            <div className="title">{musicTracks[trackIndex].name}</div>
-            <div className="artist">{musicTracks[trackIndex].artist}</div>
+            <div className="title">
+              {musicTracks.length === 0
+                ? "재생목록이 비어있습니다"
+                : musicTracks[trackIndex].name}
+            </div>
+            <div className="artist">
+              {musicTracks.length === 0 ? "--" : musicTracks[trackIndex].artist}
+            </div>
             {!isExpandedClicked || (
               <div className="like-and-add">
                 <IoMdHeartEmpty className="like" size="32" />
@@ -233,7 +239,6 @@ const Playbar = ({ sessionTracks, trackIndex, setTrackIndex }) => {
           setTrackIndex={setTrackIndex}
           isExpandedClicked={isExpandedClicked}
           setMusicTracks={setMusicTracks}
-          sessionTracks={sessionTracks}
         ></MusicPlayer>
         {isExpandedClicked || <HiOutlineHeart className="like" />}
         {isExpandedClicked || (
@@ -262,7 +267,9 @@ const Playbar = ({ sessionTracks, trackIndex, setTrackIndex }) => {
         <MyPlayList
           isMyPlayListClicked={isMyPlayListClicked}
           setIsMyPlayListClicked={setIsMyPlayListClicked}
-          playingMusicId={musicTracks[trackIndex].id}
+          playingMusicId={
+            musicTracks.length === 0 ? 0 : musicTracks[trackIndex].id
+          }
           selectedSongId={selectedSongId}
           isGetMyPlayListClicked={isGetMyPlayListClicked}
           setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}

@@ -413,6 +413,9 @@ const PlayList = ({
                   setIsMyPlayListClicked={setIsMyPlayListClicked}
                   isMoreMenuClicked={isMoreMenuClicked}
                   setIsMoreMenuClicked={setIsMoreMenuClicked}
+                  isEditClicked={isEditClicked}
+                  checkedList={checkedList}
+                  onCheckedElement={onCheckedElement}
                 />
               ) : (
                 <PlayListMusic
@@ -464,6 +467,11 @@ const PlayList = ({
                 <div
                   className="wrapper"
                   onClick={() => {
+                    setMusicTracks(
+                      musicTracks.filter((el, i) => {
+                        return !checkedList.includes(el.id);
+                      })
+                    );
                     setCheckedList([]);
                   }}
                 >

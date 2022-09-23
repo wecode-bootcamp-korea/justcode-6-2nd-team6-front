@@ -15,9 +15,8 @@ import Voucher from "./purchase/Voucher";
 import Affiliate from "./purchase/Affiliate";
 
 function Router() {
-  const [sessionTracks, setSessionTracks] = useState([]);
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
-
+  const [musicTracks, setMusicTracks] = useState([]);
   return (
     <BrowserRouter>
       <Header />
@@ -31,9 +30,9 @@ function Router() {
           path="/test"
           element={
             <Test
-              sessionTracks={sessionTracks}
-              setSessionTracks={setSessionTracks}
               setTrackIndex={setTrackIndex}
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
             />
           }
         />
@@ -44,9 +43,10 @@ function Router() {
       </Routes>
       <Footer />
       <Playbar
-        sessionTracks={sessionTracks}
         trackIndex={trackIndex}
         setTrackIndex={setTrackIndex}
+        musicTracks={musicTracks}
+        setMusicTracks={setMusicTracks}
       />
     </BrowserRouter>
   );

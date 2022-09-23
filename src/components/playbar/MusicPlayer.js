@@ -167,7 +167,6 @@ const MusicPlayer = ({
   musicTracks,
   setMusicTracks,
   isExpandedClicked,
-  sessionTracks,
 }) => {
   const handleClickPrevious = () => {
     setTrackIndex((currentTrack) =>
@@ -183,10 +182,10 @@ const MusicPlayer = ({
 
   const player = useRef();
 
-  // 음악 데이터 sessionTracks에서 불러오기
-  useEffect(() => {
-    if (sessionTracks.length !== 0) setMusicTracks(sessionTracks);
-  }, [sessionTracks]);
+  // useEffect(() => {
+  //   if (musicTracks.length !== 0)
+  //     setMusicTracks(JSON.stringify(sessionStorage.getItem("tracks")));
+  // }, [musicTracks]);
 
   useEffect(() => {
     player.current.audio.current.pause();
@@ -202,7 +201,7 @@ const MusicPlayer = ({
         }
       >
         <AudioPlayer
-          src={musicTracks[trackIndex].src}
+          src={musicTracks.length === 0 ? "" : musicTracks[trackIndex].src}
           showSkipControls={true}
           showJumpControls={false}
           layout={isExpandedClicked ? "stack" : "stacked-reverse"}
