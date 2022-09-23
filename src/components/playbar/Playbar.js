@@ -176,6 +176,7 @@ const Playbar = () => {
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
+  const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
   const [musicTracks, setMusicTracks] = useState([
     {
       id: 0,
@@ -254,6 +255,8 @@ const Playbar = () => {
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
             isMoreMenuClicked={isMoreMenuClicked}
             setIsMoreMenuClicked={setIsMoreMenuClicked}
+            isAddManySongs={isAddManySongs}
+            setIsAddManySongs={setIsAddManySongs}
           />
         )}
         <MyPlayList
@@ -263,6 +266,8 @@ const Playbar = () => {
           selectedSongId={selectedSongId}
           isGetMyPlayListClicked={isGetMyPlayListClicked}
           setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+          isAddManySongs={isAddManySongs}
+          setIsAddManySongs={setIsAddManySongs}
         />
       </div>
     </StyledPlaybar>

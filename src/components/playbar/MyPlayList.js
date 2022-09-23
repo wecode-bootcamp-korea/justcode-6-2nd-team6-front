@@ -131,6 +131,8 @@ const MyPlayList = ({
   selectedSongId,
   isGetMyPlayListClicked,
   setIsGetMyPlayListClicked,
+  isAddManySongs,
+  setIsAddManySongs,
 }) => {
   const [isAddNewPlayListClicked, setIsAddNewPlayListClicked] = useState(false);
   const arr = [1, 2, 3];
@@ -150,6 +152,7 @@ const MyPlayList = ({
       open={isMyPlayListClicked}
       onClose={() => {
         setIsMyPlayListClicked(false);
+        setIsAddManySongs(false);
         setTimeout(() => setIsGetMyPlayListClicked(false), 200);
       }}
     >
@@ -165,7 +168,9 @@ const MyPlayList = ({
         </div>
       ) : (
         <div className="my-play-list-inner-box">
-          <div className="title">내 리스트에 담기</div>
+          <div className="title">
+            {isAddManySongs ? "내 리스트에 담기(테스트)" : "내 리스트에 담기"}
+          </div>
           <div className="play-lists">
             {/* 새로운 리스트 추가하기 토글 */}
             {isAddNewPlayListClicked ? (

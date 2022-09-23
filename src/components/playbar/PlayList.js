@@ -146,8 +146,8 @@ const StyledPlayList = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         width: 33.3%;
-        padding: 30px 0;
         cursor: pointer;
         font-size: 14px;
 
@@ -158,30 +158,30 @@ const StyledPlayList = styled.div`
           }
         }
 
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
         .wrapper {
-          position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           width: 100%;
-
-          .checklist-counter {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            bottom: 60px;
-            left: 15px;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #3f3fff;
-            border-radius: 100%;
-            background-color: white;
-            color: #3f3fff;
-            font-weight: 700;
-            z-index: 1;
-          }
+          padding: 30px 0;
 
           .icon {
             margin-bottom: 20px;
@@ -205,6 +205,8 @@ const PlayList = ({
   setIsGetMyPlayListClicked,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
+  isAddManySongs,
+  setIsAddManySongs,
 }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
@@ -338,6 +340,7 @@ const PlayList = ({
                 onClick={() => {
                   setIsMoreMenuClicked(false);
                   setIsEditClicked(!isEditClicked);
+                  setCheckedList([]);
                 }}
               >
                 {isEditClicked ? "완료" : "편집"}
@@ -429,24 +432,40 @@ const PlayList = ({
             </div>
           )}
         </div>
-        {!isEditClicked || (
+        {!isEditClicked || checkedList.length == 0 || (
           <div className="edit-inner-box">
             <div className="edit-container">
               <div className="edit-box">
-                <div className="wrapper">
-                  <div className="checklist-counter">{checkedList.length}</div>
+                <div className="checklist-counter">{checkedList.length}</div>
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    setCheckedList([]);
+                  }}
+                >
                   <AiOutlineCheck className="icon" />
                   <div className="text">선택해제</div>
                 </div>
               </div>
               <div className="edit-box">
-                <div className="wrapper">
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    setIsMyPlayListClicked(true);
+                    setIsAddManySongs(true);
+                  }}
+                >
                   <VscNewFolder className="icon" />
                   <div className="text">내 리스트</div>
                 </div>
               </div>
               <div className="edit-box">
-                <div className="wrapper">
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    setCheckedList([]);
+                  }}
+                >
                   <VscTrash className="icon" />
                   <div className="text">삭제</div>
                 </div>
