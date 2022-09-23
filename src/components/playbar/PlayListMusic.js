@@ -102,6 +102,7 @@ const StyledPlayListMusic = styled.div`
 
         .icon {
           margin-right: 10px;
+          transform: scale(1.25);
         }
       }
     }
@@ -186,15 +187,15 @@ const PlayListMusic = ({
                 }}
               >
                 <div className="more-menu">
-                  <IoDiscOutline size="18" className="icon" />
+                  <IoDiscOutline className="icon" />
                   앨범 정보
                 </div>
                 <div className="more-menu">
-                  <BiMicrophone size="18" className="icon" />
+                  <BiMicrophone className="icon" />
                   아티스트 정보
                 </div>
                 <div className="more-menu">
-                  <IoMdHeartEmpty size="18" className="icon" />
+                  <IoMdHeartEmpty className="icon" />
                   좋아요
                 </div>
               </div>

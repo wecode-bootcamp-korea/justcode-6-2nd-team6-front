@@ -24,6 +24,7 @@ const StyledPlaybar = styled.div`
     height: 120px;
     background: black;
     color: white;
+    z-index: 10;
     font-family: "NanumBarunGothic", sans-serif;
 
     .song-info-box {
@@ -92,6 +93,7 @@ const StyledPlaybar = styled.div`
     height: 100%;
     background: #262626;
     color: white;
+    z-index: 10;
     overflow-y: auto;
     font-family: "NanumBarunGothic", sans-serif;
 
@@ -184,16 +186,6 @@ const Playbar = () => {
     },
   ]);
 
-  // 음악 mockdata 불러오기
-  useEffect(() => {
-    fetch("http://localhost:3000/music-track-data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.length !== 0) setMusicTracks(data);
-      });
-  }, []);
-
   return (
     <StyledPlaybar>
       <div
@@ -240,6 +232,7 @@ const Playbar = () => {
           musicTracks={musicTracks}
           setTrackIndex={setTrackIndex}
           isExpandedClicked={isExpandedClicked}
+          setMusicTracks={setMusicTracks}
         ></MusicPlayer>
         {isExpandedClicked || <HiOutlineHeart className="like" />}
         {isExpandedClicked || (
