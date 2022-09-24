@@ -245,129 +245,129 @@ const My = () => {
   return (
     <StyledMy>
       <div className='my-wrap'>
-        '!토큰' ? (
-        <div className='full-msg'>
-          <div className='full-msg-cnt'>
-            <strong className='text-black'>로그인해주세요.</strong>
-            <span className='text-gray'>
-              로그인하시면 더욱 더 다양한
-              <br />
-              FLOrida를 즐길 수 있어요.
-            </span>
-            <div
-              className='full-msg-btn'
-              onClick={() => {
-                navigate('/login');
-              }}
-            >
-              <span>로그인</span>
+        {'!토큰' ? (
+          <div className='full-msg'>
+            <div className='full-msg-cnt'>
+              <strong className='text-black'>로그인해주세요.</strong>
+              <span className='text-gray'>
+                로그인하시면 더욱 더 다양한
+                <br />
+                FLOrida를 즐길 수 있어요.
+              </span>
+              <div
+                className='full-msg-btn'
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                <span>로그인</span>
+              </div>
             </div>
           </div>
-        </div>
         ) : (
-        <div className='now-voucher-wrap'>
-          <section className='my-voucher-section'>
-            <h3 className='my-section-title'>사용 중인 이용권</h3>
-            <div className='voucher-card'>
-              <div className='voucher-card-item voucher-card-using'>
-                <div className='card-left'>
-                  <h4 className='name'>무제한 듣기 정기결제</h4>
-                  <span className='voucher-label'>사용 중</span>
-                  <div className='etc-area'>
-                    <button type='button' className='link-layer'>
-                      이용권 관리
-                    </button>
-                  </div>
-                </div>
-                <div className='card-right'>
-                  <ul className='voucher-info-list'>
-                    <li>
-                      <span className='th'>사용기간</span>
-                      <span className='td'>2022.10.23 23:59:59 까지</span>
-                    </li>
-                    <li>
-                      <span className='th'>구매출처</span>
-                      <span className='td'>FLOrida</span>
-                    </li>
-                    <li>
-                      <span className='th'>결제설정</span>
-                      <span className='td'>카카오페이</span>
-                    </li>
-                    <li>
-                      <span className='th'>결제수단</span>
-                      <span className='td'>카카오페이</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section className='my-voucher-section'>
-            <h3>사용 대기 이용권</h3>
-            <div className='voucher-card'>
-              <ul className='voucher-card-list'>
-                <li>
-                  <div className='voucher-card-item voucher-card-waiting'>
-                    <div className='card-left'>
-                      <a href='#'>
-                        <h4 className='name'>
-                          무제한 듣기 정기결제
-                          <FaChevronRight className='ico-arrow-right' />
-                        </h4>
-                        <p className='desc'></p>
-                      </a>
-                      <span className='voucher-label'>결제예정</span>
-                    </div>
-                    <div className='card-right'>
-                      <ul className='voucher-info-list'>
-                        <li>
-                          <span className='th'>사용기간</span>
-                          <span className='td'>2022-10-24 ~ 2022-11-23</span>
-                        </li>
-                        <li>
-                          <span className='th'>구매출처</span>
-                          <span className='td'>FLOrida</span>
-                        </li>
-                        <li>
-                          <span className='th'>결제설정</span>
-                          <span className='td'>정기결제</span>
-                        </li>
-                        <li>
-                          <span className='th'>결제수단</span>
-                          <span className='td'>
-                            카카오페이
-                            <button
-                              type='button'
-                              className='btn-underlink color-blue'
-                            >
-                              <u>결제수단관리</u>
-                            </button>
-                          </span>
-                        </li>
-                      </ul>
+          <div className='now-voucher-wrap'>
+            <section className='my-voucher-section'>
+              <h3 className='my-section-title'>사용 중인 이용권</h3>
+              <div className='voucher-card'>
+                <div className='voucher-card-item voucher-card-using'>
+                  <div className='card-left'>
+                    <h4 className='name'>무제한 듣기 정기결제</h4>
+                    <span className='voucher-label'>사용 중</span>
+                    <div className='etc-area'>
+                      <button type='button' className='link-layer'>
+                        이용권 관리
+                      </button>
                     </div>
                   </div>
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section className='my-voucher-section'>
-            <h3 className='my-section-title'>
-              <a href='#' role='button'>
-                사용 완료된 이용권
-                <FaChevronUp className='ico-arrow' />
-              </a>
-            </h3>
-            <div className='voucher-card'>
-              <div className='voucher-card-item'>
-                <div className='msg-novoucher'>
-                  <span>사용 완료 내역이 없습니다.</span>
+                  <div className='card-right'>
+                    <ul className='voucher-info-list'>
+                      <li>
+                        <span className='th'>사용기간</span>
+                        <span className='td'>2022.10.23 23:59:59 까지</span>
+                      </li>
+                      <li>
+                        <span className='th'>구매출처</span>
+                        <span className='td'>FLOrida</span>
+                      </li>
+                      <li>
+                        <span className='th'>결제설정</span>
+                        <span className='td'>카카오페이</span>
+                      </li>
+                      <li>
+                        <span className='th'>결제수단</span>
+                        <span className='td'>카카오페이</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </div>
-        )
+            </section>
+            <section className='my-voucher-section'>
+              <h3>사용 대기 이용권</h3>
+              <div className='voucher-card'>
+                <ul className='voucher-card-list'>
+                  <li>
+                    <div className='voucher-card-item voucher-card-waiting'>
+                      <div className='card-left'>
+                        <a href='#'>
+                          <h4 className='name'>
+                            무제한 듣기 정기결제
+                            <FaChevronRight className='ico-arrow-right' />
+                          </h4>
+                          <p className='desc'></p>
+                        </a>
+                        <span className='voucher-label'>결제예정</span>
+                      </div>
+                      <div className='card-right'>
+                        <ul className='voucher-info-list'>
+                          <li>
+                            <span className='th'>사용기간</span>
+                            <span className='td'>2022-10-24 ~ 2022-11-23</span>
+                          </li>
+                          <li>
+                            <span className='th'>구매출처</span>
+                            <span className='td'>FLOrida</span>
+                          </li>
+                          <li>
+                            <span className='th'>결제설정</span>
+                            <span className='td'>정기결제</span>
+                          </li>
+                          <li>
+                            <span className='th'>결제수단</span>
+                            <span className='td'>
+                              카카오페이
+                              <button
+                                type='button'
+                                className='btn-underlink color-blue'
+                              >
+                                <u>결제수단관리</u>
+                              </button>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <section className='my-voucher-section'>
+              <h3 className='my-section-title'>
+                <a href='#' role='button'>
+                  사용 완료된 이용권
+                  <FaChevronUp className='ico-arrow' />
+                </a>
+              </h3>
+              <div className='voucher-card'>
+                <div className='voucher-card-item'>
+                  <div className='msg-novoucher'>
+                    <span>사용 완료 내역이 없습니다.</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
       </div>
     </StyledMy>
   );
