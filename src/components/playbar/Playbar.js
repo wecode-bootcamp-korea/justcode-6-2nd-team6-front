@@ -3,6 +3,7 @@ import { RiPlayListFill } from "react-icons/ri";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
 import { VscNewFolder } from "react-icons/vsc";
+import { BiShuffle } from "react-icons/bi";
 
 import MyPlayList from "./MyPlayList";
 import styled from "styled-components";
@@ -14,6 +15,32 @@ const StyledPlaybar = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .shuffle {
+    position: absolute;
+    right: 36.02%;
+    top: 23px;
+    color: #545454;
+    transform: scale(0.82);
+    cursor: pointer;
+
+    &:hover {
+      color: #181818;
+    }
+  }
+
+  .expanded-shuffle {
+    position: absolute;
+    right: 110px;
+    top: 158px;
+    color: #868686;
+    z-index: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: #3b3b3c;
+    }
   }
 
   .playbar-inner-box {
@@ -225,6 +252,7 @@ const Playbar = ({
                 ? "--"
                 : musicTracks[trackIndex].songArtist}
             </div>
+
             {!isExpandedClicked || (
               <div className="like-and-add">
                 <IoMdHeartEmpty className="like" size="32" />
@@ -238,8 +266,21 @@ const Playbar = ({
                 />
               </div>
             )}
+            {!isExpandedClicked || (
+              <BiShuffle
+                size="35.1"
+                className="expanded-shuffle"
+                onClick={() => {
+                  const randomTracks = musicTracks.sort(
+                    () => Math.random() - 0.5
+                  );
+                  setMusicTracks([...randomTracks]);
+                }}
+              />
+            )}
           </div>
         </div>
+
         <MusicPlayer
           trackIndex={trackIndex}
           musicTracks={musicTracks}
@@ -255,7 +296,16 @@ const Playbar = ({
           />
         )}
 
-        {!isExpandedClicked || false || (
+        <BiShuffle
+          size="35.1"
+          className="shuffle"
+          onClick={() => {
+            const randomTracks = musicTracks.sort(() => Math.random() - 0.5);
+            setMusicTracks([...randomTracks]);
+          }}
+        />
+
+        {!isExpandedClicked || (
           <PlayList
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}

@@ -97,6 +97,13 @@ const StyledMusicPlayer = styled.div`
       background-color: rgba(0, 0, 0, 0);
       box-shadow: none;
 
+      .rhap_volume-container {
+        position: absolute;
+        left: 20px;
+        bottom: -30px;
+        width: 110px;
+      }
+
       .rhap_controls-section {
         margin: 50px 0;
       }
@@ -150,8 +157,14 @@ const StyledMusicPlayer = styled.div`
         margin: 0px 50px;
       }
 
+      .rhap_main-controls {
+        margin-left: 27.5px;
+      }
+
       .rhap_repeat-button {
-        transform: scale(1.1);
+        position: absolute;
+        left: 150px;
+        transform: scale(1.35);
         &:hover {
           color: #3d3d3f;
           transition: 0s ease-out;

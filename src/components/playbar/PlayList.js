@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import SimilarSong from "./SimilarSong";
+import PlayListMusic from "./PlayListMusic";
 import { useState, useEffect, useRef } from "react";
 import { IoSearchSharp, IoFileTrayOutline } from "react-icons/io5";
 import { RiPlayListFill } from "react-icons/ri";
@@ -9,13 +11,11 @@ import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 
-import PlayListMusic from "./PlayListMusic";
-
 const StyledPlayList = styled.div`
   .play-list-inner-box {
     flex-direction: column;
     width: 670px;
-    padding: 30px 0;
+    padding: 90px 0 30px 0;
     font-size: 18px;
 
     .menu-list {
@@ -217,6 +217,22 @@ const PlayList = ({
   const [inputValue, setInputValue] = useState("");
   const [checkedList, setCheckedList] = useState([]);
 
+  const [sameArtistsMusic, setSameArtistsMusic] = useState([]);
+  const [sameGenreMusic, setSameGenreMusic] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/datas/same-artist-song-data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setSameArtistsMusic(data);
+      });
+    fetch("http://localhost:3000/datas/same-genre-song-data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setSameGenreMusic(data);
+      });
+  }, [trackIndex]);
+
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
       setCheckedList([...checkedList, item]);
@@ -304,7 +320,7 @@ const PlayList = ({
             유사곡
           </div>
         </div>
-        {isSearchClicked || (
+        {isSearchClicked || !isPlayListClicked || (
           <div className="play-list-menu flex-center">
             <div className="menu-wrapper flex-center">
               <div
@@ -412,42 +428,60 @@ const PlayList = ({
               />
             )}
           </div>
-          {!isPlayListOpened || musicTracks.length === 0 || (
-            <div className="play-list-music-container">
-              {isSearchClicked ? (
-                <PlayListMusic
-                  musicTracks={filteredTracks}
-                  setMusicTracks={setMusicTracks}
-                  trackIndex={trackIndex}
-                  setTrackIndex={setTrackIndex}
-                  selectedSongId={selectedSongId}
-                  setSelectedSongId={setSelectedSongId}
-                  setIsMyPlayListClicked={setIsMyPlayListClicked}
-                  isMoreMenuClicked={isMoreMenuClicked}
-                  setIsMoreMenuClicked={setIsMoreMenuClicked}
-                  isEditClicked={isEditClicked}
-                  checkedList={checkedList}
-                  setCheckedList={setCheckedList}
-                  onCheckedElement={onCheckedElement}
-                />
-              ) : (
-                <PlayListMusic
-                  musicTracks={musicTracks}
-                  setMusicTracks={setMusicTracks}
-                  trackIndex={trackIndex}
-                  setTrackIndex={setTrackIndex}
-                  selectedSongId={selectedSongId}
-                  setSelectedSongId={setSelectedSongId}
-                  setIsMyPlayListClicked={setIsMyPlayListClicked}
-                  isMoreMenuClicked={isMoreMenuClicked}
-                  setIsMoreMenuClicked={setIsMoreMenuClicked}
-                  isEditClicked={isEditClicked}
-                  checkedList={checkedList}
-                  setCheckedList={setCheckedList}
-                  onCheckedElement={onCheckedElement}
-                />
-              )}
-            </div>
+          {/* 재생목록 & 검색된 재생 목록 */}
+          {!isPlayListOpened ||
+            musicTracks.length === 0 ||
+            !isPlayListClicked || (
+              <div className="play-list-music-container">
+                {isSearchClicked ? (
+                  <PlayListMusic
+                    musicTracks={filteredTracks}
+                    setMusicTracks={setMusicTracks}
+                    trackIndex={trackIndex}
+                    setTrackIndex={setTrackIndex}
+                    selectedSongId={selectedSongId}
+                    setSelectedSongId={setSelectedSongId}
+                    setIsMyPlayListClicked={setIsMyPlayListClicked}
+                    isMoreMenuClicked={isMoreMenuClicked}
+                    setIsMoreMenuClicked={setIsMoreMenuClicked}
+                    isEditClicked={isEditClicked}
+                    checkedList={checkedList}
+                    setCheckedList={setCheckedList}
+                    onCheckedElement={onCheckedElement}
+                  />
+                ) : (
+                  <PlayListMusic
+                    musicTracks={musicTracks}
+                    setMusicTracks={setMusicTracks}
+                    trackIndex={trackIndex}
+                    setTrackIndex={setTrackIndex}
+                    selectedSongId={selectedSongId}
+                    setSelectedSongId={setSelectedSongId}
+                    setIsMyPlayListClicked={setIsMyPlayListClicked}
+                    isMoreMenuClicked={isMoreMenuClicked}
+                    setIsMoreMenuClicked={setIsMoreMenuClicked}
+                    isEditClicked={isEditClicked}
+                    checkedList={checkedList}
+                    setCheckedList={setCheckedList}
+                    onCheckedElement={onCheckedElement}
+                  />
+                )}
+              </div>
+            )}
+          {/* 아티스트 & 유사곡 */}
+          {!isArtistClicked || (
+            <SimilarSong
+              data={sameArtistsMusic}
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+            />
+          )}
+          {!isSimilarClicked || (
+            <SimilarSong
+              data={sameGenreMusic}
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+            />
           )}
         </div>
         {!isEditClicked || checkedList.length == 0 || (

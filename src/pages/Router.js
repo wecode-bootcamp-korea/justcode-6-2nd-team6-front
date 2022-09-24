@@ -26,6 +26,7 @@ function Router() {
 
   // musicTracks에 변화가 있을 때, 세션스토리지 값 변경 및 TrackIndex 0으로 설정
   useEffect(() => {
+    console.log("바뀜!");
     sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
