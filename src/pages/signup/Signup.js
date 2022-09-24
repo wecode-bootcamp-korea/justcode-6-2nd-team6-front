@@ -78,7 +78,7 @@ const Signup = () => {
     <StyledSignup>
       <div className='signup-inner-box'>
         <a className='signup-logo-box'>
-          <img src='/Images/logo.png' alt='플로리다로고' />
+          <img src={process.env.PUBLIC_URL + '/Images/logo.png' }alt='플로리다로고' />
         </a>
       </div>
       <span className='signup-text'>다음 가입방법 중 하나를 선택하세요</span>

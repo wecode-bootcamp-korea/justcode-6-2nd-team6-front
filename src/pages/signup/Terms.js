@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Popup from './Popup';
 
@@ -166,7 +167,6 @@ const StyledTerms = styled.div`
 
 const Terms = () => {
   const [checkList, setCheckList] = useState([]);
-  const [activate, setActivate] = useState('button');
   const [disabled, setDisabled] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [toggle2, setToggle2] = useState(false);
@@ -206,9 +206,11 @@ const Terms = () => {
   return (
     <StyledTerms>
       <div className='terms-inner-box'>
-        <a className='terms-logo-box'>
-          <img src='/Images/logo.png' alt='플로리다로고' />
-        </a>
+
+        <NavLink to='/' className='terms-logo-box'>
+          <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt='플로리다로고' />
+        </NavLink>
+
         <div className='terms-container'>
           <div className='terms-list-inner-box'>
             <span className='terms-title'>이용약관</span>
