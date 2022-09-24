@@ -57,7 +57,13 @@ const StyledBrowseMenu = styled.div`
                 border: 1px solid #777;
                 border-radius: 100px;
                font-size: 14px;
-               cursor: pointer;}
+               cursor: pointer;
+            &:hover{
+                border: 1px solid #3F3FFF;
+                color: #3F3FFF;
+            }
+
+            }
             }
             .tab-more-btn-on{
                 position: absolute;
@@ -117,63 +123,6 @@ const StyledBrowseMenu = styled.div`
             }
         }
     }
-}
-`
-
-const StyledGenre = styled.div`
-.genre-inner-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 1280px;
-    margin: 0 auto;
-    padding: 100px 0px;
-    .genre-list-inner-box{
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        /* 테마별 제목 */
-        .genre-title-text{
-            display: block;
-            font:bold 22px/1 'apple';
-            margin-bottom: 20px;
-        }
-        /* 버튼 inner box */
-        .genre-list-box{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 0 auto;
-            /* 버튼  */
-        .genre-list-item{
-            
-            position: relative;
-            width: 215px;
-            height: 100px;
-            margin-right: 35px;
-            margin-bottom: 30px;
-            a{
-                display: block;
-                width: 100%;
-                height: 100%;
-            img{
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
-                object-fit: cover;
-           }
-           span{
-                    position: absolute;
-                    top: 20px;
-                    left: 20px;
-                    font: 15px/1 'apple';
-                    color: #fff;
-                }
-            }
-        }
-    }
-}
 }
 `
 

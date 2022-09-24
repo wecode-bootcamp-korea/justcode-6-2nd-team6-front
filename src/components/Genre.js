@@ -67,10 +67,6 @@ const Genre = () => {
     const [atmosphere, setAtmosphere] = useState('')
     const [audio, setAudio] = useState('')
 
-
-console.log(genre);
-
-
     useEffect(() => {
         fetch("http://localhost:3000/data/genredata.json")
             .then((res) => res.json())
