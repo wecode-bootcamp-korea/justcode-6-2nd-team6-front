@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Login from "./login/Login";
@@ -8,11 +8,15 @@ import Signform from "./signup/Signform";
 import Signup from "./signup/Signup";
 import Terms from "./signup/Terms";
 import Test from "./Test";
-
 import Playbar from "../components/playbar/Playbar";
 import Purchase from "./purchase/Purchase";
 import Voucher from "./purchase/Voucher";
 import Affiliate from "./purchase/Affiliate";
+import My from "./purchase/My";
+import { Addtab, Browsemenu } from "../components/Browsemenu";
+import Genre from "../components/Genre";
+import Main from "./main/Main";
+import Detail from "../components/Detail";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -46,10 +50,14 @@ function Router() {
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
+        <Route path="/genre" element={<Genre />} />
+        <Route path="/browse/:category" element={<Browsemenu />} />
         <Route path="/purchase" element={<Purchase />}>
           <Route path="voucher" element={<Voucher />}></Route>
           <Route path="affiliate" element={<Affiliate />}></Route>
         </Route>
+        <Route path="/" element={<Main />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
       <Footer />
       <Playbar
