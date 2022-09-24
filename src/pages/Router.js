@@ -17,6 +17,18 @@ import Affiliate from "./purchase/Affiliate";
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
+
+  // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
+  useEffect(() => {
+    setMusicTracks(JSON.parse(sessionStorage.getItem("tracks")));
+  }, []);
+
+  // musicTracks에 변화가 있을 때, 세션스토리지 값 변경 및 TrackIndex 0으로 설정
+  useEffect(() => {
+    sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
+    if (musicTracks.length !== 0) setTrackIndex(0);
+  }, [musicTracks]);
+
   return (
     <BrowserRouter>
       <Header />
@@ -29,11 +41,7 @@ function Router() {
         <Route
           path="/test"
           element={
-            <Test
-              setTrackIndex={setTrackIndex}
-              musicTracks={musicTracks}
-              setMusicTracks={setMusicTracks}
-            />
+            <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
         <Route path="/purchase" element={<Purchase />}>

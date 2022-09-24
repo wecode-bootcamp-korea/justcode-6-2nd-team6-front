@@ -182,13 +182,8 @@ const MusicPlayer = ({
 
   const player = useRef();
 
-  // useEffect(() => {
-  //   if (musicTracks.length !== 0)
-  //     setMusicTracks(JSON.stringify(sessionStorage.getItem("tracks")));
-  // }, [musicTracks]);
-
   useEffect(() => {
-    player.current.audio.current.pause();
+    setTimeout(() => player.current.audio.current.pause(), 100);
   }, []);
 
   return (

@@ -23,7 +23,7 @@ const StyledTest = styled.div`
   }
 `;
 
-const Test = ({ setTrackIndex, musicTracks, setMusicTracks }) => {
+const Test = ({ musicTracks, setMusicTracks }) => {
   const [testSongs, setTestSongs] = useState([
     { key: 0, id: 0, name: "", artist: "", img: "", src: "" },
   ]);
@@ -35,11 +35,6 @@ const Test = ({ setTrackIndex, musicTracks, setMusicTracks }) => {
         setTestSongs(data);
       });
   }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
-    if (musicTracks.length !== 0) setTrackIndex(0);
-  }, [musicTracks]);
 
   return (
     <StyledTest>
