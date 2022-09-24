@@ -471,7 +471,7 @@ const PlayList = ({
               </div>
             )}
           {/* 아티스트 & 유사곡 */}
-          {!isArtistClicked || sameArtistsMusic === 0 || (
+          {!isArtistClicked || sameArtistsMusic.length === 0 || (
             <SimilarSong
               data={sameArtistsMusic}
               musicTracks={musicTracks}
