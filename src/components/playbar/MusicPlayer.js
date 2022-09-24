@@ -183,7 +183,7 @@ const MusicPlayer = ({
   const player = useRef();
 
   useEffect(() => {
-    setTimeout(() => player.current.audio.current.pause(), 100);
+    setTimeout(() => player.current.audio.current.pause(), 10);
   }, []);
 
   return (
