@@ -1,0 +1,86 @@
+{
+  "slideData": {
+    "slideTitleData": [
+      {
+        "titleId": 1,
+        "listTitle": "퇴근 후 쇠질엔 이만한 플리가 없지😎",
+        "listTotal": "총 14곡",
+        "listDate": "2022.09.15"
+      },
+      {
+        "titleId": 2,
+        "listTitle": "퇴근 후 쇠질엔 이만한 플리가 없지😎",
+        "listTotal": "총 14곡",
+        "listDate": "2022.09.15"
+      },
+      {
+        "titleId": 3,
+        "listTitle": "퇴근 후 쇠질엔 이만한 플리가 없지😎",
+        "listTotal": "총 14곡",
+        "listDate": "2022.09.15"
+      },
+      {
+        "titleId": 4,
+        "listTitle": "퇴근 후 쇠질엔 이만한 플리가 없지😎",
+        "listTotal": "총 14곡",
+        "listDate": "2022.09.15"
+      },
+      {
+        "titleId": 5,
+        "listTitle": "퇴근 후 쇠질엔 이만한 플리가 없지😎",
+        "listTotal": "총 14곡",
+        "listDate": "2022.09.15"
+      }
+    ],
+    "slideSongData": [
+      {
+        "songId": 1,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Natural",
+        "slideSinger": "Imagine Dragons"
+      },
+      {
+        "songId": 2,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Full Nelson",
+        "slideSinger": "Limp Bizkit"
+      },
+      {
+        "songId": 3,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Fighting",
+        "slideSinger": "Yellowcard"
+      },
+      {
+        "songId": 4,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Uma Thurman",
+        "slideSinger": "Fall Out Boy"
+      },
+      {
+        "songId": 5,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Natural",
+        "slideSinger": "Imagine Dragons"
+      },
+      {
+        "songId": 6,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Full Nelson",
+        "slideSinger": "Limp Bizkit"
+      },
+      {
+        "songId": 7,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Fighting",
+        "slideSinger": "Yellowcard"
+      },
+      {
+        "songId": 8,
+        "slideSongImg": "/Images/album-cover.jpg",
+        "slideSongName": "Uma Thurman",
+        "slideSinger": "Fall Out Boy"
+      }
+    ]
+  }
+}

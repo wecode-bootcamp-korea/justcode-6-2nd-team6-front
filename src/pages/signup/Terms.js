@@ -206,9 +206,11 @@ const Terms = () => {
   return (
     <StyledTerms>
       <div className='terms-inner-box'>
-
         <NavLink to='/' className='terms-logo-box'>
-          <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt='플로리다로고' />
+          <img
+            src={process.env.PUBLIC_URL + '/images/logo.png'}
+            alt='플로리다로고'
+          />
         </NavLink>
 
         <div className='terms-container'>

@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { RiPlayListFill } from "react-icons/ri";
-import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
-import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
-import { VscNewFolder } from "react-icons/vsc";
+import { useEffect, useState } from 'react';
+import { RiPlayListFill } from 'react-icons/ri';
+import { HiOutlineHeart, HiHeart } from 'react-icons/hi'; // player like
+import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io'; // expanded player like
+import { VscNewFolder } from 'react-icons/vsc';
 
-import MyPlayList from "./MyPlayList";
-import styled from "styled-components";
-import MusicPlayer from "./MusicPlayer";
-import PlayList from "./PlayList";
+import MyPlayList from './MyPlayList';
+import styled from 'styled-components';
+import MusicPlayer from './MusicPlayer';
+import PlayList from './PlayList';
 
 const StyledPlaybar = styled.div`
   .flex-center {
@@ -25,7 +25,7 @@ const StyledPlaybar = styled.div`
     background: black;
     color: white;
     z-index: 10;
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
 
     .song-info-box {
       position: fixed;
@@ -95,7 +95,7 @@ const StyledPlaybar = styled.div`
     color: white;
     z-index: 10;
     overflow-y: auto;
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
 
     &::-webkit-scrollbar {
       display: none;
@@ -179,10 +179,10 @@ const Playbar = () => {
   const [musicTracks, setMusicTracks] = useState([
     {
       id: 0,
-      name: "재생목록이 비어있습니다.",
-      artist: "비어있음",
-      img: "/Images/nothing.png",
-      src: "",
+      name: '재생목록이 비어있습니다.',
+      artist: '비어있음',
+      img: '/Images/nothing.png',
+      src: '',
     },
   ]);
 
@@ -191,33 +191,33 @@ const Playbar = () => {
       <div
         className={
           isExpandedClicked
-            ? "expanded-player-inner-box flex-center"
-            : "playbar-inner-box flex-center"
+            ? 'expanded-player-inner-box flex-center'
+            : 'playbar-inner-box flex-center'
         }
       >
         {!isExpandedClicked || (
           <img
-            src="/Images/down-arrow.png"
-            alt="close"
-            className="close"
+            src='/Images/down-arrow.png'
+            alt='close'
+            className='close'
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
-        <div className="song-info-box flex-center">
+        <div className='song-info-box flex-center'>
           <img
             src={musicTracks[trackIndex].img}
-            alt="album cover"
-            className="cover"
+            alt='album cover'
+            className='cover'
           />
-          <div className="song-info-wrapper">
-            <div className="title">{musicTracks[trackIndex].name}</div>
-            <div className="artist">{musicTracks[trackIndex].artist}</div>
+          <div className='song-info-wrapper'>
+            <div className='title'>{musicTracks[trackIndex].name}</div>
+            <div className='artist'>{musicTracks[trackIndex].artist}</div>
             {!isExpandedClicked || (
-              <div className="like-and-add">
-                <IoMdHeartEmpty className="like" size="32" />
+              <div className='like-and-add'>
+                <IoMdHeartEmpty className='like' size='32' />
                 <VscNewFolder
-                  className="add-play-list"
-                  size="30"
+                  className='add-play-list'
+                  size='30'
                   onClick={() => {
                     setIsMyPlayListClicked(true);
                     setSelectedSongId(Infinity);
@@ -234,10 +234,10 @@ const Playbar = () => {
           isExpandedClicked={isExpandedClicked}
           setMusicTracks={setMusicTracks}
         ></MusicPlayer>
-        {isExpandedClicked || <HiOutlineHeart className="like" />}
+        {isExpandedClicked || <HiOutlineHeart className='like' />}
         {isExpandedClicked || (
           <RiPlayListFill
-            className="playlist"
+            className='playlist'
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
