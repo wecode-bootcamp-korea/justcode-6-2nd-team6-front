@@ -14,6 +14,8 @@ import Affiliate from './purchase/Affiliate';
 import My from './purchase/My';
 import { Addtab, Browsemenu } from '../components/Browsemenu';
 import Genre from '../components/Genre';
+import Main from './main/Main';
+import Detail from '../components/Detail';
 
 function Router() {
   return (
@@ -31,6 +33,8 @@ function Router() {
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
+        <Route path='/' element={<Main />} />
+        <Route path='/detail' element={<Detail />} />
       </Routes>
       <Footer />
       <Playbar />
