@@ -187,7 +187,7 @@ const FirstSection = () => {
               <div key={result.titleId} className='first-section-wrap'>
                 {/* 첫번째 슬라이드 */}
                 <div className='first-section-slider-box'>
-                  <Link to='/detail' className='first-section-slider-flex'>
+                  <Link to='#' className='first-section-slider-flex'>
                     {/* 플리 소개 */}
                     <div className='first-section-slider-info'>
                       <h4 className='first-section-slider-title'>

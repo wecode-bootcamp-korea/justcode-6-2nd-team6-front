@@ -210,7 +210,7 @@ const SecondSection = () => {
                   className='second-section-album-box'
                 >
                   <div className='second-section-album-list'>
-                    <Link to='/detail' className='second-section-album-link'>
+                    <Link to='#' className='second-section-album-link'>
                       <div className='second-section-album-img-box'>
                         <img
                           className='second-section-album-cover'
