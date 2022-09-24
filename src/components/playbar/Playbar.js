@@ -166,6 +166,11 @@ const StyledPlaybar = styled.div`
         }
       }
     }
+    .only-members {
+      padding: 10px 0 50px 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
   }
 `;
 
@@ -204,7 +209,7 @@ const Playbar = ({
             src={
               musicTracks.length === 0
                 ? "/Images/nothing.png"
-                : musicTracks[trackIndex].img
+                : musicTracks[trackIndex].albumCover
             }
             alt="album cover"
             className="cover"
@@ -213,10 +218,12 @@ const Playbar = ({
             <div className="title">
               {musicTracks.length === 0
                 ? "재생목록이 비어있습니다"
-                : musicTracks[trackIndex].name}
+                : musicTracks[trackIndex].songTitle}
             </div>
             <div className="artist">
-              {musicTracks.length === 0 ? "--" : musicTracks[trackIndex].artist}
+              {musicTracks.length === 0
+                ? "--"
+                : musicTracks[trackIndex].songArtist}
             </div>
             {!isExpandedClicked || (
               <div className="like-and-add">
@@ -247,7 +254,8 @@ const Playbar = ({
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
-        {!isExpandedClicked || (
+
+        {!isExpandedClicked || false || (
           <PlayList
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
@@ -264,6 +272,7 @@ const Playbar = ({
             setIsAddManySongs={setIsAddManySongs}
           />
         )}
+
         <MyPlayList
           isMyPlayListClicked={isMyPlayListClicked}
           setIsMyPlayListClicked={setIsMyPlayListClicked}

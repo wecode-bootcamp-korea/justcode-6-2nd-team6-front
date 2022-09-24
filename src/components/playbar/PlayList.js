@@ -234,7 +234,7 @@ const PlayList = ({
 
   const filteredTracks = musicTracks.map((el) => {
     if (
-      el.name
+      el.songTitle
         .replace(/(\s*)/g, "")
         .toUpperCase()
         .includes(inputValue.replace(/(\s*)/g, "").toUpperCase())
@@ -242,11 +242,11 @@ const PlayList = ({
       return el;
     } else
       return {
-        key: el.key,
-        name: "none",
-        artist: "none",
-        img: "",
-        src: "",
+        id: el.key,
+        songTitle: "none",
+        songArtist: "none",
+        albumCover: "",
+        content: "",
       };
   });
 
@@ -427,6 +427,7 @@ const PlayList = ({
                   setIsMoreMenuClicked={setIsMoreMenuClicked}
                   isEditClicked={isEditClicked}
                   checkedList={checkedList}
+                  setCheckedList={setCheckedList}
                   onCheckedElement={onCheckedElement}
                 />
               ) : (
@@ -442,6 +443,7 @@ const PlayList = ({
                   setIsMoreMenuClicked={setIsMoreMenuClicked}
                   isEditClicked={isEditClicked}
                   checkedList={checkedList}
+                  setCheckedList={setCheckedList}
                   onCheckedElement={onCheckedElement}
                 />
               )}

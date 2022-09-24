@@ -25,7 +25,13 @@ const StyledTest = styled.div`
 
 const Test = ({ musicTracks, setMusicTracks }) => {
   const [testSongs, setTestSongs] = useState([
-    { key: 0, id: 0, name: "", artist: "", img: "", src: "" },
+    {
+      id: 1,
+      songTitle: "Memories",
+      songArtist: "Royalty Free Music from Bensound",
+      albumCover: "https://i.esdrop.com/d/f/WFi7Wlweew/MBH574A3dR.jpg",
+      content: "https://www.bensound.com/bensound-music/bensound-memories.mp3",
+    },
   ]);
 
   useEffect(() => {
@@ -41,8 +47,8 @@ const Test = ({ musicTracks, setMusicTracks }) => {
       <div className="test">
         {testSongs.map((el, i) => {
           return (
-            <div className="song-box" key={el.key}>
-              <div>{el.name}</div>
+            <div className="song-box" key={el.id}>
+              <div>{el.songTitle}</div>
               <button
                 onClick={() => {
                   if (!musicTracks.includes(el))

@@ -196,7 +196,7 @@ const MusicPlayer = ({
         }
       >
         <AudioPlayer
-          src={musicTracks.length === 0 ? "" : musicTracks[trackIndex].src}
+          src={musicTracks.length === 0 ? "" : musicTracks[trackIndex].content}
           showSkipControls={true}
           showJumpControls={false}
           layout={isExpandedClicked ? "stack" : "stacked-reverse"}
@@ -204,7 +204,6 @@ const MusicPlayer = ({
           onClickPrevious={handleClickPrevious}
           onClickNext={handleClickNext}
           onEnded={handleClickNext}
-          autoPlay={false}
           ref={player}
         />
       </div>
