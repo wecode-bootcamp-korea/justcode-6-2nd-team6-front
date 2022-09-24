@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IoMdPlay } from "react-icons/io";
+import { IoIosPlayCircle } from "react-icons/io";
 
 const StyledSimilarSong = styled.div`
   display: flex;
@@ -36,8 +36,9 @@ const StyledSimilarSong = styled.div`
     }
 
     .play {
+      margin-right: 5px;
       color: #85a0a0;
-      transform: scale(1.5);
+      transform: scale(1.75);
       cursor: pointer;
     }
   }
@@ -63,7 +64,7 @@ const SimilarSong = ({ data, musicTracks, setMusicTracks }) => {
               <div className="artist">{el.songArtist}</div>
             </div>
           </div>
-          <IoMdPlay
+          <IoIosPlayCircle
             className="play"
             onClick={() => {
               if (musicTracksId.includes(el.id) === false)
