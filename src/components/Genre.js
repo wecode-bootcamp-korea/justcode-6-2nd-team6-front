@@ -15,6 +15,7 @@ const StyledGenre = styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
+      margin-bottom: 50px;
       /* 테마별 제목 */
       .genre-title-text {
         display: block;
@@ -39,6 +40,12 @@ const StyledGenre = styled.div`
             display: block;
             width: 100%;
             height: 100%;
+            transform: scale(1);
+            transition: all 1s;
+            &:hover {
+              transform: scale(1.1);
+              transition: all 0.5s;
+            }
             img {
               width: 100%;
               height: 100%;
@@ -64,8 +71,6 @@ const Genre = () => {
   const [situation, setSituation] = useState('');
   const [atmosphere, setAtmosphere] = useState('');
   const [audio, setAudio] = useState('');
-
-  console.log(genre);
 
   useEffect(() => {
     fetch('http://localhost:3000/data/genredata.json')
