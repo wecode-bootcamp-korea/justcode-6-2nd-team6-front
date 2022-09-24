@@ -310,16 +310,28 @@ const PlayList = ({
               <div
                 className="menu flex-center"
                 onClick={() => {
-                  setIsSearchClicked(true);
+                  if (isEditClicked === false) {
+                    // 검색
+                    setIsSearchClicked(true);
+                    setIsEditClicked(false);
+                  } else {
+                    // 편집 (전체선택)
+                    if (checkedList.length < musicTracks.length) {
+                      setCheckedList(musicTracks.map((el) => el.id));
+                    } else setCheckedList([]);
+                  }
                   setIsMoreMenuClicked(false);
-                  setIsEditClicked(false);
                 }}
               >
-                <IoSearchSharp size="18" className="icon" />
-                검색
+                {isEditClicked ? (
+                  <AiOutlineCheck size="18" className="icon" />
+                ) : (
+                  <IoSearchSharp size="18" className="icon" />
+                )}
+                {isEditClicked ? "전체선택" : "검색"}
               </div>
 
-              {!isPlayListClicked || (
+              {!isPlayListClicked || isEditClicked || (
                 <div
                   className="menu flex-center"
                   onClick={() => {
