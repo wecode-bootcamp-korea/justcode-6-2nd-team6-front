@@ -20,7 +20,8 @@ function Router() {
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
-    setMusicTracks(JSON.parse(sessionStorage.getItem("tracks")));
+    if (JSON.parse(sessionStorage.getItem("tracks")) !== null)
+      setMusicTracks(JSON.parse(sessionStorage.getItem("tracks")));
   }, []);
 
   // musicTracks에 변화가 있을 때, 세션스토리지 값 변경 및 TrackIndex 0으로 설정
