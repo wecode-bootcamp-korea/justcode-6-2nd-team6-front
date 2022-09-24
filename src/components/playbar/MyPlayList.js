@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import Modal from "@mui/material/Modal";
-import Dialog from "@mui/material/Dialog";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import Modal from '@mui/material/Modal';
+import Dialog from '@mui/material/Dialog';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 const StyledDialog = styled(Dialog)`
   && {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
 
     .my-play-list-inner-box {
       display: flex;
@@ -44,7 +44,7 @@ const StyledDialog = styled(Dialog)`
           border-right: 0;
           border-left: 0;
           border-bottom: 1.5px solid black;
-          font-family: "NanumBarunGothic", sans-serif;
+          font-family: 'NanumBarunGothic', sans-serif;
           font-size: 15px;
           font-weight: 700;
 
@@ -142,8 +142,8 @@ const MyPlayList = ({
   }, [isAddNewPlayListClicked]);
 
   if (selectedSongId == Infinity) {
-    console.log("playingMusicId", playingMusicId);
-  } else console.log("selectedSongId", selectedSongId);
+    console.log('playingMusicId', playingMusicId);
+  } else console.log('selectedSongId', selectedSongId);
 
   return (
     <StyledDialog
@@ -155,51 +155,51 @@ const MyPlayList = ({
     >
       {/* 내 리스트 가져오기 and 새로운 리스트 추가하기 */}
       {isGetMyPlayListClicked ? (
-        <div className="my-play-list-inner-box">
-          <div className="title">내 리스트 가져오기</div>
-          <div className="play-lists">
+        <div className='my-play-list-inner-box'>
+          <div className='title'>내 리스트 가져오기</div>
+          <div className='play-lists'>
             {arr.map(() => (
               <PlayListBar />
             ))}
           </div>
         </div>
       ) : (
-        <div className="my-play-list-inner-box">
-          <div className="title">내 리스트에 담기</div>
-          <div className="play-lists">
+        <div className='my-play-list-inner-box'>
+          <div className='title'>내 리스트에 담기</div>
+          <div className='play-lists'>
             {/* 새로운 리스트 추가하기 토글 */}
             {isAddNewPlayListClicked ? (
-              <div className="add-list-input-box">
+              <div className='add-list-input-box'>
                 <input
-                  type="text"
-                  className="input"
-                  placeholder="내 리스트 이름을 입력해주세요"
+                  type='text'
+                  className='input'
+                  placeholder='내 리스트 이름을 입력해주세요'
                   ref={inputRef}
                 />
-                <div className="cancel-and-confirm">
+                <div className='cancel-and-confirm'>
                   <div
-                    className="cancel"
+                    className='cancel'
                     onClick={() =>
                       setIsAddNewPlayListClicked(!isAddNewPlayListClicked)
                     }
                   >
                     취소
                   </div>
-                  <div className="confirm">확인</div>
+                  <div className='confirm'>확인</div>
                 </div>
               </div>
             ) : (
               <div
-                className="add-list-box"
+                className='add-list-box'
                 onClick={() => {
                   setIsAddNewPlayListClicked(!isAddNewPlayListClicked);
                 }}
               >
-                <div className="add-list-cover">
+                <div className='add-list-cover'>
                   <AiOutlinePlus />
                 </div>
-                <div className="play-list-info">
-                  <div className="add-list">내 리스트 가져오기</div>
+                <div className='play-list-info'>
+                  <div className='add-list'>내 리스트 가져오기</div>
                 </div>
               </div>
             )}
@@ -216,11 +216,11 @@ const MyPlayList = ({
 // 플레이 리스트 (낱개)
 const PlayListBar = () => {
   return (
-    <div className="play-list-bar-inner-box">
-      <img src="/Images/nothing.png" alt="playlist cover" className="cover" />
-      <div className="play-list-info">
-        <div className="album-title">플레이리스트 제목</div>
-        <div className="num">3곡</div>
+    <div className='play-list-bar-inner-box'>
+      <img src='/Images/nothing.png' alt='playlist cover' className='cover' />
+      <div className='play-list-info'>
+        <div className='album-title'>플레이리스트 제목</div>
+        <div className='num'>3곡</div>
       </div>
     </div>
   );

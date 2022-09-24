@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AiFillEye } from "react-icons/ai";
-import { AiFillEyeInvisible } from "react-icons/ai";
+import { AiFillEye } from 'react-icons/ai';
+import { AiFillEyeInvisible } from 'react-icons/ai';
 import LoginFooter from '../../components/LoginFooter';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
 const StyledLogin = styled.div`
-.login-inner-box{
+  .login-inner-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -218,9 +218,10 @@ const StyledLogin = styled.div`
                     background-size: cover;}
             }
         }
+      }
     }
-}
-`
+  }
+`;
 
 const Login = () => {
 const navigate = useNavigate()
@@ -289,12 +290,12 @@ const navigate = useNavigate()
                             <span className='blind-pwd' onClick={() => { setBlind(!blind) }}>{blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
                         </div>
 
-                        {/* 아이디 저장버튼 */}
-                        <div className="login-save-id">
-                            <input type="checkbox" name='save-id' id='save-id' />
-                            <label for='save-id'></label>
-                            <span>아이디 저장</span>
-                        </div>
+            {/* 아이디 저장버튼 */}
+            <div className='login-save-id'>
+              <input type='checkbox' name='save-id' id='save-id' />
+              <label for='save-id'></label>
+              <span>아이디 저장</span>
+            </div>
 
                         {/* 로그인버튼 */}
                         <button  className='login-btn' disabled={disabled} onClick={isLogin}>
@@ -339,12 +340,10 @@ const navigate = useNavigate()
                         </div>
                     </form>
 
-                </div>
-
-                <LoginFooter />
-            </div>
-        </StyledLogin>
-    );
+        <LoginFooter  />
+      </div>
+    </StyledLogin>
+  );
 };
 
 export default Login;
