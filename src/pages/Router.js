@@ -15,7 +15,9 @@ import My from './purchase/My';
 import { Addtab, Browsemenu } from '../components/Browsemenu';
 import Genre from '../components/Genre';
 import Main from './main/Main';
-import Detail from '../components/Detail';
+import AlbumDetail from '../components/detail/albumDetail/AlbumDetail';
+import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
+import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
 
 function Router() {
   return (
@@ -34,7 +36,9 @@ function Router() {
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
         <Route path='/' element={<Main />} />
-        <Route path='/detail' element={<Detail />} />
+        <Route path='/detail/album' element={<AlbumDetail />} />
+        <Route path='/detail/playlist' element={<PlaylistDetail />} />
+        <Route path='/detail/artist' element={<ArtistDetail />} />
       </Routes>
       <Footer />
       <Playbar />

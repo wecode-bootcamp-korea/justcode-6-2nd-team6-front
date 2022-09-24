@@ -4,7 +4,7 @@ import DetailInfo from './DetailInfo';
 import DetailTrack from './DetailTrack';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { RiPlayListAddFill } from 'react-icons/ri';
-import { HiOutlineFolderAdd } from 'react-icons/hi';
+import { RiFolderAddLine } from 'react-icons/ri';
 import { BsSuitHeart } from 'react-icons/bs';
 
 const StyledDetail = styled.div`
@@ -23,12 +23,12 @@ const StyledDetail = styled.div`
     }
   }
 
-  section.detail-inner-box {
+  section.album-detail-inner-box {
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
 
-    div.detail-wrap {
+    div.album-detail-wrap {
       width: 600px;
       display: flex;
       flex-direction: row;
@@ -37,10 +37,10 @@ const StyledDetail = styled.div`
   }
 
   /* 앨범 트랙 커버 이미지*/
-  div.detail-inner {
+  div.album-detail-inner {
     position: static;
 
-    div.detail-cover {
+    div.album-detail-cover {
       position: relative;
       width: 240px;
       height: 240px;
@@ -48,15 +48,19 @@ const StyledDetail = styled.div`
     }
   }
 
-  img.detail-cover-img {
+  img.album-detail-cover-img {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: auto;
     border-radius: 6px;
+
+    &:hover {
+      filter: brightness(70%);
+    }
   }
 
-  button.detail-play {
+  button.album-detail-play {
     width: 55px;
     height: 55px;
     z-index: auto;
@@ -68,64 +72,79 @@ const StyledDetail = styled.div`
     background: none;
     color: white;
 
-    .detail-play-icon {
+    .album-detail-play-icon {
       width: 100%;
       height: 100%;
     }
   }
 
-  div.detail-album-inner-box {
+  div.album-detail-inner-box {
     margin: auto 30px;
 
-    div.detail-album-title {
+    div.album-detail-title {
       font-size: 30px;
       font-weight: 600;
       margin-bottom: 25px;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
-    div.detail-album-singer {
+    div.album-detail-singer {
       font-size: 20px;
       margin-bottom: 35px;
       color: #444444;
 
-      img.detail-album-icon-next {
+      img.album-detail-icon-next {
         width: 12px;
         height: 12px;
         padding-left: 3px;
       }
     }
 
-    div.detail-album-kind {
+    div.album-detail-kind {
       font-size: 15px;
       margin-bottom: 10px;
     }
 
-    div.detail-album-date {
+    div.album-detail-date {
       font-size: 15px;
       margin-bottom: 20px;
       color: #969ca7;
     }
 
-    .detail-album-icon-list,
-    .detail-album-icon-like {
+    .album-detail-icon-list,
+    .album-detail-icon-like {
       width: 25px;
       height: 25px;
       color: #3d3d3d;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
-    .detail-album-icon-folder {
+    .album-detail-icon-folder {
       width: 25px;
       height: 25px;
       margin: 0 20px;
       color: #3d3d3d;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
   }
 
-  div.detail-page-tab {
+  div.album-detail-page-tab {
     margin-top: 50px;
   }
 
-  ul.detail-page-tab-box {
+  ul.album-detail-page-tab-box {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -161,11 +180,11 @@ const StyledDetail = styled.div`
     }
   }
 
-  li.detail-page-tab-stick {
+  li.album-detail-page-tab-stick {
     margin: 0 10px;
   }
 
-  .detail-page-tab-btn {
+  .album-detail-page-tab-btn {
     font-family: 'NanumBarunGothic', sans-serif;
     background: none;
     border: none;
@@ -179,7 +198,7 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const Detail = () => {
+const AlbumDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const selectTabHandler = (index) => {
@@ -193,45 +212,45 @@ const Detail = () => {
 
   return (
     <StyledDetail>
-      <section className='detail-inner-box'>
+      <section className='album-detail-inner-box'>
         {/* 상세 페이지 썸네일 */}
-        <div className='detail-wrap'>
-          <div className='detail-inner'>
+        <div className='album-detail-wrap'>
+          <div className='album-detail-inner'>
             <h2 className='hidden'> 컨텐츠 상세보기</h2>
-            <div className='detail-cover'>
+            <div className='album-detail-cover'>
               <img
                 alt='앨범 표지'
-                className='detail-cover-img'
+                className='album-detail-cover-img'
                 src='/Images/album-cover-3.jpg'
               />
-              <button title='앨범 듣기' className='detail-play hover'>
-                <BsFillPlayFill className='detail-play-icon' />
+              <button title='앨범 듣기' className='album-detail-play hover'>
+                <BsFillPlayFill className='album-detail-play-icon' />
               </button>
             </div>
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className='detail-album-inner-box'>
-            <div className='detail-album-title'>관심과 사랑</div>
-            <div className='detail-album-singer'>
+          <div className='album-detail-inner-box'>
+            <div className='album-detail-title'>관심과 사랑</div>
+            <div className='album-detail-singer'>
               <span className='hover'>Monsune</span>
               <img
                 alt='아티스트'
-                className='detail-album-icon-next'
+                className='album-detail-icon-next'
                 src='/Images/next.png'
               />
             </div>
-            <div className='detail-album-kind'>싱글</div>
-            <div className='detail-album-date'>2022-09-21</div>
-            <div className='detail-album-icon'>
-              <RiPlayListAddFill className='detail-album-icon-list hover' />
-              <HiOutlineFolderAdd className='detail-album-icon-folder hover' />
-              <BsSuitHeart className='detail-album-icon-like hover' />
+            <div className='album-detail-kind'>싱글</div>
+            <div className='album-detail-date'>2022-09-21</div>
+            <div className='album-detail-icon'>
+              <RiPlayListAddFill className='album-detail-icon-list hover' />
+              <RiFolderAddLine className='album-detail-icon-folder hover' />
+              <BsSuitHeart className='album-detail-icon-like hover' />
             </div>
           </div>
         </div>
         {/* 상세 페이지 탭 */}
-        <div className='detail-page-tab'>
-          <ul className='detail-page-tab-box'>
+        <div className='album-detail-page-tab'>
+          <ul className='album-detail-page-tab-box'>
             {tabArr.map((el, index) => {
               return (
                 <li
@@ -254,4 +273,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default AlbumDetail;
