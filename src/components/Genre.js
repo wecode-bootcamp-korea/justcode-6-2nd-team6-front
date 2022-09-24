@@ -62,44 +62,43 @@ const StyledGenre = styled.div`
 `
 
 const Genre = () => {
-    const [genre, setGenre] = useState([])
-    const [situation, setSituation] = useState([])
-    const [atmosphere, setAtmosphere] = useState([])
-    const [audio, setAudio] = useState([])
+    const [genre, setGenre] = useState('')
+    const [situation, setSituation] = useState('')
+    const [atmosphere, setAtmosphere] = useState('')
+    const [audio, setAudio] = useState('')
 
-    const GENRE_LIST = genre.data
-    const SITIATION_LIST = situation.data
-    const ATMOSPHERE_LIST = atmosphere.data
-    const AUDIO_LIST = audio.data
+
+console.log(genre);
+
 
     useEffect(() => {
-        fetch("data/Genredata.json")
+        fetch("http://localhost:3000/data/genredata.json")
             .then((res) => res.json())
             .then((res) => {
                 setGenre({ data: res.genre });
                 setSituation({ data: res.situation });
                 setAtmosphere({ data: res.atmosphere });
                 setAudio({ data: res.audio });
-            })
+            }
+            )
     }, [])
 
-    console.log(GENRE_LIST);
+
 
     return (
         <StyledGenre>
-
             <section className='genre-inner-box'>
 
                 {/* 장르 */}
                 <section className='genre-list-inner-box'>
                     <span className='genre-title-text'>장르</span>
                     <ul className='genre-list-box'>
-                        {GENRE_LIST && GENRE_LIST.map((item, index) => {
+                        {genre.data && genre.data.map((item, index) => {
                             return (
-                                <li className='genre-list-item'>
+                                <li className='genre-list-item' key={index}>
                                     <NavLink to="#" >
-                                        <img src={GENRE_LIST[index].img} alt={GENRE_LIST[index].title} />
-                                        <span>{GENRE_LIST[index].title}</span>
+                                        <img src={genre.data[index].img} alt={genre.data[index].title} />
+                                        <span>{genre.data[index].title}</span>
                                     </NavLink>
                                 </li>
                             )
@@ -111,12 +110,12 @@ const Genre = () => {
                 <section className='genre-list-inner-box'>
                     <span className='genre-title-text'>상황</span>
                     <ul className='genre-list-box'>
-                        {SITIATION_LIST && SITIATION_LIST.map((item, index) => {
+                        {situation.data && situation.data.map((item, index) => {
                             return (
                                 <li className='genre-list-item'>
                                     <NavLink to="#" >
-                                        <img src={SITIATION_LIST[index].img} alt={SITIATION_LIST[index].title} />
-                                        <span>{SITIATION_LIST[index].title}</span>
+                                        <img src={situation.data[index].img} alt={situation.data[index].title} />
+                                        <span>{situation.data[index].title}</span>
                                     </NavLink>
                                 </li>
                             )
@@ -128,12 +127,12 @@ const Genre = () => {
                 <section className='genre-list-inner-box'>
                     <span className='genre-title-text'>분위기</span>
                     <ul className='genre-list-box'>
-                        {ATMOSPHERE_LIST && ATMOSPHERE_LIST.map((item, index) => {
+                        {atmosphere.data && atmosphere.data.map((item, index) => {
                             return (
                                 <li className='genre-list-item'>
                                     <NavLink to="#" >
-                                        <img src={ATMOSPHERE_LIST[index].img} alt={ATMOSPHERE_LIST[index].title} />
-                                        <span>{ATMOSPHERE_LIST[index].title}</span>
+                                        <img src={atmosphere.data[index].img} alt={atmosphere.data[index].title} />
+                                        <span>{atmosphere.data[index].title}</span>
                                     </NavLink>
                                 </li>
                             )
@@ -145,12 +144,12 @@ const Genre = () => {
                 <section className='genre-list-inner-box'>
                     <span className='genre-title-text'>오디오</span>
                     <ul className='genre-list-box'>
-                        {AUDIO_LIST && AUDIO_LIST.map((item, index) => {
+                        {audio.data && audio.data.map((item, index) => {
                             return (
                                 <li className='genre-list-item'>
                                     <NavLink to="#" >
-                                        <img src={AUDIO_LIST[index].img} alt={AUDIO_LIST[index].title} />
-                                        <span>{AUDIO_LIST[index].title}</span>
+                                        <img src={audio.data[index].img} alt={audio.data[index].title} />
+                                        <span>{audio.data[index].title}</span>
                                     </NavLink>
                                 </li>
                             )
