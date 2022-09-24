@@ -413,20 +413,22 @@ const PlayList = ({
                 ? "같은 아티스트의 음악"
                 : "같은 장르의 음악"}
             </div>
-            {isPlayListOpened ? (
-              <BsChevronUp
-                className="button"
-                onClick={() => {
-                  setIsPlayListOpened(!isPlayListOpened);
-                  setIsMoreMenuClicked(false);
-                }}
-              />
-            ) : (
-              <BsChevronDown
-                className="button"
-                onClick={() => setIsPlayListOpened(!isPlayListOpened)}
-              />
-            )}
+            {isPlayListOpened
+              ? !isPlayListClicked || (
+                  <BsChevronUp
+                    className="button"
+                    onClick={() => {
+                      setIsPlayListOpened(!isPlayListOpened);
+                      setIsMoreMenuClicked(false);
+                    }}
+                  />
+                )
+              : !isPlayListClicked || (
+                  <BsChevronDown
+                    className="button"
+                    onClick={() => setIsPlayListOpened(!isPlayListOpened)}
+                  />
+                )}
           </div>
           {/* 재생목록 & 검색된 재생 목록 */}
           {!isPlayListOpened ||
@@ -469,14 +471,14 @@ const PlayList = ({
               </div>
             )}
           {/* 아티스트 & 유사곡 */}
-          {!isArtistClicked || (
+          {!isArtistClicked || sameArtistsMusic === 0 || (
             <SimilarSong
               data={sameArtistsMusic}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
             />
           )}
-          {!isSimilarClicked || (
+          {!isSimilarClicked || sameGenreMusic.length === 0 || (
             <SimilarSong
               data={sameGenreMusic}
               musicTracks={musicTracks}
