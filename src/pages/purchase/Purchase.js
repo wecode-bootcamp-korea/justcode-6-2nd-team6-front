@@ -1,10 +1,10 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledPurchase = styled.section`
   .purchase-main {
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
@@ -23,20 +23,21 @@ const StyledPurchase = styled.section`
         position: relative;
         margin-right: 50px;
         height: 32px;
-        div {
+        li {
           margin: 0 15px;
-          padding: 7px 12px;
           vertical-align: top;
           color: black;
-          /* 해당 탭에만 적용되는 style */
-          /* color: white;
-        background-color: #3f3fff; */
           border: none;
-          border-radius: 16px;
           &:hover {
             color: blue;
             cursor: pointer;
           }
+        }
+        .btn-primary {
+          color: white;
+          background-color: #3f3fff;
+          padding: 7px 12px;
+          border-radius: 16px;
         }
       }
       .purchase-coupon {
@@ -45,7 +46,6 @@ const StyledPurchase = styled.section`
         right: 40px;
         color: #000;
         width: auto;
-        z-index: 15;
         .btn-coupon {
           width: 97px;
           height: 32px;
@@ -68,21 +68,36 @@ const StyledPurchase = styled.section`
 const Purchase = () => {
   return (
     <StyledPurchase>
-      <section className="purchase-main">
-        <div className="purchase-inner-box">
-          <div className="purchase-tab">
-            <Link to="/purchase/voucher">
-              <div className="purchase-voucher">이용권</div>
-            </Link>
-            <Link to="/purchase/affiliate">
-              <div className="purchase-affiliate">제휴</div>
-            </Link>
-            <Link to="/purchase/my">
-              <div className="purchase-my">MY</div>
-            </Link>
-          </div>
-          <div className="purchase-coupon">
-            <button type="button" className="btn-coupon">
+      <section className='purchase-main'>
+        <div className='purchase-inner-box'>
+          <ul className='purchase-tab'>
+            <li>
+              <NavLink
+                to='/purchase/voucher'
+                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+              >
+                이용권
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to='/purchase/affiliate'
+                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+              >
+                제휴
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to='/purchase/my'
+                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+              >
+                My
+              </NavLink>
+            </li>
+          </ul>
+          <div className='purchase-coupon'>
+            <button type='button' className='btn-coupon'>
               쿠폰
             </button>
           </div>

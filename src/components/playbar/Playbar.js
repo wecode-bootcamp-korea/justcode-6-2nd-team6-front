@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import { RiPlayListFill } from "react-icons/ri";
-import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
-import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
-import { VscNewFolder } from "react-icons/vsc";
+import { useEffect, useState } from 'react';
+import { RiPlayListFill } from 'react-icons/ri';
+import { HiOutlineHeart, HiHeart } from 'react-icons/hi'; // player like
+import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io'; // expanded player like
+import { VscNewFolder } from 'react-icons/vsc';
 
-import styled from "styled-components";
-import MusicPlayer from "./MusicPlayer";
-import PlayList from "./PlayList";
+import MyPlayList from './MyPlayList';
+import styled from 'styled-components';
+import MusicPlayer from './MusicPlayer';
+import PlayList from './PlayList';
 
 const StyledPlaybar = styled.div`
   .flex-center {
@@ -23,7 +24,8 @@ const StyledPlaybar = styled.div`
     height: 120px;
     background: black;
     color: white;
-    font-family: "NanumBarunGothic", sans-serif;
+    z-index: 10;
+    font-family: 'NanumBarunGothic', sans-serif;
 
     .song-info-box {
       position: fixed;
@@ -91,8 +93,13 @@ const StyledPlaybar = styled.div`
     height: 100%;
     background: #262626;
     color: white;
+    z-index: 10;
     overflow-y: auto;
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .close {
       position: fixed;
@@ -163,57 +170,59 @@ const StyledPlaybar = styled.div`
 `;
 
 const Playbar = () => {
-  const [isExpandedClicked, setIsExpandedClicked] = useState(false);
-  const [trackIndex, setTrackIndex] = useState(0);
+  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
+  const [trackIndex, setTrackIndex] = useState(0); // 위 현재 음악 재생목록 오픈
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
+  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
+  const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
+  const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [musicTracks, setMusicTracks] = useState([
     {
-      name: "재생목록이 비어있습니다.",
-      artist: "비어있음",
-      img: "/Images/nothing.png",
-      src: "",
+      id: 0,
+      name: '재생목록이 비어있습니다.',
+      artist: '비어있음',
+      img: '/Images/nothing.png',
+      src: '',
     },
   ]);
-
-  // 음악 mockdata 불러오기
-  useEffect(() => {
-    fetch("http://localhost:3000/music-track-data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.length !== 0) setMusicTracks(data);
-      });
-  }, []);
 
   return (
     <StyledPlaybar>
       <div
         className={
           isExpandedClicked
-            ? "expanded-player-inner-box flex-center"
-            : "playbar-inner-box flex-center"
+            ? 'expanded-player-inner-box flex-center'
+            : 'playbar-inner-box flex-center'
         }
       >
         {!isExpandedClicked || (
           <img
-            src="/Images/down-arrow.png"
-            alt="close"
-            className="close"
+            src='/Images/down-arrow.png'
+            alt='close'
+            className='close'
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
-        <div className="song-info-box flex-center">
+        <div className='song-info-box flex-center'>
           <img
             src={musicTracks[trackIndex].img}
-            alt="album cover"
-            className="cover"
+            alt='album cover'
+            className='cover'
           />
-          <div className="song-info-wrapper">
-            <div className="title">{musicTracks[trackIndex].name}</div>
-            <div className="artist">{musicTracks[trackIndex].artist}</div>
+          <div className='song-info-wrapper'>
+            <div className='title'>{musicTracks[trackIndex].name}</div>
+            <div className='artist'>{musicTracks[trackIndex].artist}</div>
             {!isExpandedClicked || (
-              <div className="like-and-add">
-                <IoMdHeartEmpty className="like" size="32" />
-                <VscNewFolder className="add-play-list" size="30" />
+              <div className='like-and-add'>
+                <IoMdHeartEmpty className='like' size='32' />
+                <VscNewFolder
+                  className='add-play-list'
+                  size='30'
+                  onClick={() => {
+                    setIsMyPlayListClicked(true);
+                    setSelectedSongId(Infinity);
+                  }}
+                />
               </div>
             )}
           </div>
@@ -223,11 +232,12 @@ const Playbar = () => {
           musicTracks={musicTracks}
           setTrackIndex={setTrackIndex}
           isExpandedClicked={isExpandedClicked}
+          setMusicTracks={setMusicTracks}
         ></MusicPlayer>
-        {isExpandedClicked || <HiOutlineHeart className="like" />}
+        {isExpandedClicked || <HiOutlineHeart className='like' />}
         {isExpandedClicked || (
           <RiPlayListFill
-            className="playlist"
+            className='playlist'
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
@@ -236,8 +246,24 @@ const Playbar = () => {
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
             setTrackIndex={setTrackIndex}
+            trackIndex={trackIndex}
+            isMyPlayListClicked={isMyPlayListClicked}
+            setIsMyPlayListClicked={setIsMyPlayListClicked}
+            selectedSongId={selectedSongId}
+            setSelectedSongId={setSelectedSongId}
+            setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+            isMoreMenuClicked={isMoreMenuClicked}
+            setIsMoreMenuClicked={setIsMoreMenuClicked}
           />
         )}
+        <MyPlayList
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          playingMusicId={musicTracks[trackIndex].id}
+          selectedSongId={selectedSongId}
+          isGetMyPlayListClicked={isGetMyPlayListClicked}
+          setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+        />
       </div>
     </StyledPlaybar>
   );
