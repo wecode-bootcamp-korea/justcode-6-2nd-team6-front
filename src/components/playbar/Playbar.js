@@ -271,10 +271,19 @@ const Playbar = ({
                 size="35.1"
                 className="expanded-shuffle"
                 onClick={() => {
-                  const randomTracks = musicTracks.sort(
+                  const randomTracks = [...musicTracks].sort(
                     () => Math.random() - 0.5
                   );
-                  setMusicTracks([...randomTracks]);
+                  if (randomTracks[0] === musicTracks[0]) {
+                    let lastIndex = randomTracks.length - 1;
+                    let randomValue = Math.floor(
+                      Math.random() * (lastIndex - 1) + 1
+                    );
+                    const temp = randomTracks[0];
+                    randomTracks[0] = randomTracks[lastIndex];
+                    randomTracks[lastIndex] = temp;
+                  }
+                  setMusicTracks(randomTracks);
                 }}
               />
             )}
@@ -301,8 +310,19 @@ const Playbar = ({
             size="35.1"
             className="shuffle"
             onClick={() => {
-              const randomTracks = musicTracks.sort(() => Math.random() - 0.5);
-              setMusicTracks([...randomTracks]);
+              const randomTracks = [...musicTracks].sort(
+                () => Math.random() - 0.5
+              );
+              if (randomTracks[0] === musicTracks[0]) {
+                let lastIndex = randomTracks.length - 1;
+                let randomValue = Math.floor(
+                  Math.random() * (lastIndex - 1) + 1
+                );
+                const temp = randomTracks[0];
+                randomTracks[0] = randomTracks[lastIndex];
+                randomTracks[lastIndex] = temp;
+              }
+              setMusicTracks(randomTracks);
             }}
           />
         )}

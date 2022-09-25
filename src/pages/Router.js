@@ -17,6 +17,8 @@ import { Addtab, Browsemenu } from "../components/Browsemenu";
 import Genre from "../components/Genre";
 import Main from "./main/Main";
 import Detail from "../components/Detail";
+import Storage from "./storage/Storage";
+import MyList from "./storage/MyList";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -30,7 +32,6 @@ function Router() {
 
   // musicTracks에 변화가 있을 때, 세션스토리지 값 변경 및 TrackIndex 0으로 설정
   useEffect(() => {
-    console.log("바뀜!");
     sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
@@ -58,6 +59,9 @@ function Router() {
         </Route>
         <Route path="/" element={<Main />} />
         <Route path="/detail" element={<Detail />} />
+        <Route path="/storage" element={<Storage />}>
+          <Route path="mylist" element={<MyList />}></Route>
+        </Route>
       </Routes>
       <Footer />
       <Playbar
