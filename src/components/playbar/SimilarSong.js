@@ -45,7 +45,6 @@ const StyledSimilarSong = styled.div`
 `;
 
 const SimilarSong = ({ data, musicTracks, setMusicTracks }) => {
-  const musicTracksId = musicTracks.map((el) => el.id);
   return (
     <StyledSimilarSong>
       {data.map((el, i) => (
@@ -53,6 +52,7 @@ const SimilarSong = ({ data, musicTracks, setMusicTracks }) => {
           <div
             className="song-info flex-center"
             onClick={() => {
+              const musicTracksId = musicTracks.map((el) => el.id);
               if (musicTracksId.includes(el.id) === false)
                 setMusicTracks([el, ...musicTracks]);
               else alert("현재 재생목록에 이미 존재하는 곡입니다.");
@@ -67,6 +67,7 @@ const SimilarSong = ({ data, musicTracks, setMusicTracks }) => {
           <IoIosPlayCircle
             className="play"
             onClick={() => {
+              const musicTracksId = musicTracks.map((el) => el.id);
               if (musicTracksId.includes(el.id) === false)
                 setMusicTracks([el, ...musicTracks]);
               else alert("현재 재생목록에 이미 존재하는 곡입니다.");
