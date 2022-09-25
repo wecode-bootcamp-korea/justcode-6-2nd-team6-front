@@ -142,10 +142,10 @@ const SecondSection = () => {
   const [albumList, setAlbumList] = useState([]);
 
   useEffect(() => {
-    fetch('/data/releaseData.json')
+    fetch('http://localhost:8000')
       .then((res) => res.json())
       .then((data) => {
-        setAlbumList(data.releaseData);
+        setAlbumList(data.recent);
       });
   }, []);
 
@@ -205,16 +205,13 @@ const SecondSection = () => {
             {/*앨범리스트*/}
             {albumList.map((result) => {
               return (
-                <div
-                  key={result.releaseId}
-                  className='second-section-album-box'
-                >
+                <div key={result.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link to='#' className='second-section-album-link'>
                       <div className='second-section-album-img-box'>
                         <img
                           className='second-section-album-cover'
-                          src={result.releaseAlbum}
+                          src={result.albumCover}
                         />
                       </div>
                     </Link>
@@ -227,12 +224,12 @@ const SecondSection = () => {
                   </div>
                   <a className='second-section-album-song-link'>
                     <span className='second-section-song'>
-                      {result.releaseSong}
+                      {result.albumTitle}
                     </span>
                   </a>
                   <a className='second-section-album-singer-link'>
                     <span className='second-section-album-singer'>
-                      {result.releaseSinger}
+                      {result.artist}
                     </span>
                   </a>
                 </div>

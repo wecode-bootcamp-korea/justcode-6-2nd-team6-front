@@ -148,13 +148,18 @@ const StyledSlider = styled(Slider)`
 const FirstSection = () => {
   const [titleList, setTitleList] = useState([]);
   const [songList, setSongList] = useState([]);
+  const [slide, setSlide] = useState([]);
+  const [slideIdx, setSlideIdx] = useState(0);
 
   useEffect(() => {
-    fetch('/data/slideData.json')
+    fetch('http://localhost:8000', {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setTitleList(data.slideData.slideTitleData);
-        setSongList(data.slideData.slideSongData);
+        console.log('슬라이더 데이터 ', data.slideData);
+        setSlide(data.sideData);
       });
   }, []);
 
@@ -182,21 +187,27 @@ const FirstSection = () => {
     <StyledSection>
       <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
-          {titleList.map((result) => {
+          {/* {slide.map((result) => {
             return (
-              <div key={result.titleId} className='first-section-wrap'>
-                {/* 첫번째 슬라이드 */}
+              <div
+                key={result.titleData.playlistId}
+                className='first-section-wrap'
+              >
+
                 <div className='first-section-slider-box'>
-                  <Link to='#' className='first-section-slider-flex'>
-                    {/* 플리 소개 */}
+                  <Link
+                    to='/detail/album'
+                    className='first-section-slider-flex'
+                  >
+
                     <div className='first-section-slider-info'>
                       <h4 className='first-section-slider-title'>
-                        {result.listTitle}
+                        {result.titleData.playlistTitle}
                       </h4>
                       <div className='first-section-slider-date'>
-                        {result.listTotal}
+                        총 {result.titleData.playlistSongsCount}곡
                         <span className='first-section-stick'>|</span>
-                        {result.listDate}
+                        {result.titleData.createdDate}
                       </div>
                       <button
                         title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
@@ -206,39 +217,35 @@ const FirstSection = () => {
                         <BsFillPlayCircleFill className='first-section-play-button' />
                       </button>
                     </div>
-                    {/* 노래리스트 */}
+
                     <div className='first-section-playlist-wrap'>
                       <ul className='first-section-playlist-box'>
-                        {songList.map((song) => {
-                          return (
                             <li
-                              key={song.songId}
+                              key={result.songsData.songId}
                               className='first-section-playlist-list'
                             >
                               <img
                                 alt='앨범 표지'
-                                src={song.slideSongImg}
+                                src={result.songsData.albumImage}
                                 className='first-section-album-cover'
                               />
                               <div className='first-section-playlist-box-info'>
                                 <strong className='first-section-playlist-song'>
-                                  {song.slideSongName}
+                                  {result.songsData.songTitle}
                                 </strong>
                                 <div className='first-section-playlist-singer'>
-                                  {song.slideSinger}
+                                  {result.songsData.artist}
                                 </div>
                               </div>
                             </li>
-                          );
-                        })}
                       </ul>
                     </div>
-                    {/* 플리 노래리스트 끝 */}
+
                   </Link>
                 </div>
               </div>
             );
-          })}
+          })} */}
         </StyledSlider>
       </section>
     </StyledSection>
