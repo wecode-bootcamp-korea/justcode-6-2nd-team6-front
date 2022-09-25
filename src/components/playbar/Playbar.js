@@ -296,14 +296,16 @@ const Playbar = ({
           />
         )}
 
-        <BiShuffle
-          size="35.1"
-          className="shuffle"
-          onClick={() => {
-            const randomTracks = musicTracks.sort(() => Math.random() - 0.5);
-            setMusicTracks([...randomTracks]);
-          }}
-        />
+        {isExpandedClicked || (
+          <BiShuffle
+            size="35.1"
+            className="shuffle"
+            onClick={() => {
+              const randomTracks = musicTracks.sort(() => Math.random() - 0.5);
+              setMusicTracks([...randomTracks]);
+            }}
+          />
+        )}
 
         {!isExpandedClicked || (
           <PlayList
