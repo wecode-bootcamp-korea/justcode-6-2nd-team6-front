@@ -146,10 +146,7 @@ const StyledSlider = styled(Slider)`
 `;
 
 const FirstSection = () => {
-  const [titleList, setTitleList] = useState([]);
-  const [songList, setSongList] = useState([]);
   const [slide, setSlide] = useState([]);
-  const [slideIdx, setSlideIdx] = useState(0);
 
   useEffect(() => {
     fetch('http://localhost:8000', {
@@ -158,8 +155,8 @@ const FirstSection = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('슬라이더 데이터 ', data.slideData);
-        setSlide(data.sideData);
+        console.log(data.slideData);
+        setSlide(data.slideData);
       });
   }, []);
 
@@ -187,19 +184,16 @@ const FirstSection = () => {
     <StyledSection>
       <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
-          {/* {slide.map((result) => {
+          {slide.map((result) => {
             return (
               <div
                 key={result.titleData.playlistId}
                 className='first-section-wrap'
               >
-
+                {/* 첫번째 슬라이드 */}
                 <div className='first-section-slider-box'>
-                  <Link
-                    to='/detail/album'
-                    className='first-section-slider-flex'
-                  >
-
+                  <Link to='#' className='first-section-slider-flex'>
+                    {/* 플리 소개 */}
                     <div className='first-section-slider-info'>
                       <h4 className='first-section-slider-title'>
                         {result.titleData.playlistTitle}
@@ -217,35 +211,39 @@ const FirstSection = () => {
                         <BsFillPlayCircleFill className='first-section-play-button' />
                       </button>
                     </div>
-
+                    {/* 노래리스트 */}
                     <div className='first-section-playlist-wrap'>
-                      <ul className='first-section-playlist-box'>
-                            <li
-                              key={result.songsData.songId}
-                              className='first-section-playlist-list'
-                            >
+                      {slide.songsData.map((result) => {
+                        return (
+                          <ul
+                            key={result.songId}
+                            className='first-section-playlist-box'
+                          >
+                            <li className='first-section-playlist-list'>
                               <img
                                 alt='앨범 표지'
-                                src={result.songsData.albumImage}
+                                src={result.albumImage}
                                 className='first-section-album-cover'
                               />
                               <div className='first-section-playlist-box-info'>
                                 <strong className='first-section-playlist-song'>
-                                  {result.songsData.songTitle}
+                                  {result.songTitle}
                                 </strong>
                                 <div className='first-section-playlist-singer'>
-                                  {result.songsData.artist}
+                                  {result.artist}
                                 </div>
                               </div>
                             </li>
-                      </ul>
+                          </ul>
+                        );
+                      })}
                     </div>
-
+                    {/* 플리 노래리스트 끝 */}
                   </Link>
                 </div>
               </div>
             );
-          })} */}
+          })}
         </StyledSlider>
       </section>
     </StyledSection>
