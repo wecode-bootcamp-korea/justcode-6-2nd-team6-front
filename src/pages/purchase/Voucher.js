@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Modal from '../../components/purchase/PaymentModal';
 
 const StyledVoucher = styled.div`
   .voucher-wrap {
@@ -229,6 +230,15 @@ const StyledVoucher = styled.div`
 
 const Voucher = () => {
   const [voucher, setVoucher] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     fetch('/data/voucherdata.json')
@@ -310,9 +320,17 @@ const Voucher = () => {
                                   </span>
                                 )}
                               </span>
-                              <button type='button' className='btn-buy'>
+                              <button
+                                type='button'
+                                className='btn-buy'
+                                onClick={openModal}
+                              >
                                 구매
                               </button>
+                              <Modal
+                                open={modalOpen}
+                                close={closeModal}
+                              ></Modal>
                             </div>
                           </div>
                         </li>
