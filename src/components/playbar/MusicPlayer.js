@@ -97,6 +97,13 @@ const StyledMusicPlayer = styled.div`
       background-color: rgba(0, 0, 0, 0);
       box-shadow: none;
 
+      .rhap_volume-container {
+        position: absolute;
+        left: 20px;
+        bottom: -30px;
+        width: 110px;
+      }
+
       .rhap_controls-section {
         margin: 50px 0;
       }
@@ -150,8 +157,14 @@ const StyledMusicPlayer = styled.div`
         margin: 0px 50px;
       }
 
+      .rhap_main-controls {
+        margin-left: 27.5px;
+      }
+
       .rhap_repeat-button {
-        transform: scale(1.1);
+        position: absolute;
+        left: 150px;
+        transform: scale(1.35);
         &:hover {
           color: #3d3d3f;
           transition: 0s ease-out;
@@ -182,19 +195,8 @@ const MusicPlayer = ({
 
   const player = useRef();
 
-  // 음악 mockdata 불러오기
   useEffect(() => {
-    const getTrackList = async () => {
-      await fetch("http://localhost:3000/music-track-data.json")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.length !== 0) setMusicTracks(data);
-        });
-
-      setTimeout(() => player.current.audio.current.pause(), 100);
-    };
-    getTrackList();
+    setTimeout(() => player.current.audio.current.pause(), 10);
   }, []);
 
   return (
@@ -207,16 +209,14 @@ const MusicPlayer = ({
         }
       >
         <AudioPlayer
-          src={musicTracks[trackIndex].src}
+          src={musicTracks.length === 0 ? "" : musicTracks[trackIndex].content}
           showSkipControls={true}
           showJumpControls={false}
           layout={isExpandedClicked ? "stack" : "stacked-reverse"}
-          onPlay={(e) => console.log("onPlay")}
           volume={0.5}
           onClickPrevious={handleClickPrevious}
           onClickNext={handleClickNext}
           onEnded={handleClickNext}
-          autoPlay={false}
           ref={player}
         />
       </div>

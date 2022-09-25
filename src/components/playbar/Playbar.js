@@ -1,19 +1,46 @@
-import { useEffect, useState } from 'react';
-import { RiPlayListFill } from 'react-icons/ri';
-import { HiOutlineHeart, HiHeart } from 'react-icons/hi'; // player like
-import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io'; // expanded player like
-import { VscNewFolder } from 'react-icons/vsc';
+import { useEffect, useState } from "react";
+import { RiPlayListFill } from "react-icons/ri";
+import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
+import { VscNewFolder } from "react-icons/vsc";
+import { BiShuffle } from "react-icons/bi";
 
-import MyPlayList from './MyPlayList';
-import styled from 'styled-components';
-import MusicPlayer from './MusicPlayer';
-import PlayList from './PlayList';
+import MyPlayList from "./MyPlayList";
+import styled from "styled-components";
+import MusicPlayer from "./MusicPlayer";
+import PlayList from "./PlayList";
 
 const StyledPlaybar = styled.div`
   .flex-center {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .shuffle {
+    position: absolute;
+    right: 36.02%;
+    top: 23px;
+    color: #545454;
+    transform: scale(0.82);
+    cursor: pointer;
+
+    &:hover {
+      color: #181818;
+    }
+  }
+
+  .expanded-shuffle {
+    position: absolute;
+    right: 110px;
+    top: 158px;
+    color: #868686;
+    z-index: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: #3b3b3c;
+    }
   }
 
   .playbar-inner-box {
@@ -25,7 +52,7 @@ const StyledPlaybar = styled.div`
     background: black;
     color: white;
     z-index: 10;
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: "NanumBarunGothic", sans-serif;
 
     .song-info-box {
       position: fixed;
@@ -95,7 +122,7 @@ const StyledPlaybar = styled.div`
     color: white;
     z-index: 10;
     overflow-y: auto;
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: "NanumBarunGothic", sans-serif;
 
     &::-webkit-scrollbar {
       display: none;
@@ -166,58 +193,72 @@ const StyledPlaybar = styled.div`
         }
       }
     }
+    .only-members {
+      padding: 10px 0 50px 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
   }
 `;
 
-const Playbar = () => {
+const Playbar = ({
+  trackIndex,
+  setTrackIndex,
+  musicTracks,
+  setMusicTracks,
+}) => {
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
-  const [trackIndex, setTrackIndex] = useState(0); // 위 현재 음악 재생목록 오픈
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
-  const [musicTracks, setMusicTracks] = useState([
-    {
-      id: 0,
-      name: '재생목록이 비어있습니다.',
-      artist: '비어있음',
-      img: '/Images/nothing.png',
-      src: '',
-    },
-  ]);
+  const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
 
   return (
     <StyledPlaybar>
       <div
         className={
           isExpandedClicked
-            ? 'expanded-player-inner-box flex-center'
-            : 'playbar-inner-box flex-center'
+            ? "expanded-player-inner-box flex-center"
+            : "playbar-inner-box flex-center"
         }
       >
         {!isExpandedClicked || (
           <img
-            src='/Images/down-arrow.png'
-            alt='close'
-            className='close'
+            src="/Images/down-arrow.png"
+            alt="close"
+            className="close"
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
-        <div className='song-info-box flex-center'>
+        <div className="song-info-box flex-center">
           <img
-            src={musicTracks[trackIndex].img}
-            alt='album cover'
-            className='cover'
+            src={
+              musicTracks.length === 0
+                ? "/Images/nothing.png"
+                : musicTracks[trackIndex].albumCover
+            }
+            alt="album cover"
+            className="cover"
           />
-          <div className='song-info-wrapper'>
-            <div className='title'>{musicTracks[trackIndex].name}</div>
-            <div className='artist'>{musicTracks[trackIndex].artist}</div>
+          <div className="song-info-wrapper">
+            <div className="title">
+              {musicTracks.length === 0
+                ? "재생목록이 비어있습니다"
+                : musicTracks[trackIndex].songTitle}
+            </div>
+            <div className="artist">
+              {musicTracks.length === 0
+                ? "--"
+                : musicTracks[trackIndex].songArtist}
+            </div>
+
             {!isExpandedClicked || (
-              <div className='like-and-add'>
-                <IoMdHeartEmpty className='like' size='32' />
+              <div className="like-and-add">
+                <IoMdHeartEmpty className="like" size="32" />
                 <VscNewFolder
-                  className='add-play-list'
-                  size='30'
+                  className="add-play-list"
+                  size="30"
                   onClick={() => {
                     setIsMyPlayListClicked(true);
                     setSelectedSongId(Infinity);
@@ -225,8 +266,21 @@ const Playbar = () => {
                 />
               </div>
             )}
+            {!isExpandedClicked || (
+              <BiShuffle
+                size="35.1"
+                className="expanded-shuffle"
+                onClick={() => {
+                  const randomTracks = musicTracks.sort(
+                    () => Math.random() - 0.5
+                  );
+                  setMusicTracks([...randomTracks]);
+                }}
+              />
+            )}
           </div>
         </div>
+
         <MusicPlayer
           trackIndex={trackIndex}
           musicTracks={musicTracks}
@@ -234,13 +288,23 @@ const Playbar = () => {
           isExpandedClicked={isExpandedClicked}
           setMusicTracks={setMusicTracks}
         ></MusicPlayer>
-        {isExpandedClicked || <HiOutlineHeart className='like' />}
+        {isExpandedClicked || <HiOutlineHeart className="like" />}
         {isExpandedClicked || (
           <RiPlayListFill
-            className='playlist'
+            className="playlist"
             onClick={() => setIsExpandedClicked(!isExpandedClicked)}
           />
         )}
+
+        <BiShuffle
+          size="35.1"
+          className="shuffle"
+          onClick={() => {
+            const randomTracks = musicTracks.sort(() => Math.random() - 0.5);
+            setMusicTracks([...randomTracks]);
+          }}
+        />
+
         {!isExpandedClicked || (
           <PlayList
             musicTracks={musicTracks}
@@ -254,15 +318,22 @@ const Playbar = () => {
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
             isMoreMenuClicked={isMoreMenuClicked}
             setIsMoreMenuClicked={setIsMoreMenuClicked}
+            isAddManySongs={isAddManySongs}
+            setIsAddManySongs={setIsAddManySongs}
           />
         )}
+
         <MyPlayList
           isMyPlayListClicked={isMyPlayListClicked}
           setIsMyPlayListClicked={setIsMyPlayListClicked}
-          playingMusicId={musicTracks[trackIndex].id}
+          playingMusicId={
+            musicTracks.length === 0 ? 0 : musicTracks[trackIndex].id
+          }
           selectedSongId={selectedSongId}
           isGetMyPlayListClicked={isGetMyPlayListClicked}
           setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+          isAddManySongs={isAddManySongs}
+          setIsAddManySongs={setIsAddManySongs}
         />
       </div>
     </StyledPlaybar>
