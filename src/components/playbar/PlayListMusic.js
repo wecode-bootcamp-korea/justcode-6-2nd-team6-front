@@ -1,11 +1,11 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { AiOutlineMore } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
 import { IoDiscOutline } from "react-icons/io5";
-import { VscNewFolder } from "react-icons/vsc";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { MdEqualizer } from "react-icons/md";
-import { useState } from "react";
 
 const StyledPlayListMusic = styled.div`
   display: flex;
@@ -21,6 +21,9 @@ const StyledPlayListMusic = styled.div`
       padding: 10px 0;
       cursor: pointer;
 
+      .checkbox {
+        margin-right: 20px;
+      }
       .cover {
         width: 50px;
         height: 50px;
@@ -34,7 +37,7 @@ const StyledPlayListMusic = styled.div`
         height: 50px;
         border-radius: 5px;
         margin-right: 20px;
-        color: blue;
+        color: #3f3fff;
         background-size: cover;
       }
 
@@ -50,12 +53,12 @@ const StyledPlayListMusic = styled.div`
     }
 
     .playing-title-and-artist {
-      color: blue;
+      color: #3f3fff;
       .title {
       }
       .artist {
         margin-top: 10px;
-        color: blue;
+        color: #3f3fff;
         font-size: 14px;
       }
     }
@@ -96,7 +99,7 @@ const StyledPlayListMusic = styled.div`
         cursor: pointer;
 
         &:hover {
-          color: blue;
+          color: #3f3fff;
           background-color: #f5f5f5;
         }
 
@@ -119,26 +122,41 @@ const PlayListMusic = ({
   setSelectedSongId,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
+  isEditClicked,
+  checkedList,
+  setCheckedList,
+  onCheckedElement,
 }) => {
   const mapMusic = musicTracks.map((el, i) => {
-    if (el.src !== "")
+    if (el.content !== "")
       return (
-        <div className="play-list-music-inner-box" key={el.key}>
+        <div className="play-list-music-inner-box" key={el.id}>
           <div
             className="song-info flex-center"
             onClick={() => {
-              setTrackIndex(i);
+              if (isEditClicked === false) setTrackIndex(i);
+              else if (isEditClicked === true)
+                onCheckedElement(checkedList.includes(el.id), el.id);
               setIsMoreMenuClicked(false);
             }}
           >
+            {!isEditClicked || (
+              <input
+                type="checkbox"
+                className="checkbox"
+                value={el.id}
+                checked={checkedList.includes(el.id) ? true : false}
+                onChange={() => {}}
+              />
+            )}
             <div
               style={{
                 backgroundImage:
                   trackIndex === i
                     ? "linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(" +
-                      el.img +
+                      el.albumCover +
                       ")"
-                    : "url(" + el.img + ")",
+                    : "url(" + el.albumCover + ")",
               }}
               className={
                 trackIndex === i
@@ -155,30 +173,43 @@ const PlayListMusic = ({
                   : "title-and-artist"
               }
             >
-              <div className="title">{el.name}</div>
-              <div className="artist">{el.artist}</div>
+              <div className="title">{el.songTitle}</div>
+              <div className="artist">{el.songArtist}</div>
             </div>
           </div>
 
           <div className="icons">
-            <VscNewFolder
-              className="add-play-list"
-              onClick={() => {
-                setSelectedSongId(el.id);
-                setIsMyPlayListClicked(true);
-                setIsMoreMenuClicked(false);
-              }}
-            />
-            <AiOutlineMore
-              className="more"
-              onClick={() => {
-                setSelectedSongId(el.id);
-                if (el.id === selectedSongId)
-                  setIsMoreMenuClicked(!isMoreMenuClicked);
-                else setIsMoreMenuClicked(true);
-              }}
-            />
-            {/* el.id !== selectedSongId 가 없으면 static 포지션을 가진 부모의 menulist가 출력됨 */}
+            {isEditClicked ? (
+              <VscTrash
+                className="more"
+                onClick={() => {
+                  setMusicTracks(
+                    musicTracks.filter((mel, i) => el.id !== mel.id)
+                  );
+                  setCheckedList(checkedList.filter((cel, i) => el.id !== cel));
+                }}
+              />
+            ) : (
+              <>
+                <VscNewFolder
+                  className="add-play-list"
+                  onClick={() => {
+                    setSelectedSongId(el.id);
+                    setIsMyPlayListClicked(true);
+                    setIsMoreMenuClicked(false);
+                  }}
+                />
+                <AiOutlineMore
+                  className="more"
+                  onClick={() => {
+                    setSelectedSongId(el.id);
+                    if (el.id === selectedSongId)
+                      setIsMoreMenuClicked(!isMoreMenuClicked);
+                    else setIsMoreMenuClicked(true);
+                  }}
+                />
+              </>
+            )}
             {el.id !== selectedSongId || !isMoreMenuClicked || (
               <div
                 className="more-menu-list"
