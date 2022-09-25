@@ -89,12 +89,17 @@ const StyledMyList = styled.div`
   }
 `;
 
-const MyList = () => {
+const MyList = ({ musicTracks, setMusicTracks }) => {
   return (
     <StyledMyList>
       <div className="my-list-inner-box">
         {mockData.data.map((el, i) => (
-          <PlayListContainer key={el.playlistId} data={el} />
+          <PlayListContainer
+            key={el.playlistId}
+            data={el}
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
+          />
         ))}
         <div className="play-list-container">
           <div className="play-list-cover">
@@ -113,14 +118,27 @@ const MyList = () => {
   );
 };
 
-const PlayListContainer = ({ data }) => {
+const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
   return (
     <div className="play-list-container">
       <div className="play-list-cover">
         <div className="first-box" />
         <div className="second-box" />
         <img src={data.albumImage} className="third-box" />
-        <FaPlay className="play" />
+        <FaPlay
+          className="play"
+          onClick={() => {
+            fetch("http://localhost:3000/datas/music-track-data.json")
+              .then((res) => res.json())
+              .then((plData) => {
+                const musicTracksId = musicTracks.map((el) => el.id);
+                const filteredNewTracks = plData.filter(
+                  (el, i) => musicTracksId.includes(el.id) === false
+                );
+                setMusicTracks([...filteredNewTracks, ...musicTracks]);
+              });
+          }}
+        />
       </div>
       <div className="song-info">
         <h2 className="title">{data.title}</h2>

@@ -63,7 +63,15 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/storage" element={<Storage />}>
-          <Route path="mylist" element={<MyList />} />
+          <Route
+            path="mylist"
+            element={
+              <MyList
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+              />
+            }
+          />
           <Route path="liketrack" element={<LikeTrack />} />
           <Route path="mostlisten" element={<MostListen />} />
           <Route path="recentlylisten" element={<RecentlyListen />} />

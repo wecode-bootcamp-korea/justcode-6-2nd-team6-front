@@ -58,6 +58,7 @@ const Storage = () => {
   const [isLikedClicked, setIsLikedClicked] = useState(false);
   const [isMostListenClicked, setIsMostListenClicked] = useState(false);
   const [isRecentlyListenClicked, setIsRecentlyListenClicked] = useState(false);
+
   return (
     <StyledStorage>
       <div className="storage-inner-box">
