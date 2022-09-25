@@ -10,7 +10,7 @@ const StyledMyList = styled.div`
 
     .play-list-container {
       display: flex;
-      width: 470px;
+      width: 480px;
       margin-right: 20px;
       margin-bottom: 20px;
       /* background-color: #777777; */
@@ -32,7 +32,7 @@ const StyledMyList = styled.div`
         .second-box {
           width: 185px;
           height: 185px;
-          margin-top: -167px;
+          margin-top: -165px;
           border-radius: 5px;
           background-color: #e9e9e9;
         }
@@ -43,7 +43,7 @@ const StyledMyList = styled.div`
           justify-content: center;
           width: 200px;
           height: 200px;
-          margin-top: -179px;
+          margin-top: -180px;
           border-radius: 5px;
           background-color: #dfdfdf;
           color: #3f3fff;
