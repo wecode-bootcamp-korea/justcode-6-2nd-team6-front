@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import ArtistTrack from './ArtistTrack';
+import ArtistAlbum from './ArtistAlbum';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { RiFolderAddLine } from 'react-icons/ri';
@@ -41,8 +42,8 @@ const StyledDetail = styled.div`
 
     div.artist-detail-cover {
       position: relative;
-      width: 240px;
-      height: 240px;
+      width: 260px;
+      height: 260px;
     }
   }
 
@@ -134,7 +135,7 @@ const StyledDetail = styled.div`
     .focus-on {
       height: 35px;
       width: 60px;
-      margin: 0 20px;
+      margin: 0 15px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -150,6 +151,7 @@ const StyledDetail = styled.div`
     .focus-off {
       height: 30px;
       width: 50px;
+      margin: 0 15px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -158,6 +160,7 @@ const StyledDetail = styled.div`
       border: none;
       border-radius: 100px;
       font-size: 17px;
+      text-align: inherit;
       cursor: pointer;
     }
   }
@@ -187,7 +190,10 @@ const ArtistDetail = () => {
     setCurrentTab(index);
   };
 
-  const tabArr = [{ name: '곡' }, { name: '앨범' }];
+  const tabArr = [
+    { name: '곡', content: <ArtistTrack /> },
+    { name: '앨범', content: <ArtistAlbum /> },
+  ];
 
   return (
     <StyledDetail>
@@ -237,9 +243,9 @@ const ArtistDetail = () => {
           </ul>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        {/*<StyledTab>
+        <StyledTab>
           <div>{tabArr[currentTab].content}</div>
-          </StyledTab>*/}
+        </StyledTab>
       </section>
     </StyledDetail>
   );
