@@ -19,6 +19,9 @@ import Main from "./main/Main";
 import Detail from "../components/Detail";
 import Storage from "./storage/Storage";
 import MyList from "./storage/MyList";
+import LikeTrack from "./storage/LikeTrack";
+import MostListen from "./storage/MostListen";
+import RecentlyListen from "./storage/RecentlyListen";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -60,7 +63,10 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/storage" element={<Storage />}>
-          <Route path="mylist" element={<MyList />}></Route>
+          <Route path="mylist" element={<MyList />} />
+          <Route path="liketrack" element={<LikeTrack />} />
+          <Route path="mostlisten" element={<MostListen />} />
+          <Route path="recentlylisten" element={<RecentlyListen />} />
         </Route>
       </Routes>
       <Footer />
