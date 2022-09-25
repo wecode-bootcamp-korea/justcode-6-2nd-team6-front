@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import DetailInfo from './DetailInfo';
-import DetailTrack from './DetailTrack';
+import DetailList from './DetailList';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { RiPlayListAddFill } from 'react-icons/ri';
-import { HiOutlineFolderAdd } from 'react-icons/hi';
+import { RiFolderAddLine } from 'react-icons/ri';
 import { BsSuitHeart } from 'react-icons/bs';
 
 const StyledDetail = styled.div`
@@ -23,13 +22,13 @@ const StyledDetail = styled.div`
     }
   }
 
-  section.detail-inner-box {
+  section.playlist-detail-inner-box {
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
 
-    div.detail-wrap {
-      width: 600px;
+    div.playlist-detail-wrap {
+      width: 1100px;
       display: flex;
       flex-direction: row;
       padding-top: 40px;
@@ -37,10 +36,10 @@ const StyledDetail = styled.div`
   }
 
   /* 앨범 트랙 커버 이미지*/
-  div.detail-inner {
+  div.playlist-detail-inner {
     position: static;
 
-    div.detail-cover {
+    div.playlist-detail-cover {
       position: relative;
       width: 240px;
       height: 240px;
@@ -48,15 +47,19 @@ const StyledDetail = styled.div`
     }
   }
 
-  img.detail-cover-img {
+  img.playlist-detail-cover-img {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: auto;
     border-radius: 6px;
+
+    &:hover {
+      filter: brightness(70%);
+    }
   }
 
-  button.detail-play {
+  button.playlist-detail-play {
     width: 55px;
     height: 55px;
     z-index: auto;
@@ -68,64 +71,79 @@ const StyledDetail = styled.div`
     background: none;
     color: white;
 
-    .detail-play-icon {
+    .playlist-detail-play-icon {
       width: 100%;
       height: 100%;
     }
   }
 
-  div.detail-album-inner-box {
+  div.playlist-detail-inner-box {
     margin: auto 30px;
 
-    div.detail-album-title {
+    div.playlist-detail-title {
       font-size: 30px;
       font-weight: 600;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
-    div.detail-album-singer {
+    div.playlist-detail-singer {
       font-size: 20px;
-      margin-bottom: 35px;
+      margin-bottom: 40px;
       color: #444444;
 
-      img.detail-album-icon-next {
+      img.playlist-detail-icon-next {
         width: 12px;
         height: 12px;
         padding-left: 3px;
       }
     }
 
-    div.detail-album-kind {
-      font-size: 15px;
-      margin-bottom: 10px;
+    div.playlist-detail-kind {
+      font-size: 16px;
+      margin-bottom: 12px;
     }
 
-    div.detail-album-date {
-      font-size: 15px;
-      margin-bottom: 20px;
+    div.playlist-detail-date {
+      font-size: 16px;
+      margin-bottom: 40px;
       color: #969ca7;
     }
 
-    .detail-album-icon-list,
-    .detail-album-icon-like {
+    .playlist-detail-icon-list,
+    .playlist-detail-icon-like {
       width: 25px;
       height: 25px;
       color: #3d3d3d;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
-    .detail-album-icon-folder {
+    .playlist-detail-icon-folder {
       width: 25px;
       height: 25px;
       margin: 0 20px;
       color: #3d3d3d;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
   }
 
-  div.detail-page-tab {
+  div.playlist-detail-page-tab {
     margin-top: 50px;
   }
 
-  ul.detail-page-tab-box {
+  ul.playlist-detail-page-tab-box {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -161,16 +179,21 @@ const StyledDetail = styled.div`
     }
   }
 
-  li.detail-page-tab-stick {
+  li.playlist-detail-page-tab-stick {
     margin: 0 10px;
   }
 
-  .detail-page-tab-btn {
-    font-family: 'NanumBarunGothic', sans-serif;
-    background: none;
+  button.playlist-detail-page-song {
+    height: 30px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: #3f3fff;
     border: none;
-    font-size: 18px;
-    margin: 0 10px;
+    border-radius: 100px;
+    font-size: 17px;
     cursor: pointer;
   }
 `;
@@ -179,79 +202,50 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const Detail = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-
-  const selectTabHandler = (index) => {
-    setCurrentTab(index);
-  };
-
-  const tabArr = [
-    { name: '상세정보', content: <DetailInfo /> },
-    { name: '수록곡', content: <DetailTrack /> },
-  ];
-
+const PlaylistDetail = () => {
   return (
     <StyledDetail>
-      <section className='detail-inner-box'>
+      <section className='playlist-detail-inner-box'>
         {/* 상세 페이지 썸네일 */}
-        <div className='detail-wrap'>
-          <div className='detail-inner'>
+        <div className='playlist-detail-wrap'>
+          <div className='playlist-detail-inner'>
             <h2 className='hidden'> 컨텐츠 상세보기</h2>
-            <div className='detail-cover'>
+            <div className='playlist-detail-cover'>
               <img
                 alt='앨범 표지'
-                className='detail-cover-img'
+                className='playlist-detail-cover-img'
                 src='/Images/album-cover-3.jpg'
               />
-              <button title='앨범 듣기' className='detail-play hover'>
-                <BsFillPlayFill className='detail-play-icon' />
+              <button title='앨범 듣기' className='playlist-detail-play hover'>
+                <BsFillPlayFill className='playlist-detail-play-icon' />
               </button>
             </div>
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className='detail-album-inner-box'>
-            <div className='detail-album-title'>관심과 사랑</div>
-            <div className='detail-album-singer'>
-              <span className='hover'>Monsune</span>
-              <img
-                alt='아티스트'
-                className='detail-album-icon-next'
-                src='/Images/next.png'
-              />
+          <div className='playlist-detail-inner-box'>
+            <div className='playlist-detail-title'>
+              혼자 조용히 듣기에 안성맞춤 재즈💆‍♀
             </div>
-            <div className='detail-album-kind'>싱글</div>
-            <div className='detail-album-date'>2022-09-21</div>
-            <div className='detail-album-icon'>
-              <RiPlayListAddFill className='detail-album-icon-list hover' />
-              <HiOutlineFolderAdd className='detail-album-icon-folder hover' />
-              <BsSuitHeart className='detail-album-icon-like hover' />
+            <div className='playlist-detail-kind'>총 15곡</div>
+            <div className='playlist-detail-date'>2022-09-21</div>
+            <div className='playlist-detail-icon'>
+              <RiPlayListAddFill className='playlist-detail-icon-list hover' />
+              <RiFolderAddLine className='playlist-detail-icon-folder hover' />
+              <BsSuitHeart className='playlist-detail-icon-like hover' />
             </div>
           </div>
         </div>
         {/* 상세 페이지 탭 */}
-        <div className='detail-page-tab'>
-          <ul className='detail-page-tab-box'>
-            {tabArr.map((el, index) => {
-              return (
-                <li
-                  key={index}
-                  className={currentTab === index ? 'focus-on' : 'focus-off'}
-                  onClick={() => selectTabHandler(index)}
-                >
-                  {el.name}
-                </li>
-              );
-            })}
-          </ul>
+        <div className='playlist-detail-page-tab'>
+          <button type='button' className='playlist-detail-page-song'>
+            곡
+          </button>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <StyledTab>
-          <div>{tabArr[currentTab].content}</div>
-        </StyledTab>
+        <DetailList />
       </section>
     </StyledDetail>
   );
 };
 
-export default Detail;
+export default PlaylistDetail;
