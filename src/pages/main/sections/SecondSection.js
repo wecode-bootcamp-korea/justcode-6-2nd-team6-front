@@ -207,9 +207,13 @@ const SecondSection = () => {
               return (
                 <div key={result.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
-                    <Link to='#' className='second-section-album-link'>
+                    <Link
+                      to='/detail/album'
+                      className='second-section-album-link'
+                    >
                       <div className='second-section-album-img-box'>
                         <img
+                          alt='앨범 표지'
                           className='second-section-album-cover'
                           src={result.albumCover}
                         />
@@ -227,11 +231,14 @@ const SecondSection = () => {
                       {result.albumTitle}
                     </span>
                   </a>
-                  <a className='second-section-album-singer-link'>
+                  <Link
+                    to='/detail/artist'
+                    className='second-section-album-singer-link'
+                  >
                     <span className='second-section-album-singer'>
                       {result.artist}
                     </span>
-                  </a>
+                  </Link>
                 </div>
               );
             })}
