@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import Modal from "@mui/material/Modal";
 import Dialog from "@mui/material/Dialog";
 import { AiOutlinePlus } from "react-icons/ai";
 
