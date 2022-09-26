@@ -59,6 +59,7 @@ function Router() {
         user_img={user_img}
         isLogin={isLogin}
         setIsLogin={setIsLogin}
+        setMusicTracks={setMusicTracks}
       />
       <Routes>
         <Route
@@ -84,7 +85,7 @@ function Router() {
           <Route path="voucher" element={<Voucher />}></Route>
           <Route path="affiliate" element={<Affiliate />}></Route>
         </Route>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main isLogin={isLogin} />} />
         <Route path="/detail" elememt={<Detail />}>
           <Route path="album" element={<AlbumDetail />} />
           <Route path="playlist" element={<PlaylistDetail />} />
