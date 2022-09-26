@@ -5,6 +5,8 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import LoginFooter from '../../components/LoginFooter';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LoginPopup from './LoginPopup';
+
 
 const StyledLogin = styled.div`
   .login-inner-box {
