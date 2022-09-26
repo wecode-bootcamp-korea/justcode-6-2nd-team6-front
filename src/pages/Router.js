@@ -38,21 +38,19 @@ function Router() {
   }, [musicTracks]);
 
   //  사용자 정보
-  const [userInfo, setUserInfo] = useState({
-    isLogin: false,
-    token: '',
-    user_name: '',
-  })
+  const token = sessionStorage.getItem('token')
+  const user_name = sessionStorage.getItem('name')
+  const user_img = sessionStorage.getItem('profileImage')
 
   return (
     <BrowserRouter>
-      <Header userInfo={userInfo} setUserInfo={setUserInfo} />
+      <Header token={token} user_name={user_name} user_img={user_img} />
       <Routes>
-        <Route path="/login" element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />} />
+        <Route path="/login" element={<Login token={token} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
-        <Route path="/signform" element={<Signform userInfo={userInfo} setUserInfo={setUserInfo} />} />
+        <Route path="/signform" element={<Signform/>} />
 
         <Route
           path="/test"

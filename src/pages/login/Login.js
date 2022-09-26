@@ -227,7 +227,7 @@ const StyledLogin = styled.div`
   }
 `;
 
-const Login = () => {
+const Login = ({token}) => {
   const navigate = useNavigate();
   // 비밀번호 토글버튼
   const [blind, setBlind] = useState(false);

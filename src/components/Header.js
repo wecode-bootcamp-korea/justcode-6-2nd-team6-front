@@ -121,16 +121,13 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = () => {
+const Header = ({token,user_name,user_img}) => {
   const[toggle, setToggle]=useState(false)
-
-  const token = sessionStorage.getItem('token')
-  const user_name = sessionStorage.getItem('name')
-  const user_img = sessionStorage.getItem('profileImage')
 
 
   return (
     <StyledHeader>
+      
       <div className='header-inner-box'>
         {/* 로고박스 */}
         <div className='header-logo-box'>
