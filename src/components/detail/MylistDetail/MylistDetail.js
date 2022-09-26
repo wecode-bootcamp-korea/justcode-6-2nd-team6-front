@@ -204,43 +204,61 @@ const StyledTab = styled.section`
 
 const MylistDetail = ({ musicTracks, setMusicTracks }) => {
   const params = useParams();
-  const [playlistInfo, setPlaylistInfo] = useState([
-    {
-      playlistId: 0,
-      characterId: 0,
-      playlistTitle: "",
-      playlistSongsCount: "",
-      createdDate: "",
-      songId: 0,
-      albumImage: "",
-    },
-  ]);
+  const [playlistInfo, setPlaylistInfo] = useState({
+    playlistId: 0,
+    characterId: 0,
+    playlistTitle: "제목",
+    playlistSongsCount: 3,
+    createdDate: "22.01.01",
+    songId: 0,
+    albumImage: "/Images/nothing.png",
+  });
   const [playlistSongs, setPlaylistSongs] = useState([
     {
       playlistId: 0,
       songId: 0,
-      songTitle: "",
+      songTitle: "곡 제목1",
       albumId: 0,
-      albumTitle: "",
-      albumImage: "",
+      albumTitle: "앨범 제목1",
+      albumImage: "/Images/nothing.png",
       atsId: 1,
-      artist: "",
+      artist: "가수가수",
+    },
+    {
+      playlistId: 1,
+      songId: 1,
+      songTitle: "곡 제목2",
+      albumId: 1,
+      albumTitle: "앨범 제목2",
+      albumImage: "/Images/nothing.png",
+      atsId: 2,
+      artist: "가수가수",
+    },
+    {
+      playlistId: 2,
+      songId: 2,
+      songTitle: "곡 제목3",
+      albumId: 2,
+      albumTitle: "앨범 제목3",
+      albumImage: "/Images/nothing.png",
+      atsId: 3,
+      artist: "가수가수",
     },
   ]);
 
-  useEffect(() => {
-    fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
-      headers: {
-        Authorization: sessionStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPlaylistInfo(data.playlistInfo[0]);
-        setPlaylistSongs(data.playlistSongs);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
+  //     headers: {
+  //       Authorization: sessionStorage.getItem("token"),
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setPlaylistInfo(data.playlistInfo[0]);
+  //       setPlaylistSongs(data.playlistSongs);
+  //     });
+  // }, []);
 
   return (
     <StyledDetail>
