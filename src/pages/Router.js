@@ -71,7 +71,7 @@ function Router() {
         />
         <Route path='/genre' element={<Genre />} />
         <Route path='/browse/:category' element={<Browsemenu />} />
-        <Route path='/purchase' element={<Purchase />}>
+        <Route path='/purchase' element={<Purchase  />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>

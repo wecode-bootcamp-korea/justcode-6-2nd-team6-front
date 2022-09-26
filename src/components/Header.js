@@ -124,8 +124,9 @@ const StyledHeader = styled.header`
 const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) => {
   const [toggle, setToggle] = useState(false)
   const logOut = ()=>{
-    setToggle(false)
-    setIsLogin(false)
+    setToggle(!toggle)
+    setIsLogin(!isLogin)
+    sessionStorage.clear()
   }
 
 
@@ -135,22 +136,22 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) =
       <div className='header-inner-box'>
         {/* 로고박스 */}
         <div className='header-logo-box'>
-          <a href='/' className='header-logo'>
+          <NavLink to='/' className='header-logo'>
             <img src='/Images/logo.png' alt='Florida로고' />
-          </a>
+          </NavLink>
         </div>
 
         {/* 메뉴박스 */}
         <div className='header-nav-box'>
           <ul className='header-nav-list'>
             <li>
-              <a href='/browse'>둘러보기</a>
+              <NavLink to='/browse'>둘러보기</NavLink>
             </li>
             <li>
-              <a href='/storage/mylist'>보관함</a>
+              <NavLink to='/storage/mylist'>보관함</NavLink>
             </li>
             <li>
-              <a href='/purchase/voucher'>이용권</a>
+              <NavLink to='/purchase/voucher'>이용권</NavLink>
             </li>
           </ul>
         </div>
