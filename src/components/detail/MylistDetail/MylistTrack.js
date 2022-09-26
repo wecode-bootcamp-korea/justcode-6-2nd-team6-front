@@ -335,7 +335,7 @@ const SongBar = ({ playlistSongs, setPlaylistSongs }) => {
         </td>
         {/* 수록곡 아티스트 */}
         <td className="detail-track-list-artist-box">
-          <Link to="#" className="detail-track-list-artist">
+          <Link to={`/detail`} className="detail-track-list-artist">
             <span className="detail-track-artist">{el.artist}</span>
           </Link>
         </td>

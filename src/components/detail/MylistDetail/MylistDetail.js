@@ -24,6 +24,7 @@ const StyledDetail = styled.div`
 
   section.playlist-detail-inner-box {
     height: 100%;
+    padding: 95px 80px 40px;
     background-color: #fff;
 
     div.playlist-detail-wrap {
@@ -36,7 +37,6 @@ const StyledDetail = styled.div`
   /* 앨범 트랙 커버 이미지*/
   div.playlist-detail-inner {
     position: static;
-    padding: 95px 80px 40px;
 
     div.playlist-detail-cover {
       position: relative;
@@ -270,18 +270,12 @@ const MylistDetail = () => {
             </div>
           </div>
         </div>
-        {/* 상세 페이지 탭 */}
-        <div className="playlist-detail-page-tab">
-          <button type="button" className="playlist-detail-page-song">
-            곡
-          </button>
-        </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <MylistTrack
-          playlistSongs={playlistSongs}
-          setPlaylistSongs={setPlaylistSongs}
-        />
       </section>
+      <MylistTrack
+        playlistSongs={playlistSongs}
+        setPlaylistSongs={setPlaylistSongs}
+      />
     </StyledDetail>
   );
 };
