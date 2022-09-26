@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import FirstSection from './sections/FirstSection';
 import SecondSection from './sections/SecondSection';
 import Container from '@mui/material/Container';
+import LoginPopup from '../login/LoginPopup';
+
 
 const StyledMain = styled.main`
   div.main-inner-box {
@@ -18,7 +20,7 @@ const StyledMain = styled.main`
   }
 `;
 
-const Main = () => {
+const Main = ({ isLogin }) => {
   return (
     <Container fixed>
       <StyledMain>
@@ -29,6 +31,7 @@ const Main = () => {
           </div>
         </div>
       </StyledMain>
+     {isLogin === true ? <LoginPopup /> : null } 
     </Container>
   );
 };

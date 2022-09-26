@@ -55,9 +55,9 @@ function Router() {
 
   return (
     <BrowserRouter>
-      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} />
+      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
       <Routes>
-        <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />} />
+        <Route path="/login" element={<Login token={token}  isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
@@ -75,7 +75,7 @@ function Router() {
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
-        <Route path='/' element={<Main />} />
+        <Route path='/' element={<Main  isLogin={isLogin}/>} />
         <Route path='/detail' elememt={<Detail />}>
           <Route path='album' element={<AlbumDetail />} />
           <Route path='playlist' element={<PlaylistDetail />} />

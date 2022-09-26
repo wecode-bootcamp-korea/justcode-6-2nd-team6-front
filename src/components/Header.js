@@ -133,11 +133,12 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) => {
+const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin,setMusicTracks }) => {
   const [toggle, setToggle] = useState(false)
   const logOut = ()=>{
     setToggle(!toggle)
     setIsLogin(!isLogin)
+    setMusicTracks([])
     sessionStorage.clear()
   }
 
@@ -199,7 +200,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) =
                     <NavLink to='/signup'>회원가입</NavLink>
                   </li>
                 </>)}
-              {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} setToken={setToken}  logOut={logOut}/> : null}
+              {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} setToken={setToken}  logOut={logOut} setMusicTracks={setMusicTracks}/> : null}
             </ul>
           </div>
         </div>
