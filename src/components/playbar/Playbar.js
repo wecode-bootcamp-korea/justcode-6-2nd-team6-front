@@ -246,15 +246,15 @@ const Playbar = ({
 
   return (
     <StyledPlaybar>
-      {true ? (
+      {sessionStorage.getItem("token") !== null ? (
         <div className="playbar-inner-box flex-center">
           <p className="warning">
             로그인 후 음악 재생 서비스를 이용하실 수 있습니다.
           </p>
-          <Link to="/signup" className="login">
+          <Link to="/login" className="login">
             로그인
           </Link>
-          <Link to="/login" className="signup">
+          <Link to="/signup" className="signup">
             회원가입
           </Link>
         </div>

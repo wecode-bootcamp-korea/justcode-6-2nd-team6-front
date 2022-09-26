@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import MylistTrack from './MylistTrack';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import { RiFolderAddLine } from 'react-icons/ri';
-import { BsSuitHeart } from 'react-icons/bs';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import MylistTrack from "./MylistTrack";
+import { BsFillPlayFill } from "react-icons/bs";
+import { RiPlayListAddFill } from "react-icons/ri";
+import { RiFolderAddLine } from "react-icons/ri";
+import { BsSuitHeart } from "react-icons/bs";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
-  font-family: 'NanumBarunGothic', sans-serif;
+  font-family: "NanumBarunGothic", sans-serif;
 
   /* a, button에 호버 주기 */
   .hover {
@@ -24,11 +24,9 @@ const StyledDetail = styled.div`
 
   section.playlist-detail-inner-box {
     height: 100%;
-    padding: 95px 80px 40px;
     background-color: #fff;
 
     div.playlist-detail-wrap {
-      width: 1100px;
       display: flex;
       flex-direction: row;
       padding-top: 40px;
@@ -38,6 +36,7 @@ const StyledDetail = styled.div`
   /* 앨범 트랙 커버 이미지*/
   div.playlist-detail-inner {
     position: static;
+    padding: 95px 80px 40px;
 
     div.playlist-detail-cover {
       position: relative;
@@ -203,46 +202,85 @@ const StyledTab = styled.section`
 `;
 
 const MylistDetail = () => {
+  const [playlistInfo, setPlaylistInfo] = useState([
+    {
+      playlistId: 0,
+      characterId: 0,
+      playlistTitle: "",
+      playlistSongsCount: "",
+      createdDate: "",
+      songId: 0,
+      albumImage: "",
+    },
+  ]);
+  const [playlistSongs, setPlaylistSongs] = useState([
+    {
+      playlistId: 0,
+      songId: 0,
+      songTitle: "",
+      albumId: 0,
+      albumTitle: "",
+      albumImage: "",
+      atsId: 1,
+      artist: "",
+    },
+  ]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/datas/play-list-data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPlaylistInfo(data.playlistInfo[0]);
+        setPlaylistSongs(data.playlistSongs);
+      });
+  }, []);
   return (
     <StyledDetail>
-      <section className='playlist-detail-inner-box'>
+      <section className="playlist-detail-inner-box">
         {/* 상세 페이지 썸네일 */}
-        <div className='playlist-detail-wrap'>
-          <div className='playlist-detail-inner'>
-            <h2 className='hidden'> 컨텐츠 상세보기</h2>
-            <div className='playlist-detail-cover'>
+        <div className="playlist-detail-wrap">
+          <div className="playlist-detail-inner">
+            <div className="playlist-detail-cover">
               <img
-                alt='앨범 표지'
-                className='playlist-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                alt="앨범 표지"
+                className="playlist-detail-cover-img"
+                src={playlistInfo.albumImage}
               />
-              <button title='앨범 듣기' className='playlist-detail-play hover'>
-                <BsFillPlayFill className='playlist-detail-play-icon' />
+              <button title="앨범 듣기" className="playlist-detail-play hover">
+                <BsFillPlayFill className="playlist-detail-play-icon" />
               </button>
             </div>
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className='playlist-detail-inner-box'>
-            <div className='playlist-detail-title'>
-              혼자 조용히 듣기에 안성맞춤 재즈💆‍♀
+          <div className="playlist-detail-inner-box">
+            <div className="playlist-detail-title">
+              {playlistInfo.playlistTitle}
             </div>
-            <div className='playlist-detail-kind'>총 15곡</div>
-            <div className='playlist-detail-date'>2022-09-21</div>
-            <div className='playlist-detail-icon'>
-              <RiPlayListAddFill className='playlist-detail-icon-list hover' />
-              <RiFolderAddLine className='playlist-detail-icon-folder hover' />
-              <BsSuitHeart className='playlist-detail-icon-like hover' />
+            <div className="playlist-detail-kind">
+              총 {playlistInfo.playlistSongsCount}곡
+            </div>
+            <div className="playlist-detail-date">
+              {playlistInfo.createdDate}
+            </div>
+            <div className="playlist-detail-icon">
+              <RiPlayListAddFill className="playlist-detail-icon-list hover" />
+              <RiFolderAddLine className="playlist-detail-icon-folder hover" />
+              <BsSuitHeart className="playlist-detail-icon-like hover" />
             </div>
           </div>
         </div>
         {/* 상세 페이지 탭 */}
-        <div className='playlist-detail-page-tab'>
-          <button type='button' className='playlist-detail-page-song'>
+        <div className="playlist-detail-page-tab">
+          <button type="button" className="playlist-detail-page-song">
             곡
           </button>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <MylistTrack />
+        <MylistTrack
+          playlistSongs={playlistSongs}
+          setPlaylistSongs={setPlaylistSongs}
+        />
       </section>
     </StyledDetail>
   );
