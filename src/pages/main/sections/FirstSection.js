@@ -149,13 +149,12 @@ const FirstSection = () => {
   const [slide, setSlide] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000', {
+    fetch('http://localhost:8000/', {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.slideData);
         setSlide(data.slideData);
       });
   }, []);
@@ -187,7 +186,7 @@ const FirstSection = () => {
           {slide.map((result) => {
             return (
               <div
-                key={result.titleData.playlistId}
+                key={result.titleData[0].playlistId}
                 className='first-section-wrap'
               >
                 {/* 첫번째 슬라이드 */}
@@ -199,12 +198,12 @@ const FirstSection = () => {
                     {/* 플리 소개 */}
                     <div className='first-section-slider-info'>
                       <h4 className='first-section-slider-title'>
-                        {result.titleData.playlistTitle}
+                        {result.titleData[0].playlistTitle}
                       </h4>
                       <div className='first-section-slider-date'>
-                        총 {result.titleData.playlistSongsCount}곡
+                        총 {result.titleData[0].playlistSongsCount}곡
                         <span className='first-section-stick'>|</span>
-                        {result.titleData.createdDate}
+                        {result.titleData[0].createdDate}
                       </div>
                       <button
                         title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
@@ -216,30 +215,30 @@ const FirstSection = () => {
                     </div>
                     {/* 노래리스트 */}
                     <div className='first-section-playlist-wrap'>
-                      {slide.songsData.map((result) => {
-                        return (
-                          <ul
-                            key={result.songId}
-                            className='first-section-playlist-box'
-                          >
-                            <li className='first-section-playlist-list'>
+                      <ul className='first-section-playlist-box'>
+                        {result.songsData.map((song) => {
+                          return (
+                            <li
+                              key={song.songId}
+                              className='first-section-playlist-list'
+                            >
                               <img
                                 alt='앨범 표지'
-                                src={result.albumImage}
+                                src={song.albumImage}
                                 className='first-section-album-cover'
                               />
                               <div className='first-section-playlist-box-info'>
                                 <strong className='first-section-playlist-song'>
-                                  {result.songTitle}
+                                  {song.songTitle}
                                 </strong>
                                 <div className='first-section-playlist-singer'>
-                                  {result.artist}
+                                  {song.artist}
                                 </div>
                               </div>
                             </li>
-                          </ul>
-                        );
-                      })}
+                          );
+                        })}
+                      </ul>
                     </div>
                     {/* 플리 노래리스트 끝 */}
                   </Link>

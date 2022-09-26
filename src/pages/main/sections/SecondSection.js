@@ -140,14 +140,22 @@ const StyledSection = styled.section`
 
 const SecondSection = () => {
   const [albumList, setAlbumList] = useState([]);
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const [synthesis, setSynthesis] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000')
+    fetch('http://localhost:8000/')
       .then((res) => res.json())
       .then((data) => {
+        console.log('최신 발매 음악 => ', data.recent);
         setAlbumList(data.recent);
       });
   }, []);
+
+  const domestic = albumList.filter(() => albumList.scope);
+
+  console.log('국내만 => ', domestic);
 
   return (
     <StyledSection>
