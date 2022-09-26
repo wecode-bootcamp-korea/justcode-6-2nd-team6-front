@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import React, {  useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LoginFooter from '../../components/LoginFooter';
 
 const StyledCertification = styled.div`
@@ -13,6 +13,17 @@ const StyledCertification = styled.div`
     width: 1280px;
     padding: 100px;
     margin: 0 auto;
+    .certification-logo-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 300px;
+      margin-top: 100px;
+      img {
+        width: 100%;
+      }
+    }
     .certification-container {
       width: 100%;
       display: flex;
@@ -301,6 +312,13 @@ const Certification = () => {
   return (
     <StyledCertification>
       <div className='certification-inner-box'>
+                  {/* 로고박스 */}
+        <NavLink to='/' className='certification-logo-box'>
+          <img
+            src={process.env.PUBLIC_URL + '/Images/logo.png'}
+            alt='플로리다로고'
+          />
+        </NavLink>
         <div className='certification-container'>
           {/* 본인인증 타이틀 */}
           <div className='certification-title-box'>
