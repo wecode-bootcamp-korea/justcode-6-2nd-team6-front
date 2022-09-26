@@ -55,7 +55,7 @@ function Router() {
 
   return (
     <BrowserRouter>
-      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} />
+      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
       <Routes>
         <Route path="/login" element={<Login token={token}  isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />

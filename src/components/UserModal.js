@@ -114,7 +114,7 @@ const StyledUserModal = styled.div`
     }
 }
 `
-const UserModal = ({ user_name, user_img, isLogin, logOut }) => {
+const UserModal = ({ user_name, user_img, isLogin, logOut}) => {
 
 
 
