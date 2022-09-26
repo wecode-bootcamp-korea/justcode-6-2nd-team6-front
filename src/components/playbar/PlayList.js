@@ -221,17 +221,32 @@ const PlayList = ({
   const [sameGenreMusic, setSameGenreMusic] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/datas/same-artist-song-data.json")
+    fetch(
+      `http://localhost:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
+      {
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setSameArtistsMusic(data);
       });
-    fetch("http://localhost:3000/datas/same-genre-song-data.json")
+
+    fetch(
+      `http://localhost:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
+      {
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setSameGenreMusic(data);
       });
-  }, [trackIndex]);
+  }, [trackIndex || musicTracks]);
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -258,7 +273,7 @@ const PlayList = ({
       return el;
     } else
       return {
-        id: el.key,
+        songId: el.key,
         songTitle: "none",
         songArtist: "none",
         albumCover: "",
@@ -333,7 +348,7 @@ const PlayList = ({
                   } else {
                     // 편집 (전체선택)
                     if (checkedList.length < musicTracks.length) {
-                      setCheckedList(musicTracks.map((el) => el.id));
+                      setCheckedList(musicTracks.map((el) => el.songId));
                     } else setCheckedList([]);
                   }
                   setIsMoreMenuClicked(false);
@@ -519,7 +534,7 @@ const PlayList = ({
                   onClick={() => {
                     setMusicTracks(
                       musicTracks.filter((el, i) => {
-                        return !checkedList.includes(el.id);
+                        return !checkedList.includes(el.songId);
                       })
                     );
                     setCheckedList([]);

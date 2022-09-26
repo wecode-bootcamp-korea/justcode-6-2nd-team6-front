@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiOutlineFolderAdd } from "react-icons/ai";
 import { FiMoreVertical } from "react-icons/fi";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
+import { AiOutlineCheck } from "react-icons/ai";
 
 const StyledTrack = styled.div`
   padding-top: 40px;
 
-  div.detail-track-inner-box {
-    button.detail-track-whole-play-btn {
-      display: flex;
-      align-items: flex-end;
-      background: none;
-      border: none;
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-      &:hover {
-        cursor: pointer;
-        color: #3f3fff;
+  .detail-track-inner-box {
+    .detail-track-whole-box {
+      justify-content: space-between;
+      .detail-track-whole-play-btn {
+        display: flex;
+        align-items: flex-end;
+        background: none;
+        border: none;
+
+        &:hover {
+          cursor: pointer;
+          color: #3f3fff;
+        }
       }
     }
 
@@ -27,11 +38,11 @@ const StyledTrack = styled.div`
       height: 17px;
     }
 
-    span.detail-track-whole-play {
+    .detail-track-whole-play {
       font-size: 16px;
     }
 
-    table.detail-track-list-table {
+    .detail-track-list-table {
       min-width: 100%;
       max-width: none;
       width: auto;
@@ -236,18 +247,95 @@ const StyledTrack = styled.div`
         }
       }
     }
+
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 150px;
+      right: calc(50% - 150px);
+      width: 300px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+      color: white;
+
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 33.3%;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:nth-of-type(2) {
+          .wrapper {
+            border-right: 2px solid #5252ff;
+            border-left: 2px solid #5252ff;
+          }
+        }
+
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 30px 0;
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
   }
 `;
 
-const MylistTrack = ({ playlistSongs, setPlaylistSongs }) => {
+const MylistTrack = ({
+  playlistSongs,
+  setPlaylistSongs,
+  musicTracks,
+  setMusicTracks,
+}) => {
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+
   return (
     <StyledTrack>
       <div className="detail-track-inner-box">
-        <div className="detail-track-whole-box">
-          <button className="detail-track-whole-play-btn" type="button">
+        <div className="detail-track-whole-box flex-center">
+          <div
+            className="detail-track-whole-play-btn flex-center hover"
+            type="button"
+          >
             <BsPlay className="detail-track-whole-icon" />
             <span className="detail-track-whole-play">전체듣기</span>
-          </button>
+          </div>
+
+          <span
+            className="edit hover"
+            onClick={() => setIsEditClicked(!isEditClicked)}
+          >
+            {isEditClicked ? "완료" : "편집"}
+          </span>
         </div>
         {/* 수록곡 정보 */}
         <div className="detail-track-list-box">
@@ -258,7 +346,7 @@ const MylistTrack = ({ playlistSongs, setPlaylistSongs }) => {
               <col width="*" data-cell="곡/앨범" />
               <col width="250" data-cell="아티스트" />
               <col width="70" data-cell="듣기" />
-              <col width="70" data-cell="재생목록" />
+              <col width="75" data-cell="재생목록" />
               <col width="70" data-cell="더보기" />
             </colgroup>
             <thead>
@@ -291,16 +379,66 @@ const MylistTrack = ({ playlistSongs, setPlaylistSongs }) => {
               <SongBar
                 playlistSongs={playlistSongs}
                 setPlaylistSongs={setPlaylistSongs}
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
               />
             </tbody>
           </table>
         </div>
+        {!isEditClicked || (
+          <div className="edit-inner-box">
+            <div className="edit-container">
+              <div className="edit-box">
+                <div className="checklist-counter">1</div>
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    // setCheckedList([]);
+                  }}
+                >
+                  <AiOutlineCheck className="icon" />
+                  <div className="text">선택해제</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    // setIsMyPlayListClicked(true);
+                  }}
+                >
+                  <VscNewFolder className="icon" />
+                  <div className="text">내 리스트</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    // setCheckedList([]);
+                  }}
+                >
+                  <VscTrash className="icon" />
+                  <div className="text">삭제</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </StyledTrack>
   );
 };
 
-const SongBar = ({ playlistSongs, setPlaylistSongs }) => {
+const SongBar = ({
+  playlistSongs,
+  setPlaylistSongs,
+  musicTracks,
+  setMusicTracks,
+}) => {
+  const musicTracksId = musicTracks.map((el) => el.songId);
+  console.log(musicTracksId);
+
   return playlistSongs.map((el, i) => {
     return (
       <tr key={el.songId}>
@@ -342,7 +480,24 @@ const SongBar = ({ playlistSongs, setPlaylistSongs }) => {
         {/* 수록곡 아이콘 */}
         <td className="detail-track-list-icon">
           <button type="button" className="detail-track-icon-listen">
-            <BsFillPlayFill className="detail-track-icon-listen-icon" />
+            <BsFillPlayFill
+              className="detail-track-icon-listen-icon"
+              onClick={() => {
+                fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
+                  headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                  },
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    const song = data[0];
+                    if (musicTracksId.includes(song.songId) === false)
+                      setMusicTracks([song, ...musicTracks]);
+                    else alert("현재 재생목록에 이미 존재하는 곡입니다.");
+                  });
+              }}
+            />
           </button>
         </td>
         <td className="detail-track-list-icon">

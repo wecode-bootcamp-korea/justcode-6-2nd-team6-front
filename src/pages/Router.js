@@ -77,7 +77,15 @@ function Router() {
           <Route path="album" element={<AlbumDetail />} />
           <Route path="playlist" element={<PlaylistDetail />} />
           <Route path="artist" element={<ArtistDetail />} />
-          <Route path="mylist/:id" element={<MylistDetail />} />
+          <Route
+            path="mylist/:id"
+            element={
+              <MylistDetail
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+              />
+            }
+          />
         </Route>
         <Route path="/storage" element={<Storage />}>
           <Route

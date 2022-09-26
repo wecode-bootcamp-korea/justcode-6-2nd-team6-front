@@ -130,13 +130,13 @@ const PlayListMusic = ({
   const mapMusic = musicTracks.map((el, i) => {
     if (el.content !== "")
       return (
-        <div className="play-list-music-inner-box" key={el.id}>
+        <div className="play-list-music-inner-box" key={el.songId}>
           <div
             className="song-info flex-center"
             onClick={() => {
               if (isEditClicked === false) setTrackIndex(i);
               else if (isEditClicked === true)
-                onCheckedElement(checkedList.includes(el.id), el.id);
+                onCheckedElement(checkedList.includes(el.songId), el.songId);
               setIsMoreMenuClicked(false);
             }}
           >
@@ -144,8 +144,8 @@ const PlayListMusic = ({
               <input
                 type="checkbox"
                 className="checkbox"
-                value={el.id}
-                checked={checkedList.includes(el.id) ? true : false}
+                value={el.songId}
+                checked={checkedList.includes(el.songId) ? true : false}
                 onChange={() => {}}
               />
             )}
@@ -184,9 +184,11 @@ const PlayListMusic = ({
                 className="more"
                 onClick={() => {
                   setMusicTracks(
-                    musicTracks.filter((mel, i) => el.id !== mel.id)
+                    musicTracks.filter((mel, i) => el.songId !== mel.songId)
                   );
-                  setCheckedList(checkedList.filter((cel, i) => el.id !== cel));
+                  setCheckedList(
+                    checkedList.filter((cel, i) => el.songId !== cel)
+                  );
                 }}
               />
             ) : (
@@ -194,7 +196,7 @@ const PlayListMusic = ({
                 <VscNewFolder
                   className="add-play-list"
                   onClick={() => {
-                    setSelectedSongId(el.id);
+                    setSelectedSongId(el.songId);
                     setIsMyPlayListClicked(true);
                     setIsMoreMenuClicked(false);
                   }}
@@ -202,19 +204,19 @@ const PlayListMusic = ({
                 <AiOutlineMore
                   className="more"
                   onClick={() => {
-                    setSelectedSongId(el.id);
-                    if (el.id === selectedSongId)
+                    setSelectedSongId(el.songId);
+                    if (el.songId === selectedSongId)
                       setIsMoreMenuClicked(!isMoreMenuClicked);
                     else setIsMoreMenuClicked(true);
                   }}
                 />
               </>
             )}
-            {el.id !== selectedSongId || !isMoreMenuClicked || (
+            {el.songId !== selectedSongId || !isMoreMenuClicked || (
               <div
                 className="more-menu-list"
                 onClick={() => {
-                  setSelectedSongId(el.id);
+                  setSelectedSongId(el.songId);
                 }}
               >
                 <div className="more-menu">

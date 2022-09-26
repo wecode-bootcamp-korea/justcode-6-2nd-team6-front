@@ -117,10 +117,15 @@ const MyList = ({ musicTracks, setMusicTracks }) => {
   ]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/datas/play-lists-data.json")
+    fetch("http://localhost:8000/storage", {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setMyListData(data.data);
+        console.log(data);
+        // setMyListData(data.data);
       });
   }, []);
 
@@ -165,7 +170,12 @@ const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
         <FaPlay
           className="play"
           onClick={() => {
-            fetch("http://localhost:3000/datas/music-track-data.json")
+            fetch("localhost:8000/play/addsongs/song/1", {
+              headers: {
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJsZWVAY29kZXIuY29tIiwiaWF0IjoxNjY0MTc1NDY3LCJleHAiOjE2NjQyNjE4Njd9.9pNW1D-OA_0p6__0CPyBaD-0Xn1nxmJGtp9Sje5uDYY",
+              },
+            })
               .then((res) => res.json())
               .then((plData) => {
                 const musicTracksId = musicTracks.map((el) => el.id);

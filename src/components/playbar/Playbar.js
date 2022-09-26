@@ -236,17 +236,28 @@ const Playbar = ({
   const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
+  const [isLiked, setIsLiked] = useState(false);
 
   // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID)
   useEffect(() => {
     if (musicTracks.length !== 0) {
-      console.log("change!");
+      fetch(`http://localhost:8000/play/${musicTracks[trackIndex].songId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.isLiked === "1") setIsLiked(true);
+          else setIsLiked(false);
+        });
     }
   }, [trackIndex || musicTracks]);
 
   return (
     <StyledPlaybar>
-      {sessionStorage.getItem("token") !== null ? (
+      {false ? (
         <div className="playbar-inner-box flex-center">
           <p className="warning">
             로그인 후 음악 재생 서비스를 이용하실 수 있습니다.
@@ -298,7 +309,49 @@ const Playbar = ({
 
               {!isExpandedClicked || (
                 <div className="like-and-add">
-                  <IoMdHeartEmpty className="like" size="32" />
+                  {isLiked ? (
+                    <IoMdHeart
+                      className="like"
+                      size="32"
+                      onClick={() => {
+                        fetch(
+                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          {
+                            method: "PATCH",
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((data) => {
+                            console.log(data);
+                            setIsLiked(false);
+                          });
+                      }}
+                    />
+                  ) : (
+                    <IoMdHeartEmpty
+                      className="like"
+                      size="32"
+                      onClick={() => {
+                        fetch(
+                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          {
+                            method: "PATCH",
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((data) => {
+                            console.log(data);
+                            setIsLiked(true);
+                          });
+                      }}
+                    />
+                  )}
                   <VscNewFolder
                     className="add-play-list"
                     size="30"
@@ -340,7 +393,50 @@ const Playbar = ({
             isExpandedClicked={isExpandedClicked}
             setMusicTracks={setMusicTracks}
           ></MusicPlayer>
-          {isExpandedClicked || <HiOutlineHeart className="like" />}
+          {isExpandedClicked || isLiked ? (
+            <HiHeart
+              className="like"
+              size="32"
+              onClick={() => {
+                fetch(
+                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    setIsLiked(false);
+                  });
+              }}
+            />
+          ) : (
+            <HiOutlineHeart
+              className="like"
+              size="32"
+              onClick={() => {
+                fetch(
+                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    setIsLiked(true);
+                  });
+              }}
+            />
+          )}
+
           {isExpandedClicked || (
             <RiPlayListFill
               className="playlist"
@@ -392,7 +488,7 @@ const Playbar = ({
             isMyPlayListClicked={isMyPlayListClicked}
             setIsMyPlayListClicked={setIsMyPlayListClicked}
             playingMusicId={
-              musicTracks.length === 0 ? 0 : musicTracks[trackIndex].id
+              musicTracks.length === 0 ? 0 : musicTracks[trackIndex].songId
             }
             selectedSongId={selectedSongId}
             isGetMyPlayListClicked={isGetMyPlayListClicked}

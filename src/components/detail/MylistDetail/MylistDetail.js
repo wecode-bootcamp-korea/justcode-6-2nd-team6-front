@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import MylistTrack from "./MylistTrack";
 import { BsFillPlayFill } from "react-icons/bs";
@@ -201,7 +202,8 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const MylistDetail = () => {
+const MylistDetail = ({ musicTracks, setMusicTracks }) => {
+  const params = useParams();
   const [playlistInfo, setPlaylistInfo] = useState([
     {
       playlistId: 0,
@@ -226,15 +228,21 @@ const MylistDetail = () => {
     },
   ]);
 
+  console.log(`http://localhost:8000/detail/mylist/${params.id}`);
+
   useEffect(() => {
-    fetch("http://localhost:3000/datas/play-list-data.json")
+    fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSongs(data.playlistSongs);
       });
   }, []);
+
   return (
     <StyledDetail>
       <section className="playlist-detail-inner-box">
@@ -275,6 +283,8 @@ const MylistDetail = () => {
       <MylistTrack
         playlistSongs={playlistSongs}
         setPlaylistSongs={setPlaylistSongs}
+        musicTracks={musicTracks}
+        setMusicTracks={setMusicTracks}
       />
     </StyledDetail>
   );
