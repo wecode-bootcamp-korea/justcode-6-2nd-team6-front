@@ -44,9 +44,14 @@ const StyledUserModal = styled.div`
         /* 유저 정보 - 아이디 */
         .user-info-text-box{
           margin-right: 20px;
-            .user-id{
-                font: bold 15px/1 'apple';
-            }
+                .user-id{
+                    font: bold 15px/1 'apple';
+                    color: #000;
+                    transition: all 0.5s;
+                    &:hover{
+                        color:#3f3fff
+                    }
+                }
             .user-text{
                 margin-top: 5px;
                 font: 13px/1 'apple';
@@ -100,6 +105,11 @@ const StyledUserModal = styled.div`
             font-size: 14px;
             color: #3f3fff;
             cursor: pointer;
+            transition: all 0.5s;
+            &:hover{
+                background: #3f3fff;
+                color: #fff;
+            }
         }
     }
 }
@@ -122,19 +132,19 @@ const UserModal = ({ user_name, user_img, isLogin, logOut }) => {
                         <img src={user_img} alt="" />
                     </NavLink>
                     {/* 유저 닉네임박스 */}
-                    <div className="user-info-text-box">
-                        <NavLink className='user-id'>{user_name}</NavLink>
-                        <p className='user-text'>님 즐거운 플로리다 되세요.</p>
-                    </div>
+                    <NavLink to='/My' className="user-info-text-box">
+                        <span className='user-id'>{user_name} 님</span>
+                        <p className='user-text'>즐거운 플로리다 되세요.</p>
+                    </NavLink>
                 </div>
 
                 {/* 마이페이지 */}
-                <NavLink className="user-my-page-box">
+                <NavLink to='/' className="user-my-page-box">
                     <span>마이페이지</span>
                 </NavLink>
 
                 {/* 이용권관리 */}
-                <NavLink className="user-voucher-box">
+                <NavLink to='/' className="user-voucher-box">
                     <span>이용권관리</span>
                 </NavLink>
 

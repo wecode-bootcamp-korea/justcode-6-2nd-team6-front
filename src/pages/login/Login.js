@@ -122,14 +122,14 @@ const StyledLogin = styled.div`
           height: 50px;
           border: none;
           cursor: pointer;
+          font: bold 18px/1 'NanumBarunGothic';
+          color: #fff;
+          
           &:disabled {
             background: #ddd;
             cursor: default;
           }
-          span {
-            font: bold 18px/1 'NanumBarunGothic';
-            color: #fff;
-          }
+
         }
         .login-btn-on {
           display: flex;

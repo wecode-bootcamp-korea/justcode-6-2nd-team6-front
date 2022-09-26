@@ -42,6 +42,10 @@ const StyledHeader = styled.header`
           a {
             font: 16px/1 'NanumBarunGothic';
             color: #000;
+            transition: all 0.5s;
+            &:hover{
+              color: #3f3fff;
+            }
           }
         }
       }
@@ -61,6 +65,10 @@ const StyledHeader = styled.header`
         padding: 10px;
         padding-left: 40px;
         border: 1px solid #bbb;
+        transition: all 0.5s;
+        &:hover{
+          border: 1px solid #3f3fff;
+        }
       }
       svg {
         position: relative;
@@ -88,6 +96,10 @@ const StyledHeader = styled.header`
           a {
               font: 13px/1 'NanumBarunGothic';
               color: #777;
+              transition: all 0.5s;
+              &:hover{
+                color: #3f3fff;
+              }
             }
           .header-login-off {
             margin-right: 20px;
@@ -172,7 +184,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) =
               {isLogin ? (
                 <div onClick={() => { setToggle(!toggle) }}>
                   <li className='header-login-on' >
-                    <span className='user-name' >{user_name}</span>
+                    <span className='user-name' >{user_name} 님 반갑습니다.</span>
                     <div className="user-img">
                       <img src={user_img} alt="" />
                     </div>
