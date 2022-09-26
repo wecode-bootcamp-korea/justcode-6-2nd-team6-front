@@ -58,14 +58,18 @@ const StyledPopup = styled.div`
 
 
 const Popup = () => {
-    const [year, setYear] = useState('0000')
-    const [month, setMonth] = useState('00')
-    const [date, setDate] = useState('00')
     const [timer, setTimer] = useState(true)
 
     useEffect(() => {
         setTimeout(() => { setTimer(false) }, 1500)
     })
+
+    // 현재 날짜 및 시간
+    const now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth();
+    let date = now.getDate();
+
 
     return (
         <StyledPopup>

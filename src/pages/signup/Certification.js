@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, {  useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginFooter from '../../components/LoginFooter';
 
 const StyledCertification = styled.div`
@@ -171,6 +171,10 @@ const StyledCertification = styled.div`
 `;
 
 const Certification = () => {
+  const navigate = useNavigate();
+
+  // 로그인시 받아오는 
+
   // Input값을 담을 State생성
   const [certification, setCertification] = useState('');
   const [phone, setPhone] = useState('');
@@ -251,16 +255,11 @@ const Certification = () => {
         verifyCode: certification,
       })
       .then((response) => {
-        // Handle success.
-        console.log('Well done!');
-        console.log('User profile', response.data.user);
-        console.log('User token', response.data.jwt);
-        localStorage.setItem('token', response.data.jwt);
-        Navigate('/signform');
+        console.log('번호인증을 성공했습니다.',response);
+        navigate('/signform');
       })
       .catch((error) => {
-        // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log('번호인증을 실패했습니다.', error.response);
       });
   };
 
@@ -272,16 +271,11 @@ const Certification = () => {
         phone: phone,
       })
       .then((response) => {
-        // Handle success.
-        console.log('Well done!');
-        console.log('User profile', response.data.user);
-        console.log('User token', response.data.jwt);
-        localStorage.setItem('token', response.data.jwt);
-        Navigate('/certification');
+        console.log('인증번호를 발송했습니다.',response);
+        navigate('/certification');
       })
       .catch((error) => {
-        // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log('인증번호 발송을 실패했습니다.', error.response);
       });
     e.preventDefault();
   };

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -44,16 +44,22 @@ function Router() {
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
+  //  사용자 정보
+  const token = sessionStorage.getItem("token");
+  const user_name = sessionStorage.getItem("name");
+  const user_img = sessionStorage.getItem("profileImage");
+
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Header />
+      <Header token={token} user_name={user_name} user_img={user_img} />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login token={token} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
         <Route path="/signform" element={<Signform />} />
+
         <Route
           path="/test"
           element={
