@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledSignform = styled.div`
@@ -329,16 +329,12 @@ const Signform = () => {
       })
       .then((response) => {
         // Handle success.
-        let token = response.data.token;
-        localStorage.setItem('token', token);
-        console.log('로그인이 완료되었습니다!!');
-        console.log('User token', response.data.token);
-        console.log('User profile', response.data.user);
+        console.log('회원가입이 완료되었습니다.');
         navigate('/');
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log('회원가입에 실패했습니다.', error.response);
       });
   };
 

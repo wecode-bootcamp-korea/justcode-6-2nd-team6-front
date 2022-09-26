@@ -17,6 +17,8 @@ import { Addtab, Browsemenu } from "../components/Browsemenu";
 import Genre from "../components/Genre";
 import Main from "./main/Main";
 import Detail from "../components/Detail";
+import UserModal from '../components/UserModal';
+
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -35,15 +37,23 @@ function Router() {
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
+  //  사용자 정보
+  const [userInfo, setUserInfo] = useState({
+    isLogin: false,
+    token: '',
+    user_name: '',
+  })
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header userInfo={userInfo} setUserInfo={setUserInfo} />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
-        <Route path="/signform" element={<Signform />} />
+        <Route path="/signform" element={<Signform userInfo={userInfo} setUserInfo={setUserInfo} />} />
+
         <Route
           path="/test"
           element={

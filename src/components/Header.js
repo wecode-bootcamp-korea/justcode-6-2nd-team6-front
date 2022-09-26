@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { NavLink } from 'react-router-dom';
+import UserModal from './UserModal';
 
 const StyledHeader = styled.header`
   .header-inner-box {
@@ -78,12 +80,40 @@ const StyledHeader = styled.header`
         align-items: center;
         .header-login-menu-list {
           display: flex;
-          li {
+          align-items: center;
+          margin-right: 50px;
+          .studio{
             margin-right: 20px;
-            a {
+          }
+          a {
               font: 13px/1 'NanumBarunGothic';
               color: #777;
             }
+          .header-login-off {
+            margin-right: 20px;
+          }
+          .header-login-on{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font: 13px/1 'apple';
+            .user-name{
+              margin-left: 20px;
+              padding-top: 4px;
+              cursor: pointer;
+            }
+            .user-img{
+              width: 40px;
+              height: 40px;
+              margin-left: 20px;
+              img{
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                cursor: pointer;
+              }
+            }
+            
           }
         }
       }
@@ -92,8 +122,12 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
-  // 유저네임 스테이트
-  const [username, setUserName] = useState('로그인');
+  const[toggle, setToggle]=useState(false)
+
+  const token = sessionStorage.getItem('token')
+  const user_name = sessionStorage.getItem('name')
+  const user_img = sessionStorage.getItem('profileImage')
+
 
   return (
     <StyledHeader>
@@ -130,16 +164,28 @@ const Header = () => {
         <div className='header-login-box'>
           <div className='header-login-menu-box'>
             <ul className='header-login-menu-list'>
-              <li>
-                <a href='/promotion/cms/flocreators'>크리에이터 스튜디오</a>
+              <li className='studio'>
+                <NavLink to='/promotion/cms/flocreators'>크리에이터 스튜디오</NavLink>
               </li>
-              <li>
-                {/* 스테이트로 닉네임값을 받아와야함 */}
-                <a href='/login'>{username}</a>
-              </li>
-              <li>
-                <a href='/signup'>회원가입</a>
-              </li>
+              {token ? (
+                <div onClick={()=>{setToggle(!toggle)}}>
+                <li className='header-login-on' >
+                  <span className='user-name' >{user_name}</span>
+                  <div className="user-img">
+                    <img src={user_img} alt="" />
+                  </div>
+                </li>
+                </div>
+              ) : (
+                <>
+                    <li className='header-login-off' >
+                    <NavLink to='/login'>로그인</NavLink>
+                  </li>
+                  <li className='header-login-off' >
+                    <NavLink to='/signup'>회원가입</NavLink>
+                  </li>
+                </>)}
+                {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} /> : null}
             </ul>
           </div>
         </div>

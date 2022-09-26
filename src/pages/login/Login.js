@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import LoginFooter from '../../components/LoginFooter';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const StyledLogin = styled.div`
@@ -253,6 +253,9 @@ const Login = () => {
   // 로그인 Axios
   const isLogin = (e) => {
     e.preventDefault();
+
+    console.log('아이디값',input.email);
+    console.log('비밀번호값',input.password);
     axios
       .post('http://localhost:8000/users/login', {
         email: input.email,
@@ -261,10 +264,13 @@ const Login = () => {
       .then((response) => {
         // Handle success.
         let token = response.data.token;
-        localStorage.setItem('token', token);
+        let name = response.data.data[0].name;
+        let profileImage = response.data.data[0].profileImage;
+        // seesionStorage로 창을 닫으면 자동 로그아웃됨
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('name', name);
+        sessionStorage.setItem('profileImage', profileImage);
         console.log('로그인이 완료되었습니다!!');
-        console.log('User token', response.data.token);
-        console.log('User profile', response.data.user);
         navigate('/');
       })
       .catch((error) => {
@@ -318,7 +324,7 @@ const Login = () => {
             </div>
 
             {/* 로그인버튼 */}
-            <button className='login-btn' disabled={disabled} onClick={isLogin}>
+            <button type='submit' className='login-btn' disabled={disabled} onClick={isLogin}>
               로그인
             </button>
 
