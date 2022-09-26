@@ -32,6 +32,8 @@ import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
+  const [isLogin, setIsLogin] = useState(false)
+
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -50,15 +52,16 @@ function Router() {
   const user_name = sessionStorage.getItem('name')
   const user_img = sessionStorage.getItem('profileImage')
 
+
   return (
     <BrowserRouter>
-      <Header token={token} user_name={user_name} user_img={user_img} />
+      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
-        <Route path="/login" element={<Login token={token} />} />
+        <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
-        <Route path="/signform" element={<Signform/>} />
+        <Route path="/signform" element={<Signform />} />
 
         <Route
           path='/test'

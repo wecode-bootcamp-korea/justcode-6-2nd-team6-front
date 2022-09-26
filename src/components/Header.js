@@ -121,13 +121,17 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = ({token,user_name,user_img}) => {
-  const[toggle, setToggle]=useState(false)
+const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) => {
+  const [toggle, setToggle] = useState(false)
+  const logOut = ()=>{
+    setToggle(false)
+    setIsLogin(false)
+  }
 
 
   return (
     <StyledHeader>
-      
+
       <div className='header-inner-box'>
         {/* 로고박스 */}
         <div className='header-logo-box'>
@@ -164,25 +168,25 @@ const Header = ({token,user_name,user_img}) => {
               <li className='studio'>
                 <NavLink to='/promotion/cms/flocreators'>크리에이터 스튜디오</NavLink>
               </li>
-              {token ? (
-                <div onClick={()=>{setToggle(!toggle)}}>
-                <li className='header-login-on' >
-                  <span className='user-name' >{user_name}</span>
-                  <div className="user-img">
-                    <img src={user_img} alt="" />
-                  </div>
-                </li>
+              {isLogin ? (
+                <div onClick={() => { setToggle(!toggle) }}>
+                  <li className='header-login-on' >
+                    <span className='user-name' >{user_name}</span>
+                    <div className="user-img">
+                      <img src={user_img} alt="" />
+                    </div>
+                  </li>
                 </div>
               ) : (
                 <>
-                    <li className='header-login-off' >
+                  <li className='header-login-off' >
                     <NavLink to='/login'>로그인</NavLink>
                   </li>
                   <li className='header-login-off' >
                     <NavLink to='/signup'>회원가입</NavLink>
                   </li>
                 </>)}
-                {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} /> : null}
+              {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} setToken={setToken}  logOut={logOut}/> : null}
             </ul>
           </div>
         </div>

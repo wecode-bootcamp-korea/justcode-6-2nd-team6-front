@@ -227,7 +227,7 @@ const StyledLogin = styled.div`
   }
 `;
 
-const Login = ({token}) => {
+const Login = ({setIsLogin}) => {
   const navigate = useNavigate();
   // 비밀번호 토글버튼
   const [blind, setBlind] = useState(false);
@@ -272,6 +272,7 @@ const Login = ({token}) => {
         sessionStorage.setItem('profileImage', profileImage);
         console.log('로그인이 완료되었습니다!!');
         navigate('/');
+        setIsLogin(true)
       })
       .catch((error) => {
         // Handle error.

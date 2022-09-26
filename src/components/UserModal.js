@@ -104,13 +104,14 @@ const StyledUserModal = styled.div`
     }
 }
 `
-const UserModal = ({user_name, user_img, removeToken}) => {
+const UserModal = ({ user_name, user_img, isLogin, logOut }) => {
 
 
-    
+
 
 
     return (
+        
         <StyledUserModal>
             <div className="modal-inner-box">
                 <p className='user-info-title'>내 정보</p>
@@ -118,7 +119,7 @@ const UserModal = ({user_name, user_img, removeToken}) => {
                 <div className="user-info-box">
                     {/* 유저 이미지박스 */}
                     <NavLink className="user-info-img-box">
-                        <img src={user_img}alt="" />
+                        <img src={user_img} alt="" />
                     </NavLink>
                     {/* 유저 닉네임박스 */}
                     <div className="user-info-text-box">
@@ -139,7 +140,7 @@ const UserModal = ({user_name, user_img, removeToken}) => {
 
                 {/* 로그아웃버튼 */}
                 <div className="logout-btn-box">
-                <button type='button' className='logout-btn' onClick={()=>{sessionStorage.clear();}} >로그아웃</button>
+                    <button type='button' className='logout-btn' onClick={logOut} >로그아웃</button>
                 </div>
             </div>
 
