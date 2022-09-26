@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -9,17 +10,25 @@ const StyledTrack = styled.div`
   padding-top: 40px;
 
   div.detail-track-inner-box {
-    div.detail-track-whole-box {
-      margin-left: 10px;
+    button.detail-track-whole-play-btn {
+      display: flex;
+      align-items: flex-end;
+      background: none;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
     .detail-track-whole-icon {
-      vertical-align: middle;
+      width: 17px;
+      height: 17px;
     }
 
     span.detail-track-whole-play {
       font-size: 16px;
-      text-align: center;
     }
 
     table.detail-track-list-table {
@@ -177,15 +186,16 @@ const StyledTrack = styled.div`
         }
       }
       /* 수록곡 아티스트 */
-      td.detail-track-list-artist {
+      td.detail-track-list-artist-box {
         position: relative;
         text-align: left;
         font-size: 15px;
         color: #333;
 
-        div.detail-track-list-artist {
+        a.detail-track-list-artist {
           position: relative;
           min-width: 100px;
+          color: black;
         }
 
         span.detail-track-artist {
@@ -196,6 +206,11 @@ const StyledTrack = styled.div`
           white-space: nowrap;
           width: 196px;
           font-size: 15px;
+
+          &:hover {
+            cursor: pointer;
+            color: #3f3fff;
+          }
         }
       }
       /* 수록곡 듣기,내 리스트, 더보기 아이콘 */
@@ -228,16 +243,17 @@ const DetailTrack = () => {
     <StyledTrack>
       <div className='detail-track-inner-box'>
         <div className='detail-track-whole-box'>
-          <BsPlay className='detail-track-whole-icon' />
-          <span className='detail-track-whole-play'>전체듣기</span>
+          <button class='detail-track-whole-play-btn' type='button'>
+            <BsPlay className='detail-track-whole-icon' />
+            <span className='detail-track-whole-play'>전체듣기</span>
+          </button>
         </div>
         {/* 수록곡 정보 */}
         <div className='detail-track-list-box'>
           <table className='detail-track-list-table'>
             <caption>곡 목록</caption>
             <colgroup>
-              <col width='42' data-cell='체크박스' />
-              <col width='40' data-cell='번호' />
+              <col width='45' data-cell='체크박스' />
               <col width='*' data-cell='곡/앨범' />
               <col width='250' data-cell='아티스트' />
               <col width='70' data-cell='듣기' />
@@ -253,7 +269,6 @@ const DetailTrack = () => {
                     type='checkbox'
                   />
                 </th>
-                <th scope='col'>번호</th>
                 <th scope='col' className='detail-track-list-info'>
                   곡/앨범
                 </th>
@@ -283,7 +298,6 @@ const DetailTrack = () => {
                     type='checkbox'
                   />
                 </td>
-                <td className='detail-track-list-number'> 1 </td>
                 {/* 수록곡 곡/앨범 */}
                 <td className='detail-track-list-info-wrap'>
                   <div className='detail-track-list-info-box'>
@@ -314,9 +328,9 @@ const DetailTrack = () => {
                 </td>
                 {/* 수록곡 아티스트 */}
                 <td className='detail-track-list-artist-box'>
-                  <div className='detail-track-list-artist'>
+                  <Link to='#' className='detail-track-list-artist'>
                     <span class='detail-track-artist'>Monsune</span>
-                  </div>
+                  </Link>
                 </td>
                 {/* 수록곡 아이콘 */}
                 <td className='detail-track-list-icon'>
