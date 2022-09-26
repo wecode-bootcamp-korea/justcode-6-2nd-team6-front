@@ -42,6 +42,10 @@ const StyledHeader = styled.header`
           a {
             font: 16px/1 'NanumBarunGothic';
             color: #000;
+            transition: all 0.5s;
+            &:hover{
+              color: #3f3fff;
+            }
           }
         }
       }
@@ -61,6 +65,10 @@ const StyledHeader = styled.header`
         padding: 10px;
         padding-left: 40px;
         border: 1px solid #bbb;
+        transition: all 0.5s;
+        &:hover{
+          border: 1px solid #3f3fff;
+        }
       }
       svg {
         position: relative;
@@ -88,6 +96,10 @@ const StyledHeader = styled.header`
           a {
               font: 13px/1 'NanumBarunGothic';
               color: #777;
+              transition: all 0.5s;
+              &:hover{
+                color: #3f3fff;
+              }
             }
           .header-login-off {
             margin-right: 20px;
@@ -121,32 +133,37 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = ({token,user_name,user_img}) => {
-  const[toggle, setToggle]=useState(false)
+const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin }) => {
+  const [toggle, setToggle] = useState(false)
+  const logOut = ()=>{
+    setToggle(!toggle)
+    setIsLogin(!isLogin)
+    sessionStorage.clear()
+  }
 
 
   return (
     <StyledHeader>
-      
+
       <div className='header-inner-box'>
         {/* 로고박스 */}
         <div className='header-logo-box'>
-          <a href='/' className='header-logo'>
+          <NavLink to='/' className='header-logo'>
             <img src='/Images/logo.png' alt='Florida로고' />
-          </a>
+          </NavLink>
         </div>
 
         {/* 메뉴박스 */}
         <div className='header-nav-box'>
           <ul className='header-nav-list'>
             <li>
-              <a href='/browse'>둘러보기</a>
+              <NavLink to='/browse'>둘러보기</NavLink>
             </li>
             <li>
-              <a href='/storage/mylist'>보관함</a>
+              <NavLink to='/storage/mylist'>보관함</NavLink>
             </li>
             <li>
-              <a href='/purchase/voucher'>이용권</a>
+              <NavLink to='/purchase/voucher'>이용권</NavLink>
             </li>
           </ul>
         </div>
@@ -164,25 +181,25 @@ const Header = ({token,user_name,user_img}) => {
               <li className='studio'>
                 <NavLink to='/promotion/cms/flocreators'>크리에이터 스튜디오</NavLink>
               </li>
-              {token ? (
-                <div onClick={()=>{setToggle(!toggle)}}>
-                <li className='header-login-on' >
-                  <span className='user-name' >{user_name}</span>
-                  <div className="user-img">
-                    <img src={user_img} alt="" />
-                  </div>
-                </li>
+              {isLogin ? (
+                <div onClick={() => { setToggle(!toggle) }}>
+                  <li className='header-login-on' >
+                    <span className='user-name' >{user_name} 님 반갑습니다.</span>
+                    <div className="user-img">
+                      <img src={user_img} alt="" />
+                    </div>
+                  </li>
                 </div>
               ) : (
                 <>
-                    <li className='header-login-off' >
+                  <li className='header-login-off' >
                     <NavLink to='/login'>로그인</NavLink>
                   </li>
                   <li className='header-login-off' >
                     <NavLink to='/signup'>회원가입</NavLink>
                   </li>
                 </>)}
-                {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} /> : null}
+              {toggle === true ? <UserModal user_name={user_name} user_img={user_img} token={token} setToken={setToken}  logOut={logOut}/> : null}
             </ul>
           </div>
         </div>
