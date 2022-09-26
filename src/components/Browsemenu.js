@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Genre from './Genre';
+import Chart from './Chart';
 
 const StyledBrowseMenu = styled.div`
   .BrowseMenu-inner-box {
@@ -178,6 +179,7 @@ const Browsemenu = () => {
           </ul>
         </div>
       </div>
+      <Chart />
       <Genre />
     </StyledBrowseMenu>
   );
