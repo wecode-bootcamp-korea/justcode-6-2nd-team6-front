@@ -228,8 +228,6 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
     },
   ]);
 
-  console.log(`http://localhost:8000/detail/mylist/${params.id}`);
-
   useEffect(() => {
     fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
       headers: {
@@ -238,6 +236,7 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSongs(data.playlistSongs);
       });
@@ -256,7 +255,29 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
                 src={playlistInfo.albumImage}
               />
               <button title="앨범 듣기" className="playlist-detail-play hover">
-                <BsFillPlayFill className="playlist-detail-play-icon" />
+                <BsFillPlayFill
+                  className="playlist-detail-play-icon"
+                  onClick={() => {
+                    fetch(
+                      `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                      {
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                      }
+                    )
+                      .then((res) => res.json())
+                      .then((plData) => {
+                        const musicTracksId = musicTracks.map(
+                          (el) => el.songId
+                        );
+                        const filteredNewTracks = plData.filter(
+                          (el, i) => musicTracksId.includes(el.songId) === false
+                        );
+                        setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                      });
+                  }}
+                />
               </button>
             </div>
           </div>
@@ -271,16 +292,12 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
             <div className="playlist-detail-date">
               {playlistInfo.createdDate}
             </div>
-            <div className="playlist-detail-icon">
-              <RiPlayListAddFill className="playlist-detail-icon-list hover" />
-              <RiFolderAddLine className="playlist-detail-icon-folder hover" />
-              <BsSuitHeart className="playlist-detail-icon-like hover" />
-            </div>
           </div>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
       </section>
       <MylistTrack
+        playlistInfo={playlistInfo}
         playlistSongs={playlistSongs}
         setPlaylistSongs={setPlaylistSongs}
         musicTracks={musicTracks}

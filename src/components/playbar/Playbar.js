@@ -229,6 +229,7 @@ const Playbar = ({
   setTrackIndex,
   musicTracks,
   setMusicTracks,
+  isLogin,
 }) => {
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
@@ -257,7 +258,7 @@ const Playbar = ({
 
   return (
     <StyledPlaybar>
-      {false ? (
+      {!isLogin ? (
         <div className="playbar-inner-box flex-center">
           <p className="warning">
             로그인 후 음악 재생 서비스를 이용하실 수 있습니다.

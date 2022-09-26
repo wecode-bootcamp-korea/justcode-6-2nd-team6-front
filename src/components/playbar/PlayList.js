@@ -221,31 +221,33 @@ const PlayList = ({
   const [sameGenreMusic, setSameGenreMusic] = useState([]);
 
   useEffect(() => {
-    fetch(
-      `http://localhost:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
-      {
-        headers: {
-          Authorization: sessionStorage.getItem("token"),
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setSameArtistsMusic(data);
-      });
+    if (musicTracks.length !== 0) {
+      fetch(
+        `http://localhost:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSameArtistsMusic(data);
+        });
 
-    fetch(
-      `http://localhost:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
-      {
-        headers: {
-          Authorization: sessionStorage.getItem("token"),
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setSameGenreMusic(data);
-      });
+      fetch(
+        `http://localhost:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSameGenreMusic(data);
+        });
+    }
   }, [trackIndex || musicTracks]);
 
   const onCheckedElement = (checked, item) => {

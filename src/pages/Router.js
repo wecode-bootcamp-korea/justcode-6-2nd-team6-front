@@ -45,6 +45,11 @@ function Router() {
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
+  // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
+  useEffect(() => {
+    if (sessionStorage.getItem("token") !== null) setIsLogin(true);
+  }, []);
+
   //  사용자 정보
   const token = sessionStorage.getItem("token");
   const user_name = sessionStorage.getItem("name");
@@ -121,6 +126,7 @@ function Router() {
         setTrackIndex={setTrackIndex}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
+        isLogin={isLogin}
       />
     </BrowserRouter>
   );

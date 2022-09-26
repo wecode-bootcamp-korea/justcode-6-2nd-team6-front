@@ -178,9 +178,9 @@ const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
             })
               .then((res) => res.json())
               .then((plData) => {
-                const musicTracksId = musicTracks.map((el) => el.id);
+                const musicTracksId = musicTracks.map((el) => el.songId);
                 const filteredNewTracks = plData.filter(
-                  (el, i) => musicTracksId.includes(el.id) === false
+                  (el, i) => musicTracksId.includes(el.songId) === false
                 );
                 setMusicTracks([...filteredNewTracks, ...musicTracks]);
               });
