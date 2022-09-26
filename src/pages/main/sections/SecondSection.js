@@ -18,13 +18,22 @@ const StyledSection = styled.section`
     }
 
     div.second-section-genre {
+      width: 130px;
+    }
+    ul.second-section-genre-title {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
 
-      button {
-        border: none;
-        background: none;
+      li.on {
+        font-size: large;
+        font-weight: 550;
+        cursor: pointer;
+        color: #3f3fff;
+      }
+
+      li.off {
         font-size: large;
         font-weight: 550;
 
@@ -142,20 +151,29 @@ const SecondSection = () => {
   const [albumList, setAlbumList] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
 
-  const [synthesis, setSynthesis] = useState([]);
-
   useEffect(() => {
     fetch('http://localhost:8000/')
       .then((res) => res.json())
       .then((data) => {
-        console.log('최신 발매 음악 => ', data.recent);
         setAlbumList(data.recent);
       });
   }, []);
 
-  const domestic = albumList.filter(() => albumList.scope);
+  const selectTabHandler = (index) => {
+    setCurrentTab(index);
+  };
 
-  console.log('국내만 => ', domestic);
+  const countryArr = [
+    { name: '종합', content: albumList.slice(0, 10) },
+    {
+      name: '국내',
+      content: albumList.filter((country) => country.scope.includes('국내')),
+    },
+    {
+      name: '해외',
+      content: albumList.filter((country) => country.scope.includes('해외')),
+    },
+  ];
 
   return (
     <StyledSection>
@@ -179,41 +197,28 @@ const SecondSection = () => {
           </div>
           {/*오늘 발매 음악 장르 */}
           <div className='second-section-genre'>
-            <div className='second-section-genre-title'>
-              <button
-                alt='종합'
-                type='button'
-                id='genre-title'
-                className='second-section-genre-mix'
-              >
-                종합
-              </button>
-              <button
-                alt='국내'
-                type='button'
-                id='genre-title'
-                className='second-section-genre-domestic'
-              >
-                국내
-              </button>
-              <button
-                alt='해외'
-                type='button'
-                id='genre-title'
-                className='second-section-genre-foreign'
-              >
-                해외
-              </button>
-            </div>
+            <ul className='second-section-genre-title'>
+              {countryArr.map((el, index) => {
+                return (
+                  <li
+                    key={index}
+                    className={currentTab === index ? 'on' : 'off'}
+                    onClick={() => selectTabHandler(index)}
+                  >
+                    {el.name}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
         {/*최신 발매 음악 정보 끝 */}
         <div className='second-section-album-inner-box'>
           <div className='second-section-album-wrap'>
             {/*앨범리스트*/}
-            {albumList.map((result) => {
+            {countryArr[currentTab].content.map((el) => {
               return (
-                <div key={result.albumId} className='second-section-album-box'>
+                <div key={el.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link
                       to='/detail/album'
@@ -223,7 +228,7 @@ const SecondSection = () => {
                         <img
                           alt='앨범 표지'
                           className='second-section-album-cover'
-                          src={result.albumCover}
+                          src={el.albumCover}
                         />
                       </div>
                     </Link>
@@ -235,16 +240,14 @@ const SecondSection = () => {
                     </button>
                   </div>
                   <a className='second-section-album-song-link'>
-                    <span className='second-section-song'>
-                      {result.albumTitle}
-                    </span>
+                    <span className='second-section-song'>{el.albumTitle}</span>
                   </a>
                   <Link
                     to='/detail/artist'
                     className='second-section-album-singer-link'
                   >
                     <span className='second-section-album-singer'>
-                      {result.artist}
+                      {el.artist}
                     </span>
                   </Link>
                 </div>
