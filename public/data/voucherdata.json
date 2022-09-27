@@ -4,15 +4,27 @@
       "voucherId": 1,
       "voucherName": "무제한 듣기+오프라인 재생",
       "description": "기기제한 없음, 무제한 스트리밍, 오프라인 재생",
-      "origin_price": "11,000",
-      "sale_price": "10,900",
-      "membership": [
+      "payments": [
         {
+          "name": "정기결제",
+          "salePrice": "10,900",
+          "description": null,
+          "originPrice": "11,000",
+          "paymentType": "regular"
+        },
+        {
+          "name": "T멤버십",
+          "salePrice": "100",
           "description": "선택하신 T멤버십 혜택 타입과 사용 가능한 T플러스포인트에 따라 실제 결제금액이 변동될 수 있습니다.",
-          "membershipId": 1,
-          "origin_price": "10,900",
-          "benefit_price": "100",
-          "membershipName": "T멤버십 최소 100원 6개월"
+          "originPrice": "10,900",
+          "paymentType": "membershipT"
+        },
+        {
+          "name": "1개월권",
+          "salePrice": "11,000",
+          "description": null,
+          "originPrice": null,
+          "paymentType": "oneMonth"
         }
       ]
     },
@@ -20,15 +32,27 @@
       "voucherId": 2,
       "voucherName": "무제한 듣기",
       "description": "기기제한 없음, 무제한 스트리밍",
-      "origin_price": "8,000",
-      "sale_price": "7,900",
-      "membership": [
+      "payments": [
         {
+          "name": "정기결제",
+          "salePrice": "7,900",
+          "description": null,
+          "originPrice": "8,000",
+          "paymentType": "regular"
+        },
+        {
+          "name": "T멤버십",
+          "salePrice": "100",
           "description": "선택하신 T멤버십 혜택 타입과 사용 가능한 T플러스포인트에 따라 실제 결제금액이 변동될 수 있습니다.",
-          "membershipId": 2,
-          "origin_price": "7,900",
-          "benefit_price": "100",
-          "membershipName": "T멤버십 최소 100원 6개월"
+          "originPrice": "7,900",
+          "paymentType": "membershipT"
+        },
+        {
+          "name": "1개월권",
+          "salePrice": "8,000",
+          "description": null,
+          "originPrice": null,
+          "paymentType": "oneMonth"
         }
       ]
     },
@@ -36,15 +60,27 @@
       "voucherId": 3,
       "voucherName": "300회 듣기",
       "description": "기기제한 없음, 횟수 제한",
-      "origin_price": "4,800",
-      "sale_price": null,
-      "membership": [
+      "payments": [
         {
+          "name": "정기결제",
+          "salePrice": null,
           "description": null,
-          "membershipId": null,
-          "origin_price": null,
-          "benefit_price": null,
-          "membershipName": null
+          "originPrice": "4,800",
+          "paymentType": "regular"
+        },
+        {
+          "name": "T멤버십",
+          "salePrice": null,
+          "description": null,
+          "originPrice": null,
+          "paymentType": "membershipT"
+        },
+        {
+          "name": "1개월권",
+          "salePrice": "4,800",
+          "description": null,
+          "originPrice": null,
+          "paymentType": "oneMonth"
         }
       ]
     },
@@ -52,15 +88,27 @@
       "voucherId": 4,
       "voucherName": "모바일 무제한 듣기",
       "description": "모바일 전용, 무제한 스트리밍",
-      "origin_price": "7,000",
-      "sale_price": "6,900",
-      "membership": [
+      "payments": [
         {
+          "name": "정기결제",
+          "salePrice": "6,900",
+          "description": null,
+          "originPrice": "7,000",
+          "paymentType": "regular"
+        },
+        {
+          "name": "T멤버십",
+          "salePrice": "100",
           "description": "선택하신 T멤버십 혜택 타입과 사용 가능한 T플러스포인트에 따라 실제 결제금액이 변동될 수 있습니다.",
-          "membershipId": 3,
-          "origin_price": "6,900",
-          "benefit_price": "100",
-          "membershipName": "T멤버십 최소 100원 6개월"
+          "originPrice": "6,900",
+          "paymentType": "membershipT"
+        },
+        {
+          "name": "1개월권",
+          "salePrice": "7,000",
+          "description": null,
+          "originPrice": null,
+          "paymentType": "oneMonth"
         }
       ]
     }
