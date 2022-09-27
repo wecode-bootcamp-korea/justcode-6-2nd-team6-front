@@ -238,7 +238,7 @@ const StyledTrack = styled.div`
   }
 `;
 
-const DetailTrack = () => {
+const DetailList = ({ playlistSongs }) => {
   return (
     <StyledTrack>
       <div className='detail-track-inner-box'>
@@ -290,65 +290,81 @@ const DetailTrack = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className='detail-track-list-select'>
-                  <input
-                    name='곡 선택하기'
-                    className='detail-track-list-checkbox'
-                    type='checkbox'
-                  />
-                </td>
-                {/* 수록곡 곡/앨범 */}
-                <td className='detail-track-list-info-wrap'>
-                  <div className='detail-track-list-info-box'>
-                    <div className='detail-track-list-info-thumb'>
-                      <a href='#' className='detail-track-list-info-album'>
-                        <img
-                          alt='앨범 이미지'
-                          src='/Images/album-cover-3.jpg'
-                          className='detail-track-list-info-img'
-                        />
-                      </a>
-                    </div>
-                    <div className='detail-track-list-info-txt-area'>
-                      <div className='detail-track-list-song'>
-                        {' '}
-                        관심과 사랑(inst.){' '}
-                      </div>
-                      <div className='detail-track-list-album-box'>
-                        <a href='#' className='detail-track-list-album-link'>
-                          <div className='detail-track-list-album'>
+              {playlistSongs.map((data) => {
+                return (
+                  <tr key={data.songId}>
+                    <td className='detail-track-list-select'>
+                      <input
+                        name='곡 선택하기'
+                        className='detail-track-list-checkbox'
+                        type='checkbox'
+                      />
+                    </td>
+                    {/* 수록곡 곡/앨범 */}
+                    <td className='detail-track-list-info-wrap'>
+                      <div className='detail-track-list-info-box'>
+                        <div className='detail-track-list-info-thumb'>
+                          <a href='#' className='detail-track-list-info-album'>
+                            <img
+                              alt='앨범 이미지'
+                              src={data.albumImage}
+                              className='detail-track-list-info-img'
+                            />
+                          </a>
+                        </div>
+                        <div className='detail-track-list-info-txt-area'>
+                          <div className='detail-track-list-song'>
                             {' '}
-                            사랑과 이별{' '}
+                            {data.songTitle}{' '}
                           </div>
-                        </a>
+                          <div className='detail-track-list-album-box'>
+                            <a
+                              href='#'
+                              className='detail-track-list-album-link'
+                            >
+                              <div className='detail-track-list-album'>
+                                {' '}
+                                {data.albumTitle}{' '}
+                              </div>
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </td>
-                {/* 수록곡 아티스트 */}
-                <td className='detail-track-list-artist-box'>
-                  <Link to='#' className='detail-track-list-artist'>
-                    <span class='detail-track-artist'>Monsune</span>
-                  </Link>
-                </td>
-                {/* 수록곡 아이콘 */}
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <BsFillPlayFill className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <AiOutlineFolderAdd className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <FiMoreVertical className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-              </tr>
+                    </td>
+                    {/* 수록곡 아티스트 */}
+                    <td className='detail-track-list-artist-box'>
+                      <Link to='#' className='detail-track-list-artist'>
+                        <span class='detail-track-artist'>{data.artist}</span>
+                      </Link>
+                    </td>
+                    {/* 수록곡 아이콘 */}
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <BsFillPlayFill className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <AiOutlineFolderAdd className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <FiMoreVertical className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -357,4 +373,4 @@ const DetailTrack = () => {
   );
 };
 
-export default DetailTrack;
+export default DetailList;

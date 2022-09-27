@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DetailList from './DetailList';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -203,6 +204,21 @@ const StyledTab = styled.section`
 `;
 
 const PlaylistDetail = () => {
+  const [playlistInfo, setPlaylistInfo] = useState([]);
+  const [playlistSong, setPlaylistSong] = useState([]);
+  const params = useParams();
+  const playlistId = params.playlistId;
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/playlist/${playlistId}`)
+      .then((res) => res.json())
+
+      .then((data) => {
+        setPlaylistInfo(data.playlistInfo[0]);
+        setPlaylistSong(data.playlistSongs);
+      });
+  }, []);
+
   return (
     <StyledDetail>
       <section className='playlist-detail-inner-box'>
@@ -214,7 +230,7 @@ const PlaylistDetail = () => {
               <img
                 alt='앨범 표지'
                 className='playlist-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                src={playlistInfo.albumImage}
               />
               <button title='앨범 듣기' className='playlist-detail-play hover'>
                 <BsFillPlayFill className='playlist-detail-play-icon' />
@@ -224,10 +240,14 @@ const PlaylistDetail = () => {
           {/* 상세 페이지 앨범 제목 및 가수 */}
           <div className='playlist-detail-inner-box'>
             <div className='playlist-detail-title'>
-              혼자 조용히 듣기에 안성맞춤 재즈💆‍♀
+              {playlistInfo.playlistTitle}
             </div>
-            <div className='playlist-detail-kind'>총 15곡</div>
-            <div className='playlist-detail-date'>2022-09-21</div>
+            <div className='playlist-detail-kind'>
+              총 {playlistInfo.playlistSongsCount}곡
+            </div>
+            <div className='playlist-detail-date'>
+              {playlistInfo.createdDate}
+            </div>
             <div className='playlist-detail-icon'>
               <RiPlayListAddFill className='playlist-detail-icon-list hover' />
               <RiFolderAddLine className='playlist-detail-icon-folder hover' />
@@ -242,7 +262,7 @@ const PlaylistDetail = () => {
           </button>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <DetailList />
+        <DetailList playlistSongs={playlistSong} />
       </section>
     </StyledDetail>
   );
