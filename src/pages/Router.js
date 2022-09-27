@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
@@ -28,12 +27,10 @@ import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
 
-
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
-  const [isLogin, setIsLogin] = useState(false)
-
+  const [isLogin, setIsLogin] = useState(false);
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -48,20 +45,31 @@ function Router() {
   }, [musicTracks]);
 
   //  사용자 정보
-  const token = sessionStorage.getItem('token')
-  const user_name = sessionStorage.getItem('name')
-  const user_img = sessionStorage.getItem('profileImage')
-
+  const token = sessionStorage.getItem('token');
+  const user_name = sessionStorage.getItem('name');
+  const user_img = sessionStorage.getItem('profileImage');
 
   return (
     <BrowserRouter>
-      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
+      <Header
+        token={token}
+        user_name={user_name}
+        user_img={user_img}
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        setMusicTracks={setMusicTracks}
+      />
       <Routes>
-        <Route path="/login" element={<Login token={token}  isLogin={isLogin} setIsLogin={setIsLogin} />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/certification" element={<Certification />} />
-        <Route path="/signform" element={<Signform />} />
+        <Route
+          path='/login'
+          element={
+            <Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />
+          }
+        />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/terms' element={<Terms />} />
+        <Route path='/certification' element={<Certification />} />
+        <Route path='/signform' element={<Signform />} />
 
         <Route
           path='/test'
@@ -71,17 +79,20 @@ function Router() {
         />
         <Route path='/genre' element={<Genre />} />
         <Route path='/browse/:category' element={<Browsemenu />} />
-        <Route path='/purchase' element={<Purchase  />}>
+        <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
-        <Route path='/' element={<Main  isLogin={isLogin}/>} />
+        <Route path='/' element={<Main isLogin={isLogin} />} />
         <Route path='/detail' elememt={<Detail />}>
-          <Route path='album' element={<AlbumDetail />} />
-          <Route path='playlist' element={<PlaylistDetail />} />
+          <Route path='album/:id/:page' element={<AlbumDetail />} />
           <Route path='artist' element={<ArtistDetail />} />
           <Route path='mylist/:id' element={<MylistDetail />} />
         </Route>
+        <Route
+          path='/detail/playlist/:playlistId'
+          element={<PlaylistDetail />}
+        />
         <Route path='/storage' element={<Storage />}>
           <Route
             path='mylist'

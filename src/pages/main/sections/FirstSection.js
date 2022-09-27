@@ -192,7 +192,7 @@ const FirstSection = () => {
                 {/* 첫번째 슬라이드 */}
                 <div className='first-section-slider-box'>
                   <Link
-                    to='/detail/playlist'
+                    to={`/detail/playlist/${result.titleData[0].playlistId}`}
                     className='first-section-slider-flex'
                   >
                     {/* 플리 소개 */}
