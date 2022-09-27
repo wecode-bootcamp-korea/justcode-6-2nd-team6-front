@@ -200,13 +200,12 @@ const PlayList = ({
   trackIndex,
   isMyPlayListClicked,
   setIsMyPlayListClicked,
-  selectedSongId,
-  setSelectedSongId,
   setIsGetMyPlayListClicked,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
-  isAddManySongs,
-  setIsAddManySongs,
+  checkedList,
+  setCheckedList,
+  setAlertOn,
 }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
@@ -215,8 +214,6 @@ const PlayList = ({
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [checkedList, setCheckedList] = useState([]);
-
   const [sameArtistsMusic, setSameArtistsMusic] = useState([]);
   const [sameGenreMusic, setSameGenreMusic] = useState([]);
 
@@ -458,8 +455,6 @@ const PlayList = ({
                     setMusicTracks={setMusicTracks}
                     trackIndex={trackIndex}
                     setTrackIndex={setTrackIndex}
-                    selectedSongId={selectedSongId}
-                    setSelectedSongId={setSelectedSongId}
                     setIsMyPlayListClicked={setIsMyPlayListClicked}
                     isMoreMenuClicked={isMoreMenuClicked}
                     setIsMoreMenuClicked={setIsMoreMenuClicked}
@@ -474,8 +469,6 @@ const PlayList = ({
                     setMusicTracks={setMusicTracks}
                     trackIndex={trackIndex}
                     setTrackIndex={setTrackIndex}
-                    selectedSongId={selectedSongId}
-                    setSelectedSongId={setSelectedSongId}
                     setIsMyPlayListClicked={setIsMyPlayListClicked}
                     isMoreMenuClicked={isMoreMenuClicked}
                     setIsMoreMenuClicked={setIsMoreMenuClicked}
@@ -493,6 +486,7 @@ const PlayList = ({
               data={sameArtistsMusic}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
             />
           )}
           {!isSimilarClicked || sameGenreMusic.length === 0 || (
@@ -500,6 +494,7 @@ const PlayList = ({
               data={sameGenreMusic}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
             />
           )}
         </div>
@@ -523,7 +518,6 @@ const PlayList = ({
                   className="wrapper"
                   onClick={() => {
                     setIsMyPlayListClicked(true);
-                    setIsAddManySongs(true);
                   }}
                 >
                   <VscNewFolder className="icon" />

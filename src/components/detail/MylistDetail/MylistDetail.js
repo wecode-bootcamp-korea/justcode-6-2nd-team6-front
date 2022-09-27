@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import MylistTrack from "./MylistTrack";
 import { BsFillPlayFill } from "react-icons/bs";
-import { RiPlayListAddFill } from "react-icons/ri";
-import { RiFolderAddLine } from "react-icons/ri";
-import { BsSuitHeart } from "react-icons/bs";
+import { HiPencil } from "react-icons/hi";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -15,7 +13,12 @@ const StyledDetail = styled.div`
   margin: 0 auto;
   font-family: "NanumBarunGothic", sans-serif;
 
-  /* a, button에 호버 주기 */
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .hover {
     &:hover {
       color: #3f3fff;
@@ -27,6 +30,49 @@ const StyledDetail = styled.div`
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
+
+    .title-edit-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #f2f2f2;
+
+      .input {
+        width: 700px;
+        padding: 15px 0;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 1.5px solid black;
+        font-family: "NanumBarunGothic", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .cancel-and-confirm {
+        display: flex;
+        font-size: 18px;
+        font-weight: 700;
+
+        .cancel {
+          margin: 0 10px;
+          cursor: pointer;
+        }
+
+        .confirm {
+          margin-right: 10px;
+
+          color: #3f3fff;
+          cursor: pointer;
+        }
+      }
+    }
 
     div.playlist-detail-wrap {
       display: flex;
@@ -85,9 +131,8 @@ const StyledDetail = styled.div`
       font-weight: 600;
       margin-bottom: 30px;
 
-      &:hover {
-        cursor: pointer;
-        color: #3f3fff;
+      .pencil {
+        margin-left: 10px;
       }
     }
 
@@ -198,11 +243,12 @@ const StyledDetail = styled.div`
   }
 `;
 
-const StyledTab = styled.section`
-  margin-top: 10px;
-`;
-
-const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
+const MylistDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setIsLiked,
+  setAlertOn,
+}) => {
   const params = useParams();
   const [playlistInfo, setPlaylistInfo] = useState({
     playlistId: 0,
@@ -245,6 +291,13 @@ const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
       artist: "가수가수",
     },
   ]);
+  const [isTitleEditClicked, setIsTitleEditClicked] = useState(false);
+  const [titleValue, setTitleValue] = useState("");
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isTitleEditClicked !== false) inputRef.current.focus();
+  }, [isTitleEditClicked]);
 
   useEffect(() => {
     fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
@@ -257,6 +310,7 @@ const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
         console.log(data);
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSongs(data.playlistSongs);
+        setTitleValue(data.playlistInfo[0].playlistTitle);
       });
   }, []);
 
@@ -293,6 +347,9 @@ const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
                           (el, i) => musicTracksId.includes(el.songId) === false
                         );
                         setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                        setAlertOn(
+                          "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                        );
                       });
                   }}
                 />
@@ -301,9 +358,37 @@ const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
           <div className="playlist-detail-inner-box">
-            <div className="playlist-detail-title">
-              {playlistInfo.playlistTitle}
-            </div>
+            {isTitleEditClicked ? (
+              <div className="title-edit-box">
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="내 리스트 이름을 입력해주세요"
+                  value={titleValue}
+                  ref={inputRef}
+                  onChange={(e) => {
+                    setTitleValue(e.target.value);
+                  }}
+                />
+                <div className="cancel-and-confirm">
+                  <div
+                    className="cancel"
+                    onClick={() => setIsTitleEditClicked(false)}
+                  >
+                    취소
+                  </div>
+                  <div className="confirm">확인</div>
+                </div>
+              </div>
+            ) : (
+              <div className="playlist-detail-title flex-center">
+                {playlistInfo.playlistTitle}
+                <HiPencil
+                  className="pencil hover"
+                  onClick={() => setIsTitleEditClicked(true)}
+                />
+              </div>
+            )}
             <div className="playlist-detail-kind">
               총 {playlistInfo.playlistSongsCount}곡
             </div>
@@ -320,6 +405,7 @@ const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
         setIsLiked={setIsLiked}
+        setAlertOn={setAlertOn}
       />
     </StyledDetail>
   );

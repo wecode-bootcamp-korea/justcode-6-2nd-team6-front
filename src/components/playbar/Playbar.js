@@ -230,14 +230,16 @@ const Playbar = ({
   musicTracks,
   setMusicTracks,
   isLogin,
+  isExpandedClicked,
+  setIsExpandedClicked,
+  setAlertOn,
 }) => {
-  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
-  const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // 현재 곡 좋아요 상태
+  const [checkedList, setCheckedList] = useState([]); // 선택된 곡들의 아이디 배열
 
   // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID)
   useEffect(() => {
@@ -255,6 +257,11 @@ const Playbar = ({
         });
     }
   }, [trackIndex || musicTracks]);
+
+  // checkedList 변경 시 마다 출력 (삭제 예정)
+  useEffect(() => {
+    console.log("CL", checkedList);
+  }, [checkedList]);
 
   return (
     <StyledPlaybar>
@@ -358,7 +365,7 @@ const Playbar = ({
                     size="30"
                     onClick={() => {
                       setIsMyPlayListClicked(true);
-                      setSelectedSongId(Infinity);
+                      setCheckedList([musicTracks[trackIndex].songId]);
                     }}
                   />
                 </div>
@@ -475,27 +482,24 @@ const Playbar = ({
               trackIndex={trackIndex}
               isMyPlayListClicked={isMyPlayListClicked}
               setIsMyPlayListClicked={setIsMyPlayListClicked}
-              selectedSongId={selectedSongId}
-              setSelectedSongId={setSelectedSongId}
               setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
               isMoreMenuClicked={isMoreMenuClicked}
               setIsMoreMenuClicked={setIsMoreMenuClicked}
               isAddManySongs={isAddManySongs}
               setIsAddManySongs={setIsAddManySongs}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+              setAlertOn={setAlertOn}
             />
           )}
 
           <MyPlayList
             isMyPlayListClicked={isMyPlayListClicked}
             setIsMyPlayListClicked={setIsMyPlayListClicked}
-            playingMusicId={
-              musicTracks.length === 0 ? 0 : musicTracks[trackIndex].songId
-            }
-            selectedSongId={selectedSongId}
             isGetMyPlayListClicked={isGetMyPlayListClicked}
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
-            isAddManySongs={isAddManySongs}
-            setIsAddManySongs={setIsAddManySongs}
+            checkedList={checkedList}
+            setCheckedList={setCheckedList}
           />
         </div>
       )}

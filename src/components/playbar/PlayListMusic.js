@@ -118,8 +118,6 @@ const PlayListMusic = ({
   trackIndex,
   setTrackIndex,
   setIsMyPlayListClicked,
-  selectedSongId,
-  setSelectedSongId,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
   isEditClicked,
@@ -196,7 +194,7 @@ const PlayListMusic = ({
                 <VscNewFolder
                   className="add-play-list"
                   onClick={() => {
-                    setSelectedSongId(el.songId);
+                    setCheckedList([el.songId]);
                     setIsMyPlayListClicked(true);
                     setIsMoreMenuClicked(false);
                   }}
@@ -204,21 +202,16 @@ const PlayListMusic = ({
                 <AiOutlineMore
                   className="more"
                   onClick={() => {
-                    setSelectedSongId(el.songId);
-                    if (el.songId === selectedSongId)
+                    setCheckedList([el.songId]);
+                    if (el.songId === checkedList[0])
                       setIsMoreMenuClicked(!isMoreMenuClicked);
                     else setIsMoreMenuClicked(true);
                   }}
                 />
               </>
             )}
-            {el.songId !== selectedSongId || !isMoreMenuClicked || (
-              <div
-                className="more-menu-list"
-                onClick={() => {
-                  setSelectedSongId(el.songId);
-                }}
-              >
+            {el.songId !== checkedList[0] || !isMoreMenuClicked || (
+              <div className="more-menu-list">
                 <div className="more-menu">
                   <IoDiscOutline className="icon" />
                   앨범 정보

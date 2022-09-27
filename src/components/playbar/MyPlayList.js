@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Dialog from "@mui/material/Dialog";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -27,48 +27,6 @@ const StyledDialog = styled(Dialog)`
       .play-lists {
         overflow-y: auto;
         max-height: 400px;
-      }
-
-      .add-list-input-box {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 80px;
-        border-bottom: 1px solid #f2f2f2;
-
-        .input {
-          width: 350px;
-          padding: 15px;
-          border-top: 0;
-          border-right: 0;
-          border-left: 0;
-          border-bottom: 1.5px solid black;
-          font-family: "NanumBarunGothic", sans-serif;
-          font-size: 15px;
-          font-weight: 700;
-
-          &:focus {
-            outline: none;
-          }
-        }
-
-        .cancel-and-confirm {
-          display: flex;
-          font-size: 14px;
-          font-weight: 700;
-
-          .cancel {
-            margin-right: 10px;
-            cursor: pointer;
-          }
-
-          .confirm {
-            margin-right: 10px;
-
-            color: #3f3fff;
-            cursor: pointer;
-          }
-        }
       }
 
       .add-list-box {
@@ -126,33 +84,21 @@ const StyledDialog = styled(Dialog)`
 const MyPlayList = ({
   isMyPlayListClicked,
   setIsMyPlayListClicked,
-  playingMusicId,
-  selectedSongId,
   isGetMyPlayListClicked,
   setIsGetMyPlayListClicked,
-  isAddManySongs,
-  setIsAddManySongs,
+  checkedList,
+  setCheckedList,
+  setAlertOn,
 }) => {
-  const [isAddNewPlayListClicked, setIsAddNewPlayListClicked] = useState(false);
   const arr = [1, 2, 3];
-  const inputRef = useRef();
-
-  // 리스트 추가 시 input focus
-  useEffect(() => {
-    if (isAddNewPlayListClicked !== false) inputRef.current.focus();
-  }, [isAddNewPlayListClicked]);
-
-  if (selectedSongId == Infinity) {
-    console.log("playingMusicId", playingMusicId);
-  } else console.log("selectedSongId", selectedSongId);
 
   return (
     <StyledDialog
       open={isMyPlayListClicked}
       onClose={() => {
         setIsMyPlayListClicked(false);
-        setIsAddManySongs(false);
         setTimeout(() => setIsGetMyPlayListClicked(false), 200);
+        setCheckedList([]);
       }}
     >
       {/* 내 리스트 가져오기 and 새로운 리스트 추가하기 */}
@@ -160,53 +106,24 @@ const MyPlayList = ({
         <div className="my-play-list-inner-box">
           <div className="title">내 리스트 가져오기</div>
           <div className="play-lists">
-            {arr.map(() => (
-              <PlayListBar />
+            {arr.map((el) => (
+              <PlayListBar key={el} />
             ))}
           </div>
         </div>
       ) : (
         <div className="my-play-list-inner-box">
-          <div className="title">
-            {isAddManySongs ? "내 리스트에 담기(테스트)" : "내 리스트에 담기"}
-          </div>
+          <div className="title">내 리스트에 담기</div>
           <div className="play-lists">
             {/* 새로운 리스트 추가하기 토글 */}
-            {isAddNewPlayListClicked ? (
-              <div className="add-list-input-box">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="내 리스트 이름을 입력해주세요"
-                  ref={inputRef}
-                />
-                <div className="cancel-and-confirm">
-                  <div
-                    className="cancel"
-                    onClick={() =>
-                      setIsAddNewPlayListClicked(!isAddNewPlayListClicked)
-                    }
-                  >
-                    취소
-                  </div>
-                  <div className="confirm">확인</div>
-                </div>
+            <div className="add-list-box" onClick={() => {}}>
+              <div className="add-list-cover">
+                <AiOutlinePlus />
               </div>
-            ) : (
-              <div
-                className="add-list-box"
-                onClick={() => {
-                  setIsAddNewPlayListClicked(!isAddNewPlayListClicked);
-                }}
-              >
-                <div className="add-list-cover">
-                  <AiOutlinePlus />
-                </div>
-                <div className="play-list-info">
-                  <div className="add-list">새로운 리스트 추가하기</div>
-                </div>
+              <div className="play-list-info">
+                <div className="add-list">새로운 리스트 추가하기</div>
               </div>
-            )}
+            </div>
             {arr.map((el, i) => (
               <PlayListBar key={arr[i]} />
             ))}

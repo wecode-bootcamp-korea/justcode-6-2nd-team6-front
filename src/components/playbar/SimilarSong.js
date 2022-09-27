@@ -44,37 +44,40 @@ const StyledSimilarSong = styled.div`
   }
 `;
 
-const SimilarSong = ({ data, musicTracks, setMusicTracks }) => {
+const SimilarSong = ({ data, musicTracks, setMusicTracks, setAlertOn }) => {
   return (
     <StyledSimilarSong>
-      {data.map((el, i) => (
-        <div className="similar-song-inner-box" key={el.songId}>
-          <div
-            className="song-info flex-center"
-            onClick={() => {
-              const musicTracksId = musicTracks.map((el) => el.songId);
-              if (musicTracksId.includes(el.songId) === false)
-                setMusicTracks([el, ...musicTracks]);
-              else alert("현재 재생목록에 이미 존재하는 곡입니다.");
-            }}
-          >
-            <img src={el.albumCover} alt="album cover" className="cover" />
-            <div className="title-and-artist">
-              <div className="title">{el.songTitle}</div>
-              <div className="artist">{el.songArtist}</div>
+      {data.map((el, i) => {
+        const musicTracksId = musicTracks.map((el) => el.songId);
+        const songPlay = () => {
+          fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
+            headers: {
+              Authorization: sessionStorage.getItem("token"),
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              const song = data[0];
+              if (musicTracksId.includes(song.songId) === false) {
+                setMusicTracks([song, ...musicTracks]);
+                setAlertOn("현재 재생목록에 추가되었습니다.");
+              } else setAlertOn("이미 현재 재생목록에 있는 곡입니다.");
+            });
+        };
+        return (
+          <div className="similar-song-inner-box" key={el.songId}>
+            <div className="song-info flex-center" onClick={() => songPlay()}>
+              <img src={el.albumCover} alt="album cover" className="cover" />
+              <div className="title-and-artist">
+                <div className="title">{el.songTitle}</div>
+                <div className="artist">{el.songArtist}</div>
+              </div>
             </div>
+            <IoIosPlayCircle className="play" onClick={() => songPlay()} />
           </div>
-          <IoIosPlayCircle
-            className="play"
-            onClick={() => {
-              const musicTracksId = musicTracks.map((el) => el.songId);
-              if (musicTracksId.includes(el.songId) === false)
-                setMusicTracks([el, ...musicTracks]);
-              else alert("현재 재생목록에 이미 존재하는 곡입니다.");
-            }}
-          />
-        </div>
-      ))}
+        );
+      })}
     </StyledSimilarSong>
   );
 };

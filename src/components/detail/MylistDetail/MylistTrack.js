@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
@@ -9,6 +9,8 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
 import { IoDiscOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
+
+import MyPlayList from "../../playbar/MyPlayList";
 
 const StyledTrack = styled.div`
   padding-top: 40px;
@@ -27,6 +29,7 @@ const StyledTrack = styled.div`
   }
 
   .mylist-track-inner-box {
+    margin-bottom: 40px;
     .list-first-menu {
       display: flex;
       align-items: center;
@@ -214,11 +217,14 @@ const MylistTrack = ({
   musicTracks,
   setMusicTracks,
   setIsLiked,
+  setAlertOn,
 }) => {
   const params = useParams();
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -228,6 +234,11 @@ const MylistTrack = ({
     }
     console.log(checkedList);
   };
+
+  // checkedList 변경 시 마다 출력 (삭제 예정)
+  useEffect(() => {
+    console.log("CL", checkedList);
+  }, [checkedList]);
 
   return (
     <StyledTrack>
@@ -251,6 +262,9 @@ const MylistTrack = ({
                     (el, i) => musicTracksId.includes(el.songId) === false
                   );
                   setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                  setAlertOn(
+                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                  );
                 });
             }}
           >
@@ -310,6 +324,8 @@ const MylistTrack = ({
           isMoreMenuClicked={isMoreMenuClicked}
           setIsMoreMenuClicked={setIsMoreMenuClicked}
           setIsLiked={setIsLiked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          setAlertOn={setAlertOn}
         />
 
         {!isEditClicked || checkedList.length === 0 || (
@@ -354,6 +370,9 @@ const MylistTrack = ({
                           ...filteredSelectedPlData,
                           ...musicTracks,
                         ]);
+                        setAlertOn(
+                          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                        );
                         setCheckedList([]);
                       });
                   }}
@@ -376,6 +395,14 @@ const MylistTrack = ({
             </div>
           </div>
         )}
+
+        <MyPlayList
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          checkedList={checkedList}
+          setCheckedList={setCheckedList}
+          setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+        />
       </div>
     </StyledTrack>
   );
@@ -393,6 +420,8 @@ const SongBar = ({
   isMoreMenuClicked,
   setIsMoreMenuClicked,
   setIsLiked,
+  setIsMyPlayListClicked,
+  setAlertOn,
 }) => {
   const musicTracksId = musicTracks.map((el) => el.songId);
   const navigate = useNavigate();
@@ -407,12 +436,13 @@ const SongBar = ({
         .then((data) => {
           console.log(data);
           const song = data[0];
-          if (musicTracksId.includes(song.songId) === false)
+          if (musicTracksId.includes(song.songId) === false) {
             setMusicTracks([song, ...musicTracks]);
-          else alert("현재 재생목록에 이미 존재하는 곡입니다.");
+            setAlertOn("현재 재생목록에 추가되었습니다.");
+          } else setAlertOn("이미 현재 재생목록에 있는 곡입니다.");
         });
     };
-    console.log(el);
+
     return (
       <div key={el.songId} className="song-bar flex-center">
         <div
@@ -462,7 +492,13 @@ const SongBar = ({
             <div className="menu flex-center hover" onClick={() => songPlay()}>
               <BsFillPlayFill size="30" />
             </div>
-            <div className="menu flex-center hover">
+            <div
+              className="menu flex-center hover"
+              onClick={() => {
+                setCheckedList([el.songId]);
+                setIsMyPlayListClicked(true);
+              }}
+            >
               <VscNewFolder size="25" />
             </div>
             <div
@@ -495,7 +531,7 @@ const SongBar = ({
                   className="more-menu"
                   onClick={() => {
                     setIsMoreMenuClicked(false);
-                    alert("미구현!");
+                    setAlertOn("미구현입니다.");
                   }}
                 >
                   <IoMdHeartEmpty className="icon" />

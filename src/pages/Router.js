@@ -27,10 +27,13 @@ import PlaylistDetail from "../components/detail/playlistDetail/PlaylistDetail";
 import Detail from "../components/detail/Detail";
 import MylistDetail from "../components/detail/MylistDetail/MylistDetail";
 import ScrollToTop from "./ScrollToTop";
+import Alert from "../components/Alert";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
+  const [alertOn, setAlertOn] = useState(false); // 알림창 (상태값에 메세지 넣으면 메세지 출력됨)
+  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isLogin, setIsLogin] = useState(false);
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
@@ -101,6 +104,7 @@ function Router() {
               <MylistDetail
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
               />
             }
           />
@@ -121,12 +125,20 @@ function Router() {
         </Route>
       </Routes>
       <Footer />
+      <Alert
+        alertOn={alertOn}
+        setAlertOn={setAlertOn}
+        isExpandedClicked={isExpandedClicked}
+      />
       <Playbar
         trackIndex={trackIndex}
         setTrackIndex={setTrackIndex}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
         isLogin={isLogin}
+        isExpandedClicked={isExpandedClicked}
+        setIsExpandedClicked={setIsExpandedClicked}
+        setAlertOn={setAlertOn}
       />
     </BrowserRouter>
   );
