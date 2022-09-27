@@ -3,9 +3,8 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
-import { AiOutlineMore } from "react-icons/ai";
+import { AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
-import { AiOutlineCheck } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
 import { IoDiscOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
@@ -252,25 +251,32 @@ const MylistTrack = ({
           <div
             className="play-all flex-center hover"
             onClick={() => {
-              fetch(
-                `http://localhost:8000/play/addsongs/playlist/${params.id}`,
-                {
-                  headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                  },
-                }
-              )
-                .then((res) => res.json())
-                .then((plData) => {
-                  const musicTracksId = musicTracks.map((el) => el.songId);
-                  const filteredNewTracks = plData.filter(
-                    (el, i) => musicTracksId.includes(el.songId) === false
-                  );
-                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                  setAlertOn(
-                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                  );
-                });
+              if (playlistSongs[0].songTitle !== null) {
+                fetch(
+                  `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                  {
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((plData) => {
+                    const musicTracksId = musicTracks.map((el) => el.songId);
+                    const filteredNewTracks = plData.filter(
+                      (el, i) => musicTracksId.includes(el.songId) === false
+                    );
+                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                    setAlertOn(
+                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                    );
+                  })
+                  .catch(() => {
+                    setAlertOn(
+                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                    );
+                  });
+              }
             }}
           >
             <BsPlay size="18" />
@@ -299,7 +305,6 @@ const MylistTrack = ({
                 playlistSongs.length === checkedList.length ? true : false
               }
               onClick={() => {
-                // 편집 (전체선택)
                 if (checkedList.length < playlistSongs.length) {
                   setCheckedList(playlistSongs.map((el) => el.songId));
                 } else setCheckedList([]);
@@ -317,21 +322,23 @@ const MylistTrack = ({
           )}
         </div>
 
-        <SongBar
-          playlistSongs={playlistSongs}
-          setPlaylistSongs={setPlaylistSongs}
-          musicTracks={musicTracks}
-          setMusicTracks={setMusicTracks}
-          isEditClicked={isEditClicked}
-          checkedList={checkedList}
-          setCheckedList={setCheckedList}
-          onCheckedElement={onCheckedElement}
-          isMoreMenuClicked={isMoreMenuClicked}
-          setIsMoreMenuClicked={setIsMoreMenuClicked}
-          setIsLiked={setIsLiked}
-          setIsMyPlayListClicked={setIsMyPlayListClicked}
-          setAlertOn={setAlertOn}
-        />
+        {playlistSongs[0].songId === null || (
+          <SongBar
+            playlistSongs={playlistSongs}
+            setPlaylistSongs={setPlaylistSongs}
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
+            isEditClicked={isEditClicked}
+            checkedList={checkedList}
+            setCheckedList={setCheckedList}
+            onCheckedElement={onCheckedElement}
+            isMoreMenuClicked={isMoreMenuClicked}
+            setIsMoreMenuClicked={setIsMoreMenuClicked}
+            setIsLiked={setIsLiked}
+            setIsMyPlayListClicked={setIsMyPlayListClicked}
+            setAlertOn={setAlertOn}
+          />
+        )}
 
         {!isEditClicked || checkedList.length === 0 || (
           <div className="edit-inner-box">
@@ -453,12 +460,18 @@ const SongBar = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          const song = data[0];
-          if (musicTracksId.includes(song.songId) === false) {
-            setMusicTracks([song, ...musicTracks]);
-            setAlertOn("현재 재생목록에 추가되었습니다.");
-          } else setAlertOn("이미 현재 재생목록에 있는 곡입니다.");
+          if (data.message == "Need Voucher")
+            setAlertOn(
+              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+            );
+          else {
+            console.log(data);
+            const song = data[0];
+            if (musicTracksId.includes(song.songId) === false) {
+              setMusicTracks([song, ...musicTracks]);
+              setAlertOn("현재 재생목록에 추가되었습니다.");
+            } else setAlertOn("이미 현재 재생목록에 있는 곡입니다.");
+          }
         });
     };
 

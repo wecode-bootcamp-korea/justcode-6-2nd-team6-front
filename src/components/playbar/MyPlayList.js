@@ -177,7 +177,7 @@ const MyPlayList = ({
   );
 };
 
-// 플레이 리스트 (낱개)
+// 플레이 리스트
 const PlayListBar = ({
   data,
   checkedList,
@@ -192,7 +192,30 @@ const PlayListBar = ({
     <div
       className="play-list-bar-inner-box"
       onClick={() => {
-        if (isGetMyPlayListClicked === false) {
+        if (isGetMyPlayListClicked === true) {
+          fetch(
+            `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+            {
+              headers: {
+                Authorization: sessionStorage.getItem("token"),
+              },
+            }
+          )
+            .then((res) => res.json())
+            .then((plData) => {
+              if (plData[0].songTitle !== null) {
+                const musicTracksId = musicTracks.map((el) => el.songId);
+                const filteredNewTracks = plData.filter(
+                  (el, i) => musicTracksId.includes(el.songId) === false
+                );
+                setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                setIsMyPlayListClicked(false);
+                setAlertOn(
+                  "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                );
+              }
+            });
+        } else {
           axios({
             url: `http://localhost:8000/detail/mylist/${data.playlistId}`,
             method: "POST",
@@ -210,32 +233,14 @@ const PlayListBar = ({
             .catch((error) => {
               setAlertOn("이미 플레이리스트에 존재하는 곡입니다.");
             });
-        } // 내 리스트 불러오기 일 시
-        else {
-          fetch(
-            `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
-            {
-              headers: {
-                Authorization: sessionStorage.getItem("token"),
-              },
-            }
-          )
-            .then((res) => res.json())
-            .then((plData) => {
-              const musicTracksId = musicTracks.map((el) => el.songId);
-              const filteredNewTracks = plData.filter(
-                (el, i) => musicTracksId.includes(el.songId) === false
-              );
-              setMusicTracks([...filteredNewTracks, ...musicTracks]);
-              setIsMyPlayListClicked(false);
-              setAlertOn(
-                "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-              );
-            });
         }
       }}
     >
-      <img src={data.albumImage} alt="playlist cover" className="cover" />
+      <img
+        src={data.albumImage == null ? "/Images/nothing.png" : data.albumImage}
+        alt="playlist cover"
+        className="cover"
+      />
       <div className="play-list-info">
         <div className="album-title">{data.title}</div>
         <div className="num">{data.songTotalCount}곡</div>

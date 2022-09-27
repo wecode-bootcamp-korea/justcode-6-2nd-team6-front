@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import axios from "axios";
 
 const StyledMyList = styled.div`
@@ -17,6 +18,12 @@ const StyledMyList = styled.div`
       &:hover {
         color: #3f3fff;
       }
+    }
+
+    .select-all {
+      position: absolute;
+      left: 0;
+      top: 30px;
     }
 
     .edit {
@@ -70,6 +77,39 @@ const StyledMyList = styled.div`
           }
         }
 
+        .checkbox-container {
+          position: absolute;
+          top: 28px;
+          left: 18px;
+          .checkbox {
+            display: none;
+          }
+
+          .checkbox + label:before {
+            content: "";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 17px;
+            border-radius: 100%;
+            vertical-align: middle;
+            background-color: #fff;
+          }
+
+          .checkbox:checked + label:before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            content: "\f00c";
+            font-family: "Font Awesome 5 free";
+            font-weight: 900;
+            color: #fff;
+            background-color: #3f3fff;
+            font-size: 18px;
+            text-align: center;
+          }
+        }
+
         .play {
           position: absolute;
           bottom: 25px;
@@ -116,6 +156,63 @@ const StyledMyList = styled.div`
         }
       }
     }
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 150px;
+      right: calc(50% - 100px);
+      width: 200px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+      color: white;
+
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 50%;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:nth-of-type(2) {
+          .wrapper {
+            border-left: 2px solid #5252ff;
+          }
+        }
+
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 30px 0;
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -125,6 +222,9 @@ const MyList = ({
   setAlertOn,
   isExpandedClicked,
 }) => {
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+
   const [myListData, setMyListData] = useState([
     {
       userId: 0,
@@ -149,12 +249,32 @@ const MyList = ({
         if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
           setMyListData(data.data);
       });
-  }, [isExpandedClicked]);
+  }, [isExpandedClicked || isEditClicked]);
 
   return (
     <StyledMyList>
       <div className="my-list-inner-box">
-        <div className="edit hover">편집</div>
+        {!isEditClicked || (
+          <div
+            className="select-all hover"
+            onClick={() => {
+              if (checkedList.length < myListData.length) {
+                setCheckedList(myListData.map((el) => el.playlistId));
+              } else setCheckedList([]);
+            }}
+          >
+            전체선택
+          </div>
+        )}
+        <div
+          className="edit hover"
+          onClick={() => {
+            setIsEditClicked(!isEditClicked);
+            setCheckedList([]);
+          }}
+        >
+          {isEditClicked ? "완료" : "편집"}
+        </div>
         {myListData.map((el, i) => (
           <PlayListContainer
             key={el.playlistId}
@@ -162,6 +282,9 @@ const MyList = ({
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
             setAlertOn={setAlertOn}
+            isEditClicked={isEditClicked}
+            checkedList={checkedList}
+            setCheckedList={setCheckedList}
           />
         ))}
         <div
@@ -173,7 +296,9 @@ const MyList = ({
               headers: {
                 Authorization: sessionStorage.getItem("token"),
               },
-            }).then((res) => console.log(res));
+            }).then((res) => {
+              navigate(`/detail/mylist/${res.data.data[0].playlistId}`);
+            });
           }}
         >
           <div className="play-list-cover">
@@ -187,6 +312,48 @@ const MyList = ({
             <div className="add-list">새로운 리스트 만들기</div>
           </div>
         </div>
+        {!isEditClicked || checkedList.length === 0 || (
+          <div className="edit-inner-box">
+            <div className="edit-container">
+              <div className="edit-box">
+                <div className="checklist-counter">{checkedList.length}</div>
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    setCheckedList([]);
+                  }}
+                >
+                  <AiOutlineCheck className="icon" />
+                  <div className="text">선택해제</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    axios({
+                      url: `http://localhost:8000/storage`,
+                      method: "DELETE",
+                      headers: {
+                        Authorization: sessionStorage.getItem("token"),
+                      },
+                      data: {
+                        playlistId: checkedList,
+                      },
+                    }).then((res) => {
+                      console.log(res);
+                      setCheckedList([]);
+                      setIsEditClicked(false);
+                    });
+                  }}
+                >
+                  <VscTrash className="icon" />
+                  <div className="text">삭제</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </StyledMyList>
   );
@@ -197,18 +364,61 @@ const PlayListContainer = ({
   musicTracks,
   setMusicTracks,
   setAlertOn,
+  isEditClicked,
+  checkedList,
+  setCheckedList,
 }) => {
   const navigate = useNavigate();
+
+  const onCheckedElement = (checked, item) => {
+    if (checked === false) {
+      setCheckedList([...checkedList, item]);
+    } else if (checked === true) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    }
+    console.log(checkedList);
+  };
+
   return (
     <div className="play-list-container">
       <div className="play-list-cover">
         <div className="first-box" />
         <div className="second-box" />
         <img
-          src={data.albumImage}
+          src={
+            data.albumImage == null ? "/Images/nothing.png" : data.albumImage
+          }
           className="third-box"
-          onClick={() => navigate(`/detail/mylist/${data.playlistId}`)}
+          onClick={() => {
+            if (isEditClicked === true)
+              onCheckedElement(
+                checkedList.includes(data.playlistId),
+                data.playlistId
+              );
+            else navigate(`/detail/mylist/${data.playlistId}`);
+          }}
         />
+        {!isEditClicked || (
+          <div class="checkbox-container">
+            <input
+              type="checkbox"
+              id="checkbox"
+              className="checkbox"
+              checked={
+                checkedList.includes(data.playlistId) && isEditClicked
+                  ? true
+                  : false
+              }
+              onChange={() => {
+                onCheckedElement(
+                  checkedList.includes(data.playlistId),
+                  data.playlistId
+                );
+              }}
+            />
+            <label for="checkbox"></label>
+          </div>
+        )}
         <FaPlay
           className="play"
           onClick={() => {
@@ -222,19 +432,22 @@ const PlayListContainer = ({
             )
               .then((res) => res.json())
               .then((plData) => {
-                if (plData.message == "Need Voucher")
-                  setAlertOn(
-                    "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                  );
-                else {
-                  const musicTracksId = musicTracks.map((el) => el.songId);
-                  const filteredNewTracks = plData.filter(
-                    (el, i) => musicTracksId.includes(el.songId) === false
-                  );
-                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                  setAlertOn(
-                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                  );
+                console.log(plData);
+                if (plData[0].songTitle !== null) {
+                  if (plData.message == "Need Voucher")
+                    setAlertOn(
+                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                    );
+                  else {
+                    const musicTracksId = musicTracks.map((el) => el.songId);
+                    const filteredNewTracks = plData.filter(
+                      (el, i) => musicTracksId.includes(el.songId) === false
+                    );
+                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                    setAlertOn(
+                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                    );
+                  }
                 }
               });
           }}

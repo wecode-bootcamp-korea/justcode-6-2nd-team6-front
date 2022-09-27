@@ -258,6 +258,11 @@ const Playbar = ({
     }
   }, [trackIndex || musicTracks]);
 
+  useEffect(
+    () => console.log(isGetMyPlayListClicked),
+    [isGetMyPlayListClicked]
+  );
+
   // checkedList 변경 시 마다 출력 (삭제 예정)
   useEffect(() => {
     console.log("CL", checkedList);
@@ -290,7 +295,10 @@ const Playbar = ({
               src="/Images/down-arrow.png"
               alt="close"
               className="close"
-              onClick={() => setIsExpandedClicked(!isExpandedClicked)}
+              onClick={() => {
+                setIsExpandedClicked(!isExpandedClicked);
+                setIsGetMyPlayListClicked(false);
+              }}
             />
           )}
           <div className="song-info-box flex-center">

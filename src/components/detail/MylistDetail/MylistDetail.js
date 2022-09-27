@@ -265,7 +265,7 @@ const MylistDetail = ({
     {
       playlistId: 0,
       songId: 0,
-      songTitle: "곡 제목1",
+      songTitle: "",
       albumId: 0,
       albumTitle: "앨범 제목1",
       albumImage: "/Images/nothing.png",
@@ -292,7 +292,7 @@ const MylistDetail = ({
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data, "mylistdetail");
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSongs(data.playlistSongs);
         setTitleValue(data.playlistInfo[0].playlistTitle);
@@ -309,33 +309,48 @@ const MylistDetail = ({
               <img
                 alt="앨범 표지"
                 className="playlist-detail-cover-img"
-                src={playlistInfo.albumImage}
+                src={
+                  playlistInfo.albumImage == null
+                    ? "/Images/nothing.png"
+                    : playlistInfo.albumImage
+                }
               />
               <button title="앨범 듣기" className="playlist-detail-play hover">
                 <BsFillPlayFill
                   className="playlist-detail-play-icon"
                   onClick={() => {
-                    fetch(
-                      `http://localhost:8000/play/addsongs/playlist/${params.id}`,
-                      {
-                        headers: {
-                          Authorization: sessionStorage.getItem("token"),
-                        },
-                      }
-                    )
-                      .then((res) => res.json())
-                      .then((plData) => {
-                        const musicTracksId = musicTracks.map(
-                          (el) => el.songId
-                        );
-                        const filteredNewTracks = plData.filter(
-                          (el, i) => musicTracksId.includes(el.songId) === false
-                        );
-                        setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                        setAlertOn(
-                          "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                        );
-                      });
+                    if (playlistSongs[0].songTitle !== null) {
+                      fetch(
+                        `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                        {
+                          headers: {
+                            Authorization: sessionStorage.getItem("token"),
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((plData) => {
+                          const musicTracksId = musicTracks.map(
+                            (el) => el.songId
+                          );
+                          const filteredNewTracks = plData.filter(
+                            (el, i) =>
+                              musicTracksId.includes(el.songId) === false
+                          );
+                          setMusicTracks([
+                            ...filteredNewTracks,
+                            ...musicTracks,
+                          ]);
+                          setAlertOn(
+                            "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                          );
+                        })
+                        .catch(() => {
+                          setAlertOn(
+                            "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                          );
+                        });
+                    }
                   }}
                 />
               </button>
@@ -351,6 +366,7 @@ const MylistDetail = ({
                   placeholder="내 리스트 이름을 입력해주세요"
                   value={titleValue}
                   ref={inputRef}
+                  maxLength="16"
                   onChange={(e) => {
                     setTitleValue(e.target.value);
                   }}
