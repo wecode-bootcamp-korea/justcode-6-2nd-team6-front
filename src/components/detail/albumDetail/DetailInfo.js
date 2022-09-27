@@ -31,7 +31,7 @@ const StyledDetailInfo = styled.section`
   }
 `;
 
-const DetailInfo = () => {
+const DetailInfo = ({ albumInfo }) => {
   return (
     <StyledDetailInfo>
       <div className='detail-info-inner-box'>
@@ -40,22 +40,30 @@ const DetailInfo = () => {
             <li className='detail-info-list'>
               <span className='detail-info-album-name'>앨범명</span>
               <span className='stick' />
-              <span className='detail-info-album-singer'>007</span>
+              <span className='detail-info-album-singer'>
+                {albumInfo.albumTitle}
+              </span>
             </li>
             <li className='detail-info-list'>
               <span className='detail-info-album-name'>아티스트</span>
               <span className='stick' />
-              <span className='detail-info-album-singer'>Tabber</span>
+              <span className='detail-info-album-singer'>
+                {albumInfo.artist}
+              </span>
             </li>
             <li className='detail-info-list'>
               <span className='detail-info-album-name'>발매사</span>
               <span className='stick' />
-              <span className='detail-info-album-singer'>Dreamus</span>
+              <span className='detail-info-album-singer'>
+                {albumInfo.releaseCompany}
+              </span>
             </li>
             <li className='detail-info-list'>
               <span className='detail-info-album-name'>기획사</span>
               <span className='stick' />
-              <span className='detail-info-album-singer'>딩고뮤직</span>
+              <span className='detail-info-album-singer'>
+                {albumInfo.managementCompany}
+              </span>
             </li>
           </ul>
         </div>

@@ -26,6 +26,8 @@ import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
 import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
+import DetailInfo from '../components/detail/albumDetail/DetailInfo';
+import DetailTrack from '../components/detail/albumDetail/DetailTrack';
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -85,14 +87,11 @@ function Router() {
         </Route>
         <Route path='/' element={<Main isLogin={isLogin} />} />
         <Route path='/detail' elememt={<Detail />}>
-          <Route path='album/:id/:page' element={<AlbumDetail />} />
+          <Route path='playlist/:playlistId' element={<PlaylistDetail />} />
+          <Route path='album/:albumId/:albumPage' element={<AlbumDetail />} />
           <Route path='artist' element={<ArtistDetail />} />
           <Route path='mylist/:id' element={<MylistDetail />} />
         </Route>
-        <Route
-          path='/detail/playlist/:playlistId'
-          element={<PlaylistDetail />}
-        />
         <Route path='/storage' element={<Storage />}>
           <Route
             path='mylist'
