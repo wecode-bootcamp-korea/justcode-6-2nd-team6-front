@@ -7,6 +7,7 @@ import { BsFillPlayFill } from 'react-icons/bs';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { FiMoreVertical } from 'react-icons/fi';
 import { useState } from 'react';
+import { useCallback } from 'react';
 
 const StyledChart = styled.div`
     div.chart-inner-box {
@@ -295,11 +296,35 @@ const StyledChart = styled.div`
 
 
 const Chart = ({ genre, params, chart, setChart }) => {
-
+  const [checkList, setCheckList] = useState([]);
+  const [disabled, setDisabled] = useState(true);
   const [visible, setVisible] = useState(10)
   const showMoreChart = () => {
     setVisible(prevValue => prevValue + 10)
   }
+  
+  // 체크리스트 배열에 들어갈 반복문
+  let arr = []
+  for (let i = 0; i < chart.length; i++){
+    arr.push(`곡선택하기${i}`)
+  }
+
+    // 전체동의시 모든 체크박스 활성화
+    const checkAll = (e) => {
+      e.target.checked
+        ? setCheckList(arr)
+        : setCheckList([]);
+    };
+
+  // console.log(checkList);
+  console.log(chart.length);
+
+  // 전체체크 선택시 전체선택 및 해제
+  const handleCheck = (e) => {
+    e.target.checked
+      ? setCheckList([...checkList, e.target.name])
+      : setCheckList(checkList.filter((e) => e !== e.target.name));
+  };
 
 
   return (
@@ -335,6 +360,7 @@ const Chart = ({ genre, params, chart, setChart }) => {
                       name='전체 곡 선택하기'
                       className='chart-list-all-checkbox'
                       type='checkbox'
+                      onChange={checkAll}
                     />
                   </th>
                   <th scope='col'>순위</th>
@@ -361,16 +387,18 @@ const Chart = ({ genre, params, chart, setChart }) => {
 
               {/* Table Body */}
               {/* chart 데이터 0 부터 10자름 */}
-
               {chart && chart.slice(0, visible).map((song, index) => {
                 return (
                   <tbody>
                     <tr>
                       <td className='chart-list-select'>
                         <input
-                          name='곡 선택하기'
+                          name={`곡선택하기${index}`}
+                          id={`곡선택하기${index}`}
                           className='chart-list-checkbox'
                           type='checkbox'
+                          checked={checkList.includes(`곡선택하기${index}`) ? true : false}
+                          onChange={handleCheck}
                         />
                       </td>
                       {/* 순위 */}
@@ -383,7 +411,7 @@ const Chart = ({ genre, params, chart, setChart }) => {
                             <a href='#' className='chart-list-info-album'>
                               <img
                                 alt='앨범 이미지'
-                                url={song.albumCover}
+                                src={song.albumCover}
                                 className='chart-list-info-img'
                               />
                             </a>

@@ -32,6 +32,7 @@ function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   const [isLogin, setIsLogin] = useState(false)
+  const [loginText, setLoginText] = useState(false) // 로그인시 팝업등장 토글 스테이트
 
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
@@ -56,11 +57,13 @@ function Router() {
     if (sessionStorage.getItem("token") !== null) setIsLogin(true);
   }, []);
 
+  // 새로고침해도 로그인멘트 안나오게 하는 useEffect
+
   return (
     <BrowserRouter>
       <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
       <Routes>
-        <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />} />
+        <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} setLoginText={setLoginText} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
@@ -77,7 +80,7 @@ function Router() {
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
-        <Route path='/' element={<Main isLogin={isLogin} />} />
+        <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
           <Route path='album' element={<AlbumDetail />} />
           <Route path='playlist' element={<PlaylistDetail />} />
