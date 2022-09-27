@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiOutlineMore } from "react-icons/ai";
-import { FiMoreVertical } from "react-icons/fi";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import { AiOutlineCheck } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
@@ -48,8 +47,8 @@ const StyledTrack = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid #ebebeb;
-      border-bottom: 1px solid #ebebeb;
+      border-top: 2px solid #ebebeb;
+      border-bottom: 2px solid #ebebeb;
       color: #a0a0a0;
       font-size: 14px;
 
@@ -85,11 +84,13 @@ const StyledTrack = styled.div`
           display: flex;
           align-items: center;
           width: 600px;
+          cursor: pointer;
 
           .album-cover {
             width: 60px;
             border-radius: 3px;
             margin: 10px 20px 10px 0;
+            cursor: pointer;
           }
 
           .wrapper {
@@ -108,8 +109,40 @@ const StyledTrack = styled.div`
       }
 
       .menu-box {
+        position: relative;
         .menu {
           width: 75px;
+        }
+
+        .more-menu-list {
+          position: absolute;
+          right: 0;
+          top: 35px;
+          padding: 10px 0;
+          border-radius: 3px;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+          background-color: white;
+          z-index: 1;
+          .more-menu {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            width: 180px;
+            height: 40px;
+            color: black;
+            font-size: 15px;
+            cursor: pointer;
+
+            &:hover {
+              color: #3f3fff;
+              background-color: #f5f5f5;
+            }
+
+            .icon {
+              margin-right: 10px;
+              transform: scale(1.25);
+            }
+          }
         }
       }
     }
@@ -172,37 +205,6 @@ const StyledTrack = styled.div`
         }
       }
     }
-
-    .more-menu-list {
-      position: absolute;
-      right: 0;
-      top: 35px;
-      padding: 10px 0;
-      border-radius: 3px;
-      background-color: white;
-      z-index: 30;
-
-      .more-menu {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        width: 180px;
-        height: 40px;
-        color: black;
-        font-size: 15px;
-        cursor: pointer;
-
-        &:hover {
-          color: #3f3fff;
-          background-color: #f5f5f5;
-        }
-
-        .icon {
-          margin-right: 10px;
-          transform: scale(1.25);
-        }
-      }
-    }
   }
 `;
 
@@ -211,11 +213,12 @@ const MylistTrack = ({
   setPlaylistSongs,
   musicTracks,
   setMusicTracks,
-  playlistInfo,
+  setIsLiked,
 }) => {
   const params = useParams();
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
+  const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -274,15 +277,11 @@ const MylistTrack = ({
               type="checkbox"
               disabled={isEditClicked ? false : true}
               checked={
-                Number(playlistInfo.playlistSongsCount) === checkedList.length
-                  ? true
-                  : false
+                playlistSongs.length === checkedList.length ? true : false
               }
               onClick={() => {
                 // 편집 (전체선택)
-                if (
-                  checkedList.length < Number(playlistInfo.playlistSongsCount)
-                ) {
+                if (checkedList.length < playlistSongs.length) {
                   setCheckedList(playlistSongs.map((el) => el.songId));
                 } else setCheckedList([]);
               }}
@@ -290,11 +289,13 @@ const MylistTrack = ({
             <p className="song-album">곡/앨범</p>
             <p className="artist">아티스트</p>
           </div>
-          <div className="menu-box flex-center">
-            <p className="menu flex-center">듣기</p>
-            <p className="menu flex-center">내 리스트</p>
-            <p className="menu flex-center">더보기</p>
-          </div>
+          {isEditClicked || (
+            <div className="menu-box flex-center">
+              <p className="menu flex-center">듣기</p>
+              <p className="menu flex-center">내 리스트</p>
+              <p className="menu flex-center">더보기</p>
+            </div>
+          )}
         </div>
 
         <SongBar
@@ -306,6 +307,9 @@ const MylistTrack = ({
           checkedList={checkedList}
           setCheckedList={setCheckedList}
           onCheckedElement={onCheckedElement}
+          isMoreMenuClicked={isMoreMenuClicked}
+          setIsMoreMenuClicked={setIsMoreMenuClicked}
+          setIsLiked={setIsLiked}
         />
 
         {!isEditClicked || checkedList.length === 0 || (
@@ -327,11 +331,35 @@ const MylistTrack = ({
                 <div
                   className="wrapper"
                   onClick={() => {
-                    // setIsMyPlayListClicked(true);
+                    fetch(
+                      `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                      {
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                      }
+                    )
+                      .then((res) => res.json())
+                      .then((plData) => {
+                        const selectedPlData = plData.filter(
+                          (el, i) => checkedList.includes(el.songId) === true
+                        );
+                        const musicTracksId = musicTracks.map(
+                          (el) => el.songId
+                        );
+                        const filteredSelectedPlData = selectedPlData.filter(
+                          (el, i) => musicTracksId.includes(el.songId) === false
+                        );
+                        setMusicTracks([
+                          ...filteredSelectedPlData,
+                          ...musicTracks,
+                        ]);
+                        setCheckedList([]);
+                      });
                   }}
                 >
-                  <VscNewFolder className="icon" />
-                  <div className="text">내 리스트</div>
+                  <BsFillPlayFill className="icon" size="18" />
+                  <div className="text">듣기</div>
                 </div>
               </div>
               <div className="edit-box">
@@ -362,6 +390,9 @@ const SongBar = ({
   checkedList,
   setCheckedList,
   onCheckedElement,
+  isMoreMenuClicked,
+  setIsMoreMenuClicked,
+  setIsLiked,
 }) => {
   const musicTracksId = musicTracks.map((el) => el.songId);
   const navigate = useNavigate();
@@ -381,6 +412,7 @@ const SongBar = ({
           else alert("현재 재생목록에 이미 존재하는 곡입니다.");
         });
     };
+    console.log(el);
     return (
       <div key={el.songId} className="song-bar flex-center">
         <div
@@ -395,17 +427,15 @@ const SongBar = ({
             className="checkbox"
             type="checkbox"
             disabled={isEditClicked ? false : true}
-            checked={checkedList.includes(el.songId) ? true : false}
+            checked={
+              checkedList.includes(el.songId) && isEditClicked ? true : false
+            }
             onChange={() => {
               onCheckedElement(checkedList.includes(el.songId), el.songId);
             }}
           />
           <div className="album-n-title">
-            <img
-              src="/Images/nothing.png"
-              alt="앨범커버"
-              className="album-cover"
-            />
+            <img src={el.albumImage} alt="앨범커버" className="album-cover" />
             <div className="wrapper">
               <p
                 className="title hover"
@@ -413,24 +443,68 @@ const SongBar = ({
                   if (isEditClicked === false) songPlay();
                 }}
               >
-                제목
+                {el.songTitle}
               </p>
-              <p className="album-title">앨범 제목</p>
+              <p
+                className="album-title"
+                onClick={() => {
+                  if (isEditClicked === false) navigate("/");
+                }}
+              >
+                {el.albumTitle}
+              </p>
             </div>
           </div>
-          <p className="artist hover">아티스트</p>
+          <p className="artist hover">{el.artist}</p>
         </div>
-        <div className="menu-box flex-center">
-          <div className="menu flex-center hover" onClick={() => songPlay()}>
-            <BsFillPlayFill size="30" />
+        {isEditClicked || (
+          <div className="menu-box flex-center">
+            <div className="menu flex-center hover" onClick={() => songPlay()}>
+              <BsFillPlayFill size="30" />
+            </div>
+            <div className="menu flex-center hover">
+              <VscNewFolder size="25" />
+            </div>
+            <div
+              className="menu flex-center hover"
+              onClick={() => {
+                setCheckedList([el.songId]);
+                if (el.songId === checkedList[0])
+                  setIsMoreMenuClicked(!isMoreMenuClicked);
+                else setIsMoreMenuClicked(true);
+              }}
+            >
+              <AiOutlineMore size="30" />
+            </div>
+            {el.songId !== checkedList[0] || !isMoreMenuClicked || (
+              <div
+                className="more-menu-list"
+                onClick={() => {
+                  // setSelectedSongId(el.songId);
+                }}
+              >
+                <div className="more-menu">
+                  <IoDiscOutline className="icon" />
+                  앨범 정보
+                </div>
+                <div className="more-menu">
+                  <BiMicrophone className="icon" />
+                  아티스트 정보
+                </div>
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    setIsMoreMenuClicked(false);
+                    alert("미구현!");
+                  }}
+                >
+                  <IoMdHeartEmpty className="icon" />
+                  좋아요
+                </div>
+              </div>
+            )}
           </div>
-          <div className="menu flex-center hover">
-            <VscNewFolder size="25" />
-          </div>
-          <div className="menu flex-center hover">
-            <AiOutlineMore size="30" />
-          </div>
-        </div>
+        )}
       </div>
     );
   });

@@ -202,7 +202,7 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const MylistDetail = ({ musicTracks, setMusicTracks }) => {
+const MylistDetail = ({ musicTracks, setMusicTracks, setIsLiked }) => {
   const params = useParams();
   const [playlistInfo, setPlaylistInfo] = useState({
     playlistId: 0,
@@ -246,19 +246,19 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
     },
   ]);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
-  //     headers: {
-  //       Authorization: sessionStorage.getItem("token"),
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setPlaylistInfo(data.playlistInfo[0]);
-  //       setPlaylistSongs(data.playlistSongs);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPlaylistInfo(data.playlistInfo[0]);
+        setPlaylistSongs(data.playlistSongs);
+      });
+  }, []);
 
   return (
     <StyledDetail>
@@ -315,11 +315,11 @@ const MylistDetail = ({ musicTracks, setMusicTracks }) => {
         {/* 상세 페이지 상세정보와 수록곡 */}
       </section>
       <MylistTrack
-        playlistInfo={playlistInfo}
         playlistSongs={playlistSongs}
         setPlaylistSongs={setPlaylistSongs}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
+        setIsLiked={setIsLiked}
       />
     </StyledDetail>
   );
