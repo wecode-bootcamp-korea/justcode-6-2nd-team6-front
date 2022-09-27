@@ -158,7 +158,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin,setM
         <div className='header-nav-box'>
           <ul className='header-nav-list'>
             <li>
-              <NavLink to='/browse'>둘러보기</NavLink>
+              <NavLink to='/browse/전체차트/0'>둘러보기</NavLink>
             </li>
             <li>
               <NavLink to='/storage/mylist'>보관함</NavLink>

@@ -19,7 +19,7 @@ const StyledMain = styled.main`
   }
 `;
 
-const Main = ({ isLogin }) => {
+const Main = ({ loginText }) => {
   return (
     <Container fixed>
       <StyledMain>
@@ -30,7 +30,7 @@ const Main = ({ isLogin }) => {
           </div>
         </div>
       </StyledMain>
-      {isLogin === true ? <LoginPopup /> : null}
+      {loginText === true ? <LoginPopup /> : null}
     </Container>
   );
 };

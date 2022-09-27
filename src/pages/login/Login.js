@@ -229,11 +229,12 @@ const StyledLogin = styled.div`
   }
 `;
 
-const Login = ({setIsLogin}) => {
+const Login = ({setIsLogin, setLoginText}) => {
   const navigate = useNavigate();
   // 비밀번호 토글버튼
   const [blind, setBlind] = useState(false);
   const [input, setInput] = React.useState({ email: '', password: '' });
+ 
 
   const [disabled, setDisabled] = useState(true);
 
@@ -275,6 +276,7 @@ const Login = ({setIsLogin}) => {
         console.log('로그인이 완료되었습니다!!');
         navigate('/');
         setIsLogin(true)
+        setLoginText(true)
       })
       .catch((error) => {
         // Handle error.

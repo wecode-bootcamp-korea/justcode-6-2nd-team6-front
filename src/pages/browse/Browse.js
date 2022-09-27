@@ -1,20 +1,19 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Genre from './Genre';
 import Chart from './Chart';
-
-const StyledBrowseMenu = styled.div`
+const StyledBrowse = styled.div`
   .BrowseMenu-inner-box {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 1280px;
-    padding-top: 100px;
+    padding-top: 150px;
     margin: 0 auto;
-    margin-bottom: 50px;
     .BrowseMenu-tab-box {
       width: 100%;
+      padding: 0px 50px;
       /* 탭리스트 박스 ul */
       .BrowseMenu-tab {
         position: relative;
@@ -23,26 +22,12 @@ const StyledBrowseMenu = styled.div`
         flex-wrap: wrap;
         align-items: center;
         width: 100%;
-        padding-right: 50px;
+
+        margin-bottom: 50px;
         li {
           margin-right: 5px;
           margin-bottom: 10px;
         }
-        /* 버튼 클릭됬을때 */
-        .tab-on {
-          a {
-            height: 35px;
-            width: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            background-color: #3f3fff;
-            border: none;
-            border-radius: 100px;
-            font-size: 14px;
-            cursor: pointer;
-          }
         }
         /* 버튼 클릭안됬을때 */
         .tab-off {
@@ -58,6 +43,24 @@ const StyledBrowseMenu = styled.div`
             border-radius: 100px;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+              border: 1px solid #3f3fff;
+              color: #3f3fff;
+            }
+          }
+          .active {
+            height: 32px;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3f3fff;
+            background-color: none;
+            border: 1px solid #3f3fff;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
             &:hover {
               border: 1px solid #3f3fff;
               color: #3f3fff;
@@ -66,8 +69,8 @@ const StyledBrowseMenu = styled.div`
         }
         .tab-more-btn-on {
           position: absolute;
-          right: 40px;
-          top: 3px;
+          right: -50px;
+          top: 0px;
           width: 30px;
           height: 30px;
           margin-right: 30px;
@@ -79,8 +82,8 @@ const StyledBrowseMenu = styled.div`
           color: transparent;
           &:hover {
             position: absolute;
-            right: 40px;
-            top: 3px;
+            right: -50px;
+          top: 0px;
             width: 30px;
             height: 30px;
             margin-right: 30px;
@@ -94,8 +97,8 @@ const StyledBrowseMenu = styled.div`
         }
         .tab-more-btn-off {
           position: absolute;
-          right: 40px;
-          top: 3px;
+          right: -50px;
+          top: 0px;
           width: 30px;
           height: 30px;
           margin-right: 30px;
@@ -107,8 +110,8 @@ const StyledBrowseMenu = styled.div`
           color: transparent;
           &:hover {
             position: absolute;
-            right: 40px;
-            top: 3px;
+            right: -50px;
+          top: 0px;
             width: 30px;
             height: 30px;
             margin-right: 30px;
@@ -122,38 +125,73 @@ const StyledBrowseMenu = styled.div`
         }
       }
     }
-  }
 `;
 
-const Browsemenu = () => {
+const Browse = () => {
+  const [chart, setChart] = useState([])
+  const [allchart, setAllChart] = useState([])
   const params = useParams();
+  const { genre } = useParams();
   const [toggle, setToggle] = useState(false);
+  const [parmasId, setParamsId] = useState(params.id)
+
+  // 카테고리별 리스트 가져오기
+
+  /**
+   * 목데이터
+   * fetch('http://localhost:3000/data/genredata.json')
+   */
+
+  useEffect(() => {
+    if (params.id === 0) {
+      fetch('http://localhost:8000/browse')
+      .then((res) => res.json())
+      .then((res) => {
+        setAllChart(res.chart)
+        console.log(allchart);
+
+      });
+  
+    }  else{
+    fetch(`http://localhost:8000/browse?genreid=${params.id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setChart(res.chart)
+        console.log(chart);
+
+      });
+  }}, [params]);
+
+  // console.log("파람스아이디",parmasId);
+  // console.log("파람스",params.id);
+
+
 
   return (
-    <StyledBrowseMenu>
+    <StyledBrowse>
       <div className='BrowseMenu-inner-box'>
         <div className='BrowseMenu-tab-box'>
           {/* 탭 리스트 */}
           <ul className='BrowseMenu-tab'>
             {[
               '추천차트',
-              '해외 소셜 차트',
               '국내 발라드',
               '해외 팝',
               '국내 댄스',
               '국내 알앤비',
               '국내 힙합',
               '트로트',
-              '해외 알앤비',
-              '해외힙합',
               'OST',
-            ].map((tab) => {
+              '키즈',
+              '국내 인디',
+              '뉴에이지',
+            ].map((tab, index) => {
               return (
                 <li
                   key={tab}
                   className={params.category === tab ? 'tab-on' : 'tab-off'}
                 >
-                  <NavLink to={`/browse/${tab}`}>{tab}</NavLink>
+                  <NavLink to={`/browse/${tab}/${index}`}>{tab}</NavLink>
                 </li>
               );
             })}
@@ -179,9 +217,9 @@ const Browsemenu = () => {
           </ul>
         </div>
       </div>
-      <Chart />
+      <Chart genre={genre} params={params} chart={chart} setChart={setChart} />
       <Genre />
-    </StyledBrowseMenu>
+    </StyledBrowse>
   );
 };
 
@@ -189,29 +227,29 @@ const Addtab = () => {
   const params = useParams();
 
   return (
-    <StyledBrowseMenu>
+    <StyledBrowse>
       <ul className='BrowseMenu-tab'>
         {[
-          '키즈',
-          '국내 인디',
-          '클래식',
-          '뉴에이지',
           '국내 어쿠스틱',
           '해외 일텍트로닉',
+          '해외 소셜 차트',
+          '해외 알앤비',
+          '해외힙합',
+          '클래식',
           'CCM',
-        ].map((tab) => {
+        ].map((tab, index) => {
           return (
             <li
               key={tab}
               className={params.category === tab ? 'tab-on' : 'tab-off'}
             >
-              <NavLink to={`/browse/${tab}`}>{tab}</NavLink>
+              <NavLink to={`/browse/${tab}/${index + 11}`}>{tab}</NavLink>
             </li>
           );
         })}
       </ul>
-    </StyledBrowseMenu>
+    </StyledBrowse>
   );
 };
 
-export { Browsemenu, Addtab };
+export { Browse, Addtab };

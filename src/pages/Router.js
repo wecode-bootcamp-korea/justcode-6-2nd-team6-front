@@ -13,8 +13,6 @@ import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 import Affiliate from './purchase/Affiliate';
 import My from './purchase/My';
-import { Addtab, Browsemenu } from '../components/Browsemenu';
-import Genre from '../components/Genre';
 import Main from './main/Main';
 import Storage from './storage/Storage';
 import MyList from './storage/MyList';
@@ -26,13 +24,13 @@ import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
 import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
-import DetailInfo from '../components/detail/albumDetail/DetailInfo';
-import DetailTrack from '../components/detail/albumDetail/DetailTrack';
+import { Browse } from './browse/Browse';
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   const [isLogin, setIsLogin] = useState(false);
+  const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -51,6 +49,13 @@ function Router() {
   const user_name = sessionStorage.getItem('name');
   const user_img = sessionStorage.getItem('profileImage');
 
+  // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
+  useEffect(() => {
+    if (sessionStorage.getItem('token') !== null) setIsLogin(true);
+  }, []);
+
+  // 새로고침해도 로그인멘트 안나오게 하는 useEffect
+
   return (
     <BrowserRouter>
       <Header
@@ -65,7 +70,12 @@ function Router() {
         <Route
           path='/login'
           element={
-            <Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />
+            <Login
+              token={token}
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
+              setLoginText={setLoginText}
+            />
           }
         />
         <Route path='/signup' element={<Signup />} />
@@ -79,13 +89,12 @@ function Router() {
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
-        <Route path='/genre' element={<Genre />} />
-        <Route path='/browse/:category' element={<Browsemenu />} />
+        <Route path='/browse/:genre/:id' element={<Browse />} />
         <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
-        <Route path='/' element={<Main isLogin={isLogin} />} />
+        <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
           <Route path='playlist/:playlistId' element={<PlaylistDetail />} />
           <Route path='album/:albumId/:albumPage' element={<AlbumDetail />} />
