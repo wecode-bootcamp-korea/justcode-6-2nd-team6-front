@@ -12,6 +12,8 @@ import { IoMdHeartEmpty } from "react-icons/io";
 
 import MyPlayList from "../../playbar/MyPlayList";
 
+import axios from "axios";
+
 const StyledTrack = styled.div`
   padding-top: 40px;
 
@@ -218,12 +220,15 @@ const MylistTrack = ({
   setMusicTracks,
   setIsLiked,
   setAlertOn,
+  isMyPlayListClicked,
+  setIsMyPlayListClicked,
+  isEditClicked,
+  setIsEditClicked,
+  checkedList,
+  setCheckedList,
 }) => {
   const params = useParams();
-  const [isEditClicked, setIsEditClicked] = useState(false);
-  const [checkedList, setCheckedList] = useState([]);
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
-  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
 
   const onCheckedElement = (checked, item) => {
@@ -385,7 +390,20 @@ const MylistTrack = ({
                 <div
                   className="wrapper"
                   onClick={() => {
-                    setCheckedList([]);
+                    axios({
+                      url: `http://localhost:8000/detail/mylist/${params.id}`,
+                      method: "DELETE",
+                      headers: {
+                        Authorization: sessionStorage.getItem("token"),
+                      },
+                      data: {
+                        songId: checkedList,
+                      },
+                    }).then((res) => {
+                      console.log(res);
+                      setCheckedList([]);
+                      setIsEditClicked(false);
+                    });
                   }}
                 >
                   <VscTrash className="icon" />
@@ -402,6 +420,7 @@ const MylistTrack = ({
           checkedList={checkedList}
           setCheckedList={setCheckedList}
           setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+          setAlertOn={setAlertOn}
         />
       </div>
     </StyledTrack>

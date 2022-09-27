@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Dialog from "@mui/material/Dialog";
 import { AiOutlinePlus } from "react-icons/ai";
+import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
+import axios from "axios";
 
 const StyledDialog = styled(Dialog)`
   && {
@@ -89,8 +91,31 @@ const MyPlayList = ({
   checkedList,
   setCheckedList,
   setAlertOn,
+  musicTracks,
+  setMusicTracks,
 }) => {
-  const arr = [1, 2, 3];
+  const [myListData, setMyListData] = useState([
+    {
+      userId: 0,
+      playlistId: 0,
+      title: "",
+      songTotalCount: "",
+      albumImage: "",
+      createdAt: "",
+    },
+  ]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/storage", {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (sessionStorage.getItem("token") !== null) setMyListData(data.data);
+      });
+  }, [isMyPlayListClicked]);
 
   return (
     <StyledDialog
@@ -106,8 +131,18 @@ const MyPlayList = ({
         <div className="my-play-list-inner-box">
           <div className="title">내 리스트 가져오기</div>
           <div className="play-lists">
-            {arr.map((el) => (
-              <PlayListBar key={el} />
+            {myListData.map((el) => (
+              <PlayListBar
+                key={el.playlistId}
+                data={el}
+                checkedList={checkedList}
+                setCheckedList={setCheckedList}
+                setIsMyPlayListClicked={setIsMyPlayListClicked}
+                isGetMyPlayListClicked={isGetMyPlayListClicked}
+                setAlertOn={setAlertOn}
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+              />
             ))}
           </div>
         </div>
@@ -124,8 +159,16 @@ const MyPlayList = ({
                 <div className="add-list">새로운 리스트 추가하기</div>
               </div>
             </div>
-            {arr.map((el, i) => (
-              <PlayListBar key={arr[i]} />
+            {myListData.map((el, i) => (
+              <PlayListBar
+                key={el.playlistId}
+                data={el}
+                checkedList={checkedList}
+                setCheckedList={setCheckedList}
+                setIsMyPlayListClicked={setIsMyPlayListClicked}
+                setAlertOn={setAlertOn}
+                isGetMyPlayListClicked={isGetMyPlayListClicked}
+              />
             ))}
           </div>
         </div>
@@ -135,13 +178,67 @@ const MyPlayList = ({
 };
 
 // 플레이 리스트 (낱개)
-const PlayListBar = () => {
+const PlayListBar = ({
+  data,
+  checkedList,
+  setCheckedList,
+  setIsMyPlayListClicked,
+  setAlertOn,
+  isGetMyPlayListClicked,
+  musicTracks,
+  setMusicTracks,
+}) => {
   return (
-    <div className="play-list-bar-inner-box">
-      <img src="/Images/nothing.png" alt="playlist cover" className="cover" />
+    <div
+      className="play-list-bar-inner-box"
+      onClick={() => {
+        if (isGetMyPlayListClicked === false) {
+          axios({
+            url: `http://localhost:8000/detail/mylist/${data.playlistId}`,
+            method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("token"),
+            },
+            data: {
+              songId: checkedList,
+            },
+          })
+            .then((res) => {
+              setIsMyPlayListClicked(false);
+              setAlertOn("플레이리스트에 추가되었습니다.");
+            })
+            .catch((error) => {
+              setAlertOn("이미 플레이리스트에 존재하는 곡입니다.");
+            });
+        } // 내 리스트 불러오기 일 시
+        else {
+          fetch(
+            `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+            {
+              headers: {
+                Authorization: sessionStorage.getItem("token"),
+              },
+            }
+          )
+            .then((res) => res.json())
+            .then((plData) => {
+              const musicTracksId = musicTracks.map((el) => el.songId);
+              const filteredNewTracks = plData.filter(
+                (el, i) => musicTracksId.includes(el.songId) === false
+              );
+              setMusicTracks([...filteredNewTracks, ...musicTracks]);
+              setIsMyPlayListClicked(false);
+              setAlertOn(
+                "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+              );
+            });
+        }
+      }}
+    >
+      <img src={data.albumImage} alt="playlist cover" className="cover" />
       <div className="play-list-info">
-        <div className="album-title">플레이리스트 제목</div>
-        <div className="num">3곡</div>
+        <div className="album-title">{data.title}</div>
+        <div className="num">{data.songTotalCount}곡</div>
       </div>
     </div>
   );

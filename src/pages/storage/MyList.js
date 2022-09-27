@@ -1,14 +1,29 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
+import axios from "axios";
 
 const StyledMyList = styled.div`
   .my-list-inner-box {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     padding: 80px 0 60px 0;
+
+    .hover {
+      cursor: pointer;
+      &:hover {
+        color: #3f3fff;
+      }
+    }
+
+    .edit {
+      position: absolute;
+      right: 0;
+      top: 30px;
+    }
 
     .play-list-container {
       display: flex;
@@ -104,7 +119,12 @@ const StyledMyList = styled.div`
   }
 `;
 
-const MyList = ({ musicTracks, setMusicTracks }) => {
+const MyList = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+}) => {
   const [myListData, setMyListData] = useState([
     {
       userId: 0,
@@ -115,6 +135,7 @@ const MyList = ({ musicTracks, setMusicTracks }) => {
       createdAt: "",
     },
   ]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:8000/storage", {
@@ -125,22 +146,36 @@ const MyList = ({ musicTracks, setMusicTracks }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // setMyListData(data.data);
+        if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
+          setMyListData(data.data);
       });
-  }, []);
+  }, [isExpandedClicked]);
 
   return (
     <StyledMyList>
       <div className="my-list-inner-box">
+        <div className="edit hover">편집</div>
         {myListData.map((el, i) => (
           <PlayListContainer
             key={el.playlistId}
             data={el}
             musicTracks={musicTracks}
             setMusicTracks={setMusicTracks}
+            setAlertOn={setAlertOn}
           />
         ))}
-        <div className="play-list-container">
+        <div
+          className="play-list-container"
+          onClick={() => {
+            axios({
+              url: `http://localhost:8000/storage`,
+              method: "POST",
+              headers: {
+                Authorization: sessionStorage.getItem("token"),
+              },
+            }).then((res) => console.log(res));
+          }}
+        >
           <div className="play-list-cover">
             <div className="first-box" />
             <div className="second-box" />
@@ -157,36 +192,54 @@ const MyList = ({ musicTracks, setMusicTracks }) => {
   );
 };
 
-const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
+const PlayListContainer = ({
+  data,
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+}) => {
+  const navigate = useNavigate();
   return (
     <div className="play-list-container">
-      <Link
-        to={`/detail/mylist/${data.playlistId}`}
-        className="play-list-cover"
-      >
+      <div className="play-list-cover">
         <div className="first-box" />
         <div className="second-box" />
-        <img src={data.albumImage} className="third-box" />
+        <img
+          src={data.albumImage}
+          className="third-box"
+          onClick={() => navigate(`/detail/mylist/${data.playlistId}`)}
+        />
         <FaPlay
           className="play"
           onClick={() => {
-            fetch("localhost:8000/play/addsongs/song/1", {
-              headers: {
-                Authorization:
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJsZWVAY29kZXIuY29tIiwiaWF0IjoxNjY0MTc1NDY3LCJleHAiOjE2NjQyNjE4Njd9.9pNW1D-OA_0p6__0CPyBaD-0Xn1nxmJGtp9Sje5uDYY",
-              },
-            })
+            fetch(
+              `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+              {
+                headers: {
+                  Authorization: sessionStorage.getItem("token"),
+                },
+              }
+            )
               .then((res) => res.json())
               .then((plData) => {
-                const musicTracksId = musicTracks.map((el) => el.songId);
-                const filteredNewTracks = plData.filter(
-                  (el, i) => musicTracksId.includes(el.songId) === false
-                );
-                setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                if (plData.message == "Need Voucher")
+                  setAlertOn(
+                    "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                  );
+                else {
+                  const musicTracksId = musicTracks.map((el) => el.songId);
+                  const filteredNewTracks = plData.filter(
+                    (el, i) => musicTracksId.includes(el.songId) === false
+                  );
+                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                  setAlertOn(
+                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                  );
+                }
               });
           }}
         />
-      </Link>
+      </div>
       <div className="song-info">
         <Link to={`/detail/mylist/${data.playlistId}`} className="title">
           {data.title}

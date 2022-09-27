@@ -4,6 +4,7 @@ import styled from "styled-components";
 import MylistTrack from "./MylistTrack";
 import { BsFillPlayFill } from "react-icons/bs";
 import { HiPencil } from "react-icons/hi";
+import axios from "axios";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -248,6 +249,7 @@ const MylistDetail = ({
   setMusicTracks,
   setIsLiked,
   setAlertOn,
+  isExpandedClicked,
 }) => {
   const params = useParams();
   const [playlistInfo, setPlaylistInfo] = useState({
@@ -270,29 +272,12 @@ const MylistDetail = ({
       atsId: 1,
       artist: "가수가수",
     },
-    {
-      playlistId: 1,
-      songId: 1,
-      songTitle: "곡 제목2",
-      albumId: 1,
-      albumTitle: "앨범 제목2",
-      albumImage: "/Images/nothing.png",
-      atsId: 2,
-      artist: "가수가수",
-    },
-    {
-      playlistId: 2,
-      songId: 2,
-      songTitle: "곡 제목3",
-      albumId: 2,
-      albumTitle: "앨범 제목3",
-      albumImage: "/Images/nothing.png",
-      atsId: 3,
-      artist: "가수가수",
-    },
   ]);
   const [isTitleEditClicked, setIsTitleEditClicked] = useState(false);
   const [titleValue, setTitleValue] = useState("");
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -312,7 +297,7 @@ const MylistDetail = ({
         setPlaylistSongs(data.playlistSongs);
         setTitleValue(data.playlistInfo[0].playlistTitle);
       });
-  }, []);
+  }, [isEditClicked || isExpandedClicked]);
 
   return (
     <StyledDetail>
@@ -377,12 +362,34 @@ const MylistDetail = ({
                   >
                     취소
                   </div>
-                  <div className="confirm">확인</div>
+                  <div
+                    className="confirm"
+                    onClick={() => {
+                      if (titleValue.length !== 0) {
+                        axios({
+                          url: `http://localhost:8000/detail/mylist/${params.id}
+                        `,
+                          method: "PATCH",
+                          headers: {
+                            Authorization: sessionStorage.getItem("token"),
+                          },
+                          data: {
+                            newTitle: titleValue,
+                          },
+                        }).then((res) => {
+                          console.log(res.data);
+                          setIsTitleEditClicked(false);
+                        });
+                      }
+                    }}
+                  >
+                    확인
+                  </div>
                 </div>
               </div>
             ) : (
               <div className="playlist-detail-title flex-center">
-                {playlistInfo.playlistTitle}
+                {titleValue}
                 <HiPencil
                   className="pencil hover"
                   onClick={() => setIsTitleEditClicked(true)}
@@ -406,6 +413,12 @@ const MylistDetail = ({
         setMusicTracks={setMusicTracks}
         setIsLiked={setIsLiked}
         setAlertOn={setAlertOn}
+        isMyPlayListClicked={isMyPlayListClicked}
+        setIsMyPlayListClicked={setIsMyPlayListClicked}
+        isEditClicked={isEditClicked}
+        setIsEditClicked={setIsEditClicked}
+        checkedList={checkedList}
+        setCheckedList={setCheckedList}
       />
     </StyledDetail>
   );

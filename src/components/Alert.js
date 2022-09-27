@@ -12,7 +12,7 @@ const StyledAlert = styled.div`
     height: 75px;
     background-color: #181818;
     color: white;
-    z-index: 30;
+    z-index: 3000;
     font-size: 18px;
     font-weight: 700;
   }

@@ -365,6 +365,7 @@ const Playbar = ({
                     size="30"
                     onClick={() => {
                       setIsMyPlayListClicked(true);
+                      setIsGetMyPlayListClicked(false);
                       setCheckedList([musicTracks[trackIndex].songId]);
                     }}
                   />
@@ -500,6 +501,9 @@ const Playbar = ({
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
             checkedList={checkedList}
             setCheckedList={setCheckedList}
+            setAlertOn={setAlertOn}
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
           />
         </div>
       )}

@@ -105,6 +105,7 @@ function Router() {
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
                 setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
               />
             }
           />
@@ -116,6 +117,8 @@ function Router() {
               <MyList
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
               />
             }
           />
