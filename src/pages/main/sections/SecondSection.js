@@ -221,7 +221,7 @@ const SecondSection = () => {
                 <div key={el.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link
-                      to={`/detail/album/${el.albumId}`}
+                      to={`/detail/album/${el.albumId}/tracklist`}
                       className='second-section-album-link'
                     >
                       <div className='second-section-album-img-box'>

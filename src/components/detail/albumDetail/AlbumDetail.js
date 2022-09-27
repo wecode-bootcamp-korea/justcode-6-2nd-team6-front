@@ -226,7 +226,7 @@ const AlbumDetail = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log('곡 트랙 =>', data);
+        console.log('곡 트랙 =>', data);
         setAlbumTrack(data);
       });
   }, []);
@@ -237,12 +237,12 @@ const AlbumDetail = () => {
 
   const tabArr = [
     {
-      name: '상세정보',
-      content: <DetailInfo albumInfo={albumInfo} />,
-    },
-    {
       name: '수록곡',
       content: <DetailTrack albumTrack={albumTrack} />,
+    },
+    {
+      name: '상세정보',
+      content: <DetailInfo albumInfo={albumInfo} />,
     },
   ];
 

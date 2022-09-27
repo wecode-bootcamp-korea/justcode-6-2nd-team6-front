@@ -135,7 +135,7 @@ const StyledDetail = styled.div`
     .focus-on {
       height: 35px;
       width: 60px;
-      margin: 0 15px;
+      margin: 0 10px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -151,7 +151,7 @@ const StyledDetail = styled.div`
     .focus-off {
       height: 30px;
       width: 50px;
-      margin: 0 15px;
+      margin: 0 10px;
       display: flex;
       justify-content: center;
       align-items: center;
