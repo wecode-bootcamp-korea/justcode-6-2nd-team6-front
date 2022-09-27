@@ -57,7 +57,7 @@ const LoginPopup = () => {
         <StyledLoginPopup>
             <div className="login-popup-inner-box">
                 <div className="login-popup">
-                    <span className='login-popup-text'>{user_name}님 반갑습니다. 오늘도 FLORIDA와 함께 즐거울 하루되세요</span>
+                    <span className='login-popup-text'>{user_name}님 반갑습니다. 오늘도 FLORIDA와 함께 즐거운 하루되세요</span>
                 </div>
             </div>
         </StyledLoginPopup>

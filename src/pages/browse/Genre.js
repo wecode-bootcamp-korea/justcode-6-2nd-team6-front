@@ -10,7 +10,7 @@ const StyledGenre = styled.div`
     justify-content: center;
     width: 1280px;
     margin: 0 auto;
-    padding: 100px 0px;
+    padding: 100px 15px;
     .genre-list-inner-box {
       display: flex;
       flex-direction: column;
@@ -76,10 +76,10 @@ const Genre = () => {
     fetch('http://localhost:3000/data/genredata.json')
       .then((res) => res.json())
       .then((res) => {
-        setGenre({ data: res.genre });
-        setSituation({ data: res.situation });
-        setAtmosphere({ data: res.atmosphere });
-        setAudio({ data: res.audio });
+        setGenre({ data: res.cards.genre });
+        setSituation({ data: res.cards.situation });
+        setAtmosphere({ data: res.cards.atmosphere });
+        setAudio({ data: res.cards.audio });
       });
   }, []);
 

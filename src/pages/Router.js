@@ -14,8 +14,6 @@ import Purchase from './purchase/Purchase';
 import Voucher from './purchase/Voucher';
 import Affiliate from './purchase/Affiliate';
 import My from './purchase/My';
-import { Addtab, Browsemenu } from '../components/Browsemenu';
-import Genre from '../components/Genre';
 import Main from './main/Main';
 import Storage from './storage/Storage';
 import MyList from './storage/MyList';
@@ -27,6 +25,7 @@ import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
 import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
+import { Browse } from './browse/Browse';
 
 
 function Router() {
@@ -52,12 +51,16 @@ function Router() {
   const user_name = sessionStorage.getItem('name')
   const user_img = sessionStorage.getItem('profileImage')
 
+  // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
+  useEffect(() => {
+    if (sessionStorage.getItem("token") !== null) setIsLogin(true);
+  }, []);
 
   return (
     <BrowserRouter>
       <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
       <Routes>
-        <Route path="/login" element={<Login token={token}  isLogin={isLogin} setIsLogin={setIsLogin} />} />
+        <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
@@ -69,13 +72,12 @@ function Router() {
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
-        <Route path='/genre' element={<Genre />} />
-        <Route path='/browse/:category' element={<Browsemenu />} />
-        <Route path='/purchase' element={<Purchase  />}>
+        <Route path='/browse/:genre/:id' element={<Browse />} />
+        <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
-        <Route path='/' element={<Main  isLogin={isLogin}/>} />
+        <Route path='/' element={<Main isLogin={isLogin} />} />
         <Route path='/detail' elememt={<Detail />}>
           <Route path='album' element={<AlbumDetail />} />
           <Route path='playlist' element={<PlaylistDetail />} />

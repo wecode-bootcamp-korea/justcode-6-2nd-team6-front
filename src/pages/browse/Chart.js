@@ -6,19 +6,22 @@ import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { FiMoreVertical } from 'react-icons/fi';
+import { useState } from 'react';
 
-const Chart = () => {
-  const StyledChart = styled.div`
-    width: 1280px;
+const StyledChart = styled.div`
+    div.chart-inner-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 1280px;
     margin: 0 auto;
     font-family: 'NanumBarunGothic', sans-serif;
-
-    div.chart-inner-box {
-    }
-
     div.chart-main-box {
+      width: 100%;
       margin-top: 20px;
-
+      margin-bottom: 50px;
+      padding: 0px 100px;
       div.chart-title-box {
         position: relative;
         min-height: 20px;
@@ -269,18 +272,44 @@ const Chart = () => {
         }
       }
     }
+    .more-btn{
+            height: 32px;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            background-color:#fff;
+            border: 1px solid #ddd;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+              border: 1px solid #3f3fff;
+              color: #3f3fff;
+    }
+  }}
   `;
+
+
+
+const Chart = ({ genre, params, chart, setChart }) => {
+
+  const [visible, setVisible] = useState(10)
+  const showMoreChart = () => {
+    setVisible(prevValue => prevValue + 10)
+  }
+
 
   return (
     <StyledChart>
+
       <div className='chart-inner-box'>
         <div className='chart-main-box'>
           {/* florida 차트 타이틀 */}
           <div className='chart-title-box'>
-            <h3 className='chart-florida-chart-title'>FLORIDA 차트</h3>
-            <div className='chart-update-time-box'>
-              <span className='chart-update-time'>24시간 집계</span>
-            </div>
+            <h3 className='chart-florida-chart-title'>{genre}</h3>
             <button className='chart-whole-listen-box' type='button'>
               <BsPlay className='chart-whole-listen-icon' />
               전체듣기
@@ -329,71 +358,90 @@ const Chart = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td className='chart-list-select'>
-                    <input
-                      name='곡 선택하기'
-                      className='chart-list-checkbox'
-                      type='checkbox'
-                    />
-                  </td>
-                  <td className='chart-list-number'> 1 </td>
-                  {/* 수록곡 곡/앨범 */}
-                  <td className='chart-list-info-wrap'>
-                    <div className='chart-list-info-box'>
-                      <div className='chart-list-info-thumb'>
-                        <a href='#' className='chart-list-info-album'>
-                          <img
-                            alt='앨범 이미지'
-                            src='/Images/album-cover-3.jpg'
-                            className='chart-list-info-img'
-                          />
-                        </a>
-                      </div>
-                      <div className='chart-list-info-txt-area'>
-                        <div className='chart-list-song'>
-                          {' '}
-                          관심과 사랑(inst.){' '}
-                        </div>
-                        <div className='chart-list-album-box'>
-                          <a href='#' className='chart-list-album-link'>
-                            <div className='chart-list-album'>
-                              {' '}
-                              사랑과 이별{' '}
+
+              {/* Table Body */}
+              {/* chart 데이터 0 부터 10자름 */}
+
+              {chart && chart.slice(0, visible).map((song, index) => {
+                return (
+                  <tbody>
+                    <tr>
+                      <td className='chart-list-select'>
+                        <input
+                          name='곡 선택하기'
+                          className='chart-list-checkbox'
+                          type='checkbox'
+                        />
+                      </td>
+                      {/* 순위 */}
+                      <td className='chart-list-number'> {index + 1} </td>
+                      {/* 수록곡 곡/앨범 */}
+                      <td className='chart-list-info-wrap'>
+                        <div className='chart-list-info-box'>
+                          {/* 앨범사진 */}
+                          <div className='chart-list-info-thumb'>
+                            <a href='#' className='chart-list-info-album'>
+                              <img
+                                alt='앨범 이미지'
+                                url={song.albumCover}
+                                className='chart-list-info-img'
+                              />
+                            </a>
+                          </div>
+                          {/* 곡명/앨범명 */}
+                          <div className='chart-list-info-txt-area'>
+                            {/* 곡명 */}
+                            <div className='chart-list-song'>
+                              {song.songTitle}
                             </div>
-                          </a>
+                            {/* 앨범명 */}
+                            <div className='chart-list-album-box'>
+                              <a href='#' className='chart-list-album-link'>
+                                <div className='chart-list-album'>
+                                  {song.albumTitle}
+                                </div>
+                              </a>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </td>
-                  {/* 수록곡 아티스트 */}
-                  <td className='chart-list-artist-box'>
-                    <Link to='#' className='chart-list-artist'>
-                      <span class='chart-artist'>Monsune</span>
-                    </Link>
-                  </td>
-                  {/* 수록곡 아이콘 */}
-                  <td className='chart-list-icon'>
-                    <button type='button' className='chart-icon-listen'>
-                      <BsFillPlayFill className='chart-icon-listen-icon' />
-                    </button>
-                  </td>
-                  <td className='chart-list-icon'>
-                    <button type='button' className='chart-icon-listen'>
-                      <AiOutlineFolderAdd className='chart-icon-listen-icon' />
-                    </button>
-                  </td>
-                  <td className='chart-list-icon'>
-                    <button type='button' className='chart-icon-listen'>
-                      <FiMoreVertical className='chart-icon-listen-icon' />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+                      </td>
+                      {/* 수록곡 아티스트 */}
+                      <td className='chart-list-artist-box'>
+                        <Link to='#' className='chart-list-artist'>
+                          <span class='chart-artist'>{song.songArtist}</span>
+                        </Link>
+                      </td>
+                      {/* 수록곡 아이콘 */}
+                      {/* 플레이버튼 */}
+                      <td className='chart-list-icon'>
+                        <button type='button' className='chart-icon-listen'>
+                          <BsFillPlayFill className='chart-icon-listen-icon' />
+                        </button>
+                      </td>
+                      {/* 리스트추가버튼 */}
+                      <td className='chart-list-icon'>
+                        <button type='button' className='chart-icon-listen'>
+                          <AiOutlineFolderAdd className='chart-icon-listen-icon' />
+                        </button>
+                      </td>
+                      {/* 더보기버튼 */}
+                      <td className='chart-list-icon'>
+                        <button type='button' className='chart-icon-listen'>
+                          <FiMoreVertical className='chart-icon-listen-icon' />
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                )
+
+              })}
+
             </table>
           </div>
         </div>
+        {/* 리스트더보기 버튼 */}
+        <button className='more-btn' onClick={showMoreChart}>더보기 &#8744;</button>
       </div>
     </StyledChart>
   );
