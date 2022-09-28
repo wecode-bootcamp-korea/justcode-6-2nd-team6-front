@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { RiFolderAddLine } from 'react-icons/ri';
 import { BsSuitHeart } from 'react-icons/bs';
+
+const StyledLi = styled.li`
+  color: ${(props) => (props.selected ? '#3f3fff' : 'black')};
+`;
 
 const StyledArtistAlbum = styled.section`
   padding-top: 40px;
@@ -22,18 +26,17 @@ const StyledArtistAlbum = styled.section`
       right: 0;
       color: #333;
 
-      button {
-        cursor: pointer;
-        outline: none;
-        vertical-align: middle;
-        background: none;
-        border: none;
-        color: black;
-        padding-right: 12px;
-        font-size: 14px;
+      ul {
+        display: flex;
 
-        &:hover {
-          color: #3f3fff;
+        ${StyledLi} {
+          margin-right: 15px;
+          font-size: 14px;
+          cursor: pointer;
+
+          &:hover {
+            color: #3f3fff;
+          }
         }
       }
 
@@ -202,30 +205,120 @@ const StyledArtistAlbum = styled.section`
   }
 `;
 
-const ArtistAlbum = () => {
+const ArtistAlbum = ({ name }) => {
+  const params = useParams();
+  const [roleType, setRoleType] = useState([
+    { id: 1, name: '전체', selected: false },
+    { id: 2, name: '정규/싱글', selected: false },
+    { id: 3, name: '참여', selected: false },
+  ]);
+  const [sortType, setSortType] = useState([
+    { id: 1, name: '최신순', selected: false },
+    { id: 2, name: '인기순', selected: false },
+    { id: 3, name: '가나다순', selected: false },
+  ]);
+  const [albumsData, setAlbumsData] = useState([]);
+  const [trackData, setTrackData] = useState([]);
+
+  const sortHandler = (e) => {
+    const arr = sortType.map((data) => {
+      return data.id === Number(e.target.type)
+        ? { id: data.id, name: data.name, selected: true }
+        : { id: data.id, name: data.name, selected: false };
+    });
+    setSortType(arr);
+
+    const selectedName = arr.filter((result) => {
+      return result.selected;
+    })[0].name;
+    const newArr = albumsData.filter((data) => {
+      return !data.includes('sortType=');
+    });
+
+    if (selectedName == '최신순') {
+      setAlbumsData(() => [...newArr, 'sortType=RECENT']);
+    } else if (selectedName == '인기순') {
+      return setAlbumsData(() => [...newArr, 'sortType=POPULARITY']);
+    } else if (selectedName == '가나다순') {
+      return setAlbumsData(() => [...newArr, 'sortType=WORD']);
+    }
+  };
+
+  const roleHandler = (e) => {
+    const arr = roleType.map((data) => {
+      return data.id == e.target.type
+        ? { id: data.id, name: data.name, selected: true }
+        : { id: data.id, name: data.name, selected: false };
+    });
+    setRoleType(arr);
+
+    const selectedName = arr.filter((result) => {
+      return result.selected;
+    })[0].name;
+    const newArr = albumsData.filter((data) => {
+      return !data.includes('roleType=');
+    });
+
+    if (selectedName == '전체') {
+      setAlbumsData(() => [...newArr, ' roleType=ALL']);
+    } else if (selectedName == '정규/싱글') {
+      return setAlbumsData(() => [...newArr, 'roleType=RELEASE']);
+    } else if (selectedName == '참여') {
+      return setAlbumsData(() => [...newArr, 'roleType=JOIN']);
+    }
+  };
+
+  useEffect(() => {
+    const result = name == '앨범' ? 'albums' : 'songs';
+    const queryString =
+      albumsData.length == 0 ? '' : '?' + albumsData.join('&');
+    fetch(
+      `http://localhost:8000/detail/artist/${params.artistId}/${result}${queryString}`,
+      {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setTrackData(data.artistSongs);
+        console.log(data);
+      });
+  }, [albumsData]);
+
   return (
     <StyledArtistAlbum>
       <div className='artist-album-inner-box'>
         <div className='artist-album-head-wrap'>
-          <button className='artist-album-head-whole' type='button'>
-            전체
-          </button>
-          <button className='artist-album-head-single' type='button'>
-            정규/싱글
-          </button>
-          <button className='artist-album-head-feature' type='button'>
-            참여
-          </button>
-          <span className='artist-album-stick' />
-          <button className='artist-album-head-latest' type='button'>
-            최신순
-          </button>
-          <button className='artist-album-head-popular' type='button'>
-            인기순
-          </button>
-          <button className='artist-album-head-ganada' type='button'>
-            가나다순
-          </button>
+          <ul>
+            {roleType.map((result) => {
+              return (
+                <StyledLi
+                  selected={result.selected}
+                  className='type'
+                  type={result.id}
+                  onClick={roleHandler}
+                >
+                  {result.name}
+                </StyledLi>
+              );
+            })}
+          </ul>
+          <span className='artist-track-stick' />
+          <ul>
+            {sortType.map((result) => {
+              return (
+                <StyledLi
+                  selected={result.selected}
+                  className='type'
+                  type={result.id}
+                  onClick={sortHandler}
+                >
+                  {result.name}
+                </StyledLi>
+              );
+            })}
+          </ul>
         </div>
         <ul className='artist-album-list-wrap'>
           <li className='artist-album-list-box'>

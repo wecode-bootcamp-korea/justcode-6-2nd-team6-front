@@ -184,162 +184,15 @@ const StyledDetail = styled.div`
 const ArtistDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const params = useParams();
-  const [dataArr, setDataArr] = useState([]);
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
   };
 
   const tabArr = [
-    { name: '곡', content: <ArtistTrack /> },
-    { name: '앨범', content: <ArtistAlbum /> },
+    { name: '곡', content: <ArtistTrack name='곡' /> },
+    { name: '앨범', content: <ArtistAlbum name='앨범' /> },
   ];
-
-  /* 모두/인기순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=POPULARITY&roleType=ALL`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('노래 정보들(모두/인기순) =>', data.artistSongs);
-      });
-  }, []);
-
-  /* 모두/최신순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/albums?sortType=RECENT&roleType=ALL`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('앨범 정보들(모두/최신순) =>', data);
-      });
-  }, []);
-
-  /* 모두/가나다순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=WORD&roleType=ALL`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('노래 정보들(모두/가나다순) =>', data);
-      });
-  }, []);
-
-  /* 정규/인기순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=POPULARITY&roleType=RELEASE`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('노래 정보들(정규/인기순) =>', data);
-      });
-  }, []);
-
-  /* 정규/최신순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=RECENT&roleType=RELEASE`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('노래 정보들(정규/최신순) =>', data);
-      });
-  }, []);
-
-  /* 정규/가나다순 */
-  useEffect(() => {
-    fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=WORD&roleType=RELEASE`,
-      {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('노래 정보들(정규/가나다순) =>', data);
-      });
-  }, []);
-
-  const filterArr = [
-    {
-      sort_type: 'POPULARITY',
-      roll_type: 'ALL',
-      content: ['모두/인기순'],
-    },
-    {
-      sort_type: 'RECENT',
-      roll_type: 'ALL',
-      content: ['모두/최신순'],
-    },
-    {
-      sort_type: 'WORD',
-      roll_type: 'ALL',
-      content: ['모두/가나다순'],
-    },
-    {
-      sort_type: 'POPULARITY',
-      roll_type: 'RELEASE',
-      content: ['정규/싱글/인기순'],
-    },
-    {
-      sort_type: 'RECENT',
-      roll_type: 'RELEASE',
-      content: ['정규/싱글/최신순'],
-    },
-    {
-      sort_type: 'WORD',
-      roll_type: 'RELEASE',
-      content: ['정규/싱글/가나다순'],
-    },
-    {
-      sort_type: 'POPULARITY',
-      roll_type: 'JOIN',
-      content: ['참여/인기순'],
-    },
-    {
-      sort_type: 'RECENT',
-      roll_type: 'JOIN',
-      content: ['참여/최신순'],
-    },
-    {
-      sort_type: 'WORD',
-      roll_type: 'JOIN',
-      content: ['참여/가나다순'],
-    },
-  ];
-
-  const filterStorage = () => {
-    setDataArr(filterArr);
-  };
-
-  const filterData = useCallback(async () => {
-    const res = await fetch('');
-  });
 
   return (
     <StyledDetail>
@@ -380,7 +233,9 @@ const ArtistDetail = () => {
                 <li
                   key={index}
                   className={currentTab === index ? 'focus-on' : 'focus-off'}
-                  onClick={() => selectTabHandler(index)}
+                  onClick={() => {
+                    selectTabHandler(index);
+                  }}
                 >
                   {el.name}
                 </li>
