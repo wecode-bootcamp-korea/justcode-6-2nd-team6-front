@@ -156,6 +156,7 @@ const FirstSection = () => {
       .then((res) => res.json())
       .then((data) => {
         setSlide(data.slideData);
+        console.log('슬라이드 데이터 =>', data.slideData);
       });
   }, []);
 
@@ -183,7 +184,7 @@ const FirstSection = () => {
     <StyledSection>
       <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
-          {slide &&
+          {slide !== null &&
             slide.map((result) => {
               return (
                 <div
@@ -217,7 +218,7 @@ const FirstSection = () => {
                       {/* 노래리스트 */}
                       <div className='first-section-playlist-wrap'>
                         <ul className='first-section-playlist-box'>
-                          {result.songsData &&
+                          {result.songsData !== null &&
                             result.songsData.map((song) => {
                               return (
                                 <li

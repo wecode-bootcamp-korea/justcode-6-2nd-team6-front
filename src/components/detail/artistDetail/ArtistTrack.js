@@ -7,11 +7,12 @@ import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { FiMoreVertical } from 'react-icons/fi';
 
 const StyledTrack = styled.div`
-  padding-top: 40px;
-
   div.artist-track-inner-box {
     div.artist-track-whole-box {
       margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
 
     button.artist-track-whole-play-btn {
@@ -32,7 +33,42 @@ const StyledTrack = styled.div`
     }
 
     span.artist-track-whole-play {
-      font-size: 16px;
+      font-size: 14px;
+    }
+
+    div.artist-track-head-wrap {
+      color: #333;
+
+      button {
+        cursor: pointer;
+        outline: none;
+        vertical-align: middle;
+        background: none;
+        border: none;
+        color: black;
+        padding-right: 12px;
+        font-size: 14px;
+
+        &:hover {
+          color: #3f3fff;
+        }
+      }
+
+      span.artist-track-stick {
+        position: relative;
+        padding: 0 10px 0 0;
+
+        ::after {
+          position: absolute;
+          top: 7px;
+          left: 0;
+          display: block;
+          width: 1px;
+          height: 8px;
+          background-color: #dcdcdc;
+          content: '';
+        }
+      }
     }
 
     table.artist-track-list-table {
@@ -251,6 +287,27 @@ const ArtistTrack = () => {
             <BsPlay className='artist-track-whole-icon' />
             <span className='artist-track-whole-play'>전체듣기</span>
           </button>
+          <div className='artist-track-head-wrap'>
+            <button className='artist-track-head-whole' type='button'>
+              전체
+            </button>
+            <button className='artist-track-head-single' type='button'>
+              정규/싱글
+            </button>
+            <button className='artist-track-head-feature' type='button'>
+              참여
+            </button>
+            <span className='artist-track-stick' />
+            <button className='artist-track-head-latest' type='button'>
+              최신순
+            </button>
+            <button className='artist-track-head-popular' type='button'>
+              인기순
+            </button>
+            <button className='artist-track-head-ganada' type='button'>
+              가나다순
+            </button>
+          </div>
         </div>
         {/* 수록곡 정보 */}
         <div className='artist-track-list-box'>

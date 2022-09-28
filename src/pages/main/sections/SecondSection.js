@@ -250,7 +250,7 @@ const SecondSection = () => {
                     <span className='second-section-song'>{el.albumTitle}</span>
                   </a>
                   <Link
-                    to='/detail/artist'
+                    to={`/detail/artist/${el.artistId}/${params.artistPage}`}
                     className='second-section-album-singer-link'
                   >
                     <span className='second-section-album-singer'>
