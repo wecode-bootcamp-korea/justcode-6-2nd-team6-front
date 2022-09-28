@@ -6,6 +6,7 @@ import { IoDiscOutline } from "react-icons/io5";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { MdEqualizer } from "react-icons/md";
+import { FiMusic } from "react-icons/fi";
 
 const StyledPlayListMusic = styled.div`
   display: flex;
@@ -213,16 +214,15 @@ const PlayListMusic = ({
             {el.songId !== checkedList[0] || !isMoreMenuClicked || (
               <div className="more-menu-list">
                 <div className="more-menu">
+                  <FiMusic className="icon" />곡 정보
+                </div>
+                <div className="more-menu">
                   <IoDiscOutline className="icon" />
                   앨범 정보
                 </div>
                 <div className="more-menu">
                   <BiMicrophone className="icon" />
                   아티스트 정보
-                </div>
-                <div className="more-menu">
-                  <IoMdHeartEmpty className="icon" />
-                  좋아요
                 </div>
               </div>
             )}

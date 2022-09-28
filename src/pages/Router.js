@@ -18,9 +18,7 @@ import Genre from "../components/Genre";
 import Main from "./main/Main";
 import Storage from "./storage/Storage";
 import MyList from "./storage/MyList";
-import LikeTrack from "./storage/LikeTrack";
-import MostListen from "./storage/MostListen";
-import RecentlyListen from "./storage/RecentlyListen";
+import ListTrack from "./storage/ListTrack";
 import AlbumDetail from "../components/detail/albumDetail/AlbumDetail";
 import ArtistDetail from "../components/detail/artistDetail/ArtistDetail";
 import PlaylistDetail from "../components/detail/playlistDetail/PlaylistDetail";
@@ -119,12 +117,46 @@ function Router() {
                 setMusicTracks={setMusicTracks}
                 setAlertOn={setAlertOn}
                 isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
               />
             }
           />
-          <Route path="liketrack" element={<LikeTrack />} />
-          <Route path="mostlisten" element={<MostListen />} />
-          <Route path="recentlylisten" element={<RecentlyListen />} />
+          <Route
+            path="liketrack"
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path="mostlisten"
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path="recentlisten"
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
         </Route>
       </Routes>
       <Footer />

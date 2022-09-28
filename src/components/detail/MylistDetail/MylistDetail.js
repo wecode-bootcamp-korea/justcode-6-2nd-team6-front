@@ -247,7 +247,6 @@ const StyledDetail = styled.div`
 const MylistDetail = ({
   musicTracks,
   setMusicTracks,
-  setIsLiked,
   setAlertOn,
   isExpandedClicked,
 }) => {
@@ -270,7 +269,7 @@ const MylistDetail = ({
       albumTitle: "앨범 제목1",
       albumImage: "/Images/nothing.png",
       atsId: 1,
-      artist: "가수가수",
+      artist: "",
     },
   ]);
   const [isTitleEditClicked, setIsTitleEditClicked] = useState(false);
@@ -346,9 +345,10 @@ const MylistDetail = ({
                           );
                         })
                         .catch(() => {
-                          setAlertOn(
-                            "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                          );
+                          if (sessionStorage.getItem("token") !== null)
+                            setAlertOn(
+                              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                            );
                         });
                     }
                   }}
@@ -413,7 +413,11 @@ const MylistDetail = ({
               </div>
             )}
             <div className="playlist-detail-kind">
-              총 {playlistInfo.playlistSongsCount}곡
+              총{" "}
+              {playlistInfo.playlistSongsCount === null
+                ? 0
+                : playlistInfo.playlistSongsCount}
+              곡
             </div>
             <div className="playlist-detail-date">
               {playlistInfo.createdDate}
@@ -427,7 +431,6 @@ const MylistDetail = ({
         setPlaylistSongs={setPlaylistSongs}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
-        setIsLiked={setIsLiked}
         setAlertOn={setAlertOn}
         isMyPlayListClicked={isMyPlayListClicked}
         setIsMyPlayListClicked={setIsMyPlayListClicked}

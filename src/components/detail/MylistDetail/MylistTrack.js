@@ -8,6 +8,7 @@ import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import { BiMicrophone } from "react-icons/bi";
 import { IoDiscOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
+import { FiMusic } from "react-icons/fi";
 
 import MyPlayList from "../../playbar/MyPlayList";
 
@@ -239,11 +240,6 @@ const MylistTrack = ({
     console.log(checkedList);
   };
 
-  // checkedList 변경 시 마다 출력 (삭제 예정)
-  useEffect(() => {
-    console.log("CL", checkedList);
-  }, [checkedList]);
-
   return (
     <StyledTrack>
       <div className="mylist-track-inner-box">
@@ -271,10 +267,11 @@ const MylistTrack = ({
                       "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                     );
                   })
-                  .catch(() => {
-                    setAlertOn(
-                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                    );
+                  .catch((err) => {
+                    if (sessionStorage.getItem("token") !== null)
+                      setAlertOn(
+                        "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                      );
                   });
               }
             }}
@@ -464,7 +461,7 @@ const SongBar = ({
             setAlertOn(
               "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
             );
-          else {
+          else if (data !== "Error: Invaild Access") {
             console.log(data);
             const song = data[0];
             if (musicTracksId.includes(song.songId) === false) {
@@ -545,12 +542,10 @@ const SongBar = ({
               <AiOutlineMore size="30" />
             </div>
             {el.songId !== checkedList[0] || !isMoreMenuClicked || (
-              <div
-                className="more-menu-list"
-                onClick={() => {
-                  // setSelectedSongId(el.songId);
-                }}
-              >
+              <div className="more-menu-list">
+                <div className="more-menu" onClick={() => {}}>
+                  <FiMusic className="icon" />곡 정보
+                </div>
                 <div className="more-menu">
                   <IoDiscOutline className="icon" />
                   앨범 정보
@@ -558,16 +553,6 @@ const SongBar = ({
                 <div className="more-menu">
                   <BiMicrophone className="icon" />
                   아티스트 정보
-                </div>
-                <div
-                  className="more-menu"
-                  onClick={() => {
-                    setIsMoreMenuClicked(false);
-                    setAlertOn("미구현입니다.");
-                  }}
-                >
-                  <IoMdHeartEmpty className="icon" />
-                  좋아요
                 </div>
               </div>
             )}

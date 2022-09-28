@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
 
 const StyledStorage = styled.div`
@@ -54,10 +54,30 @@ const StyledStorage = styled.div`
 `;
 
 const Storage = () => {
+  const location = useLocation();
   const [isMyListClicked, setIsMyListClicked] = useState(true);
   const [isLikedClicked, setIsLikedClicked] = useState(false);
   const [isMostListenClicked, setIsMostListenClicked] = useState(false);
   const [isRecentlyListenClicked, setIsRecentlyListenClicked] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === "/storage/liketrack") {
+      setIsMyListClicked(false);
+      setIsLikedClicked(true);
+      setIsMostListenClicked(false);
+      setIsRecentlyListenClicked(false);
+    } else if (location.pathname === "/storage/mostlisten") {
+      setIsMyListClicked(false);
+      setIsLikedClicked(false);
+      setIsMostListenClicked(true);
+      setIsRecentlyListenClicked(false);
+    } else if (location.pathname === "/storage/recentlisten") {
+      setIsMyListClicked(false);
+      setIsLikedClicked(false);
+      setIsMostListenClicked(false);
+      setIsRecentlyListenClicked(true);
+    }
+  }, [location.pathname]);
 
   return (
     <StyledStorage>
@@ -108,7 +128,7 @@ const Storage = () => {
           </li>
           <li>
             <NavLink
-              to="/storage/recentlylisten"
+              to="/storage/recentlisten"
               className={isRecentlyListenClicked ? "selected-list" : "list"}
               onClick={() => {
                 setIsMyListClicked(false);

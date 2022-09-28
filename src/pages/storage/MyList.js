@@ -7,6 +7,17 @@ import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import axios from "axios";
 
 const StyledMyList = styled.div`
+  .my-list-message-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    padding: 80px 0 60px 0;
+    color: #969696;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
   .my-list-inner-box {
     position: relative;
     display: flex;
@@ -221,6 +232,7 @@ const MyList = ({
   setMusicTracks,
   setAlertOn,
   isExpandedClicked,
+  isLogin,
 }) => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
@@ -253,108 +265,114 @@ const MyList = ({
 
   return (
     <StyledMyList>
-      <div className="my-list-inner-box">
-        {!isEditClicked || (
+      {isLogin === false ? (
+        <div className="my-list-message-box">
+          <div className="message">로그인 후 이용하실 수 있습니다.</div>
+        </div>
+      ) : (
+        <div className="my-list-inner-box">
+          {!isEditClicked || (
+            <div
+              className="select-all hover"
+              onClick={() => {
+                if (checkedList.length < myListData.length) {
+                  setCheckedList(myListData.map((el) => el.playlistId));
+                } else setCheckedList([]);
+              }}
+            >
+              전체선택
+            </div>
+          )}
           <div
-            className="select-all hover"
+            className="edit hover"
             onClick={() => {
-              if (checkedList.length < myListData.length) {
-                setCheckedList(myListData.map((el) => el.playlistId));
-              } else setCheckedList([]);
+              setIsEditClicked(!isEditClicked);
+              setCheckedList([]);
             }}
           >
-            전체선택
+            {isEditClicked ? "완료" : "편집"}
           </div>
-        )}
-        <div
-          className="edit hover"
-          onClick={() => {
-            setIsEditClicked(!isEditClicked);
-            setCheckedList([]);
-          }}
-        >
-          {isEditClicked ? "완료" : "편집"}
-        </div>
-        {myListData.map((el, i) => (
-          <PlayListContainer
-            key={el.playlistId}
-            data={el}
-            musicTracks={musicTracks}
-            setMusicTracks={setMusicTracks}
-            setAlertOn={setAlertOn}
-            isEditClicked={isEditClicked}
-            checkedList={checkedList}
-            setCheckedList={setCheckedList}
-          />
-        ))}
-        <div
-          className="play-list-container"
-          onClick={() => {
-            axios({
-              url: `http://localhost:8000/storage`,
-              method: "POST",
-              headers: {
-                Authorization: sessionStorage.getItem("token"),
-              },
-            }).then((res) => {
-              navigate(`/detail/mylist/${res.data.data[0].playlistId}`);
-            });
-          }}
-        >
-          <div className="play-list-cover">
-            <div className="first-box" />
-            <div className="second-box" />
-            <div className="third-box">
-              <AiOutlinePlus size="50" />
+          {myListData.map((el, i) => (
+            <PlayListContainer
+              key={el.playlistId}
+              data={el}
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
+              isEditClicked={isEditClicked}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+            />
+          ))}
+          <div
+            className="play-list-container"
+            onClick={() => {
+              axios({
+                url: `http://localhost:8000/storage`,
+                method: "POST",
+                headers: {
+                  Authorization: sessionStorage.getItem("token"),
+                },
+              }).then((res) => {
+                navigate(`/detail/mylist/${res.data.data[0].playlistId}`);
+              });
+            }}
+          >
+            <div className="play-list-cover">
+              <div className="first-box" />
+              <div className="second-box" />
+              <div className="third-box">
+                <AiOutlinePlus size="50" />
+              </div>
+            </div>
+            <div className="song-info">
+              <div className="add-list">새로운 리스트 만들기</div>
             </div>
           </div>
-          <div className="song-info">
-            <div className="add-list">새로운 리스트 만들기</div>
-          </div>
-        </div>
-        {!isEditClicked || checkedList.length === 0 || (
-          <div className="edit-inner-box">
-            <div className="edit-container">
-              <div className="edit-box">
-                <div className="checklist-counter">{checkedList.length}</div>
-                <div
-                  className="wrapper"
-                  onClick={() => {
-                    setCheckedList([]);
-                  }}
-                >
-                  <AiOutlineCheck className="icon" />
-                  <div className="text">선택해제</div>
-                </div>
-              </div>
-              <div className="edit-box">
-                <div
-                  className="wrapper"
-                  onClick={() => {
-                    axios({
-                      url: `http://localhost:8000/storage`,
-                      method: "DELETE",
-                      headers: {
-                        Authorization: sessionStorage.getItem("token"),
-                      },
-                      data: {
-                        playlistId: checkedList,
-                      },
-                    }).then((res) => {
-                      console.log(res);
+          {!isEditClicked || checkedList.length === 0 || (
+            <div className="edit-inner-box">
+              <div className="edit-container">
+                <div className="edit-box">
+                  <div className="checklist-counter">{checkedList.length}</div>
+                  <div
+                    className="wrapper"
+                    onClick={() => {
                       setCheckedList([]);
-                      setIsEditClicked(false);
-                    });
-                  }}
-                >
-                  <VscTrash className="icon" />
-                  <div className="text">삭제</div>
+                    }}
+                  >
+                    <AiOutlineCheck className="icon" />
+                    <div className="text">선택해제</div>
+                  </div>
+                </div>
+                <div className="edit-box">
+                  <div
+                    className="wrapper"
+                    onClick={() => {
+                      axios({
+                        url: `http://localhost:8000/storage`,
+                        method: "DELETE",
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                        data: {
+                          playlistId: checkedList,
+                        },
+                      }).then((res) => {
+                        console.log(res);
+                        setCheckedList([]);
+                        setIsEditClicked(false);
+                      });
+                    }}
+                  >
+                    <VscTrash className="icon" />
+                    <div className="text">삭제</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </StyledMyList>
   );
 };
