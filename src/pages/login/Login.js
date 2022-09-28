@@ -5,7 +5,8 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import LoginFooter from '../../components/LoginFooter';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LoginPopup from './LoginPopup';
+import { Fade } from 'react-reveal';
+
 
 
 const StyledLogin = styled.div`
@@ -256,9 +257,6 @@ const Login = ({setIsLogin, setLoginText}) => {
   // 로그인 Axios
   const isLogin = (e) => {
     e.preventDefault();
-
-    console.log('아이디값',input.email);
-    console.log('비밀번호값',input.password);
     axios
       .post('http://localhost:8000/users/login', {
         email: input.email,
@@ -285,6 +283,7 @@ const Login = ({setIsLogin, setLoginText}) => {
   };
 
   return (
+    <Fade >
     <StyledLogin>
       <div className='login-inner-box'>
         <div className='login-container'>
@@ -375,6 +374,7 @@ const Login = ({setIsLogin, setLoginText}) => {
         <LoginFooter />
       </div>
     </StyledLogin>
+    </Fade>
   );
 };
 

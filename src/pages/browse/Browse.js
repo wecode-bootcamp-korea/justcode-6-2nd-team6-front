@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Genre from './Genre';
 import Chart from './Chart';
+import { Fade } from 'react-reveal';
+
 const StyledBrowse = styled.div`
   .BrowseMenu-inner-box {
     display: flex;
@@ -148,7 +150,6 @@ const Browse = () => {
       .then((res) => res.json())
       .then((res) => {
         setAllChart(res.chart)
-        console.log(allchart);
 
       });
   
@@ -157,17 +158,15 @@ const Browse = () => {
       .then((res) => res.json())
       .then((res) => {
         setChart(res.chart)
-        console.log(chart);
 
       });
   }}, [params]);
 
-  // console.log("파람스아이디",parmasId);
-  // console.log("파람스",params.id);
 
 
 
   return (
+    <Fade>
     <StyledBrowse>
       <div className='BrowseMenu-inner-box'>
         <div className='BrowseMenu-tab-box'>
@@ -220,6 +219,7 @@ const Browse = () => {
       <Chart genre={genre} params={params} chart={chart} setChart={setChart} />
       <Genre />
     </StyledBrowse>
+    </Fade>
   );
 };
 

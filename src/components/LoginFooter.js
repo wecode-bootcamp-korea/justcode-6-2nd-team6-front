@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledLoginFooter = styled.div`
+padding-bottom: 100px;
     .footer-main-menu{
       display: flex;
       justify-content: center;

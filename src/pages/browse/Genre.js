@@ -114,7 +114,7 @@ const Genre = () => {
             {situation.data &&
               situation.data.map((item, index) => {
                 return (
-                  <li className='genre-list-item'>
+                  <li className='genre-list-item' key={index}>
                     <NavLink to='#'>
                       <img
                         src={situation.data[index].img}
