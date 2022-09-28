@@ -47,19 +47,19 @@ const Test = ({ musicTracks, setMusicTracks }) => {
       });
   }, []);
 
-  const musicTracksId = musicTracks.map((el) => el.id);
+  const musicTracksId = musicTracks.map((el) => el.songId);
 
   return (
     <StyledTest>
       <div className="test">
         {testSongs.map((el, i) => {
           return (
-            <div className="song-box" key={el.id}>
+            <div className="song-box" key={el.songId}>
               <div>{el.songTitle}</div>
               <div className="artist">{el.songArtist}</div>
               <button
                 onClick={() => {
-                  if (musicTracksId.includes(el.id) === false)
+                  if (musicTracksId.includes(el.songId) === false)
                     setMusicTracks([el, ...musicTracks]);
                   else alert("현재 재생목록에 이미 존재하는 곡입니다.");
                 }}

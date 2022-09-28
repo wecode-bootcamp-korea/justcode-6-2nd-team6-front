@@ -6,6 +6,7 @@ import { IoDiscOutline } from "react-icons/io5";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { MdEqualizer } from "react-icons/md";
+import { FiMusic } from "react-icons/fi";
 
 const StyledPlayListMusic = styled.div`
   display: flex;
@@ -118,8 +119,6 @@ const PlayListMusic = ({
   trackIndex,
   setTrackIndex,
   setIsMyPlayListClicked,
-  selectedSongId,
-  setSelectedSongId,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
   isEditClicked,
@@ -130,13 +129,13 @@ const PlayListMusic = ({
   const mapMusic = musicTracks.map((el, i) => {
     if (el.content !== "")
       return (
-        <div className="play-list-music-inner-box" key={el.id}>
+        <div className="play-list-music-inner-box" key={el.songId}>
           <div
             className="song-info flex-center"
             onClick={() => {
               if (isEditClicked === false) setTrackIndex(i);
               else if (isEditClicked === true)
-                onCheckedElement(checkedList.includes(el.id), el.id);
+                onCheckedElement(checkedList.includes(el.songId), el.songId);
               setIsMoreMenuClicked(false);
             }}
           >
@@ -144,8 +143,8 @@ const PlayListMusic = ({
               <input
                 type="checkbox"
                 className="checkbox"
-                value={el.id}
-                checked={checkedList.includes(el.id) ? true : false}
+                value={el.songId}
+                checked={checkedList.includes(el.songId) ? true : false}
                 onChange={() => {}}
               />
             )}
@@ -184,9 +183,11 @@ const PlayListMusic = ({
                 className="more"
                 onClick={() => {
                   setMusicTracks(
-                    musicTracks.filter((mel, i) => el.id !== mel.id)
+                    musicTracks.filter((mel, i) => el.songId !== mel.songId)
                   );
-                  setCheckedList(checkedList.filter((cel, i) => el.id !== cel));
+                  setCheckedList(
+                    checkedList.filter((cel, i) => el.songId !== cel)
+                  );
                 }}
               />
             ) : (
@@ -194,7 +195,7 @@ const PlayListMusic = ({
                 <VscNewFolder
                   className="add-play-list"
                   onClick={() => {
-                    setSelectedSongId(el.id);
+                    setCheckedList([el.songId]);
                     setIsMyPlayListClicked(true);
                     setIsMoreMenuClicked(false);
                   }}
@@ -202,21 +203,19 @@ const PlayListMusic = ({
                 <AiOutlineMore
                   className="more"
                   onClick={() => {
-                    setSelectedSongId(el.id);
-                    if (el.id === selectedSongId)
+                    setCheckedList([el.songId]);
+                    if (el.songId === checkedList[0])
                       setIsMoreMenuClicked(!isMoreMenuClicked);
                     else setIsMoreMenuClicked(true);
                   }}
                 />
               </>
             )}
-            {el.id !== selectedSongId || !isMoreMenuClicked || (
-              <div
-                className="more-menu-list"
-                onClick={() => {
-                  setSelectedSongId(el.id);
-                }}
-              >
+            {el.songId !== checkedList[0] || !isMoreMenuClicked || (
+              <div className="more-menu-list">
+                <div className="more-menu">
+                  <FiMusic className="icon" />곡 정보
+                </div>
                 <div className="more-menu">
                   <IoDiscOutline className="icon" />
                   앨범 정보
@@ -224,10 +223,6 @@ const PlayListMusic = ({
                 <div className="more-menu">
                   <BiMicrophone className="icon" />
                   아티스트 정보
-                </div>
-                <div className="more-menu">
-                  <IoMdHeartEmpty className="icon" />
-                  좋아요
                 </div>
               </div>
             )}
