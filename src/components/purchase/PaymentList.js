@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import PaymentModal from './PaymentModal';
 
 const StyledPaymmentList = styled.li`
   .payment-list {
@@ -51,6 +52,12 @@ const StyledPaymmentList = styled.li`
 `;
 
 const PaymentList = ({ payment, voucherName }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
+
   return (
     <StyledPaymmentList>
       <li key={payment.paymentType} className='payment-list'>
@@ -72,7 +79,7 @@ const PaymentList = ({ payment, voucherName }) => {
                 </span>
               )}
             </span>
-            <button type='button' className='btn-buy'>
+            <button type='button' className='btn-buy' onClick={showModal}>
               구매
             </button>
           </div>
@@ -83,6 +90,15 @@ const PaymentList = ({ payment, voucherName }) => {
           )}
         </ul>
       </li>
+      {modalOpen && (
+        <PaymentModal
+          setModalOpen={setModalOpen}
+          voucherName={voucherName}
+          paymentName={payment.name}
+          originPrice={payment.originPrice}
+          salePrice={payment.salePrice}
+        />
+      )}
     </StyledPaymmentList>
   );
 };

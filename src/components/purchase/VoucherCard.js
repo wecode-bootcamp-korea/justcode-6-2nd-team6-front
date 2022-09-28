@@ -61,6 +61,7 @@ const StyledVoucherCard = styled.li`
 const VoucherCard = () => {
   const [voucher, setVoucher] = useState([]);
 
+  // fetch('http://localhost:8000/purchase/voucher')
   useEffect(() => {
     fetch('/data/voucherdata.json')
       .then((res) => res.json())
