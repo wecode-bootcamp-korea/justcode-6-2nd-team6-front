@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginFooter from '../../components/LoginFooter';
+import { Fade } from 'react-reveal';
 
 const StyledSignup = styled.div`
   .signup-inner-box {
@@ -76,6 +77,7 @@ const StyledSignup = styled.div`
 
 const Signup = (setFooterShow) => {
   return (
+    <Fade >
     <StyledSignup>
       <div className='signup-inner-box'>
         <a className='signup-logo-box'>
@@ -105,6 +107,7 @@ const Signup = (setFooterShow) => {
       </div>
       <LoginFooter />
     </StyledSignup>
+    </Fade>
   );
 };
 

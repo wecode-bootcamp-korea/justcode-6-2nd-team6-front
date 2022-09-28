@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Popup from './Popup';
+import { Fade } from 'react-reveal';
 
 const StyledTerms = styled.div`
   .terms-inner-box {
@@ -205,6 +206,7 @@ const Terms = () => {
   }, [checkList]);
 
   return (
+    <Fade >
     <StyledTerms>
       <div className='terms-inner-box'>
         <NavLink to='/' className='terms-logo-box'>
@@ -329,6 +331,7 @@ const Terms = () => {
         </div>
       </div>
     </StyledTerms>
+    </Fade>
   );
 };
 
