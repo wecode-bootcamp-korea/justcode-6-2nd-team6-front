@@ -5,7 +5,8 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import LoginFooter from '../../components/LoginFooter';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LoginPopup from './LoginPopup';
+import { Fade } from 'react-reveal';
+
 
 
 const StyledLogin = styled.div`
@@ -229,11 +230,12 @@ const StyledLogin = styled.div`
   }
 `;
 
-const Login = ({setIsLogin}) => {
+const Login = ({setIsLogin, setLoginText}) => {
   const navigate = useNavigate();
   // 비밀번호 토글버튼
   const [blind, setBlind] = useState(false);
   const [input, setInput] = React.useState({ email: '', password: '' });
+ 
 
   const [disabled, setDisabled] = useState(true);
 
@@ -255,9 +257,6 @@ const Login = ({setIsLogin}) => {
   // 로그인 Axios
   const isLogin = (e) => {
     e.preventDefault();
-
-    console.log('아이디값',input.email);
-    console.log('비밀번호값',input.password);
     axios
       .post('http://localhost:8000/users/login', {
         email: input.email,
@@ -275,6 +274,7 @@ const Login = ({setIsLogin}) => {
         console.log('로그인이 완료되었습니다!!');
         navigate('/');
         setIsLogin(true)
+        setLoginText(true)
       })
       .catch((error) => {
         // Handle error.
@@ -283,6 +283,7 @@ const Login = ({setIsLogin}) => {
   };
 
   return (
+    <Fade >
     <StyledLogin>
       <div className='login-inner-box'>
         <div className='login-container'>
@@ -373,6 +374,7 @@ const Login = ({setIsLogin}) => {
         <LoginFooter />
       </div>
     </StyledLogin>
+    </Fade>
   );
 };
 

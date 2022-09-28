@@ -140,14 +140,22 @@ const StyledSection = styled.section`
 
 const SecondSection = () => {
   const [albumList, setAlbumList] = useState([]);
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const [synthesis, setSynthesis] = useState([]);
 
   useEffect(() => {
-    fetch('/data/releaseData.json')
+    fetch('http://localhost:8000/')
       .then((res) => res.json())
       .then((data) => {
-        setAlbumList(data.releaseData);
+        console.log('최신 발매 음악 => ', data.recent);
+        setAlbumList(data.recent);
       });
   }, []);
+
+  const domestic = albumList.filter(() => albumList.scope);
+
+  console.log('국내만 => ', domestic);
 
   return (
     <StyledSection>
@@ -205,10 +213,7 @@ const SecondSection = () => {
             {/*앨범리스트*/}
             {albumList.map((result) => {
               return (
-                <div
-                  key={result.releaseId}
-                  className='second-section-album-box'
-                >
+                <div key={result.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link
                       to='/detail/album'
@@ -218,7 +223,7 @@ const SecondSection = () => {
                         <img
                           alt='앨범 표지'
                           className='second-section-album-cover'
-                          src={result.releaseAlbum}
+                          src={result.albumCover}
                         />
                       </div>
                     </Link>
@@ -231,7 +236,7 @@ const SecondSection = () => {
                   </div>
                   <a className='second-section-album-song-link'>
                     <span className='second-section-song'>
-                      {result.releaseSong}
+                      {result.albumTitle}
                     </span>
                   </a>
                   <Link
@@ -239,7 +244,7 @@ const SecondSection = () => {
                     className='second-section-album-singer-link'
                   >
                     <span className='second-section-album-singer'>
-                      {result.releaseSinger}
+                      {result.artist}
                     </span>
                   </Link>
                 </div>

@@ -26,6 +26,8 @@ import Detail from "../components/detail/Detail";
 import MylistDetail from "../components/detail/MylistDetail/MylistDetail";
 import ScrollToTop from "./ScrollToTop";
 import Alert from "../components/Alert";
+import { Browse } from "./browse/Browse";
+import CreateStudio from "./creator/CreateStudio";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -33,6 +35,9 @@ function Router() {
   const [alertOn, setAlertOn] = useState(false); // 알림창 (상태값에 메세지 넣으면 메세지 출력됨)
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isLogin, setIsLogin] = useState(false);
+  const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
+  const [headerShow, setHeaderShow] = useState(false); // 헤더 안보여주고 싶은곳에 사용
+  const [footerShow, setFooterShow] = useState(false); // 풋터 안보여주고 싶은곳에 사용
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -46,38 +51,62 @@ function Router() {
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
-  // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
-  useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) setIsLogin(true);
-  }, []);
-
   //  사용자 정보
   const token = sessionStorage.getItem("token");
   const user_name = sessionStorage.getItem("name");
   const user_img = sessionStorage.getItem("profileImage");
 
+  // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
+  useEffect(() => {
+    if (sessionStorage.getItem("token") !== null) setIsLogin(true);
+  }, []);
+
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Header
-        token={token}
-        user_name={user_name}
-        user_img={user_img}
-        isLogin={isLogin}
-        setIsLogin={setIsLogin}
-        setMusicTracks={setMusicTracks}
-      />
+      {headerShow === true ? null : (
+        <Header
+          token={token}
+          user_name={user_name}
+          user_img={user_img}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+          setMusicTracks={setMusicTracks}
+          headerShow={headerShow}
+          setHeaderShow={setHeaderShow}
+          footerShow={footerShow}
+          setFooterShow={setFooterShow}
+        />
+      )}
       <Routes>
         <Route
           path="/login"
           element={
-            <Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} />
+            <Login
+              token={token}
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
+              setLoginText={setLoginText}
+            />
           }
         />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/signup"
+          element={<Signup setFooterShow={setFooterShow} />}
+        />
         <Route path="/terms" element={<Terms />} />
         <Route path="/certification" element={<Certification />} />
         <Route path="/signform" element={<Signform />} />
+        <Route
+          path="/promotion/cms/flocreators"
+          element={
+            <CreateStudio
+              headerShow={headerShow}
+              setHeaderShow={setHeaderShow}
+              footerShow={footerShow}
+              setFooterShow={setFooterShow}
+            />
+          }
+        />
 
         <Route
           path="/test"
@@ -85,13 +114,12 @@ function Router() {
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
-        <Route path="/genre" element={<Genre />} />
-        <Route path="/browse/:category" element={<Browsemenu />} />
+        <Route path="/browse/:genre/:id" element={<Browse />} />
         <Route path="/purchase" element={<Purchase />}>
           <Route path="voucher" element={<Voucher />}></Route>
           <Route path="affiliate" element={<Affiliate />}></Route>
         </Route>
-        <Route path="/" element={<Main isLogin={isLogin} />} />
+        <Route path="/" element={<Main loginText={loginText} />} />
         <Route path="/detail" elememt={<Detail />}>
           <Route path="album" element={<AlbumDetail />} />
           <Route path="playlist" element={<PlaylistDetail />} />
@@ -159,21 +187,23 @@ function Router() {
           />
         </Route>
       </Routes>
-      <Footer />
+      {footerShow === true ? null : <Footer />}
+      {headerShow === true ? null : (
+        <Playbar
+          trackIndex={trackIndex}
+          setTrackIndex={setTrackIndex}
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+          isLogin={isLogin}
+          isExpandedClicked={isExpandedClicked}
+          setIsExpandedClicked={setIsExpandedClicked}
+          setAlertOn={setAlertOn}
+        />
+      )}
       <Alert
         alertOn={alertOn}
         setAlertOn={setAlertOn}
         isExpandedClicked={isExpandedClicked}
-      />
-      <Playbar
-        trackIndex={trackIndex}
-        setTrackIndex={setTrackIndex}
-        musicTracks={musicTracks}
-        setMusicTracks={setMusicTracks}
-        isLogin={isLogin}
-        isExpandedClicked={isExpandedClicked}
-        setIsExpandedClicked={setIsExpandedClicked}
-        setAlertOn={setAlertOn}
       />
     </BrowserRouter>
   );

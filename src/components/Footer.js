@@ -4,6 +4,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -12,7 +13,7 @@ const StyledFooter = styled.footer`
     width: 1280px;
     height: 300px;
     margin: 0 auto;
-    
+    margin-bottom: 50px;
     .footer-nav-inner-box{
         width: 100%;
         display: flex;
@@ -121,6 +122,7 @@ const StyledFooter = styled.footer`
 `
 
 const Footer = () => {
+
     return (
         <StyledFooter>
             <div className="footer-inner-box">
@@ -128,19 +130,19 @@ const Footer = () => {
                 <div className="footer-nav-inner-box">
                     <div className="footer-nav-list">
                         <ul>
-                            <li><a href="#">FRD 소개</a></li>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">고객센터</a></li>
-                            <li><a href="#">FRD 플레이어 다운로드</a></li>
-                            <li><a href="#">FRD 크리에이터 스튜디오</a></li>
+                            <li><NavLink to="#">FRD 소개</NavLink></li>
+                            <li><NavLink to="#">공지사항</NavLink></li>
+                            <li><NavLink to="#">고객센터</NavLink></li>
+                            <li><NavLink to="#">FRD 플레이어 다운로드</NavLink></li>
+                            <li><NavLink to="#">FRD 크리에이터 스튜디오</NavLink></li>
                         </ul>
                     </div>
                     <div className="footer-sns-box">
                         <ul>
-                            <li><a href="#"><FaFacebookF /></a></li>
-                            <li><a href="#"><FaInstagram /></a></li>
-                            <li><a href="#"><FaYoutube /></a></li>
-                            <li><a href="#"><FaTwitter /></a></li>
+                            <li><NavLink to="#"><FaFacebookF /></NavLink></li>
+                            <li><NavLink to="#"><FaInstagram /></NavLink></li>
+                            <li><NavLink to="#"><FaYoutube /></NavLink></li>
+                            <li><NavLink to="#"><FaTwitter /></NavLink></li>
                         </ul>
                     </div>
                 </div>
@@ -149,11 +151,11 @@ const Footer = () => {
                 <div className="footer-main-inner-box">
                     <div className="footer-main-nav-list-box">
                         <ul className='footer-main-menu'>
-                            <li><a href="#">회사소개</a></li>
-                            <li><a href="#">이용약관</a></li>
-                            <li><a href="#">개인정보 처리방침</a></li>
-                            <li><a href="#">청소년 보호정책</a></li>
-                            <li><a href="#">사업자정보 확인</a></li>
+                            <li><NavLink to="#">회사소개</NavLink></li>
+                            <li><NavLink to="#">이용약관</NavLink></li>
+                            <li><NavLink to="#">개인정보 처리방침</NavLink></li>
+                            <li><NavLink to="#">청소년 보호정책</NavLink></li>
+                            <li><NavLink to="#">사업자정보 확인</NavLink></li>
                         </ul>
                         <div className='footer-address-top'>
                             <span>팀명 : FLORIDA</span>
