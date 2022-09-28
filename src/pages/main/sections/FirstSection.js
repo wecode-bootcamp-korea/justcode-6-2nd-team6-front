@@ -157,7 +157,7 @@ const FirstSection = () => {
       .then((data) => {
         setSlide(data.slideData);
       });
-  }, [slide]);
+  }, []);
 
   const settings = {
     dots: true,

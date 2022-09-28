@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import ArtistTrack from './ArtistTrack';
 import ArtistAlbum from './ArtistAlbum';
@@ -182,6 +183,7 @@ const StyledDetail = styled.div`
 
 const ArtistDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
+  const params = useParams();
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
@@ -191,6 +193,34 @@ const ArtistDetail = () => {
     { name: '곡', content: <ArtistTrack /> },
     { name: '앨범', content: <ArtistAlbum /> },
   ];
+
+  useEffect(() => {
+    fetch(
+      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=POPULARITY&roleType=ALL`,
+      {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('노래 정보들 =>', data);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `http://localhost:8000/detail/artist/${params.artistId}/albums?sortType=POPULARITY&roleType=ALL`,
+      {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('앨범 정보들 =>', data);
+      });
+  }, []);
 
   return (
     <StyledDetail>
