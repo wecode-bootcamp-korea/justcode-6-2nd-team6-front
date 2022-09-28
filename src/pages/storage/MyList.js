@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Fade } from "react-reveal";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
@@ -237,16 +238,7 @@ const MyList = ({
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
 
-  const [myListData, setMyListData] = useState([
-    {
-      userId: 0,
-      playlistId: 0,
-      title: "",
-      songTotalCount: "",
-      albumImage: "",
-      createdAt: "",
-    },
-  ]);
+  const [myListData, setMyListData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -261,7 +253,7 @@ const MyList = ({
         if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
           setMyListData(data.data);
       });
-  }, [isExpandedClicked || isEditClicked]);
+  }, [isExpandedClicked, isEditClicked]);
 
   return (
     <StyledMyList>
@@ -450,22 +442,19 @@ const PlayListContainer = ({
             )
               .then((res) => res.json())
               .then((plData) => {
-                console.log(plData);
+                if (plData.message == "Need Voucher")
+                  setAlertOn(
+                    "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                  );
                 if (plData[0].songTitle !== null) {
-                  if (plData.message == "Need Voucher")
-                    setAlertOn(
-                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                    );
-                  else {
-                    const musicTracksId = musicTracks.map((el) => el.songId);
-                    const filteredNewTracks = plData.filter(
-                      (el, i) => musicTracksId.includes(el.songId) === false
-                    );
-                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                    setAlertOn(
-                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                    );
-                  }
+                  const musicTracksId = musicTracks.map((el) => el.songId);
+                  const filteredNewTracks = plData.filter(
+                    (el, i) => musicTracksId.includes(el.songId) === false
+                  );
+                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                  setAlertOn(
+                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                  );
                 }
               });
           }}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Fade } from "react-reveal";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import MylistTrack from "./MylistTrack";
@@ -255,23 +256,12 @@ const MylistDetail = ({
     playlistId: 0,
     characterId: 0,
     playlistTitle: "제목",
-    playlistSongsCount: 3,
-    createdDate: "22.01.01",
+    playlistSongsCount: 0,
+    createdDate: "--",
     songId: 0,
     albumImage: "/Images/nothing.png",
   });
-  const [playlistSongs, setPlaylistSongs] = useState([
-    {
-      playlistId: 0,
-      songId: 0,
-      songTitle: "",
-      albumId: 0,
-      albumTitle: "앨범 제목1",
-      albumImage: "/Images/nothing.png",
-      atsId: 1,
-      artist: "",
-    },
-  ]);
+  const [playlistSongs, setPlaylistSongs] = useState([]);
   const [isTitleEditClicked, setIsTitleEditClicked] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
@@ -296,150 +286,155 @@ const MylistDetail = ({
         setPlaylistSongs(data.playlistSongs);
         setTitleValue(data.playlistInfo[0].playlistTitle);
       });
-  }, [isEditClicked || isExpandedClicked]);
+  }, [isEditClicked, isExpandedClicked]);
 
   return (
-    <StyledDetail>
-      <section className="playlist-detail-inner-box">
-        {/* 상세 페이지 썸네일 */}
-        <div className="playlist-detail-wrap">
-          <div className="playlist-detail-inner">
-            <div className="playlist-detail-cover">
-              <img
-                alt="앨범 표지"
-                className="playlist-detail-cover-img"
-                src={
-                  playlistInfo.albumImage == null
-                    ? "/Images/nothing.png"
-                    : playlistInfo.albumImage
-                }
-              />
-              <button title="앨범 듣기" className="playlist-detail-play hover">
-                <BsFillPlayFill
-                  className="playlist-detail-play-icon"
-                  onClick={() => {
-                    if (playlistSongs[0].songTitle !== null) {
-                      fetch(
-                        `http://localhost:8000/play/addsongs/playlist/${params.id}`,
-                        {
-                          headers: {
-                            Authorization: sessionStorage.getItem("token"),
-                          },
-                        }
-                      )
-                        .then((res) => res.json())
-                        .then((plData) => {
-                          const musicTracksId = musicTracks.map(
-                            (el) => el.songId
-                          );
-                          const filteredNewTracks = plData.filter(
-                            (el, i) =>
-                              musicTracksId.includes(el.songId) === false
-                          );
-                          setMusicTracks([
-                            ...filteredNewTracks,
-                            ...musicTracks,
-                          ]);
-                          setAlertOn(
-                            "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                          );
-                        })
-                        .catch(() => {
-                          if (sessionStorage.getItem("token") !== null)
-                            setAlertOn(
-                              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                            );
-                        });
-                    }
-                  }}
+    <Fade>
+      <StyledDetail>
+        <section className="playlist-detail-inner-box">
+          {/* 상세 페이지 썸네일 */}
+          <div className="playlist-detail-wrap">
+            <div className="playlist-detail-inner">
+              <div className="playlist-detail-cover">
+                <img
+                  alt="앨범 표지"
+                  className="playlist-detail-cover-img"
+                  src={
+                    playlistInfo.albumImage == null
+                      ? "/Images/nothing.png"
+                      : playlistInfo.albumImage
+                  }
                 />
-              </button>
-            </div>
-          </div>
-          {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className="playlist-detail-inner-box">
-            {isTitleEditClicked ? (
-              <div className="title-edit-box">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="내 리스트 이름을 입력해주세요"
-                  value={titleValue}
-                  ref={inputRef}
-                  maxLength="16"
-                  onChange={(e) => {
-                    setTitleValue(e.target.value);
-                  }}
-                />
-                <div className="cancel-and-confirm">
-                  <div
-                    className="cancel"
-                    onClick={() => setIsTitleEditClicked(false)}
-                  >
-                    취소
-                  </div>
-                  <div
-                    className="confirm"
+                <button
+                  title="앨범 듣기"
+                  className="playlist-detail-play hover"
+                >
+                  <BsFillPlayFill
+                    className="playlist-detail-play-icon"
                     onClick={() => {
-                      if (titleValue.length !== 0) {
-                        axios({
-                          url: `http://localhost:8000/detail/mylist/${params.id}
-                        `,
-                          method: "PATCH",
-                          headers: {
-                            Authorization: sessionStorage.getItem("token"),
-                          },
-                          data: {
-                            newTitle: titleValue,
-                          },
-                        }).then((res) => {
-                          console.log(res.data);
-                          setIsTitleEditClicked(false);
-                        });
+                      if (playlistSongs[0].songTitle !== null) {
+                        fetch(
+                          `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                          {
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((plData) => {
+                            const musicTracksId = musicTracks.map(
+                              (el) => el.songId
+                            );
+                            const filteredNewTracks = plData.filter(
+                              (el, i) =>
+                                musicTracksId.includes(el.songId) === false
+                            );
+                            setMusicTracks([
+                              ...filteredNewTracks,
+                              ...musicTracks,
+                            ]);
+                            setAlertOn(
+                              "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                            );
+                          })
+                          .catch(() => {
+                            if (sessionStorage.getItem("token") !== null)
+                              setAlertOn(
+                                "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                              );
+                          });
                       }
                     }}
-                  >
-                    확인
+                  />
+                </button>
+              </div>
+            </div>
+            {/* 상세 페이지 앨범 제목 및 가수 */}
+            <div className="playlist-detail-inner-box">
+              {isTitleEditClicked ? (
+                <div className="title-edit-box">
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="내 리스트 이름을 입력해주세요"
+                    value={titleValue}
+                    ref={inputRef}
+                    maxLength="16"
+                    onChange={(e) => {
+                      setTitleValue(e.target.value);
+                    }}
+                  />
+                  <div className="cancel-and-confirm">
+                    <div
+                      className="cancel"
+                      onClick={() => setIsTitleEditClicked(false)}
+                    >
+                      취소
+                    </div>
+                    <div
+                      className="confirm"
+                      onClick={() => {
+                        if (titleValue.length !== 0) {
+                          axios({
+                            url: `http://localhost:8000/detail/mylist/${params.id}
+                        `,
+                            method: "PATCH",
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                            data: {
+                              newTitle: titleValue,
+                            },
+                          }).then((res) => {
+                            console.log(res.data);
+                            setIsTitleEditClicked(false);
+                          });
+                        }
+                      }}
+                    >
+                      확인
+                    </div>
                   </div>
                 </div>
+              ) : (
+                <div className="playlist-detail-title flex-center">
+                  {titleValue}
+                  <HiPencil
+                    className="pencil hover"
+                    onClick={() => setIsTitleEditClicked(true)}
+                  />
+                </div>
+              )}
+              <div className="playlist-detail-kind">
+                총{" "}
+                {playlistInfo.playlistSongsCount === null
+                  ? 0
+                  : playlistInfo.playlistSongsCount}
+                곡
               </div>
-            ) : (
-              <div className="playlist-detail-title flex-center">
-                {titleValue}
-                <HiPencil
-                  className="pencil hover"
-                  onClick={() => setIsTitleEditClicked(true)}
-                />
+              <div className="playlist-detail-date">
+                {playlistInfo.createdDate}
               </div>
-            )}
-            <div className="playlist-detail-kind">
-              총{" "}
-              {playlistInfo.playlistSongsCount === null
-                ? 0
-                : playlistInfo.playlistSongsCount}
-              곡
-            </div>
-            <div className="playlist-detail-date">
-              {playlistInfo.createdDate}
             </div>
           </div>
-        </div>
-        {/* 상세 페이지 상세정보와 수록곡 */}
-      </section>
-      <MylistTrack
-        playlistSongs={playlistSongs}
-        setPlaylistSongs={setPlaylistSongs}
-        musicTracks={musicTracks}
-        setMusicTracks={setMusicTracks}
-        setAlertOn={setAlertOn}
-        isMyPlayListClicked={isMyPlayListClicked}
-        setIsMyPlayListClicked={setIsMyPlayListClicked}
-        isEditClicked={isEditClicked}
-        setIsEditClicked={setIsEditClicked}
-        checkedList={checkedList}
-        setCheckedList={setCheckedList}
-      />
-    </StyledDetail>
+          {/* 상세 페이지 상세정보와 수록곡 */}
+        </section>
+        <MylistTrack
+          playlistSongs={playlistSongs}
+          setPlaylistSongs={setPlaylistSongs}
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+          setAlertOn={setAlertOn}
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          isEditClicked={isEditClicked}
+          setIsEditClicked={setIsEditClicked}
+          checkedList={checkedList}
+          setCheckedList={setCheckedList}
+        />
+      </StyledDetail>
+    </Fade>
   );
 };
 

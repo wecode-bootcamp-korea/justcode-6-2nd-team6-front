@@ -25,23 +25,13 @@ const ListTrack = ({
   setAlertOn,
   isExpandedClicked,
   isLogin,
+  isLiked,
 }) => {
   const location = useLocation();
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
   const [isSelectClicked, setIsSelectClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
-  const [playlistSongs, setPlaylistSongs] = useState([
-    {
-      playlistId: 0,
-      songId: 0,
-      songTitle: "",
-      albumId: 0,
-      albumTitle: "앨범 제목1",
-      albumImage: "/Images/nothing.png",
-      atsId: 1,
-      artist: "",
-    },
-  ]);
+  const [playlistSongs, setPlaylistSongs] = useState([]);
 
   console.log(`http://localhost:8000${location.pathname}`);
 
@@ -57,7 +47,7 @@ const ListTrack = ({
         setPlaylistSongs(data);
       });
     setIsSelectClicked(false);
-  }, [location.pathname || isExpandedClicked]);
+  }, [location.pathname, isLiked]);
 
   return (
     <StyledListTrack>

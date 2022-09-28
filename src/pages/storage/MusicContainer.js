@@ -237,10 +237,9 @@ const MusicContainer = ({
     console.log(checkedList);
   };
 
-  // checkedList 변경 시 마다 출력 (삭제 예정)
-  useEffect(() => {
-    console.log("CL", checkedList);
-  }, [checkedList]);
+  console.log(
+    `http://localhost:8000/play/addsongs/${location.pathname.slice(9)}`
+  );
 
   return (
     <StyledMusicContainer>
@@ -250,11 +249,16 @@ const MusicContainer = ({
             className="play-all flex-center hover"
             onClick={() => {
               if (playlistSongs[0].songTitle !== null) {
-                fetch(`http://localhost:8000${location.pathname}`, {
-                  headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                  },
-                })
+                fetch(
+                  `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                    9
+                  )}/1`,
+                  {
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
                   .then((res) => res.json())
                   .then((plData) => {
                     const musicTracksId = musicTracks.map((el) => el.songId);
@@ -318,7 +322,7 @@ const MusicContainer = ({
           )}
         </div>
 
-        {playlistSongs[0].songId === null || (
+        {playlistSongs.length === 0 || (
           <SongBar
             playlistSongs={playlistSongs}
             musicTracks={musicTracks}
@@ -353,13 +357,19 @@ const MusicContainer = ({
                 <div
                   className="wrapper"
                   onClick={() => {
-                    fetch(`http://localhost:8000${location.pathname}`, {
-                      headers: {
-                        Authorization: sessionStorage.getItem("token"),
-                      },
-                    })
+                    fetch(
+                      `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                        9
+                      )}/1`,
+                      {
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                      }
+                    )
                       .then((res) => res.json())
                       .then((plData) => {
+                        console.log(plData);
                         const selectedPlData = plData.filter(
                           (el, i) => checkedList.includes(el.songId) === true
                         );
@@ -377,6 +387,12 @@ const MusicContainer = ({
                           "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                         );
                         setCheckedList([]);
+                      })
+                      .catch((err) => {
+                        if (sessionStorage.getItem("token") !== null)
+                          setAlertOn(
+                            "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                          );
                       });
                   }}
                 >
@@ -482,7 +498,7 @@ const SongBar = ({
               </p>
             </div>
           </div>
-          <p className="artist hover">{el.artist}</p>
+          <p className="artist hover">{el.songArtist}</p>
         </div>
         {isSelectClicked || (
           <div className="menu-box flex-center">

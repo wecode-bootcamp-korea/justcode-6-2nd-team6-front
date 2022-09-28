@@ -319,7 +319,7 @@ const MylistTrack = ({
           )}
         </div>
 
-        {playlistSongs[0].songId === null || (
+        {playlistSongs.length === 0 || (
           <SongBar
             playlistSongs={playlistSongs}
             setPlaylistSongs={setPlaylistSongs}
@@ -383,6 +383,12 @@ const MylistTrack = ({
                           "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                         );
                         setCheckedList([]);
+                      })
+                      .catch((err) => {
+                        if (sessionStorage.getItem("token") !== null)
+                          setAlertOn(
+                            "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                          );
                       });
                   }}
                 >

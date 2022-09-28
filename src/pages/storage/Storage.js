@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Fade } from "react-reveal";
 import { useState, useEffect } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
@@ -80,70 +81,72 @@ const Storage = () => {
   }, [location.pathname]);
 
   return (
-    <StyledStorage>
-      <div className="storage-inner-box">
-        <ul className="menu-list">
-          <li>
-            <NavLink
-              to="/storage/mylist"
-              className={isMyListClicked ? "selected-list" : "list"}
-              onClick={() => {
-                setIsMyListClicked(true);
-                setIsLikedClicked(false);
-                setIsMostListenClicked(false);
-                setIsRecentlyListenClicked(false);
-              }}
-            >
-              내 리스트
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/storage/liketrack"
-              className={isLikedClicked ? "selected-list" : "list"}
-              onClick={() => {
-                setIsMyListClicked(false);
-                setIsLikedClicked(true);
-                setIsMostListenClicked(false);
-                setIsRecentlyListenClicked(false);
-              }}
-            >
-              <HiOutlineHeart className="icon" size="18" />
-              좋아요
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/storage/mostlisten"
-              className={isMostListenClicked ? "selected-list" : "list"}
-              onClick={() => {
-                setIsMyListClicked(false);
-                setIsLikedClicked(false);
-                setIsMostListenClicked(true);
-                setIsRecentlyListenClicked(false);
-              }}
-            >
-              많이 들은 곡
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/storage/recentlisten"
-              className={isRecentlyListenClicked ? "selected-list" : "list"}
-              onClick={() => {
-                setIsMyListClicked(false);
-                setIsLikedClicked(false);
-                setIsMostListenClicked(false);
-                setIsRecentlyListenClicked(true);
-              }}
-            >
-              최근 감상
-            </NavLink>
-          </li>
-        </ul>
-        <Outlet />
-      </div>
-    </StyledStorage>
+    <Fade>
+      <StyledStorage>
+        <div className="storage-inner-box">
+          <ul className="menu-list">
+            <li>
+              <NavLink
+                to="/storage/mylist"
+                className={isMyListClicked ? "selected-list" : "list"}
+                onClick={() => {
+                  setIsMyListClicked(true);
+                  setIsLikedClicked(false);
+                  setIsMostListenClicked(false);
+                  setIsRecentlyListenClicked(false);
+                }}
+              >
+                내 리스트
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/storage/liketrack"
+                className={isLikedClicked ? "selected-list" : "list"}
+                onClick={() => {
+                  setIsMyListClicked(false);
+                  setIsLikedClicked(true);
+                  setIsMostListenClicked(false);
+                  setIsRecentlyListenClicked(false);
+                }}
+              >
+                <HiOutlineHeart className="icon" size="18" />
+                좋아요
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/storage/mostlisten"
+                className={isMostListenClicked ? "selected-list" : "list"}
+                onClick={() => {
+                  setIsMyListClicked(false);
+                  setIsLikedClicked(false);
+                  setIsMostListenClicked(true);
+                  setIsRecentlyListenClicked(false);
+                }}
+              >
+                많이 들은 곡
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/storage/recentlisten"
+                className={isRecentlyListenClicked ? "selected-list" : "list"}
+                onClick={() => {
+                  setIsMyListClicked(false);
+                  setIsLikedClicked(false);
+                  setIsMostListenClicked(false);
+                  setIsRecentlyListenClicked(true);
+                }}
+              >
+                최근 감상
+              </NavLink>
+            </li>
+          </ul>
+          <Outlet />
+        </div>
+      </StyledStorage>
+    </Fade>
   );
 };
 
