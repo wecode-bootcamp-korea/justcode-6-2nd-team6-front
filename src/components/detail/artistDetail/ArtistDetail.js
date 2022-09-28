@@ -13,6 +13,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
   font-family: 'NanumBarunGothic', sans-serif;
 
   /* a, button에 호버 주기 */
@@ -179,10 +180,6 @@ const StyledDetail = styled.div`
   }
 `;
 
-const StyledTab = styled.section`
-  margin-top: 10px;
-`;
-
 const ArtistDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -243,10 +240,8 @@ const ArtistDetail = () => {
           </ul>
         </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <StyledTab>
-          <div>{tabArr[currentTab].content}</div>
-        </StyledTab>
       </section>
+      <div>{tabArr[currentTab].content}</div>
     </StyledDetail>
   );
 };

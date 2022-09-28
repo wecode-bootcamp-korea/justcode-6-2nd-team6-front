@@ -243,7 +243,7 @@ const MylistTrack = () => {
     <StyledTrack>
       <div className='detail-track-inner-box'>
         <div className='detail-track-whole-box'>
-          <button class='detail-track-whole-play-btn' type='button'>
+          <button className='detail-track-whole-play-btn' type='button'>
             <BsPlay className='detail-track-whole-icon' />
             <span className='detail-track-whole-play'>전체듣기</span>
           </button>

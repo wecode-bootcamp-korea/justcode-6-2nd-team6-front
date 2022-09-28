@@ -157,7 +157,7 @@ const FirstSection = () => {
       .then((data) => {
         setSlide(data.slideData);
       });
-  }, []);
+  }, [slide]);
 
   const settings = {
     dots: true,
@@ -183,69 +183,71 @@ const FirstSection = () => {
     <StyledSection>
       <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
-          {slide.map((result) => {
-            return (
-              <div
-                key={result.titleData[0].playlistId}
-                className='first-section-wrap'
-              >
-                {/* 첫번째 슬라이드 */}
-                <div className='first-section-slider-box'>
-                  <Link
-                    to={`/detail/playlist/${result.titleData[0].playlistId}`}
-                    className='first-section-slider-flex'
-                  >
-                    {/* 플리 소개 */}
-                    <div className='first-section-slider-info'>
-                      <h4 className='first-section-slider-title'>
-                        {result.titleData[0].playlistTitle}
-                      </h4>
-                      <div className='first-section-slider-date'>
-                        총 {result.titleData[0].playlistSongsCount}곡
-                        <span className='first-section-stick'>|</span>
-                        {result.titleData[0].createdDate}
+          {slide &&
+            slide.map((result) => {
+              return (
+                <div
+                  key={result.titleData[0].playlistId}
+                  className='first-section-wrap'
+                >
+                  {/* 첫번째 슬라이드 */}
+                  <div className='first-section-slider-box'>
+                    <Link
+                      to={`/detail/playlist/${result.titleData[0].playlistId}`}
+                      className='first-section-slider-flex'
+                    >
+                      {/* 플리 소개 */}
+                      <div className='first-section-slider-info'>
+                        <h4 className='first-section-slider-title'>
+                          {result.titleData[0].playlistTitle}
+                        </h4>
+                        <div className='first-section-slider-date'>
+                          총 {result.titleData[0].playlistSongsCount}곡
+                          <span className='first-section-stick'>|</span>
+                          {result.titleData[0].createdDate}
+                        </div>
+                        <button
+                          title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
+                          type='button'
+                          className='first-section-button'
+                        >
+                          <BsFillPlayCircleFill className='first-section-play-button' />
+                        </button>
                       </div>
-                      <button
-                        title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
-                        type='button'
-                        className='first-section-button'
-                      >
-                        <BsFillPlayCircleFill className='first-section-play-button' />
-                      </button>
-                    </div>
-                    {/* 노래리스트 */}
-                    <div className='first-section-playlist-wrap'>
-                      <ul className='first-section-playlist-box'>
-                        {result.songsData.map((song) => {
-                          return (
-                            <li
-                              key={song.songId}
-                              className='first-section-playlist-list'
-                            >
-                              <img
-                                alt='앨범 표지'
-                                src={song.albumImage}
-                                className='first-section-album-cover'
-                              />
-                              <div className='first-section-playlist-box-info'>
-                                <strong className='first-section-playlist-song'>
-                                  {song.songTitle}
-                                </strong>
-                                <div className='first-section-playlist-singer'>
-                                  {song.artist}
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                    {/* 플리 노래리스트 끝 */}
-                  </Link>
+                      {/* 노래리스트 */}
+                      <div className='first-section-playlist-wrap'>
+                        <ul className='first-section-playlist-box'>
+                          {result.songsData &&
+                            result.songsData.map((song) => {
+                              return (
+                                <li
+                                  key={song.songId}
+                                  className='first-section-playlist-list'
+                                >
+                                  <img
+                                    alt='앨범 표지'
+                                    src={song.albumImage}
+                                    className='first-section-album-cover'
+                                  />
+                                  <div className='first-section-playlist-box-info'>
+                                    <strong className='first-section-playlist-song'>
+                                      {song.songTitle}
+                                    </strong>
+                                    <div className='first-section-playlist-singer'>
+                                      {song.artist}
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                      {/* 플리 노래리스트 끝 */}
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </StyledSlider>
       </section>
     </StyledSection>

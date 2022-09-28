@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DetailInfo from './DetailInfo';
 import DetailTrack from './DetailTrack';
@@ -14,6 +14,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
   font-family: 'NanumBarunGothic', sans-serif;
 
   /* a, button에 호버 주기 */
@@ -195,17 +196,12 @@ const StyledDetail = styled.div`
   }
 `;
 
-const StyledTab = styled.section`
-  margin-top: 10px;
-`;
-
 const AlbumDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [albumList, setAlbumList] = useState([]);
   const [albumInfo, setAlbumInfo] = useState([]);
-  const [albumTrack, setAlbumTrack] = useState([]);
   const params = useParams();
   const albumId = params.albumId;
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8000/detail/album/${albumId}/details`, {
@@ -217,32 +213,26 @@ const AlbumDetail = () => {
         setAlbumInfo(data[0]);
         //console.log('곡 정보 =>', data[0]);
       });
-  }, []);
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/detail/album/${albumId}/tracklist`, {
-      method: 'GET',
-      headers: { 'content-type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('곡 트랙 =>', data);
-        setAlbumTrack(data);
-      });
-  }, []);
+  }, [albumId]);
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
   };
 
+  const clickHandler = () => {
+    if (currentTab === 0) {
+      return navigate('');
+    }
+  };
+
   const tabArr = [
-    {
-      name: '수록곡',
-      content: <DetailTrack albumTrack={albumTrack} />,
-    },
     {
       name: '상세정보',
       content: <DetailInfo albumInfo={albumInfo} />,
+    },
+    {
+      name: '수록곡',
+      content: <DetailTrack />,
     },
   ];
 
@@ -302,11 +292,9 @@ const AlbumDetail = () => {
             })}
           </ul>
         </div>
-        {/* 상세 페이지 상세정보와 수록곡 */}
-        <StyledTab>
-          <div>{tabArr[currentTab].content}</div>
-        </StyledTab>
       </section>
+      {/* 상세 페이지 상세정보와 수록곡 */}
+      <div>{tabArr[currentTab].content}</div>
     </StyledDetail>
   );
 };

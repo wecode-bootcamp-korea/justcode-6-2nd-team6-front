@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -239,11 +239,12 @@ const StyledTrack = styled.div`
 `;
 
 const DetailList = ({ playlistSongs }) => {
+  const params = useParams();
   return (
     <StyledTrack>
       <div className='detail-track-inner-box'>
         <div className='detail-track-whole-box'>
-          <button class='detail-track-whole-play-btn' type='button'>
+          <button className='detail-track-whole-play-btn' type='button'>
             <BsPlay className='detail-track-whole-icon' />
             <span className='detail-track-whole-play'>전체듣기</span>
           </button>
@@ -304,13 +305,16 @@ const DetailList = ({ playlistSongs }) => {
                     <td className='detail-track-list-info-wrap'>
                       <div className='detail-track-list-info-box'>
                         <div className='detail-track-list-info-thumb'>
-                          <a href='#' className='detail-track-list-info-album'>
+                          <Link
+                            to={`/detail/album/${data.albumId}/${params.albumpage}`}
+                            className='detail-track-list-info-album'
+                          >
                             <img
                               alt='앨범 이미지'
                               src={data.albumImage}
                               className='detail-track-list-info-img'
                             />
-                          </a>
+                          </Link>
                         </div>
                         <div className='detail-track-list-info-txt-area'>
                           <div className='detail-track-list-song'>
@@ -333,7 +337,10 @@ const DetailList = ({ playlistSongs }) => {
                     </td>
                     {/* 수록곡 아티스트 */}
                     <td className='detail-track-list-artist-box'>
-                      <Link to='#' className='detail-track-list-artist'>
+                      <Link
+                        to={`/dtail/artist/${data.atsId}/${params.artistPage}`}
+                        className='detail-track-list-artist'
+                      >
                         <span class='detail-track-artist'>{data.artist}</span>
                       </Link>
                     </td>

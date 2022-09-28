@@ -9,6 +9,7 @@ import { BsSuitHeart } from 'react-icons/bs';
 
 const StyledArtistAlbum = styled.section`
   padding-top: 40px;
+  margin-bottom: 40px;
 
   div.artist-album-inner-box {
     position: relative;

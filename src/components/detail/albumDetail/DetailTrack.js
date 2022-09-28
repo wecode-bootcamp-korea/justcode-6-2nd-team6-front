@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -243,11 +243,26 @@ const StyledTrack = styled.div`
 `;
 
 const DetailTrack = () => {
+  const params = useParams();
+  const albumId = params.albumId;
+  const [albumTrack, setAlbumTrack] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/album/${albumId}/tracklist`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAlbumTrack(data.albumSongs);
+      });
+  }, [albumId]);
+
   return (
     <StyledTrack>
       <div className='detail-track-inner-box'>
         <div className='detail-track-whole-box'>
-          <button class='detail-track-whole-play-btn' type='button'>
+          <button className='detail-track-whole-play-btn' type='button'>
             <BsPlay className='detail-track-whole-icon' />
             <span className='detail-track-whole-play'>전체듣기</span>
           </button>
@@ -296,66 +311,86 @@ const DetailTrack = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className='detail-track-list-select'>
-                  <input
-                    name='곡 선택하기'
-                    className='detail-track-list-checkbox'
-                    type='checkbox'
-                  />
-                </td>
-                <td className='detail-track-list-number'> 1 </td>
-                {/* 수록곡 곡/앨범 */}
-                <td className='detail-track-list-info-wrap'>
-                  <div className='detail-track-list-info-box'>
-                    <div className='detail-track-list-info-thumb'>
-                      <a href='#' className='detail-track-list-info-album'>
-                        <img
-                          alt='앨범 이미지'
-                          src='/Images/album-cover-3.jpg'
-                          className='detail-track-list-info-img'
-                        />
-                      </a>
-                    </div>
-                    <div className='detail-track-list-info-txt-area'>
-                      <div className='detail-track-list-song'>
-                        {' '}
-                        관심과 사랑(inst.){' '}
-                      </div>
-                      <div className='detail-track-list-album-box'>
-                        <a href='#' className='detail-track-list-album-link'>
-                          <div className='detail-track-list-album'>
+              {albumTrack.map((data) => {
+                return (
+                  <tr key={data.trackNumber}>
+                    <td className='detail-track-list-select'>
+                      <input
+                        name='곡 선택하기'
+                        className='detail-track-list-checkbox'
+                        type='checkbox'
+                      />
+                    </td>
+                    <td className='detail-track-list-number'>
+                      {data.trackNumber}
+                    </td>
+                    {/* 수록곡 곡/앨범 */}
+                    <td className='detail-track-list-info-wrap'>
+                      <div className='detail-track-list-info-box'>
+                        <div className='detail-track-list-info-thumb'>
+                          <a href='#' className='detail-track-list-info-album'>
+                            <img
+                              alt='앨범 이미지'
+                              src={data.albumCover}
+                              className='detail-track-list-info-img'
+                            />
+                          </a>
+                        </div>
+                        <div className='detail-track-list-info-txt-area'>
+                          <div className='detail-track-list-song'>
                             {' '}
-                            사랑과 이별{' '}
+                            {data.songTItle}(inst.){' '}
                           </div>
-                        </a>
+                          <div className='detail-track-list-album-box'>
+                            <a
+                              href='#'
+                              className='detail-track-list-album-link'
+                            >
+                              <div className='detail-track-list-album'>
+                                {' '}
+                                {data.albumTitle}{' '}
+                              </div>
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </td>
-                {/* 수록곡 아티스트 */}
-                <td className='detail-track-list-artist-box'>
-                  <Link to='#' className='detail-track-list-artist'>
-                    <span class='detail-track-artist'>Monsune</span>
-                  </Link>
-                </td>
-                {/* 수록곡 아이콘 */}
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <BsFillPlayFill className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <AiOutlineFolderAdd className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-                <td className='detail-track-list-icon'>
-                  <button type='button' className='detail-track-icon-listen'>
-                    <FiMoreVertical className='detail-track-icon-listen-icon' />
-                  </button>
-                </td>
-              </tr>
+                    </td>
+                    {/* 수록곡 아티스트 */}
+                    <td className='detail-track-list-artist-box'>
+                      <Link to='#' className='detail-track-list-artist'>
+                        <span className='detail-track-artist'>
+                          {data.artist}
+                        </span>
+                      </Link>
+                    </td>
+                    {/* 수록곡 아이콘 */}
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <BsFillPlayFill className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <AiOutlineFolderAdd className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                    <td className='detail-track-list-icon'>
+                      <button
+                        type='button'
+                        className='detail-track-icon-listen'
+                      >
+                        <FiMoreVertical className='detail-track-icon-listen-icon' />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const StyledSection = styled.section`
   width: 100%;
@@ -131,6 +131,11 @@ const StyledSection = styled.section`
           width: 55px;
           height: 55px;
           color: white;
+
+          &:hover {
+            cursor: pointer;
+            color: #3f3fff;
+          }
         }
       }
     }
@@ -150,6 +155,7 @@ const StyledSection = styled.section`
 const SecondSection = () => {
   const [albumList, setAlbumList] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
+  const params = useParams();
 
   useEffect(() => {
     fetch('http://localhost:8000/')
@@ -221,7 +227,7 @@ const SecondSection = () => {
                 <div key={el.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link
-                      to={`/detail/album/${el.albumId}/tracklist`}
+                      to={`/detail/album/${el.albumId}/${params.albumPage}`}
                       className='second-section-album-link'
                     >
                       <div className='second-section-album-img-box'>
@@ -235,6 +241,7 @@ const SecondSection = () => {
                     <button
                       alt='플레이 버튼'
                       className='second-section-play-button'
+                      type='button'
                     >
                       <BsFillPlayFill className='second-section-play-button-icon' />
                     </button>

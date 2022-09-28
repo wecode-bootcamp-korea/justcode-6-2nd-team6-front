@@ -6,9 +6,13 @@ import Container from '@mui/material/Container';
 import LoginPopup from '../login/LoginPopup';
 
 const StyledMain = styled.main`
+  width: 1280px;
+  margin: 0 auto;
+
   div.main-inner-box {
     width: 100%;
     height: 100%;
+
     display: flex;
     justify-content: center;
     font-family: 'NanumBarunGothic', sans-serif;
@@ -21,17 +25,15 @@ const StyledMain = styled.main`
 
 const Main = ({ loginText }) => {
   return (
-    <Container fixed>
-      <StyledMain>
-        <div className='main-inner-box'>
-          <div className='main-wrap'>
-            <FirstSection />
-            <SecondSection />
-          </div>
+    <StyledMain>
+      <div className='main-inner-box'>
+        <div className='main-wrap'>
+          <FirstSection />
+          <SecondSection />
         </div>
-      </StyledMain>
+      </div>
       {loginText === true ? <LoginPopup /> : null}
-    </Container>
+    </StyledMain>
   );
 };
 

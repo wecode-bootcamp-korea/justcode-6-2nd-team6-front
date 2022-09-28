@@ -247,7 +247,7 @@ const ArtistTrack = () => {
     <StyledTrack>
       <div className='artist-track-inner-box'>
         <div className='artist-track-whole-box'>
-          <button class='artist-track-whole-play-btn' type='button'>
+          <button className='artist-track-whole-play-btn' type='button'>
             <BsPlay className='artist-track-whole-icon' />
             <span className='artist-track-whole-play'>전체듣기</span>
           </button>
@@ -336,7 +336,7 @@ const ArtistTrack = () => {
                 {/* 수록곡 아티스트 */}
                 <td className='artist-track-list-artist-box'>
                   <Link to='#' className='artist-track-list-artist'>
-                    <span class='artist-track-artist'>Monsune</span>
+                    <span className='artist-track-artist'>Monsune</span>
                   </Link>
                 </td>
                 {/* 수록곡 아이콘 */}
