@@ -11,6 +11,7 @@ const StyledTerms = styled.div`
     align-items: center;
     width: 1280px;
     padding: 100px;
+    padding-bottom: 200px;
     margin: 0 auto;
     .terms-logo-box {
       display: flex;
@@ -316,15 +317,14 @@ const Terms = () => {
                 (선택) 이벤트/혜택 알림을 포함하여 모두 동의합니다.
               </span>
             </div>
-            <a href='/certification'>
+            <NavLink to='/certification'>
               <button
-                href='/certification'
                 className='terms-next-btn'
                 disabled={disabled}
               >
                 다음
               </button>
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>

@@ -214,6 +214,7 @@ const Playbar = ({
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
 
+
   return (
     <StyledPlaybar>
       <div
