@@ -199,6 +199,7 @@ const MusicPlayer = ({
     setTimeout(() => player.current.audio.current.pause(), 10);
   }, []);
 
+
   return (
     <StyledMusicPlayer>
       <div

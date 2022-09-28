@@ -302,28 +302,27 @@ const Chart = ({ genre, params, chart, setChart }) => {
   const showMoreChart = () => {
     setVisible(prevValue => prevValue + 10)
   }
-  
+
   // 체크리스트 배열에 들어갈 반복문
   let arr = []
-  for (let i = 0; i < chart.length; i++){
+  for (let i = 0; i < chart.length; i++) {
     arr.push(`곡선택하기${i}`)
   }
 
-    // 전체동의시 모든 체크박스 활성화
-    const checkAll = (e) => {
-      e.target.checked
-        ? setCheckList(arr)
-        : setCheckList([]);
-    };
+  // 전체동의시 모든 체크박스 활성화
+  const checkAll = (e) => {
+    e.target.checked
+      ? setCheckList(arr)
+      : setCheckList([]);
+  };
 
-  // console.log(checkList);
-  console.log(chart.length);
+
 
   // 전체체크 선택시 전체선택 및 해제
   const handleCheck = (e) => {
     e.target.checked
       ? setCheckList([...checkList, e.target.name])
-      : setCheckList(checkList.filter((e) => e !== e.target.name));
+      : setCheckList(checkList.filter((el) => el !== e.target.name));
   };
 
 
@@ -389,7 +388,7 @@ const Chart = ({ genre, params, chart, setChart }) => {
               {/* chart 데이터 0 부터 10자름 */}
               {chart && chart.slice(0, visible).map((song, index) => {
                 return (
-                  <tbody>
+                  <tbody key={index}>
                     <tr>
                       <td className='chart-list-select'>
                         <input

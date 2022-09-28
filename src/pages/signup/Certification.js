@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import React, {  useEffect, useState } from 'react';
+import { Fade } from 'react-reveal';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LoginFooter from '../../components/LoginFooter';
 
@@ -310,6 +311,7 @@ const Certification = () => {
   }, [name, phone]);
 
   return (
+    <Fade >
     <StyledCertification>
       <div className='certification-inner-box'>
                   {/* 로고박스 */}
@@ -417,6 +419,7 @@ const Certification = () => {
       </div>
       <LoginFooter />
     </StyledCertification>
+    </Fade>
   );
 };
 

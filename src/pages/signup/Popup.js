@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const popUPAnimation = keyframes`
+0%{opacity:0}
+25%{opacity:1}
+50%{opacity:1}
+75%{opacity:1}
+100%{opacity:0}
+`
 
 const StyledPopup = styled.div`
 .popup-inner-box{
-    position: fixed;
-    background: red;
+position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+    animation: ${popUPAnimation} 1.5s 0s ease-in none;
     .popup{
-        position: fixed;
-        top: 40%;
-        right: 35%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -80,7 +87,6 @@ const Popup = () => {
                     <span className='close-text'>해당 창은 2초뒤에 자동으로 사라집니다.</span>
                 </div>
             </div> : null}
-
         </StyledPopup>
     );
 };

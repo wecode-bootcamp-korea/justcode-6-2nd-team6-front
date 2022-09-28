@@ -25,12 +25,15 @@ import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
 import { Browse } from './browse/Browse';
+import CreateStudio from './creator/CreateStudio';
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   const [isLogin, setIsLogin] = useState(false);
   const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
+  const [headerShow, setHeaderShow] = useState(false); // 헤더 안보여주고 싶은곳에 사용
+  const [footerShow, setFooterShow] = useState(false); // 풋터 안보여주고 싶은곳에 사용
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -54,18 +57,22 @@ function Router() {
     if (sessionStorage.getItem('token') !== null) setIsLogin(true);
   }, []);
 
-  // 새로고침해도 로그인멘트 안나오게 하는 useEffect
-
   return (
     <BrowserRouter>
-      <Header
-        token={token}
-        user_name={user_name}
-        user_img={user_img}
-        isLogin={isLogin}
-        setIsLogin={setIsLogin}
-        setMusicTracks={setMusicTracks}
-      />
+      {headerShow === true ? null : (
+        <Header
+          token={token}
+          user_name={user_name}
+          user_img={user_img}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+          setMusicTracks={setMusicTracks}
+          headerShow={headerShow}
+          setHeaderShow={setHeaderShow}
+          footerShow={footerShow}
+          setFooterShow={setFooterShow}
+        />
+      )}
       <Routes>
         <Route
           path='/login'
@@ -78,10 +85,24 @@ function Router() {
             />
           }
         />
-        <Route path='/signup' element={<Signup />} />
+        <Route
+          path='/signup'
+          element={<Signup setFooterShow={setFooterShow} />}
+        />
         <Route path='/terms' element={<Terms />} />
         <Route path='/certification' element={<Certification />} />
         <Route path='/signform' element={<Signform />} />
+        <Route
+          path='/promotion/cms/flocreators'
+          element={
+            <CreateStudio
+              headerShow={headerShow}
+              setHeaderShow={setHeaderShow}
+              footerShow={footerShow}
+              setFooterShow={setFooterShow}
+            />
+          }
+        />
 
         <Route
           path='/test'
@@ -119,13 +140,15 @@ function Router() {
           <Route path='recentlylisten' element={<RecentlyListen />} />
         </Route>
       </Routes>
-      <Footer />
-      <Playbar
-        trackIndex={trackIndex}
-        setTrackIndex={setTrackIndex}
-        musicTracks={musicTracks}
-        setMusicTracks={setMusicTracks}
-      />
+      {footerShow === true ? null : <Footer />}
+      {headerShow === true ? null : (
+        <Playbar
+          trackIndex={trackIndex}
+          setTrackIndex={setTrackIndex}
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+        />
+      )}
     </BrowserRouter>
   );
 }

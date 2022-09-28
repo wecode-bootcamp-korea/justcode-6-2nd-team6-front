@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Popup from './Popup';
+import { Fade } from 'react-reveal';
 
 const StyledTerms = styled.div`
   .terms-inner-box {
@@ -11,6 +12,7 @@ const StyledTerms = styled.div`
     align-items: center;
     width: 1280px;
     padding: 100px;
+    padding-bottom: 200px;
     margin: 0 auto;
     .terms-logo-box {
       display: flex;
@@ -204,6 +206,7 @@ const Terms = () => {
   }, [checkList]);
 
   return (
+    <Fade >
     <StyledTerms>
       <div className='terms-inner-box'>
         <NavLink to='/' className='terms-logo-box'>
@@ -316,19 +319,19 @@ const Terms = () => {
                 (선택) 이벤트/혜택 알림을 포함하여 모두 동의합니다.
               </span>
             </div>
-            <a href='/certification'>
+            <NavLink to='/certification'>
               <button
-                href='/certification'
                 className='terms-next-btn'
                 disabled={disabled}
               >
                 다음
               </button>
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>
     </StyledTerms>
+    </Fade>
   );
 };
 
