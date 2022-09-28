@@ -200,13 +200,12 @@ const PlayList = ({
   trackIndex,
   isMyPlayListClicked,
   setIsMyPlayListClicked,
-  selectedSongId,
-  setSelectedSongId,
   setIsGetMyPlayListClicked,
   isMoreMenuClicked,
   setIsMoreMenuClicked,
-  isAddManySongs,
-  setIsAddManySongs,
+  checkedList,
+  setCheckedList,
+  setAlertOn,
 }) => {
   const [isPlayListClicked, setIsPlayListClicked] = useState(true);
   const [isArtistClicked, setIsArtistClicked] = useState(false);
@@ -215,23 +214,38 @@ const PlayList = ({
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [checkedList, setCheckedList] = useState([]);
-
   const [sameArtistsMusic, setSameArtistsMusic] = useState([]);
   const [sameGenreMusic, setSameGenreMusic] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/datas/same-artist-song-data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setSameArtistsMusic(data);
-      });
-    fetch("http://localhost:3000/datas/same-genre-song-data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setSameGenreMusic(data);
-      });
-  }, [trackIndex]);
+    if (musicTracks.length !== 0) {
+      fetch(
+        `http://localhost:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSameArtistsMusic(data);
+        });
+
+      fetch(
+        `http://localhost:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSameGenreMusic(data);
+        });
+    }
+  }, [trackIndex || musicTracks]);
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -258,7 +272,7 @@ const PlayList = ({
       return el;
     } else
       return {
-        id: el.key,
+        songId: el.key,
         songTitle: "none",
         songArtist: "none",
         albumCover: "",
@@ -333,7 +347,7 @@ const PlayList = ({
                   } else {
                     // 편집 (전체선택)
                     if (checkedList.length < musicTracks.length) {
-                      setCheckedList(musicTracks.map((el) => el.id));
+                      setCheckedList(musicTracks.map((el) => el.songId));
                     } else setCheckedList([]);
                   }
                   setIsMoreMenuClicked(false);
@@ -441,8 +455,6 @@ const PlayList = ({
                     setMusicTracks={setMusicTracks}
                     trackIndex={trackIndex}
                     setTrackIndex={setTrackIndex}
-                    selectedSongId={selectedSongId}
-                    setSelectedSongId={setSelectedSongId}
                     setIsMyPlayListClicked={setIsMyPlayListClicked}
                     isMoreMenuClicked={isMoreMenuClicked}
                     setIsMoreMenuClicked={setIsMoreMenuClicked}
@@ -457,8 +469,6 @@ const PlayList = ({
                     setMusicTracks={setMusicTracks}
                     trackIndex={trackIndex}
                     setTrackIndex={setTrackIndex}
-                    selectedSongId={selectedSongId}
-                    setSelectedSongId={setSelectedSongId}
                     setIsMyPlayListClicked={setIsMyPlayListClicked}
                     isMoreMenuClicked={isMoreMenuClicked}
                     setIsMoreMenuClicked={setIsMoreMenuClicked}
@@ -476,6 +486,7 @@ const PlayList = ({
               data={sameArtistsMusic}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
             />
           )}
           {!isSimilarClicked || sameGenreMusic.length === 0 || (
@@ -483,6 +494,7 @@ const PlayList = ({
               data={sameGenreMusic}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
             />
           )}
         </div>
@@ -506,7 +518,6 @@ const PlayList = ({
                   className="wrapper"
                   onClick={() => {
                     setIsMyPlayListClicked(true);
-                    setIsAddManySongs(true);
                   }}
                 >
                   <VscNewFolder className="icon" />
@@ -519,7 +530,7 @@ const PlayList = ({
                   onClick={() => {
                     setMusicTracks(
                       musicTracks.filter((el, i) => {
-                        return !checkedList.includes(el.id);
+                        return !checkedList.includes(el.songId);
                       })
                     );
                     setCheckedList([]);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { RiPlayListFill } from "react-icons/ri";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi"; // player like
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"; // expanded player like
@@ -19,7 +20,7 @@ const StyledPlaybar = styled.div`
 
   .shuffle {
     position: absolute;
-    right: 36.02%;
+    right: 35.65%;
     top: 23px;
     color: #545454;
     transform: scale(0.82);
@@ -53,6 +54,28 @@ const StyledPlaybar = styled.div`
     color: white;
     z-index: 10;
     font-family: "NanumBarunGothic", sans-serif;
+
+    .warning {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .login {
+      margin: 0px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      border-bottom: 1px solid white;
+      color: white;
+      cursor: pointer;
+    }
+
+    .signup {
+      font-size: 18px;
+      font-weight: 700;
+      border-bottom: 1px solid white;
+      color: white;
+      cursor: pointer;
+    }
 
     .song-info-box {
       position: fixed;
@@ -206,159 +229,293 @@ const Playbar = ({
   setTrackIndex,
   musicTracks,
   setMusicTracks,
+  isLogin,
+  isExpandedClicked,
+  setIsExpandedClicked,
+  setAlertOn,
 }) => {
-  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
-  const [selectedSongId, setSelectedSongId] = useState(Infinity); // 밑의 재생목록의 음악들의 id
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
+  const [isLiked, setIsLiked] = useState(false); // 현재 곡 좋아요 상태
+  const [checkedList, setCheckedList] = useState([]); // 선택된 곡들의 아이디 배열
+
+  // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID)
+  useEffect(() => {
+    if (musicTracks.length !== 0) {
+      fetch(`http://localhost:8000/play/${musicTracks[trackIndex].songId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.isLiked === "1") setIsLiked(true);
+          else setIsLiked(false);
+        });
+    }
+  }, [trackIndex || musicTracks]);
+
+  useEffect(
+    () => console.log(isGetMyPlayListClicked),
+    [isGetMyPlayListClicked]
+  );
+
+  // checkedList 변경 시 마다 출력 (삭제 예정)
+  useEffect(() => {
+    console.log("CL", checkedList);
+  }, [checkedList]);
 
 
   return (
     <StyledPlaybar>
-      <div
-        className={
-          isExpandedClicked
-            ? "expanded-player-inner-box flex-center"
-            : "playbar-inner-box flex-center"
-        }
-      >
-        {!isExpandedClicked || (
-          <img
-            src="/Images/down-arrow.png"
-            alt="close"
-            className="close"
-            onClick={() => setIsExpandedClicked(!isExpandedClicked)}
-          />
-        )}
-        <div className="song-info-box flex-center">
-          <img
-            src={
-              musicTracks.length === 0
-                ? "/Images/nothing.png"
-                : musicTracks[trackIndex].albumCover
-            }
-            alt="album cover"
-            className="cover"
-          />
-          <div className="song-info-wrapper">
-            <div className="title">
-              {musicTracks.length === 0
-                ? "재생목록이 비어있습니다"
-                : musicTracks[trackIndex].songTitle}
-            </div>
-            <div className="artist">
-              {musicTracks.length === 0
-                ? "--"
-                : musicTracks[trackIndex].songArtist}
-            </div>
+      {!isLogin ? (
+        <div className="playbar-inner-box flex-center">
+          <p className="warning">
+            로그인 후 음악 재생 서비스를 이용하실 수 있습니다.
+          </p>
+          <Link to="/login" className="login">
+            로그인
+          </Link>
+          <Link to="/signup" className="signup">
+            회원가입
+          </Link>
+        </div>
+      ) : (
+        <div
+          className={
+            isExpandedClicked
+              ? "expanded-player-inner-box flex-center"
+              : "playbar-inner-box flex-center"
+          }
+        >
+          {!isExpandedClicked || (
+            <img
+              src="/Images/down-arrow.png"
+              alt="close"
+              className="close"
+              onClick={() => {
+                setIsExpandedClicked(!isExpandedClicked);
+                setIsGetMyPlayListClicked(false);
+              }}
+            />
+          )}
+          <div className="song-info-box flex-center">
+            <img
+              src={
+                musicTracks.length === 0
+                  ? "/Images/nothing.png"
+                  : musicTracks[trackIndex].albumCover
+              }
+              alt="album cover"
+              className="cover"
+            />
+            <div className="song-info-wrapper">
+              <div className="title">
+                {musicTracks.length === 0
+                  ? "재생목록이 비어있습니다"
+                  : musicTracks[trackIndex].songTitle}
+              </div>
+              <div className="artist">
+                {musicTracks.length === 0
+                  ? "--"
+                  : musicTracks[trackIndex].songArtist}
+              </div>
 
-            {!isExpandedClicked || (
-              <div className="like-and-add">
-                <IoMdHeartEmpty className="like" size="32" />
-                <VscNewFolder
-                  className="add-play-list"
-                  size="30"
+              {!isExpandedClicked || (
+                <div className="like-and-add">
+                  {isLiked ? (
+                    <IoMdHeart
+                      className="like"
+                      size="32"
+                      onClick={() => {
+                        fetch(
+                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          {
+                            method: "PATCH",
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((data) => {
+                            console.log(data);
+                            setIsLiked(false);
+                          });
+                      }}
+                    />
+                  ) : (
+                    <IoMdHeartEmpty
+                      className="like"
+                      size="32"
+                      onClick={() => {
+                        fetch(
+                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          {
+                            method: "PATCH",
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((data) => {
+                            console.log(data);
+                            setIsLiked(true);
+                          });
+                      }}
+                    />
+                  )}
+                  <VscNewFolder
+                    className="add-play-list"
+                    size="30"
+                    onClick={() => {
+                      setIsMyPlayListClicked(true);
+                      setIsGetMyPlayListClicked(false);
+                      setCheckedList([musicTracks[trackIndex].songId]);
+                    }}
+                  />
+                </div>
+              )}
+              {!isExpandedClicked || (
+                <BiShuffle
+                  size="35.1"
+                  className="expanded-shuffle"
                   onClick={() => {
-                    setIsMyPlayListClicked(true);
-                    setSelectedSongId(Infinity);
+                    const randomTracks = [...musicTracks].sort(
+                      () => Math.random() - 0.5
+                    );
+                    if (randomTracks[0] === musicTracks[0]) {
+                      let lastIndex = randomTracks.length - 1;
+                      let randomValue = Math.floor(
+                        Math.random() * (lastIndex - 1) + 1
+                      );
+                      const temp = randomTracks[0];
+                      randomTracks[0] = randomTracks[lastIndex];
+                      randomTracks[lastIndex] = temp;
+                    }
+                    setMusicTracks(randomTracks);
                   }}
                 />
-              </div>
-            )}
-            {!isExpandedClicked || (
-              <BiShuffle
-                size="35.1"
-                className="expanded-shuffle"
-                onClick={() => {
-                  const randomTracks = [...musicTracks].sort(
-                    () => Math.random() - 0.5
-                  );
-                  if (randomTracks[0] === musicTracks[0]) {
-                    let lastIndex = randomTracks.length - 1;
-                    let randomValue = Math.floor(
-                      Math.random() * (lastIndex - 1) + 1
-                    );
-                    const temp = randomTracks[0];
-                    randomTracks[0] = randomTracks[lastIndex];
-                    randomTracks[lastIndex] = temp;
-                  }
-                  setMusicTracks(randomTracks);
-                }}
-              />
-            )}
+              )}
+            </div>
           </div>
-        </div>
 
-        <MusicPlayer
-          trackIndex={trackIndex}
-          musicTracks={musicTracks}
-          setTrackIndex={setTrackIndex}
-          isExpandedClicked={isExpandedClicked}
-          setMusicTracks={setMusicTracks}
-        ></MusicPlayer>
-        {isExpandedClicked || <HiOutlineHeart className="like" />}
-        {isExpandedClicked || (
-          <RiPlayListFill
-            className="playlist"
-            onClick={() => setIsExpandedClicked(!isExpandedClicked)}
-          />
-        )}
-
-        {isExpandedClicked || (
-          <BiShuffle
-            size="35.1"
-            className="shuffle"
-            onClick={() => {
-              const randomTracks = [...musicTracks].sort(
-                () => Math.random() - 0.5
-              );
-              if (randomTracks[0] === musicTracks[0]) {
-                let lastIndex = randomTracks.length - 1;
-                let randomValue = Math.floor(
-                  Math.random() * (lastIndex - 1) + 1
-                );
-                const temp = randomTracks[0];
-                randomTracks[0] = randomTracks[lastIndex];
-                randomTracks[lastIndex] = temp;
-              }
-              setMusicTracks(randomTracks);
-            }}
-          />
-        )}
-
-        {!isExpandedClicked || (
-          <PlayList
-            musicTracks={musicTracks}
-            setMusicTracks={setMusicTracks}
-            setTrackIndex={setTrackIndex}
+          <MusicPlayer
             trackIndex={trackIndex}
+            musicTracks={musicTracks}
+            setTrackIndex={setTrackIndex}
+            isExpandedClicked={isExpandedClicked}
+            setMusicTracks={setMusicTracks}
+          ></MusicPlayer>
+          {isExpandedClicked || isLiked ? (
+            <HiHeart
+              className="like"
+              size="32"
+              onClick={() => {
+                fetch(
+                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    setIsLiked(false);
+                  });
+              }}
+            />
+          ) : (
+            <HiOutlineHeart
+              className="like"
+              size="32"
+              onClick={() => {
+                fetch(
+                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    setIsLiked(true);
+                  });
+              }}
+            />
+          )}
+
+          {isExpandedClicked || (
+            <RiPlayListFill
+              className="playlist"
+              onClick={() => setIsExpandedClicked(!isExpandedClicked)}
+            />
+          )}
+
+          {isExpandedClicked || (
+            <BiShuffle
+              size="35.1"
+              className="shuffle"
+              onClick={() => {
+                const randomTracks = [...musicTracks].sort(
+                  () => Math.random() - 0.5
+                );
+                if (randomTracks[0] === musicTracks[0]) {
+                  let lastIndex = randomTracks.length - 1;
+                  let randomValue = Math.floor(
+                    Math.random() * (lastIndex - 1) + 1
+                  );
+                  const temp = randomTracks[0];
+                  randomTracks[0] = randomTracks[lastIndex];
+                  randomTracks[lastIndex] = temp;
+                }
+                setMusicTracks(randomTracks);
+              }}
+            />
+          )}
+
+          {!isExpandedClicked || (
+            <PlayList
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+              setTrackIndex={setTrackIndex}
+              trackIndex={trackIndex}
+              isMyPlayListClicked={isMyPlayListClicked}
+              setIsMyPlayListClicked={setIsMyPlayListClicked}
+              setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
+              isMoreMenuClicked={isMoreMenuClicked}
+              setIsMoreMenuClicked={setIsMoreMenuClicked}
+              isAddManySongs={isAddManySongs}
+              setIsAddManySongs={setIsAddManySongs}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+              setAlertOn={setAlertOn}
+            />
+          )}
+
+          <MyPlayList
             isMyPlayListClicked={isMyPlayListClicked}
             setIsMyPlayListClicked={setIsMyPlayListClicked}
-            selectedSongId={selectedSongId}
-            setSelectedSongId={setSelectedSongId}
+            isGetMyPlayListClicked={isGetMyPlayListClicked}
             setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
-            isMoreMenuClicked={isMoreMenuClicked}
-            setIsMoreMenuClicked={setIsMoreMenuClicked}
-            isAddManySongs={isAddManySongs}
-            setIsAddManySongs={setIsAddManySongs}
+            checkedList={checkedList}
+            setCheckedList={setCheckedList}
+            setAlertOn={setAlertOn}
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
           />
-        )}
-
-        <MyPlayList
-          isMyPlayListClicked={isMyPlayListClicked}
-          setIsMyPlayListClicked={setIsMyPlayListClicked}
-          playingMusicId={
-            musicTracks.length === 0 ? 0 : musicTracks[trackIndex].id
-          }
-          selectedSongId={selectedSongId}
-          isGetMyPlayListClicked={isGetMyPlayListClicked}
-          setIsGetMyPlayListClicked={setIsGetMyPlayListClicked}
-          isAddManySongs={isAddManySongs}
-          setIsAddManySongs={setIsAddManySongs}
-        />
-      </div>
+        </div>
+      )}
     </StyledPlaybar>
   );
 };

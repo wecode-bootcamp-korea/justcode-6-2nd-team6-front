@@ -16,20 +16,22 @@ import My from './purchase/My';
 import Main from './main/Main';
 import Storage from './storage/Storage';
 import MyList from './storage/MyList';
-import LikeTrack from './storage/LikeTrack';
-import MostListen from './storage/MostListen';
-import RecentlyListen from './storage/RecentlyListen';
+import ListTrack from './storage/ListTrack';
 import AlbumDetail from '../components/detail/albumDetail/AlbumDetail';
 import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
 import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
 import Detail from '../components/detail/Detail';
 import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
+import ScrollToTop from './ScrollToTop';
+import Alert from '../components/Alert';
 import { Browse } from './browse/Browse';
 import CreateStudio from './creator/CreateStudio';
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
+  const [alertOn, setAlertOn] = useState(false); // 알림창 (상태값에 메세지 넣으면 메세지 출력됨)
+  const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
   const [isLogin, setIsLogin] = useState(false);
   const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
   const [headerShow, setHeaderShow] = useState(false); // 헤더 안보여주고 싶은곳에 사용
@@ -59,6 +61,7 @@ function Router() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       {headerShow === true ? null : (
         <Header
           token={token}
@@ -117,13 +120,20 @@ function Router() {
         </Route>
         <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
-          <Route path='playlist/:playlistId' element={<PlaylistDetail />} />
-          <Route path='album/:albumId/:albumPage' element={<AlbumDetail />} />
+          <Route path='album' element={<AlbumDetail />} />
+          <Route path='playlist' element={<PlaylistDetail />} />
+          <Route path='artist' element={<ArtistDetail />} />
           <Route
-            path='artist/:artistId/:artistPage'
-            element={<ArtistDetail />}
+            path='mylist/:id'
+            element={
+              <MylistDetail
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+              />
+            }
           />
-          <Route path='mylist/:id' element={<MylistDetail />} />
         </Route>
         <Route path='/storage' element={<Storage />}>
           <Route
@@ -132,12 +142,48 @@ function Router() {
               <MyList
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
               />
             }
           />
-          <Route path='liketrack' element={<LikeTrack />} />
-          <Route path='mostlisten' element={<MostListen />} />
-          <Route path='recentlylisten' element={<RecentlyListen />} />
+          <Route
+            path='liketrack'
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path='mostlisten'
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path='recentlisten'
+            element={
+              <ListTrack
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
         </Route>
       </Routes>
       {footerShow === true ? null : <Footer />}
@@ -147,8 +193,17 @@ function Router() {
           setTrackIndex={setTrackIndex}
           musicTracks={musicTracks}
           setMusicTracks={setMusicTracks}
+          isLogin={isLogin}
+          isExpandedClicked={isExpandedClicked}
+          setIsExpandedClicked={setIsExpandedClicked}
+          setAlertOn={setAlertOn}
         />
       )}
+      <Alert
+        alertOn={alertOn}
+        setAlertOn={setAlertOn}
+        isExpandedClicked={isExpandedClicked}
+      />
     </BrowserRouter>
   );
 }
