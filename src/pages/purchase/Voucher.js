@@ -71,9 +71,22 @@ const StyledVoucher = styled.div`
           position: relative;
           padding: 0 0 40px;
           background-color: rgb(150, 105, 232);
-          .voucher-banner-img {
+          .voucher-banner-text {
             width: 100%;
             height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 0;
+            font-size: 30px;
+            font-weight: 800;
+            .banner-text {
+              color: white;
+              text-align: center;
+              .color-mint {
+                color: #11efef;
+              }
+            }
           }
           .voucher-banner-item {
             position: relative;
@@ -170,11 +183,12 @@ const Voucher = () => {
         <ul className='voucher-cardlist'>
           <li>
             <div className='voucher-carditem voucher-banner'>
-              <img
-                alt='베너홍보'
-                src='/Images/banner.png'
-                className='voucher-banner-img'
-              />
+              <div className='voucher-banner-text'>
+                <span className='banner-text'>
+                  FLOrida 첫구매라면{' '}
+                  <span className='color-mint'>첫 달 100원!</span>
+                </span>
+              </div>
               <div className='voucher-banner-item'>
                 <div className='card-left'>
                   <h3 className='name'>(첫 구매) 무제한 듣기 정기결제</h3>
