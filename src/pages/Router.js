@@ -13,8 +13,6 @@ import Purchase from "./purchase/Purchase";
 import Voucher from "./purchase/Voucher";
 import Affiliate from "./purchase/Affiliate";
 import My from "./purchase/My";
-import { Addtab, Browsemenu } from "../components/Browsemenu";
-import Genre from "../components/Genre";
 import Main from "./main/Main";
 import Storage from "./storage/Storage";
 import MyList from "./storage/MyList";
@@ -63,6 +61,7 @@ function Router() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       {headerShow === true ? null : (
         <Header
           token={token}
