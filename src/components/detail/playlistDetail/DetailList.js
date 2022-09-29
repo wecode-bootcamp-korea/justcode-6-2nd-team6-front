@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { VscNewFolder } from 'react-icons/vsc';
-import { AiOutlineMore } from 'react-icons/ai';
-import { FiMusic } from 'react-icons/fi';
+import { AiOutlineMore, AiOutlineCheck } from 'react-icons/ai';
 import { BiMicrophone } from 'react-icons/bi';
+import { FiMusic } from 'react-icons/fi';
 import { IoDiscOutline } from 'react-icons/io5';
-import { AiOutlineCheck } from 'react-icons/ai';
 import MyPlayList from '../../playbar/MyPlayList';
 
 const StyledTrack = styled.div`
-  padding-top: 20px;
+  padding-top: 40px;
 
   div.detail-track-inner-box {
     button.detail-track-whole-play-btn {
@@ -27,13 +26,14 @@ const StyledTrack = styled.div`
       }
     }
 
-    div.detail-track-whole-box {
+    .detail-track-whole-box {
       display: flex;
       justify-content: space-between;
 
       .edit {
-        margin-right: 10px;
+        margin-right: 15px;
         font-size: 16px;
+        top: 50%;
       }
     }
 
@@ -250,6 +250,100 @@ const StyledTrack = styled.div`
         }
       }
     }
+    .more-menu-list {
+      position: absolute;
+      right: 0;
+      top: 55px;
+      padding: 10px 0;
+      border-radius: 3px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+      background-color: white;
+      z-index: 1;
+      .more-menu {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        width: 180px;
+        height: 40px;
+        color: black;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover {
+          color: #3f3fff;
+          background-color: #f5f5f5;
+        }
+
+        .icon {
+          margin-right: 10px;
+          transform: scale(1.25);
+        }
+      }
+    }
+
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 200px;
+      right: calc(50% - 100px);
+      width: 200px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+      color: white;
+
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 50%;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:nth-of-type(2) {
+          .wrapper {
+            border-left: 2px solid #5252ff;
+          }
+        }
+
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 30px 0;
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -268,34 +362,8 @@ const DetailList = ({
 }) => {
   const location = useLocation();
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
-  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false);
-
   const musicTracksId = musicTracks.map((el) => el.songId);
-
-  playlistSong.map((el, i) => {
-    const songPlay = () => {
-      fetch(`http://localhost:8000/detail/addsongs/song/${el.songId}`, {
-        headers: {
-          Authorization: sessionStorage.getItem('token'),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.message == 'Need Voucher')
-            setAlertOn(
-              '이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다.'
-            );
-          else if (data !== 'Error: Invaild Access') {
-            console.log(data);
-            const song = data[0];
-            if (musicTracksId.includes(song.songId) === false) {
-              setMusicTracks([song, ...musicTracks]);
-              setAlertOn('현재 재생목록에 추가되었습니다.');
-            } else setAlertOn('이미 현재 재생목록에 있는 곡입니다.');
-          }
-        });
-    };
-  });
+  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -315,11 +383,16 @@ const DetailList = ({
             type='button'
             onClick={() => {
               if (playlistSong[0].songTitle !== null) {
-                fetch(`http://localhost:8000${location.pathname}`, {
-                  headers: {
-                    Authorization: sessionStorage.getItem('token'),
-                  },
-                })
+                fetch(
+                  `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                    9
+                  )}/1`,
+                  {
+                    headers: {
+                      Authorization: sessionStorage.getItem('token'),
+                    },
+                  }
+                )
                   .then((res) => res.json())
                   .then((plData) => {
                     const musicTracksId = musicTracks.map((el) => el.songId);
@@ -409,6 +482,33 @@ const DetailList = ({
             </thead>
             <tbody>
               {playlistSong.map((data) => {
+                const songPlay = () => {
+                  fetch(
+                    `http://localhost:8000/play/addsongs/song/${data.songId}`,
+                    {
+                      headers: {
+                        Authorization: sessionStorage.getItem('token'),
+                      },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      if (data.message == 'Need Voucher')
+                        setAlertOn(
+                          '이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다.'
+                        );
+                      else if (data !== 'Error: Invaild Access') {
+                        console.log(data);
+                        const song = data[0];
+                        if (musicTracksId.includes(song.songId) === false) {
+                          setMusicTracks([song, ...musicTracks]);
+                          setAlertOn('현재 재생목록에 추가되었습니다.');
+                        } else
+                          setAlertOn('이미 현재 재생목록에 있는 곡입니다.');
+                      }
+                    });
+                };
+
                 return (
                   <tr key={data.songId}>
                     <td
@@ -506,7 +606,7 @@ const DetailList = ({
                             type='button'
                             className='detail-track-icon-listen'
                             onClick={() => {
-                              setCheckedList([el.songId]);
+                              setCheckedList([data.songId]);
                               setIsMyPlayListClicked(true);
                             }}
                           >
@@ -518,8 +618,8 @@ const DetailList = ({
                             type='button'
                             className='detail-track-icon-listen'
                             onClick={() => {
-                              setCheckedList([el.songId]);
-                              if (el.songId === checkedList[0])
+                              setCheckedList([data.songId]);
+                              if (data.songId === checkedList[0])
                                 setIsMoreMenuClicked(!isMoreMenuClicked);
                               else setIsMoreMenuClicked(true);
                             }}
@@ -551,7 +651,7 @@ const DetailList = ({
             </tbody>
           </table>
         </div>
-
+        {/* 모달 창 */}
         {!isSelectClicked || checkedList.length === 0 || (
           <div className='edit-inner-box'>
             <div className='edit-container'>
@@ -571,13 +671,19 @@ const DetailList = ({
                 <div
                   className='wrapper'
                   onClick={() => {
-                    fetch(`http://localhost:8000${location.pathname}`, {
-                      headers: {
-                        Authorization: sessionStorage.getItem('token'),
-                      },
-                    })
+                    fetch(
+                      `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                        9
+                      )}/1`,
+                      {
+                        headers: {
+                          Authorization: sessionStorage.getItem('token'),
+                        },
+                      }
+                    )
                       .then((res) => res.json())
                       .then((plData) => {
+                        console.log(plData);
                         const selectedPlData = plData.filter(
                           (el, i) => checkedList.includes(el.songId) === true
                         );
@@ -595,6 +701,12 @@ const DetailList = ({
                           '재생목록에 추가되었습니다. 중복된 곡은 제외됩니다.'
                         );
                         setCheckedList([]);
+                      })
+                      .catch((err) => {
+                        if (sessionStorage.getItem('token') !== null)
+                          setAlertOn(
+                            '이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다.'
+                          );
                       });
                   }}
                 >

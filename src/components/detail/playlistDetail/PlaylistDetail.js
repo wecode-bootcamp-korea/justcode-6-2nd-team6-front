@@ -231,8 +231,6 @@ const PlaylistDetail = ({
     setIsSelectClicked(false);
   }, [playlistId]);
 
-  console.log(musicTracks);
-
   return (
     <StyledDetail>
       <section className='playlist-detail-inner-box'>
