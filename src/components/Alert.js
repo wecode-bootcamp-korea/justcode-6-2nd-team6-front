@@ -11,6 +11,7 @@ const StyledAlert = styled.div`
     justify-content: center;
     height: 75px;
     background-color: #181818;
+    opacity: 0.9;
     color: white;
     z-index: 3000;
     font-size: 18px;

@@ -35,6 +35,10 @@ function Router() {
   const [isLogin, setIsLogin] = useState(false); // 로그인 여부 
   const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
 
+  const [headerShow, setHeaderShow] = useState(false); // 헤더 안보여주고 싶은곳에 사용
+  const [footerShow, setFooterShow] = useState(false); // 풋터 안보여주고 싶은곳에 사용
+  const [isLiked, setIsLiked] = useState(false); // 현재 곡 좋아요 상태
+
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
@@ -135,6 +139,7 @@ function Router() {
                 setAlertOn={setAlertOn}
                 isExpandedClicked={isExpandedClicked}
                 isLogin={isLogin}
+                isLiked={isLiked}
               />
             }
           />
@@ -147,6 +152,7 @@ function Router() {
                 setAlertOn={setAlertOn}
                 isExpandedClicked={isExpandedClicked}
                 isLogin={isLogin}
+                isLiked={isLiked}
               />
             }
           />
@@ -159,28 +165,29 @@ function Router() {
                 setAlertOn={setAlertOn}
                 isExpandedClicked={isExpandedClicked}
                 isLogin={isLogin}
+                isLiked={isLiked}
               />
             }
           />
 
         </Route>
       </Routes>
-
-      {/* 풋터 */}
-      <Footer />
-
-      {/* 뮤직 플레이어 Bar */}
-      <Playbar
-        trackIndex={trackIndex}
-        setTrackIndex={setTrackIndex}
-        musicTracks={musicTracks}
-        setMusicTracks={setMusicTracks}
-        isLogin={isLogin}
-        isExpandedClicked={isExpandedClicked}
-        setIsExpandedClicked={setIsExpandedClicked}
-         />
-  
-         <Alert
+      {footerShow === true ? null : <Footer />}
+      {headerShow === true ? null : (
+        <Playbar
+          trackIndex={trackIndex}
+          setTrackIndex={setTrackIndex}
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+          isLogin={isLogin}
+          isExpandedClicked={isExpandedClicked}
+          setIsExpandedClicked={setIsExpandedClicked}
+          setAlertOn={setAlertOn}
+          isLiked={isLiked}
+          setIsLiked={setIsLiked}
+        />
+      )}
+      <Alert
         alertOn={alertOn}
         setAlertOn={setAlertOn}
         isExpandedClicked={isExpandedClicked}
