@@ -117,6 +117,7 @@ function Router() {
         <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
+          <Route path='my' element={<My token={token} />}></Route>
         </Route>
         <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
