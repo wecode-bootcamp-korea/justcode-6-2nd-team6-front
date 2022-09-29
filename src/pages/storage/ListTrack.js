@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Loading from "../../components/Loading";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import MusicContainer from "./MusicContainer";
@@ -71,10 +73,12 @@ const ListTrack = ({
   const [isSelectClicked, setIsSelectClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
   const [playlistSongs, setPlaylistSongs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   console.log(`http://localhost:8000${location.pathname}`);
 
   useEffect(() => {
+    setLoading(false);
     fetch(`http://localhost:8000${location.pathname}`, {
       headers: {
         Authorization: sessionStorage.getItem("token"),
@@ -82,6 +86,7 @@ const ListTrack = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(true);
         console.log(data, "ListTrack!");
         setPlaylistSongs(data);
       });
@@ -110,6 +115,8 @@ const ListTrack = ({
               </div>
             </div>
           </div>
+        ) : !loading ? (
+          <Loading />
         ) : (
           <MusicContainer
             playlistSongs={playlistSongs}

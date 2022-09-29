@@ -276,7 +276,7 @@ const MyList = ({
 }) => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [myListData, setMyListData] = useState([]);
   const navigate = useNavigate();
 
@@ -289,6 +289,7 @@ const MyList = ({
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setLoading(true);
         if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
           setMyListData(data.data);
       });
@@ -313,6 +314,12 @@ const MyList = ({
             >
               <span>로그인</span>
             </div>
+          </div>
+        </div>
+      ) : !loading ? (
+        <div className="full-msg">
+          <div className="full-msg-cnt">
+            <CircularProgress />
           </div>
         </div>
       ) : (
