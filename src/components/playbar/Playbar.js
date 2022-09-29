@@ -260,7 +260,7 @@ const Playbar = ({
             else setIsLiked(false);
           }
         });
-    }
+    } else if (musicTracks.length === 0) setIsLiked(false);
   }, [trackIndex, musicTracks]);
 
   useEffect(
@@ -377,9 +377,14 @@ const Playbar = ({
                     className="add-play-list"
                     size="30"
                     onClick={() => {
-                      setIsMyPlayListClicked(true);
-                      setIsGetMyPlayListClicked(false);
-                      setCheckedList([musicTracks[trackIndex].songId]);
+                      if (
+                        JSON.parse(sessionStorage.getItem("tracks")).length !==
+                        0
+                      ) {
+                        setIsMyPlayListClicked(true);
+                        setIsGetMyPlayListClicked(false);
+                        setCheckedList([musicTracks[trackIndex].songId]);
+                      }
                     }}
                   />
                 </div>
@@ -389,19 +394,23 @@ const Playbar = ({
                   size="35.1"
                   className="expanded-shuffle"
                   onClick={() => {
-                    const randomTracks = [...musicTracks].sort(
-                      () => Math.random() - 0.5
-                    );
-                    if (randomTracks[0] === musicTracks[0]) {
-                      let lastIndex = randomTracks.length - 1;
-                      let randomValue = Math.floor(
-                        Math.random() * (lastIndex - 1) + 1
+                    if (
+                      JSON.parse(sessionStorage.getItem("tracks")).length !== 0
+                    ) {
+                      const randomTracks = [...musicTracks].sort(
+                        () => Math.random() - 0.5
                       );
-                      const temp = randomTracks[0];
-                      randomTracks[0] = randomTracks[lastIndex];
-                      randomTracks[lastIndex] = temp;
+                      if (randomTracks[0] === musicTracks[0]) {
+                        let lastIndex = randomTracks.length - 1;
+                        let randomValue = Math.floor(
+                          Math.random() * (lastIndex - 1) + 1
+                        );
+                        const temp = randomTracks[0];
+                        randomTracks[0] = randomTracks[lastIndex];
+                        randomTracks[lastIndex] = temp;
+                      }
+                      setMusicTracks(randomTracks);
                     }
-                    setMusicTracks(randomTracks);
                   }}
                 />
               )}
@@ -471,19 +480,21 @@ const Playbar = ({
               size="35.1"
               className="shuffle"
               onClick={() => {
-                const randomTracks = [...musicTracks].sort(
-                  () => Math.random() - 0.5
-                );
-                if (randomTracks[0] === musicTracks[0]) {
-                  let lastIndex = randomTracks.length - 1;
-                  let randomValue = Math.floor(
-                    Math.random() * (lastIndex - 1) + 1
+                if (JSON.parse(sessionStorage.getItem("tracks")).length !== 0) {
+                  const randomTracks = [...musicTracks].sort(
+                    () => Math.random() - 0.5
                   );
-                  const temp = randomTracks[0];
-                  randomTracks[0] = randomTracks[lastIndex];
-                  randomTracks[lastIndex] = temp;
+                  if (randomTracks[0] === musicTracks[0]) {
+                    let lastIndex = randomTracks.length - 1;
+                    let randomValue = Math.floor(
+                      Math.random() * (lastIndex - 1) + 1
+                    );
+                    const temp = randomTracks[0];
+                    randomTracks[0] = randomTracks[lastIndex];
+                    randomTracks[lastIndex] = temp;
+                  }
+                  setMusicTracks(randomTracks);
                 }
-                setMusicTracks(randomTracks);
               }}
             />
           )}

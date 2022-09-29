@@ -319,7 +319,7 @@ const MylistTrack = ({
           )}
         </div>
 
-        {playlistSongs.length === 0 || (
+        {playlistSongs.length === 0 || playlistSongs[0].songId === null || (
           <SongBar
             playlistSongs={playlistSongs}
             setPlaylistSongs={setPlaylistSongs}
