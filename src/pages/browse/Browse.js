@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Genre from './Genre';
-import Chart from './Chart';
 import { Fade } from 'react-reveal';
+import Charts from './Charts';
 
 
 
@@ -148,11 +148,10 @@ const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
   useEffect(() => {
     if (params.id == 0){
       fetch('http://localhost:8000/browse')
+      // fetch('http://localhost:3000/data/genredata.json')
         .then((res) => res.json())
         .then((res) => {
           setChart(res.chart)
-
-
 
         });
 
@@ -220,7 +219,7 @@ const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
             </ul>
           </div>
         </div>
-        <Chart genre={genre} params={params} chart={chart} setChart={setChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} />
+        <Charts genre={genre} params={params} chart={chart} setChart={setChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn}/>
 
         <Genre />
       </StyledBrowse>
