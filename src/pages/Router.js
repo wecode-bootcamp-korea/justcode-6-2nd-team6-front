@@ -99,9 +99,24 @@ function Router() {
         {/* 메인/상세페이지 */}
         <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
-          <Route path='album' element={<AlbumDetail />} />
-          <Route path='playlist' element={<PlaylistDetail />} />
-          <Route path='artist' element={<ArtistDetail />} />
+
+          <Route path='album/:albumId/:albumPage' element={<AlbumDetail />} />
+          <Route
+            path='playlist/:playlistId'
+            element={
+              <PlaylistDetail
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
+            path='artist/:artistId/:artistPage'
+            element={<ArtistDetail />}
+          />
 
           <Route
             path='mylist/:id'
