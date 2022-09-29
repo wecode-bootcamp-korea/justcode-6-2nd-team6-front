@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DetailList from './DetailList';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -12,6 +13,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
   font-family: 'NanumBarunGothic', sans-serif;
 
   /* a, button에 호버 주기 */
@@ -202,7 +204,33 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const PlaylistDetail = () => {
+const PlaylistDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+  isLogin,
+}) => {
+  const params = useParams();
+  const playlistId = params.playlistId;
+
+  const [playlistInfo, setPlaylistInfo] = useState([]);
+  const [playlistSong, setPlaylistSong] = useState([]);
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isSelectClicked, setIsSelectClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/playlist/${playlistId}`)
+      .then((res) => res.json())
+
+      .then((data) => {
+        setPlaylistInfo(data.playlistInfo[0]);
+        setPlaylistSong(data.playlistSongs);
+      });
+    setIsSelectClicked(false);
+  }, [playlistId]);
+
   return (
     <StyledDetail>
       <section className='playlist-detail-inner-box'>
@@ -214,7 +242,7 @@ const PlaylistDetail = () => {
               <img
                 alt='앨범 표지'
                 className='playlist-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                src={playlistInfo.albumImage}
               />
               <button title='앨범 듣기' className='playlist-detail-play hover'>
                 <BsFillPlayFill className='playlist-detail-play-icon' />
@@ -224,10 +252,14 @@ const PlaylistDetail = () => {
           {/* 상세 페이지 앨범 제목 및 가수 */}
           <div className='playlist-detail-inner-box'>
             <div className='playlist-detail-title'>
-              혼자 조용히 듣기에 안성맞춤 재즈💆‍♀
+              {playlistInfo.playlistTitle}
             </div>
-            <div className='playlist-detail-kind'>총 15곡</div>
-            <div className='playlist-detail-date'>2022-09-21</div>
+            <div className='playlist-detail-kind'>
+              총 {playlistInfo.playlistSongsCount}곡
+            </div>
+            <div className='playlist-detail-date'>
+              {playlistInfo.createdDate}
+            </div>
             <div className='playlist-detail-icon'>
               <RiPlayListAddFill className='playlist-detail-icon-list hover' />
               <RiFolderAddLine className='playlist-detail-icon-folder hover' />
@@ -241,9 +273,21 @@ const PlaylistDetail = () => {
             곡
           </button>
         </div>
-        {/* 상세 페이지 상세정보와 수록곡 */}
-        <DetailList />
       </section>
+      {/* 상세 페이지 상세정보와 수록곡 */}
+      <DetailList
+        playlistSong={playlistSong}
+        setPlaylistSong={setPlaylistSong}
+        musicTracks={musicTracks}
+        setMusicTracks={setMusicTracks}
+        setAlertOn={setAlertOn}
+        isMyPlayListClicked={isMyPlayListClicked}
+        setIsMyPlayListClicked={setIsMyPlayListClicked}
+        isSelectClicked={isSelectClicked}
+        setIsSelectClicked={setIsSelectClicked}
+        checkedList={checkedList}
+        setCheckedList={setCheckedList}
+      />
     </StyledDetail>
   );
 };

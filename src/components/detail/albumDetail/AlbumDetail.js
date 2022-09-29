@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DetailInfo from './DetailInfo';
 import DetailTrack from './DetailTrack';
@@ -13,6 +14,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
   font-family: 'NanumBarunGothic', sans-serif;
 
   /* a, button에 호버 주기 */
@@ -194,20 +196,44 @@ const StyledDetail = styled.div`
   }
 `;
 
-const StyledTab = styled.section`
-  margin-top: 10px;
-`;
-
 const AlbumDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
+  const [albumInfo, setAlbumInfo] = useState([]);
+  const params = useParams();
+  const albumId = params.albumId;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/album/${albumId}/details`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAlbumInfo(data[0]);
+        //console.log('곡 정보 =>', data[0]);
+      });
+  }, [albumId]);
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
   };
 
+  const clickHandler = () => {
+    if (currentTab === 0) {
+      return navigate('');
+    }
+  };
+
   const tabArr = [
-    { name: '상세정보', content: <DetailInfo /> },
-    { name: '수록곡', content: <DetailTrack /> },
+    {
+      name: '상세정보',
+      content: <DetailInfo albumInfo={albumInfo} />,
+    },
+    {
+      name: '수록곡',
+      content: <DetailTrack />,
+    },
   ];
 
   return (
@@ -221,7 +247,7 @@ const AlbumDetail = () => {
               <img
                 alt='앨범 표지'
                 className='album-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                src={albumInfo.albumImage}
               />
               <button title='앨범 듣기' className='album-detail-play hover'>
                 <BsFillPlayFill className='album-detail-play-icon' />
@@ -230,17 +256,19 @@ const AlbumDetail = () => {
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
           <div className='album-detail-inner-box'>
-            <div className='album-detail-title'>관심과 사랑</div>
+            <div className='album-detail-title'>{albumInfo.albumTitle}</div>
             <div className='album-detail-singer'>
-              <span className='hover'>Monsune</span>
+              <span className='hover'>{albumInfo.artist}</span>
               <img
                 alt='아티스트'
                 className='album-detail-icon-next'
                 src='/Images/next.png'
               />
             </div>
-            <div className='album-detail-kind'>싱글</div>
-            <div className='album-detail-date'>2022-09-21</div>
+            <div className='album-detail-kind'>{albumInfo.albumType}</div>
+            <div className='album-detail-date'>
+              {albumInfo.albumReleaseDate}
+            </div>
             <div className='album-detail-icon'>
               <RiPlayListAddFill className='album-detail-icon-list hover' />
               <RiFolderAddLine className='album-detail-icon-folder hover' />
@@ -264,11 +292,9 @@ const AlbumDetail = () => {
             })}
           </ul>
         </div>
-        {/* 상세 페이지 상세정보와 수록곡 */}
-        <StyledTab>
-          <div>{tabArr[currentTab].content}</div>
-        </StyledTab>
       </section>
+      {/* 상세 페이지 상세정보와 수록곡 */}
+      <div>{tabArr[currentTab].content}</div>
     </StyledDetail>
   );
 };

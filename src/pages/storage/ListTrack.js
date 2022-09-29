@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import Loading from "../../components/Loading";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import MusicContainer from "./MusicContainer";
+import styled from 'styled-components';
+import Loading from '../../components/Loading';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import MusicContainer from './MusicContainer';
 
 const StyledListTrack = styled.div`
   .full-msg {
@@ -79,13 +79,13 @@ const ListTrack = ({
     setLoading(false);
     fetch(`http://localhost:8000${location.pathname}`, {
       headers: {
-        Authorization: sessionStorage.getItem("token"),
+        Authorization: sessionStorage.getItem('token'),
       },
     })
       .then((res) => res.json())
       .then((data) => {
         setLoading(true);
-        console.log(data, "ListTrack!");
+        console.log(data, 'ListTrack!');
         setPlaylistSongs(data);
       });
     setIsSelectClicked(false);
@@ -93,20 +93,20 @@ const ListTrack = ({
 
   return (
     <StyledListTrack>
-      <div className="my-list-inner-box">
+      <div className='my-list-inner-box'>
         {isLogin === false ? (
-          <div className="full-msg">
-            <div className="full-msg-cnt">
-              <strong className="text-black">로그인해주세요.</strong>
-              <span className="text-gray">
+          <div className='full-msg'>
+            <div className='full-msg-cnt'>
+              <strong className='text-black'>로그인해주세요.</strong>
+              <span className='text-gray'>
                 로그인하시면 더욱 더 다양한
                 <br />
                 FLOrida를 즐길 수 있어요.
               </span>
               <div
-                className="full-msg-btn"
+                className='full-msg-btn'
                 onClick={() => {
-                  navigate("/login");
+                  navigate('/login');
                 }}
               >
                 <span>로그인</span>
