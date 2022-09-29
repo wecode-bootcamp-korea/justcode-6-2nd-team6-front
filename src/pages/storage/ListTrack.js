@@ -75,8 +75,6 @@ const ListTrack = ({
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(`http://localhost:8000${location.pathname}`);
-
   useEffect(() => {
     setLoading(false);
     fetch(`http://localhost:8000${location.pathname}`, {

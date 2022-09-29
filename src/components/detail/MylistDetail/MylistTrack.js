@@ -110,6 +110,7 @@ const StyledTrack = styled.div`
         }
         .artist {
           width: auto;
+          color: black;
         }
       }
 
@@ -510,17 +511,20 @@ const SongBar = ({
               >
                 {el.songTitle}
               </p>
-              <p
+              <Link
+                to={`/detail/album/${el.albumId}/details`}
                 className="album-title"
-                onClick={() => {
-                  if (isEditClicked === false) navigate("/");
-                }}
               >
                 {el.albumTitle}
-              </p>
+              </Link>
             </div>
           </div>
-          <p className="artist hover">{el.artist}</p>
+          <Link
+            to={`/detail/artist/${el.atsId}/songs`}
+            className="artist hover"
+          >
+            {el.artist}
+          </Link>
         </div>
         {isEditClicked || (
           <div className="menu-box flex-center">
@@ -549,14 +553,29 @@ const SongBar = ({
             </div>
             {el.songId !== checkedList[0] || !isMoreMenuClicked || (
               <div className="more-menu-list">
-                <div className="more-menu" onClick={() => {}}>
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/album/${el.albumId}/details`);
+                  }}
+                >
                   <FiMusic className="icon" />곡 정보
                 </div>
-                <div className="more-menu">
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/album/${el.albumId}/details`);
+                  }}
+                >
                   <IoDiscOutline className="icon" />
                   앨범 정보
                 </div>
-                <div className="more-menu">
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/artist/${el.atsId}/songs`);
+                  }}
+                >
                   <BiMicrophone className="icon" />
                   아티스트 정보
                 </div>
