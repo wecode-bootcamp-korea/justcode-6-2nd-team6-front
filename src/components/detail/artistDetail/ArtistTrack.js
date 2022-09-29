@@ -3,9 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineFolderAdd } from 'react-icons/ai';
-import { FiMoreVertical } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom/dist';
+import { VscNewFolder } from 'react-icons/vsc';
+import { AiOutlineMore } from 'react-icons/ai';
 
 const StyledLi = styled.li`
   color: ${(props) => (props.selected ? '#3f3fff' : 'black')};
@@ -276,8 +275,8 @@ const StyledTrack = styled.div`
       }
 
       .artist-track-icon-listen-icon {
-        width: 35px;
-        height: 35px;
+        width: 28px;
+        height: 28px;
       }
     }
   }
@@ -458,7 +457,10 @@ const ArtistTrack = ({ name }) => {
                     <td className='artist-track-list-info-wrap'>
                       <div className='artist-track-list-info-box'>
                         <div className='artist-track-list-info-thumb'>
-                          <Link to='#' className='artist-track-list-info-album'>
+                          <Link
+                            to={`/detail/album/${el.albumId}/details`}
+                            className='artist-track-list-info-album'
+                          >
                             <img
                               alt='앨범 이미지'
                               src={el.albumImage}
@@ -473,7 +475,7 @@ const ArtistTrack = ({ name }) => {
                           </div>
                           <div className='artist-track-list-album-box'>
                             <Link
-                              to='#'
+                              to={`/detail/album/${el.albumId}/details`}
                               className='artist-track-list-album-link'
                             >
                               <div className='artist-track-list-album'>
@@ -507,7 +509,7 @@ const ArtistTrack = ({ name }) => {
                         type='button'
                         className='artist-track-icon-listen'
                       >
-                        <AiOutlineFolderAdd className='artist-track-icon-listen-icon' />
+                        <VscNewFolder className='artist-track-icon-listen-icon' />
                       </button>
                     </td>
                     <td className='artist-track-list-icon'>
@@ -515,7 +517,7 @@ const ArtistTrack = ({ name }) => {
                         type='button'
                         className='artist-track-icon-listen'
                       >
-                        <FiMoreVertical className='artist-track-icon-listen-icon' />
+                        <AiOutlineMore className='artist-track-icon-listen-icon' />
                       </button>
                     </td>
                   </tr>

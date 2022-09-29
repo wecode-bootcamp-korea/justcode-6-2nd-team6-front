@@ -55,7 +55,7 @@ const StyledSlider = styled(Slider)`
   }
 
   div.first-section-slider-box {
-    background-color: #4c4863;
+    background-color: #444e62;
     border-radius: 7px;
 
     a.first-section-slider-flex {

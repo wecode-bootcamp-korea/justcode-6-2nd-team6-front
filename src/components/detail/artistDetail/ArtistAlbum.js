@@ -328,7 +328,10 @@ const ArtistAlbum = ({ name }) => {
                 <div className='artist-album-list'>
                   {/* 앨범 표지 */}
                   <div className='artist-album-list-thumbnail'>
-                    <Link to='#' className='artist-album-list-link'>
+                    <Link
+                      to={`/detail/album/${params.albumId}/details`}
+                      className='artist-album-list-link'
+                    >
                       <img
                         alt='앨범 표지'
                         src={el.albumImage}
@@ -341,12 +344,18 @@ const ArtistAlbum = ({ name }) => {
                     {/* 앨범 타이틀/가수 */}
                     <div className='track-info-top'>
                       <p className='track-info-top-title'>
-                        <Link to='#' className='track-info-album-link'>
+                        <Link
+                          to={`/detail/album/${params.albumId}/details`}
+                          className='track-info-album-link'
+                        >
                           {el.albumTitle}
                         </Link>
                       </p>
                       <p className='track-info-top-singer'>
-                        <Link to='#' className='track-info-singer-link'>
+                        <Link
+                          to={`/detail/artist/${params.artistId}/songs`}
+                          className='track-info-singer-link'
+                        >
                           {el.artistName}
                           <MdOutlineNavigateNext className='track-info-singer-icon' />
                         </Link>

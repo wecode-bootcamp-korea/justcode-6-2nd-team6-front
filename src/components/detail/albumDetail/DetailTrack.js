@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineFolderAdd } from 'react-icons/ai';
-import { FiMoreVertical } from 'react-icons/fi';
+import { VscNewFolder } from 'react-icons/vsc';
+import { AiOutlineMore } from 'react-icons/ai';
 
 const StyledTrack = styled.div`
   padding-top: 40px;
@@ -204,7 +204,6 @@ const StyledTrack = styled.div`
 
         span.detail-track-artist {
           display: block;
-          overflow: hidden;
           text-overflow: ellipsis;
           text-align: left;
           white-space: nowrap;
@@ -234,8 +233,8 @@ const StyledTrack = styled.div`
         }
 
         .detail-track-icon-listen-icon {
-          width: 35px;
-          height: 35px;
+          width: 28px;
+          height: 28px;
         }
       }
     }
@@ -328,13 +327,16 @@ const DetailTrack = () => {
                     <td className='detail-track-list-info-wrap'>
                       <div className='detail-track-list-info-box'>
                         <div className='detail-track-list-info-thumb'>
-                          <a href='#' className='detail-track-list-info-album'>
+                          <Link
+                            to={`/detail/album/${data.albumId}/details`}
+                            className='detail-track-list-info-album'
+                          >
                             <img
                               alt='앨범 이미지'
                               src={data.albumCover}
                               className='detail-track-list-info-img'
                             />
-                          </a>
+                          </Link>
                         </div>
                         <div className='detail-track-list-info-txt-area'>
                           <div className='detail-track-list-song'>
@@ -342,22 +344,25 @@ const DetailTrack = () => {
                             {data.songTItle}(inst.){' '}
                           </div>
                           <div className='detail-track-list-album-box'>
-                            <a
-                              href='#'
+                            <Link
+                              to={`/detail/album/${data.albumId}/details`}
                               className='detail-track-list-album-link'
                             >
                               <div className='detail-track-list-album'>
                                 {' '}
                                 {data.albumTitle}{' '}
                               </div>
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
                     </td>
                     {/* 수록곡 아티스트 */}
                     <td className='detail-track-list-artist-box'>
-                      <Link to='#' className='detail-track-list-artist'>
+                      <Link
+                        to={`/detail/artist/${data.artistId}/songs`}
+                        className='detail-track-list-artist'
+                      >
                         <span className='detail-track-artist'>
                           {data.artist}
                         </span>
@@ -377,7 +382,7 @@ const DetailTrack = () => {
                         type='button'
                         className='detail-track-icon-listen'
                       >
-                        <AiOutlineFolderAdd className='detail-track-icon-listen-icon' />
+                        <VscNewFolder className='detail-track-icon-listen-icon' />
                       </button>
                     </td>
                     <td className='detail-track-list-icon'>
@@ -385,7 +390,7 @@ const DetailTrack = () => {
                         type='button'
                         className='detail-track-icon-listen'
                       >
-                        <FiMoreVertical className='detail-track-icon-listen-icon' />
+                        <AiOutlineMore className='detail-track-icon-listen-icon' />
                       </button>
                     </td>
                   </tr>

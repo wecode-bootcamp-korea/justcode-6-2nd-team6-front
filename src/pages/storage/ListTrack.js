@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import MusicContainer from "./MusicContainer";
+import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import MusicContainer from './MusicContainer';
 
 const StyledListTrack = styled.div`
   .my-list-message-box {
@@ -34,12 +34,12 @@ const ListTrack = ({
     {
       playlistId: 0,
       songId: 0,
-      songTitle: "",
+      songTitle: '',
       albumId: 0,
-      albumTitle: "앨범 제목1",
-      albumImage: "/Images/nothing.png",
+      albumTitle: '앨범 제목1',
+      albumImage: '/Images/nothing.png',
       atsId: 1,
-      artist: "",
+      artist: '',
     },
   ]);
 
@@ -48,12 +48,12 @@ const ListTrack = ({
   useEffect(() => {
     fetch(`http://localhost:8000${location.pathname}`, {
       headers: {
-        Authorization: sessionStorage.getItem("token"),
+        Authorization: sessionStorage.getItem('token'),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "ListTrack!");
+        console.log(data, 'ListTrack!');
         setPlaylistSongs(data);
       });
     setIsSelectClicked(false);
@@ -61,10 +61,10 @@ const ListTrack = ({
 
   return (
     <StyledListTrack>
-      <div className="my-list-inner-box">
+      <div className='my-list-inner-box'>
         {isLogin === false ? (
-          <div className="my-list-message-box">
-            <div className="message">로그인 후 이용하실 수 있습니다.</div>
+          <div className='my-list-message-box'>
+            <div className='message'>로그인 후 이용하실 수 있습니다.</div>
           </div>
         ) : (
           <MusicContainer

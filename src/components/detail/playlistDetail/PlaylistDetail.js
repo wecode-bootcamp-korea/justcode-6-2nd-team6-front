@@ -13,6 +13,7 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
   font-family: 'NanumBarunGothic', sans-serif;
 
   /* a, button에 호버 주기 */
@@ -203,11 +204,21 @@ const StyledTab = styled.section`
   margin-top: 10px;
 `;
 
-const PlaylistDetail = () => {
-  const [playlistInfo, setPlaylistInfo] = useState([]);
-  const [playlistSong, setPlaylistSong] = useState([]);
+const PlaylistDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+  isLogin,
+}) => {
   const params = useParams();
   const playlistId = params.playlistId;
+
+  const [playlistInfo, setPlaylistInfo] = useState([]);
+  const [playlistSong, setPlaylistSong] = useState([]);
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isSelectClicked, setIsSelectClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:8000/detail/playlist/${playlistId}`)
@@ -217,7 +228,10 @@ const PlaylistDetail = () => {
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSong(data.playlistSongs);
       });
-  }, []);
+    setIsSelectClicked(false);
+  }, [playlistId]);
+
+  console.log(musicTracks);
 
   return (
     <StyledDetail>
@@ -261,9 +275,21 @@ const PlaylistDetail = () => {
             곡
           </button>
         </div>
-        {/* 상세 페이지 상세정보와 수록곡 */}
-        <DetailList playlistSongs={playlistSong} />
       </section>
+      {/* 상세 페이지 상세정보와 수록곡 */}
+      <DetailList
+        playlistSong={playlistSong}
+        setPlaylistSong={setPlaylistSong}
+        musicTracks={musicTracks}
+        setMusicTracks={setMusicTracks}
+        setAlertOn={setAlertOn}
+        isMyPlayListClicked={isMyPlayListClicked}
+        setIsMyPlayListClicked={setIsMyPlayListClicked}
+        isSelectClicked={isSelectClicked}
+        setIsSelectClicked={setIsSelectClicked}
+        checkedList={checkedList}
+        setCheckedList={setCheckedList}
+      />
     </StyledDetail>
   );
 };

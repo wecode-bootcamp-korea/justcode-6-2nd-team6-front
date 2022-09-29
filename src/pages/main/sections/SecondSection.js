@@ -143,11 +143,22 @@ const StyledSection = styled.section`
       display: block;
       margin-bottom: 8px;
       margin-left: 5px;
+      color: black;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
 
     a.second-section-album-singer-link {
       color: #999999;
       margin-left: 5px;
+
+      &:hover {
+        cursor: pointer;
+        color: #3f3fff;
+      }
     }
   }
 `;
@@ -227,7 +238,7 @@ const SecondSection = () => {
                 <div key={el.albumId} className='second-section-album-box'>
                   <div className='second-section-album-list'>
                     <Link
-                      to={`/detail/album/${el.albumId}/${params.albumPage}`}
+                      to={`/detail/album/${el.albumId}/details`}
                       className='second-section-album-link'
                     >
                       <div className='second-section-album-img-box'>
@@ -246,11 +257,14 @@ const SecondSection = () => {
                       <BsFillPlayFill className='second-section-play-button-icon' />
                     </button>
                   </div>
-                  <a className='second-section-album-song-link'>
-                    <span className='second-section-song'>{el.albumTitle}</span>
-                  </a>
                   <Link
-                    to={`/detail/artist/${el.artistId}/${params.artistPage}`}
+                    to={`/detail/album/${el.albumId}/details`}
+                    className='second-section-album-song-link'
+                  >
+                    <span className='second-section-song'>{el.albumTitle}</span>
+                  </Link>
+                  <Link
+                    to={`/detail/artist/${el.artistId}/songs`}
                     className='second-section-album-singer-link'
                   >
                     <span className='second-section-album-singer'>
