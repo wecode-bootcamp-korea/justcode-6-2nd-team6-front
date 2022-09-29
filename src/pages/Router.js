@@ -1,31 +1,31 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Login from "./login/Login";
-import Certification from "./signup/Certification";
-import Signform from "./signup/Signform";
-import Signup from "./signup/Signup";
-import Terms from "./signup/Terms";
-import Test from "./Test";
-import Playbar from "../components/playbar/Playbar";
-import Purchase from "./purchase/Purchase";
-import Voucher from "./purchase/Voucher";
-import Affiliate from "./purchase/Affiliate";
-import My from "./purchase/My";
-import Main from "./main/Main";
-import Storage from "./storage/Storage";
-import MyList from "./storage/MyList";
-import ListTrack from "./storage/ListTrack";
-import AlbumDetail from "../components/detail/albumDetail/AlbumDetail";
-import ArtistDetail from "../components/detail/artistDetail/ArtistDetail";
-import PlaylistDetail from "../components/detail/playlistDetail/PlaylistDetail";
-import Detail from "../components/detail/Detail";
-import MylistDetail from "../components/detail/MylistDetail/MylistDetail";
-import ScrollToTop from "./ScrollToTop";
-import Alert from "../components/Alert";
-import { Browse } from "./browse/Browse";
-import CreateStudio from "./creator/CreateStudio";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Login from './login/Login';
+import Certification from './signup/Certification';
+import Signform from './signup/Signform';
+import Signup from './signup/Signup';
+import Terms from './signup/Terms';
+import Test from './Test';
+import Playbar from '../components/playbar/Playbar';
+import Purchase from './purchase/Purchase';
+import Voucher from './purchase/Voucher';
+import Affiliate from './purchase/Affiliate';
+import My from './purchase/My';
+import Main from './main/Main';
+import Storage from './storage/Storage';
+import MyList from './storage/MyList';
+import ListTrack from './storage/ListTrack';
+import AlbumDetail from '../components/detail/albumDetail/AlbumDetail';
+import ArtistDetail from '../components/detail/artistDetail/ArtistDetail';
+import PlaylistDetail from '../components/detail/playlistDetail/PlaylistDetail';
+import Detail from '../components/detail/Detail';
+import MylistDetail from '../components/detail/MylistDetail/MylistDetail';
+import ScrollToTop from './ScrollToTop';
+import Alert from '../components/Alert';
+import { Browse } from './browse/Browse';
+import CreateStudio from './creator/CreateStudio';
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -40,24 +40,24 @@ function Router() {
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
   useEffect(() => {
-    if (JSON.parse(sessionStorage.getItem("tracks")) !== null)
-      setMusicTracks(JSON.parse(sessionStorage.getItem("tracks")));
+    if (JSON.parse(sessionStorage.getItem('tracks')) !== null)
+      setMusicTracks(JSON.parse(sessionStorage.getItem('tracks')));
   }, []);
 
   // musicTracks에 변화가 있을 때, 세션스토리지 값 변경 및 TrackIndex 0으로 설정
   useEffect(() => {
-    sessionStorage.setItem("tracks", JSON.stringify(musicTracks));
+    sessionStorage.setItem('tracks', JSON.stringify(musicTracks));
     if (musicTracks.length !== 0) setTrackIndex(0);
   }, [musicTracks]);
 
   //  사용자 정보
-  const token = sessionStorage.getItem("token");
-  const user_name = sessionStorage.getItem("name");
-  const user_img = sessionStorage.getItem("profileImage");
+  const token = sessionStorage.getItem('token');
+  const user_name = sessionStorage.getItem('name');
+  const user_img = sessionStorage.getItem('profileImage');
 
   // 새로고침해도 세션스토리지에 토큰이 있으면 로그인 유지
   useEffect(() => {
-    if (sessionStorage.getItem("token") !== null) setIsLogin(true);
+    if (sessionStorage.getItem('token') !== null) setIsLogin(true);
   }, []);
 
   return (
@@ -79,7 +79,7 @@ function Router() {
       )}
       <Routes>
         <Route
-          path="/login"
+          path='/login'
           element={
             <Login
               token={token}
@@ -90,14 +90,14 @@ function Router() {
           }
         />
         <Route
-          path="/signup"
+          path='/signup'
           element={<Signup setFooterShow={setFooterShow} />}
         />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/certification" element={<Certification />} />
-        <Route path="/signform" element={<Signform />} />
+        <Route path='/terms' element={<Terms />} />
+        <Route path='/certification' element={<Certification />} />
+        <Route path='/signform' element={<Signform />} />
         <Route
-          path="/promotion/cms/flocreators"
+          path='/promotion/cms/flocreators'
           element={
             <CreateStudio
               headerShow={headerShow}
@@ -109,23 +109,24 @@ function Router() {
         />
 
         <Route
-          path="/test"
+          path='/test'
           element={
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
-        <Route path="/browse/:genre/:id" element={<Browse />} />
-        <Route path="/purchase" element={<Purchase />}>
-          <Route path="voucher" element={<Voucher />}></Route>
-          <Route path="affiliate" element={<Affiliate />}></Route>
+        <Route path='/browse/:genre/:id' element={<Browse />} />
+        <Route path='/purchase' element={<Purchase />}>
+          <Route path='voucher' element={<Voucher />}></Route>
+          <Route path='affiliate' element={<Affiliate />}></Route>
+          <Route path='my' element={<My token={token} />}></Route>
         </Route>
-        <Route path="/" element={<Main loginText={loginText} />} />
-        <Route path="/detail" elememt={<Detail />}>
-          <Route path="album" element={<AlbumDetail />} />
-          <Route path="playlist" element={<PlaylistDetail />} />
-          <Route path="artist" element={<ArtistDetail />} />
+        <Route path='/' element={<Main loginText={loginText} />} />
+        <Route path='/detail' elememt={<Detail />}>
+          <Route path='album' element={<AlbumDetail />} />
+          <Route path='playlist' element={<PlaylistDetail />} />
+          <Route path='artist' element={<ArtistDetail />} />
           <Route
-            path="mylist/:id"
+            path='mylist/:id'
             element={
               <MylistDetail
                 musicTracks={musicTracks}
@@ -136,9 +137,9 @@ function Router() {
             }
           />
         </Route>
-        <Route path="/storage" element={<Storage />}>
+        <Route path='/storage' element={<Storage />}>
           <Route
-            path="mylist"
+            path='mylist'
             element={
               <MyList
                 musicTracks={musicTracks}
@@ -150,7 +151,7 @@ function Router() {
             }
           />
           <Route
-            path="liketrack"
+            path='liketrack'
             element={
               <ListTrack
                 musicTracks={musicTracks}
@@ -163,7 +164,7 @@ function Router() {
             }
           />
           <Route
-            path="mostlisten"
+            path='mostlisten'
             element={
               <ListTrack
                 musicTracks={musicTracks}
@@ -176,7 +177,7 @@ function Router() {
             }
           />
           <Route
-            path="recentlisten"
+            path='recentlisten'
             element={
               <ListTrack
                 musicTracks={musicTracks}
