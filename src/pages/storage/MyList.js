@@ -1,12 +1,47 @@
 import styled from "styled-components";
-import { AiOutlinePlus } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
+import axios from "axios";
 
 const StyledMyList = styled.div`
+  .my-list-message-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    padding: 80px 0 60px 0;
+    color: #969696;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
   .my-list-inner-box {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     padding: 80px 0 60px 0;
+
+    .hover {
+      cursor: pointer;
+      &:hover {
+        color: #3f3fff;
+      }
+    }
+
+    .select-all {
+      position: absolute;
+      left: 0;
+      top: 30px;
+    }
+
+    .edit {
+      position: absolute;
+      right: 0;
+      top: 30px;
+    }
 
     .play-list-container {
       display: flex;
@@ -47,6 +82,43 @@ const StyledMyList = styled.div`
           border-radius: 5px;
           background-color: #dfdfdf;
           color: #3f3fff;
+
+          &:hover {
+            filter: brightness(70%);
+          }
+        }
+
+        .checkbox-container {
+          position: absolute;
+          top: 28px;
+          left: 18px;
+          .checkbox {
+            display: none;
+          }
+
+          .checkbox + label:before {
+            content: "";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 17px;
+            border-radius: 100%;
+            vertical-align: middle;
+            background-color: #fff;
+          }
+
+          .checkbox:checked + label:before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            content: "\f00c";
+            font-family: "Font Awesome 5 free";
+            font-weight: 900;
+            color: #fff;
+            background-color: #3f3fff;
+            font-size: 18px;
+            text-align: center;
+          }
         }
 
         .play {
@@ -56,6 +128,10 @@ const StyledMyList = styled.div`
           color: white;
           transform: scale(1.75);
           cursor: pointer;
+
+          &:hover {
+            color: #3f3fff;
+          }
         }
       }
 
@@ -63,9 +139,14 @@ const StyledMyList = styled.div`
         margin: 30px 20px;
 
         .title {
+          color: black;
           font-size: 20px;
           font-weight: 700;
           cursor: pointer;
+
+          &:hover {
+            color: #3f3fff;
+          }
         }
 
         .quantity {
@@ -86,62 +167,314 @@ const StyledMyList = styled.div`
         }
       }
     }
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 150px;
+      right: calc(50% - 100px);
+      width: 200px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+      color: white;
+
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 50%;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:nth-of-type(2) {
+          .wrapper {
+            border-left: 2px solid #5252ff;
+          }
+        }
+
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 30px 0;
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
   }
 `;
 
-const MyList = ({ musicTracks, setMusicTracks }) => {
+const MyList = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+  isLogin,
+}) => {
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+
+  const [myListData, setMyListData] = useState([
+    {
+      userId: 0,
+      playlistId: 0,
+      title: "",
+      songTotalCount: "",
+      albumImage: "",
+      createdAt: "",
+    },
+  ]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:8000/storage", {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
+          setMyListData(data.data);
+      });
+  }, [isExpandedClicked || isEditClicked]);
+
   return (
     <StyledMyList>
-      <div className="my-list-inner-box">
-        {mockData.data.map((el, i) => (
-          <PlayListContainer
-            key={el.playlistId}
-            data={el}
-            musicTracks={musicTracks}
-            setMusicTracks={setMusicTracks}
-          />
-        ))}
-        <div className="play-list-container">
-          <div className="play-list-cover">
-            <div className="first-box" />
-            <div className="second-box" />
-            <div className="third-box">
-              <AiOutlinePlus size="50" />
+      {isLogin === false ? (
+        <div className="my-list-message-box">
+          <div className="message">로그인 후 이용하실 수 있습니다.</div>
+        </div>
+      ) : (
+        <div className="my-list-inner-box">
+          {!isEditClicked || (
+            <div
+              className="select-all hover"
+              onClick={() => {
+                if (checkedList.length < myListData.length) {
+                  setCheckedList(myListData.map((el) => el.playlistId));
+                } else setCheckedList([]);
+              }}
+            >
+              전체선택
+            </div>
+          )}
+          <div
+            className="edit hover"
+            onClick={() => {
+              setIsEditClicked(!isEditClicked);
+              setCheckedList([]);
+            }}
+          >
+            {isEditClicked ? "완료" : "편집"}
+          </div>
+          {myListData.map((el, i) => (
+            <PlayListContainer
+              key={el.playlistId}
+              data={el}
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
+              isEditClicked={isEditClicked}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+            />
+          ))}
+          <div
+            className="play-list-container"
+            onClick={() => {
+              axios({
+                url: `http://localhost:8000/storage`,
+                method: "POST",
+                headers: {
+                  Authorization: sessionStorage.getItem("token"),
+                },
+              }).then((res) => {
+                navigate(`/detail/mylist/${res.data.data[0].playlistId}`);
+              });
+            }}
+          >
+            <div className="play-list-cover">
+              <div className="first-box" />
+              <div className="second-box" />
+              <div className="third-box">
+                <AiOutlinePlus size="50" />
+              </div>
+            </div>
+            <div className="song-info">
+              <div className="add-list">새로운 리스트 만들기</div>
             </div>
           </div>
-          <div className="song-info">
-            <div className="add-list">새로운 리스트 만들기</div>
-          </div>
+          {!isEditClicked || checkedList.length === 0 || (
+            <div className="edit-inner-box">
+              <div className="edit-container">
+                <div className="edit-box">
+                  <div className="checklist-counter">{checkedList.length}</div>
+                  <div
+                    className="wrapper"
+                    onClick={() => {
+                      setCheckedList([]);
+                    }}
+                  >
+                    <AiOutlineCheck className="icon" />
+                    <div className="text">선택해제</div>
+                  </div>
+                </div>
+                <div className="edit-box">
+                  <div
+                    className="wrapper"
+                    onClick={() => {
+                      axios({
+                        url: `http://localhost:8000/storage`,
+                        method: "DELETE",
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                        data: {
+                          playlistId: checkedList,
+                        },
+                      }).then((res) => {
+                        console.log(res);
+                        setCheckedList([]);
+                        setIsEditClicked(false);
+                      });
+                    }}
+                  >
+                    <VscTrash className="icon" />
+                    <div className="text">삭제</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </StyledMyList>
   );
 };
 
-const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
+const PlayListContainer = ({
+  data,
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isEditClicked,
+  checkedList,
+  setCheckedList,
+}) => {
+  const navigate = useNavigate();
+
+  const onCheckedElement = (checked, item) => {
+    if (checked === false) {
+      setCheckedList([...checkedList, item]);
+    } else if (checked === true) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    }
+    console.log(checkedList);
+  };
+
   return (
     <div className="play-list-container">
       <div className="play-list-cover">
         <div className="first-box" />
         <div className="second-box" />
-        <img src={data.albumImage} className="third-box" />
+        <img
+          src={
+            data.albumImage == null ? "/Images/nothing.png" : data.albumImage
+          }
+          className="third-box"
+          onClick={() => {
+            if (isEditClicked === true)
+              onCheckedElement(
+                checkedList.includes(data.playlistId),
+                data.playlistId
+              );
+            else navigate(`/detail/mylist/${data.playlistId}`);
+          }}
+        />
+        {!isEditClicked || (
+          <div class="checkbox-container">
+            <input
+              type="checkbox"
+              id="checkbox"
+              className="checkbox"
+              checked={
+                checkedList.includes(data.playlistId) && isEditClicked
+                  ? true
+                  : false
+              }
+              onChange={() => {
+                onCheckedElement(
+                  checkedList.includes(data.playlistId),
+                  data.playlistId
+                );
+              }}
+            />
+            <label for="checkbox"></label>
+          </div>
+        )}
         <FaPlay
           className="play"
           onClick={() => {
-            fetch("http://localhost:3000/datas/music-track-data.json")
+            fetch(
+              `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+              {
+                headers: {
+                  Authorization: sessionStorage.getItem("token"),
+                },
+              }
+            )
               .then((res) => res.json())
               .then((plData) => {
-                const musicTracksId = musicTracks.map((el) => el.id);
-                const filteredNewTracks = plData.filter(
-                  (el, i) => musicTracksId.includes(el.id) === false
-                );
-                setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                console.log(plData);
+                if (plData[0].songTitle !== null) {
+                  if (plData.message == "Need Voucher")
+                    setAlertOn(
+                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                    );
+                  else {
+                    const musicTracksId = musicTracks.map((el) => el.songId);
+                    const filteredNewTracks = plData.filter(
+                      (el, i) => musicTracksId.includes(el.songId) === false
+                    );
+                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                    setAlertOn(
+                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                    );
+                  }
+                }
               });
           }}
         />
       </div>
       <div className="song-info">
-        <h2 className="title">{data.title}</h2>
+        <Link to={`/detail/mylist/${data.playlistId}`} className="title">
+          {data.title}
+        </Link>
         <div className="quantity">총 {data.songTotalCount} 곡</div>
         <div className="date">{data.createdAt}</div>
       </div>
@@ -150,44 +483,3 @@ const PlayListContainer = ({ data, musicTracks, setMusicTracks }) => {
 };
 
 export default MyList;
-
-const mockData = {
-  data: [
-    {
-      userId: 1,
-      playlistId: 1,
-      title: "가을을 기다리는 발라드",
-      songTotalCount: "16",
-      albumImage:
-        "https://images.unsplash.com/photo-1641423914598-288fee6cecf2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-      createdAt: "2022.09.24",
-    },
-    {
-      userId: 1,
-      playlistId: 2,
-      title: "가사에 조용히 귀 기울여 듣는 발라드",
-      songTotalCount: "17",
-      albumImage:
-        "https://images.unsplash.com/photo-1587468820439-4c80fa8ec7c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-      createdAt: "2022.09.24",
-    },
-    {
-      userId: 1,
-      playlistId: 3,
-      title: "가을과 어울리는 편안한 감성 모음",
-      songTotalCount: "14",
-      albumImage:
-        "https://images.unsplash.com/photo-1611001440648-e90aff42faa3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-      createdAt: "2022.09.24",
-    },
-    {
-      userId: 1,
-      playlistId: 12,
-      title: "요리하면서 듣기 좋은 맛있는 노래 모음",
-      songTotalCount: "9",
-      albumImage:
-        "https://images.unsplash.com/photo-1611001440648-e90aff42faa3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-      createdAt: "2022.09.24",
-    },
-  ],
-};

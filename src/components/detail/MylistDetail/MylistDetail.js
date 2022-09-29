@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import MylistTrack from './MylistTrack';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import { RiFolderAddLine } from 'react-icons/ri';
-import { BsSuitHeart } from 'react-icons/bs';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import MylistTrack from "./MylistTrack";
+import { BsFillPlayFill } from "react-icons/bs";
+import { HiPencil } from "react-icons/hi";
+import axios from "axios";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -12,9 +12,14 @@ const StyledDetail = styled.div`
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
-  font-family: 'NanumBarunGothic', sans-serif;
+  font-family: "NanumBarunGothic", sans-serif;
 
-  /* a, button에 호버 주기 */
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .hover {
     &:hover {
       color: #3f3fff;
@@ -27,8 +32,50 @@ const StyledDetail = styled.div`
     padding: 95px 80px 40px;
     background-color: #fff;
 
+    .title-edit-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #f2f2f2;
+
+      .input {
+        width: 700px;
+        padding: 15px 0;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 1.5px solid black;
+        font-family: "NanumBarunGothic", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .cancel-and-confirm {
+        display: flex;
+        font-size: 18px;
+        font-weight: 700;
+
+        .cancel {
+          margin: 0 10px;
+          cursor: pointer;
+        }
+
+        .confirm {
+          margin-right: 10px;
+
+          color: #3f3fff;
+          cursor: pointer;
+        }
+      }
+    }
+
     div.playlist-detail-wrap {
-      width: 1100px;
       display: flex;
       flex-direction: row;
       padding-top: 40px;
@@ -85,9 +132,8 @@ const StyledDetail = styled.div`
       font-weight: 600;
       margin-bottom: 30px;
 
-      &:hover {
-        cursor: pointer;
-        color: #3f3fff;
+      .pencil {
+        margin-left: 10px;
       }
     }
 
@@ -198,52 +244,201 @@ const StyledDetail = styled.div`
   }
 `;
 
-const StyledTab = styled.section`
-  margin-top: 10px;
-`;
+const MylistDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+}) => {
+  const params = useParams();
+  const [playlistInfo, setPlaylistInfo] = useState({
+    playlistId: 0,
+    characterId: 0,
+    playlistTitle: "제목",
+    playlistSongsCount: 3,
+    createdDate: "22.01.01",
+    songId: 0,
+    albumImage: "/Images/nothing.png",
+  });
+  const [playlistSongs, setPlaylistSongs] = useState([
+    {
+      playlistId: 0,
+      songId: 0,
+      songTitle: "",
+      albumId: 0,
+      albumTitle: "앨범 제목1",
+      albumImage: "/Images/nothing.png",
+      atsId: 1,
+      artist: "",
+    },
+  ]);
+  const [isTitleEditClicked, setIsTitleEditClicked] = useState(false);
+  const [titleValue, setTitleValue] = useState("");
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+  const inputRef = useRef();
 
-const MylistDetail = () => {
+  useEffect(() => {
+    if (isTitleEditClicked !== false) inputRef.current.focus();
+  }, [isTitleEditClicked]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "mylistdetail");
+        setPlaylistInfo(data.playlistInfo[0]);
+        setPlaylistSongs(data.playlistSongs);
+        setTitleValue(data.playlistInfo[0].playlistTitle);
+      });
+  }, [isEditClicked || isExpandedClicked]);
+
   return (
     <StyledDetail>
-      <section className='playlist-detail-inner-box'>
+      <section className="playlist-detail-inner-box">
         {/* 상세 페이지 썸네일 */}
-        <div className='playlist-detail-wrap'>
-          <div className='playlist-detail-inner'>
-            <h2 className='hidden'> 컨텐츠 상세보기</h2>
-            <div className='playlist-detail-cover'>
+        <div className="playlist-detail-wrap">
+          <div className="playlist-detail-inner">
+            <div className="playlist-detail-cover">
               <img
-                alt='앨범 표지'
-                className='playlist-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                alt="앨범 표지"
+                className="playlist-detail-cover-img"
+                src={
+                  playlistInfo.albumImage == null
+                    ? "/Images/nothing.png"
+                    : playlistInfo.albumImage
+                }
               />
-              <button title='앨범 듣기' className='playlist-detail-play hover'>
-                <BsFillPlayFill className='playlist-detail-play-icon' />
+              <button title="앨범 듣기" className="playlist-detail-play hover">
+                <BsFillPlayFill
+                  className="playlist-detail-play-icon"
+                  onClick={() => {
+                    if (playlistSongs[0].songTitle !== null) {
+                      fetch(
+                        `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                        {
+                          headers: {
+                            Authorization: sessionStorage.getItem("token"),
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((plData) => {
+                          const musicTracksId = musicTracks.map(
+                            (el) => el.songId
+                          );
+                          const filteredNewTracks = plData.filter(
+                            (el, i) =>
+                              musicTracksId.includes(el.songId) === false
+                          );
+                          setMusicTracks([
+                            ...filteredNewTracks,
+                            ...musicTracks,
+                          ]);
+                          setAlertOn(
+                            "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                          );
+                        })
+                        .catch(() => {
+                          if (sessionStorage.getItem("token") !== null)
+                            setAlertOn(
+                              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                            );
+                        });
+                    }
+                  }}
+                />
               </button>
             </div>
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className='playlist-detail-inner-box'>
-            <div className='playlist-detail-title'>
-              혼자 조용히 듣기에 안성맞춤 재즈💆‍♀
+          <div className="playlist-detail-inner-box">
+            {isTitleEditClicked ? (
+              <div className="title-edit-box">
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="내 리스트 이름을 입력해주세요"
+                  value={titleValue}
+                  ref={inputRef}
+                  maxLength="16"
+                  onChange={(e) => {
+                    setTitleValue(e.target.value);
+                  }}
+                />
+                <div className="cancel-and-confirm">
+                  <div
+                    className="cancel"
+                    onClick={() => setIsTitleEditClicked(false)}
+                  >
+                    취소
+                  </div>
+                  <div
+                    className="confirm"
+                    onClick={() => {
+                      if (titleValue.length !== 0) {
+                        axios({
+                          url: `http://localhost:8000/detail/mylist/${params.id}
+                        `,
+                          method: "PATCH",
+                          headers: {
+                            Authorization: sessionStorage.getItem("token"),
+                          },
+                          data: {
+                            newTitle: titleValue,
+                          },
+                        }).then((res) => {
+                          console.log(res.data);
+                          setIsTitleEditClicked(false);
+                        });
+                      }
+                    }}
+                  >
+                    확인
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="playlist-detail-title flex-center">
+                {titleValue}
+                <HiPencil
+                  className="pencil hover"
+                  onClick={() => setIsTitleEditClicked(true)}
+                />
+              </div>
+            )}
+            <div className="playlist-detail-kind">
+              총{" "}
+              {playlistInfo.playlistSongsCount === null
+                ? 0
+                : playlistInfo.playlistSongsCount}
+              곡
             </div>
-            <div className='playlist-detail-kind'>총 15곡</div>
-            <div className='playlist-detail-date'>2022-09-21</div>
-            <div className='playlist-detail-icon'>
-              <RiPlayListAddFill className='playlist-detail-icon-list hover' />
-              <RiFolderAddLine className='playlist-detail-icon-folder hover' />
-              <BsSuitHeart className='playlist-detail-icon-like hover' />
+            <div className="playlist-detail-date">
+              {playlistInfo.createdDate}
             </div>
           </div>
         </div>
-        {/* 상세 페이지 탭 */}
-        <div className='playlist-detail-page-tab'>
-          <button type='button' className='playlist-detail-page-song'>
-            곡
-          </button>
-        </div>
         {/* 상세 페이지 상세정보와 수록곡 */}
-        <MylistTrack />
       </section>
+      <MylistTrack
+        playlistSongs={playlistSongs}
+        setPlaylistSongs={setPlaylistSongs}
+        musicTracks={musicTracks}
+        setMusicTracks={setMusicTracks}
+        setAlertOn={setAlertOn}
+        isMyPlayListClicked={isMyPlayListClicked}
+        setIsMyPlayListClicked={setIsMyPlayListClicked}
+        isEditClicked={isEditClicked}
+        setIsEditClicked={setIsEditClicked}
+        checkedList={checkedList}
+        setCheckedList={setCheckedList}
+      />
     </StyledDetail>
   );
 };
