@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import DetailList from './DetailList';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import { RiFolderAddLine } from 'react-icons/ri';
-import { BsSuitHeart } from 'react-icons/bs';
+import React, { useState, useEffect } from "react";
+import Loading from "../../Loading";
+import { Fade } from "react-reveal";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import DetailList from "./DetailList";
+import { BsFillPlayFill } from "react-icons/bs";
+import { RiPlayListAddFill } from "react-icons/ri";
+import { RiFolderAddLine } from "react-icons/ri";
+import { BsSuitHeart } from "react-icons/bs";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -14,7 +16,7 @@ const StyledDetail = styled.div`
   height: 100%;
   margin: 0 auto;
   margin-bottom: 40px;
-  font-family: 'NanumBarunGothic', sans-serif;
+  font-family: "NanumBarunGothic", sans-serif;
 
   /* a, button에 호버 주기 */
   .hover {
@@ -219,12 +221,14 @@ const PlaylistDetail = ({
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
   const [isSelectClicked, setIsSelectClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:8000/detail/playlist/${playlistId}`)
       .then((res) => res.json())
 
       .then((data) => {
+        setLoading(true);
         setPlaylistInfo(data.playlistInfo[0]);
         setPlaylistSong(data.playlistSongs);
       });
@@ -232,63 +236,109 @@ const PlaylistDetail = ({
   }, [playlistId]);
 
   return (
-    <StyledDetail>
-      <section className='playlist-detail-inner-box'>
-        {/* 상세 페이지 썸네일 */}
-        <div className='playlist-detail-wrap'>
-          <div className='playlist-detail-inner'>
-            <h2 className='hidden'> 컨텐츠 상세보기</h2>
-            <div className='playlist-detail-cover'>
-              <img
-                alt='앨범 표지'
-                className='playlist-detail-cover-img'
-                src={playlistInfo.albumImage}
-              />
-              <button title='앨범 듣기' className='playlist-detail-play hover'>
-                <BsFillPlayFill className='playlist-detail-play-icon' />
+    <Fade>
+      {!loading ? (
+        <Loading />
+      ) : (
+        <StyledDetail>
+          <section className="playlist-detail-inner-box">
+            {/* 상세 페이지 썸네일 */}
+            <div className="playlist-detail-wrap">
+              <div className="playlist-detail-inner">
+                <h2 className="hidden"> 컨텐츠 상세보기</h2>
+                <div className="playlist-detail-cover">
+                  <img
+                    alt="앨범 표지"
+                    className="playlist-detail-cover-img"
+                    src={playlistInfo.albumImage}
+                  />
+                  <button
+                    title="앨범 듣기"
+                    className="playlist-detail-play hover"
+                  >
+                    <BsFillPlayFill
+                      className="playlist-detail-play-icon"
+                      onClick={() => {
+                        if (playlistSong[0].songTitle !== null) {
+                          fetch(
+                            `http://localhost:8000/play/addsongs/playlist/${params.playlistId}`,
+                            {
+                              headers: {
+                                Authorization: sessionStorage.getItem("token"),
+                              },
+                            }
+                          )
+                            .then((res) => res.json())
+                            .then((plData) => {
+                              const musicTracksId = musicTracks.map(
+                                (el) => el.songId
+                              );
+                              const filteredNewTracks = plData.filter(
+                                (el, i) =>
+                                  musicTracksId.includes(el.songId) === false
+                              );
+                              setMusicTracks([
+                                ...filteredNewTracks,
+                                ...musicTracks,
+                              ]);
+                              setAlertOn(
+                                "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                              );
+                            })
+                            .catch((err) => {
+                              if (sessionStorage.getItem("token") !== null)
+                                setAlertOn(
+                                  "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                                );
+                            });
+                        }
+                      }}
+                    />
+                  </button>
+                </div>
+              </div>
+              {/* 상세 페이지 앨범 제목 및 가수 */}
+              <div className="playlist-detail-inner-box">
+                <div className="playlist-detail-title">
+                  {playlistInfo.playlistTitle}
+                </div>
+                <div className="playlist-detail-kind">
+                  총 {playlistInfo.playlistSongsCount}곡
+                </div>
+                <div className="playlist-detail-date">
+                  {playlistInfo.createdDate}
+                </div>
+                <div className="playlist-detail-icon">
+                  <RiPlayListAddFill className="playlist-detail-icon-list hover" />
+                  <RiFolderAddLine className="playlist-detail-icon-folder hover" />
+                  <BsSuitHeart className="playlist-detail-icon-like hover" />
+                </div>
+              </div>
+            </div>
+            {/* 상세 페이지 탭 */}
+            <div className="playlist-detail-page-tab">
+              <button type="button" className="playlist-detail-page-song">
+                곡
               </button>
             </div>
-          </div>
-          {/* 상세 페이지 앨범 제목 및 가수 */}
-          <div className='playlist-detail-inner-box'>
-            <div className='playlist-detail-title'>
-              {playlistInfo.playlistTitle}
-            </div>
-            <div className='playlist-detail-kind'>
-              총 {playlistInfo.playlistSongsCount}곡
-            </div>
-            <div className='playlist-detail-date'>
-              {playlistInfo.createdDate}
-            </div>
-            <div className='playlist-detail-icon'>
-              <RiPlayListAddFill className='playlist-detail-icon-list hover' />
-              <RiFolderAddLine className='playlist-detail-icon-folder hover' />
-              <BsSuitHeart className='playlist-detail-icon-like hover' />
-            </div>
-          </div>
-        </div>
-        {/* 상세 페이지 탭 */}
-        <div className='playlist-detail-page-tab'>
-          <button type='button' className='playlist-detail-page-song'>
-            곡
-          </button>
-        </div>
-      </section>
-      {/* 상세 페이지 상세정보와 수록곡 */}
-      <DetailList
-        playlistSong={playlistSong}
-        setPlaylistSong={setPlaylistSong}
-        musicTracks={musicTracks}
-        setMusicTracks={setMusicTracks}
-        setAlertOn={setAlertOn}
-        isMyPlayListClicked={isMyPlayListClicked}
-        setIsMyPlayListClicked={setIsMyPlayListClicked}
-        isSelectClicked={isSelectClicked}
-        setIsSelectClicked={setIsSelectClicked}
-        checkedList={checkedList}
-        setCheckedList={setCheckedList}
-      />
-    </StyledDetail>
+          </section>
+          {/* 상세 페이지 상세정보와 수록곡 */}
+          <DetailList
+            playlistSong={playlistSong}
+            setPlaylistSong={setPlaylistSong}
+            musicTracks={musicTracks}
+            setMusicTracks={setMusicTracks}
+            setAlertOn={setAlertOn}
+            isMyPlayListClicked={isMyPlayListClicked}
+            setIsMyPlayListClicked={setIsMyPlayListClicked}
+            isSelectClicked={isSelectClicked}
+            setIsSelectClicked={setIsSelectClicked}
+            checkedList={checkedList}
+            setCheckedList={setCheckedList}
+          />
+        </StyledDetail>
+      )}
+    </Fade>
   );
 };
 
