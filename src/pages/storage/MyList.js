@@ -7,13 +7,14 @@ import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 const StyledMyList = styled.div`
   .full-msg {
     position: relative;
     min-height: 410px;
     width: 100%;
-    height: 500px;
+    height: 400px;
     box-sizing: border-box;
     .full-msg-cnt {
       display: flex;
@@ -317,11 +318,7 @@ const MyList = ({
           </div>
         </div>
       ) : !loading ? (
-        <div className="full-msg">
-          <div className="full-msg-cnt">
-            <CircularProgress />
-          </div>
-        </div>
+        <Loading />
       ) : (
         <div className="my-list-inner-box">
           {!isEditClicked || (
