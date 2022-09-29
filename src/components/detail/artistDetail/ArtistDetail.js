@@ -66,8 +66,8 @@ const StyledDetail = styled.div`
     height: 55px;
     z-index: auto;
     position: absolute;
-    bottom: 6px;
-    right: 1px;
+    bottom: 11px;
+    right: 9px;
     padding: 0;
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 175px;
@@ -184,6 +184,19 @@ const StyledDetail = styled.div`
 const ArtistDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const params = useParams();
+  const [artistInfo, setArtistInfo] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/detail/artist/${params.artistId}`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setArtistInfo(data.artistInfo);
+        console.log(data.artistInfo);
+      });
+  }, []);
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
@@ -205,7 +218,7 @@ const ArtistDetail = () => {
               <img
                 alt='앨범 표지'
                 className='artist-detail-cover-img'
-                src='/Images/album-cover-3.jpg'
+                src={artistInfo.artistImage}
               />
               <button title='앨범 듣기' className='artist-detail-play hover'>
                 <BsFillPlayFill className='artist-detail-play-icon' />
@@ -214,11 +227,11 @@ const ArtistDetail = () => {
           </div>
           {/* 상세 페이지 앨범 제목 및 가수 */}
           <div className='artist-detail-box'>
-            <div className='artist-detail-singer'>The Weeknd</div>
+            <div className='artist-detail-singer'>{artistInfo.artistName}</div>
             <dl className='artist-detail-kind'>
-              <dd className='artist-style'> 솔로 </dd>
+              <dd className='artist-style'> {artistInfo.artistType} </dd>
               <dd className='artist-stick'>|</dd>
-              <dd className='artist-genre'> 록 </dd>
+              <dd className='artist-genre'> {artistInfo.artistGenre} </dd>
             </dl>
             <div className='artist-detail-icon'>
               <BsSuitHeart className='artist-detail-icon-like hover' />

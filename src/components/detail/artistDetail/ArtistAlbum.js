@@ -21,6 +21,8 @@ const StyledArtistAlbum = styled.section`
     padding-bottom: 16px;
 
     div.artist-album-head-wrap {
+      display: flex;
+      flex-direction: row;
       position: absolute;
       top: 0;
       right: 0;
@@ -28,6 +30,7 @@ const StyledArtistAlbum = styled.section`
 
       ul {
         display: flex;
+        flex-direction: row;
 
         ${StyledLi} {
           margin-right: 15px;
@@ -42,11 +45,11 @@ const StyledArtistAlbum = styled.section`
 
       span.artist-album-stick {
         position: relative;
-        padding: 0 10px 0 0;
+        margin-right: 15px;
 
         ::after {
           position: absolute;
-          top: 7px;
+          top: 3px;
           left: 0;
           display: block;
           width: 1px;
@@ -218,7 +221,7 @@ const ArtistAlbum = ({ name }) => {
     { id: 3, name: '가나다순', selected: false },
   ]);
   const [albumsData, setAlbumsData] = useState([]);
-  const [trackData, setTrackData] = useState([]);
+  const [albumList, setAlbumList] = useState([]);
 
   const sortHandler = (e) => {
     const arr = sortType.map((data) => {
@@ -269,11 +272,10 @@ const ArtistAlbum = ({ name }) => {
   };
 
   useEffect(() => {
-    const result = name == '앨범' ? 'albums' : 'songs';
     const queryString =
       albumsData.length == 0 ? '' : '?' + albumsData.join('&');
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/${result}${queryString}`,
+      `http://localhost:8000/detail/artist/${params.artistId}/albums/${queryString}`,
       {
         method: 'GET',
         headers: { 'content-type': 'application/json' },
@@ -281,8 +283,7 @@ const ArtistAlbum = ({ name }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        setTrackData(data.artistSongs);
-        console.log(data);
+        setAlbumList(data.artistAlbums);
       });
   }, [albumsData]);
 
@@ -294,9 +295,9 @@ const ArtistAlbum = ({ name }) => {
             {roleType.map((result) => {
               return (
                 <StyledLi
+                  type={result.id}
                   selected={result.selected}
                   className='type'
-                  type={result.id}
                   onClick={roleHandler}
                 >
                   {result.name}
@@ -304,14 +305,14 @@ const ArtistAlbum = ({ name }) => {
               );
             })}
           </ul>
-          <span className='artist-track-stick' />
+          <span className='artist-album-stick' />
           <ul>
             {sortType.map((result) => {
               return (
                 <StyledLi
+                  type={result.id}
                   selected={result.selected}
                   className='type'
-                  type={result.id}
                   onClick={sortHandler}
                 >
                   {result.name}
@@ -321,48 +322,54 @@ const ArtistAlbum = ({ name }) => {
           </ul>
         </div>
         <ul className='artist-album-list-wrap'>
-          <li className='artist-album-list-box'>
-            <div className='artist-album-list'>
-              {/* 앨범 표지 */}
-              <div className='artist-album-list-thumbnail'>
-                <Link to='#' className='artist-album-list-link'>
-                  <img
-                    alt='앨범 표지'
-                    src='/Images/album-cover-2.jpg'
-                    className='artist-album-list-image'
-                  />
-                </Link>
-              </div>
-              {/* 앨범 설명 */}
-              <div className='track-info-wrap'>
-                {/* 앨범 타이틀/가수 */}
-                <div className='track-info-top'>
-                  <p className='track-info-top-title'>
-                    <Link to='#' className='track-info-album-link'>
-                      가면무도회
+          {albumList.map((el) => {
+            return (
+              <li key={el.albumId} className='artist-album-list-box'>
+                <div className='artist-album-list'>
+                  {/* 앨범 표지 */}
+                  <div className='artist-album-list-thumbnail'>
+                    <Link to='#' className='artist-album-list-link'>
+                      <img
+                        alt='앨범 표지'
+                        src={el.albumImage}
+                        className='artist-album-list-image'
+                      />
                     </Link>
-                  </p>
-                  <p className='track-info-top-singer'>
-                    <Link to='#' className='track-info-singer-link'>
-                      비비
-                      <MdOutlineNavigateNext className='track-info-singer-icon' />
-                    </Link>
-                  </p>
+                  </div>
+                  {/* 앨범 설명 */}
+                  <div className='track-info-wrap'>
+                    {/* 앨범 타이틀/가수 */}
+                    <div className='track-info-top'>
+                      <p className='track-info-top-title'>
+                        <Link to='#' className='track-info-album-link'>
+                          {el.albumTitle}
+                        </Link>
+                      </p>
+                      <p className='track-info-top-singer'>
+                        <Link to='#' className='track-info-singer-link'>
+                          {el.artistName}
+                          <MdOutlineNavigateNext className='track-info-singer-icon' />
+                        </Link>
+                      </p>
+                    </div>
+                    {/* 앨범 종류/발매 날짜 */}
+                    <div className='track-info-middle'>
+                      <div className='track-info-sort'>{el.albumType}</div>
+                      <div className='track-info-date'>
+                        {el.albumReleaseDate}
+                      </div>
+                    </div>
+                    {/* 앨범 아이콘 */}
+                    <div className='track-info-bottom'>
+                      <RiPlayListAddFill className='track-info-icon' />
+                      <RiFolderAddLine className='track-info-icon' />
+                      <BsSuitHeart className='track-info-icon' />
+                    </div>
+                  </div>
                 </div>
-                {/* 앨범 종류/발매 날짜 */}
-                <div className='track-info-middle'>
-                  <div className='track-info-sort'>싱글</div>
-                  <div className='track-info-date'>2022.09.27</div>
-                </div>
-                {/* 앨범 아이콘 */}
-                <div className='track-info-bottom'>
-                  <RiPlayListAddFill className='track-info-icon' />
-                  <RiFolderAddLine className='track-info-icon' />
-                  <BsSuitHeart className='track-info-icon' />
-                </div>
-              </div>
-            </div>
-          </li>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </StyledArtistAlbum>

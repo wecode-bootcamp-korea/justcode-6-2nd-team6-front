@@ -156,7 +156,6 @@ const FirstSection = () => {
       .then((res) => res.json())
       .then((data) => {
         setSlide(data.slideData);
-        console.log('슬라이드 데이터 =>', data.slideData);
       });
   }, []);
 
