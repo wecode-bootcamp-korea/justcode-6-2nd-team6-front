@@ -176,6 +176,7 @@ function Router() {
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
         isLogin={isLogin} />
+
          <Alert
         alertOn={alertOn}
         setAlertOn={setAlertOn}
