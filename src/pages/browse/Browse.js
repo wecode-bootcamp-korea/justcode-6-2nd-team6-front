@@ -131,7 +131,7 @@ const StyledBrowse = styled.div`
     }
 `;
 
-const Browse = ({musicTracks, setMusicTracks}) => {
+const Browse = ({musicTracks, setMusicTracks, setAlertOn}) => {
   const [chart, setChart] = useState([])
   const [allChart, setAllChart] = useState([])
   const params = useParams();
@@ -219,7 +219,7 @@ const Browse = ({musicTracks, setMusicTracks}) => {
             </ul>
           </div>
         </div>
-        <Chart genre={genre} params={params} chart={chart} setChart={setChart} allchart={allChart} setAllChart={setAllChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
+        <Chart genre={genre} params={params} chart={chart} setChart={setChart} allchart={allChart} setAllChart={setAllChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} />
 
         <Genre />
       </StyledBrowse>

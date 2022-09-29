@@ -80,7 +80,7 @@ function Router() {
         <Route path="/promotion/cms/flocreators" element={<CreateStudio isLogin={isLogin} />} />
 
         {/* 둘러보기 */}
-        <Route path='/browse/:genre/:id' element={<Browse musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} isExpandedClicked={isExpandedClicked} />} />
+        <Route path='/browse/:genre/:id' element={<Browse musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} isExpandedClicked={isExpandedClicked} setIsExpandedClicked={setIsExpandedClicked} />} />
 
 
         <Route path='/test' element={<Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />} />
@@ -175,8 +175,11 @@ function Router() {
         setTrackIndex={setTrackIndex}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
-        isLogin={isLogin} />
-
+        isLogin={isLogin}
+        isExpandedClicked={isExpandedClicked}
+        setIsExpandedClicked={setIsExpandedClicked}
+         />
+  
          <Alert
         alertOn={alertOn}
         setAlertOn={setAlertOn}

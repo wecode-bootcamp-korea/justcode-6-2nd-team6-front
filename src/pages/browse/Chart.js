@@ -357,7 +357,6 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
   const showMoreChart = () => {
     setVisible(prevValue => prevValue + 10)
   }
-
   // 체크리스트 배열에 들어갈 반복문
   let arr = []
   for (let i = 0; i < chart.length; i++) {
@@ -544,41 +543,42 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
                 </div>
               </div>
               <div className="edit-box">
+                  {/* {arr.map((a,index)=>{
+                    return console.log(a);
+                  })} */}
                 <div
                   className="wrapper"
                   onClick={() => {
-                    fetch('http://localhost:8000/play/addsongs/popular/3', {
+                    fetch('http://localhost:8000/play/addsongs/popular/1', {
                       headers: {
                         Authorization: sessionStorage.getItem("token"),
                       },
                     })
                       .then((res) => res.json())
-                      .then((res) => {
-                        console.log('받아온데이터',res);
-                        console.log('플레이리스트',musicTracks)
-                        const selectedPlData = res.filter(
+                      .then((plData) => {
+                        console.log('곡네이터',plData);
+                        const selectedPlData = plData.filter(
                           (el, i) => checkList.includes(el.songId) === true
                         );
                         const musicTracksId = musicTracks.map(
-                          (el) => el.songId
+                          (el,i) => el[i].songId
                         );
                         const filteredSelectedPlData = selectedPlData.filter(
-                          (el, i) => musicTracksId.includes(el.songId) === false
+                          (el, i) => musicTracksId.includes(el[i].songId) === false
                         );
                         setMusicTracks([
-                          ...res,
                           ...filteredSelectedPlData,
                           ...musicTracks,
                         ]);
-                        // setAlertOn(
-                        //   "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                        // );
+                        setAlertOn(
+                          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                        );
                         setCheckList([]);
                       });
                   }
                   }
                 >
-                  {console.log(checkList)}
+                  {console.log('플레이리스트',musicTracks)}
                   <BsFillPlayFill className="icon" size="18" />
                   <div className="text">듣기</div>
                 </div>
