@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Fade } from "react-reveal";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -275,7 +276,7 @@ const MyList = ({
 }) => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [myListData, setMyListData] = useState([]);
   const navigate = useNavigate();
 
@@ -472,14 +473,16 @@ const PlayListContainer = ({
                   ? true
                   : false
               }
-              onChange={() => {
+            />
+            <label
+              for="checkbox"
+              onClick={() => {
                 onCheckedElement(
                   checkedList.includes(data.playlistId),
                   data.playlistId
                 );
               }}
-            />
-            <label for="checkbox"></label>
+            ></label>
           </div>
         )}
         <FaPlay
