@@ -255,45 +255,43 @@ const PlaylistDetail = ({
                   <button
                     title="앨범 듣기"
                     className="playlist-detail-play hover"
-                  >
-                    <BsFillPlayFill
-                      className="playlist-detail-play-icon"
-                      onClick={() => {
-                        if (playlistSong[0].songTitle !== null) {
-                          fetch(
-                            `http://localhost:8000/play/addsongs/playlist/${params.playlistId}`,
-                            {
-                              headers: {
-                                Authorization: sessionStorage.getItem("token"),
-                              },
-                            }
-                          )
-                            .then((res) => res.json())
-                            .then((plData) => {
-                              const musicTracksId = musicTracks.map(
-                                (el) => el.songId
-                              );
-                              const filteredNewTracks = plData.filter(
-                                (el, i) =>
-                                  musicTracksId.includes(el.songId) === false
-                              );
-                              setMusicTracks([
-                                ...filteredNewTracks,
-                                ...musicTracks,
-                              ]);
+                    onClick={() => {
+                      if (playlistSong[0].songTitle !== null) {
+                        fetch(
+                          `http://localhost:8000/play/addsongs/playlist/${params.playlistId}`,
+                          {
+                            headers: {
+                              Authorization: sessionStorage.getItem("token"),
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((plData) => {
+                            const musicTracksId = musicTracks.map(
+                              (el) => el.songId
+                            );
+                            const filteredNewTracks = plData.filter(
+                              (el, i) =>
+                                musicTracksId.includes(el.songId) === false
+                            );
+                            setMusicTracks([
+                              ...filteredNewTracks,
+                              ...musicTracks,
+                            ]);
+                            setAlertOn(
+                              "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                            );
+                          })
+                          .catch((err) => {
+                            if (sessionStorage.getItem("token") !== null)
                               setAlertOn(
-                                "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                                "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
                               );
-                            })
-                            .catch((err) => {
-                              if (sessionStorage.getItem("token") !== null)
-                                setAlertOn(
-                                  "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                                );
-                            });
-                        }
-                      }}
-                    />
+                          });
+                      }
+                    }}
+                  >
+                    <BsFillPlayFill className="playlist-detail-play-icon" />
                   </button>
                 </div>
               </div>
