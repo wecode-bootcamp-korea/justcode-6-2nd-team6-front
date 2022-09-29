@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import naverpay from '../../Img/naverpay.png';
 import kakaopay from '../../Img/kakaopay.png';
@@ -210,7 +210,7 @@ const StyledPaymentTerms = styled.div`
   }
 `;
 
-const PaymentTerms = ({ closeModal }) => {
+const PaymentTerms = ({ closeModal, paymentType }) => {
   const [checkList, setCheckList] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const [isNaverPayClicked, setIsNaverPayClicked] = useState(false);
@@ -222,11 +222,6 @@ const PaymentTerms = ({ closeModal }) => {
 
   // 전체체크 선택시 전체 선택 or 전체해제
   const checkAll = (e) => {
-    if (checkList.length === 2) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
     e.target.checked ? setCheckList(['check0', 'check1']) : setCheckList([]);
   };
 
@@ -328,7 +323,8 @@ const PaymentTerms = ({ closeModal }) => {
             type='checkbox'
             id='AgreeAll'
             name='AgreeAll'
-            onClick={checkAll}
+            onChange={checkAll}
+            checked={checkList.length === 2 ? true : false}
           />
           <label htmlFor='AgreeAll'></label>
           <span>아래 내용에 모두 확인, 동의 합니다.</span>

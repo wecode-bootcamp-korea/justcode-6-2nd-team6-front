@@ -97,6 +97,7 @@ const PaymentList = ({ payment, voucherName }) => {
           paymentName={payment.name}
           originPrice={payment.originPrice}
           salePrice={payment.salePrice}
+          paymentType={payment.paymentType}
         />
       )}
     </StyledPaymmentList>
