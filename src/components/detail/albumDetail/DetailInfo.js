@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink, useParams } from 'react-router-dom';
 
 const StyledDetailInfo = styled.section`
   padding-top: 40px;
@@ -31,36 +32,50 @@ const StyledDetailInfo = styled.section`
   }
 `;
 
-const DetailInfo = () => {
+const StyledNavLink = styled(NavLink)``;
+
+const DetailInfo = ({ albumInfo }) => {
+  const params = useParams();
+  const details = params.albumPage;
   return (
-    <StyledDetailInfo>
-      <div className='detail-info-inner-box'>
-        <div className='detail-info-wrap'>
-          <ul className='detail-info-list-box'>
-            <li className='detail-info-list'>
-              <span className='detail-info-album-name'>앨범명</span>
-              <span className='stick' />
-              <span className='detail-info-album-singer'>007</span>
-            </li>
-            <li className='detail-info-list'>
-              <span className='detail-info-album-name'>아티스트</span>
-              <span className='stick' />
-              <span className='detail-info-album-singer'>Tabber</span>
-            </li>
-            <li className='detail-info-list'>
-              <span className='detail-info-album-name'>발매사</span>
-              <span className='stick' />
-              <span className='detail-info-album-singer'>Dreamus</span>
-            </li>
-            <li className='detail-info-list'>
-              <span className='detail-info-album-name'>기획사</span>
-              <span className='stick' />
-              <span className='detail-info-album-singer'>딩고뮤직</span>
-            </li>
-          </ul>
+    <NavLink to={`${details}`}>
+      <StyledDetailInfo>
+        <div className='detail-info-inner-box'>
+          <div className='detail-info-wrap'>
+            <ul className='detail-info-list-box'>
+              <li className='detail-info-list'>
+                <span className='detail-info-album-name'>앨범명</span>
+                <span className='stick' />
+                <span className='detail-info-album-singer'>
+                  {albumInfo.albumTitle}
+                </span>
+              </li>
+              <li className='detail-info-list'>
+                <span className='detail-info-album-name'>아티스트</span>
+                <span className='stick' />
+                <span className='detail-info-album-singer'>
+                  {albumInfo.artist}
+                </span>
+              </li>
+              <li className='detail-info-list'>
+                <span className='detail-info-album-name'>발매사</span>
+                <span className='stick' />
+                <span className='detail-info-album-singer'>
+                  {albumInfo.releaseCompany}
+                </span>
+              </li>
+              <li className='detail-info-list'>
+                <span className='detail-info-album-name'>기획사</span>
+                <span className='stick' />
+                <span className='detail-info-album-singer'>
+                  {albumInfo.managementCompany}
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </StyledDetailInfo>
+      </StyledDetailInfo>
+    </NavLink>
   );
 };
 

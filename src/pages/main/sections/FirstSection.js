@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Slider from "react-slick";
-import NextArrow from "../arrowIcon/NextArrow";
-import PrevArrow from "../arrowIcon/PrevArrow";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { BsFillPlayCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Slider from 'react-slick';
+import NextArrow from '../arrowIcon/NextArrow';
+import PrevArrow from '../arrowIcon/PrevArrow';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { BsFillPlayCircleFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const StyledSection = styled.section`
   width: 1080px;
@@ -55,7 +55,7 @@ const StyledSlider = styled(Slider)`
   }
 
   div.first-section-slider-box {
-    background-color: #4c4863;
+    background-color: #444e62;
     border-radius: 7px;
 
     a.first-section-slider-flex {
@@ -149,9 +149,9 @@ const FirstSection = () => {
   const [slide, setSlide] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/", {
-      method: "GET",
-      headers: { "content-type": "application/json" },
+    fetch('http://localhost:8000/', {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -181,71 +181,73 @@ const FirstSection = () => {
 
   return (
     <StyledSection>
-      <section className="first-section-inner-box">
+      <section className='first-section-inner-box'>
         <StyledSlider {...settings}>
-          {slide.map((result) => {
-            return (
-              <div
-                key={result.titleData[0].playlistId}
-                className="first-section-wrap"
-              >
-                {/* 첫번째 슬라이드 */}
-                <div className="first-section-slider-box">
-                  <Link
-                    to="/detail/playlist"
-                    className="first-section-slider-flex"
-                  >
-                    {/* 플리 소개 */}
-                    <div className="first-section-slider-info">
-                      <h4 className="first-section-slider-title">
-                        {result.titleData[0].playlistTitle}
-                      </h4>
-                      <div className="first-section-slider-date">
-                        총 {result.titleData[0].playlistSongsCount}곡
-                        <span className="first-section-stick">|</span>
-                        {result.titleData[0].createdDate}
+          {slide !== null &&
+            slide.map((result) => {
+              return (
+                <div
+                  key={result.titleData[0].playlistId}
+                  className='first-section-wrap'
+                >
+                  {/* 첫번째 슬라이드 */}
+                  <div className='first-section-slider-box'>
+                    <Link
+                      to={`/detail/playlist/${result.titleData[0].playlistId}`}
+                      className='first-section-slider-flex'
+                    >
+                      {/* 플리 소개 */}
+                      <div className='first-section-slider-info'>
+                        <h4 className='first-section-slider-title'>
+                          {result.titleData[0].playlistTitle}
+                        </h4>
+                        <div className='first-section-slider-date'>
+                          총 {result.titleData[0].playlistSongsCount}곡
+                          <span className='first-section-stick'>|</span>
+                          {result.titleData[0].createdDate}
+                        </div>
+                        <button
+                          title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
+                          type='button'
+                          className='first-section-button'
+                        >
+                          <BsFillPlayCircleFill className='first-section-play-button' />
+                        </button>
                       </div>
-                      <button
-                        title="퇴근 후 쇠질엔 이만한 플리가 없지😎"
-                        type="button"
-                        className="first-section-button"
-                      >
-                        <BsFillPlayCircleFill className="first-section-play-button" />
-                      </button>
-                    </div>
-                    {/* 노래리스트 */}
-                    <div className="first-section-playlist-wrap">
-                      <ul className="first-section-playlist-box">
-                        {result.songsData.map((song) => {
-                          return (
-                            <li
-                              key={song.songId}
-                              className="first-section-playlist-list"
-                            >
-                              <img
-                                alt="앨범 표지"
-                                src={song.albumImage}
-                                className="first-section-album-cover"
-                              />
-                              <div className="first-section-playlist-box-info">
-                                <strong className="first-section-playlist-song">
-                                  {song.songTitle}
-                                </strong>
-                                <div className="first-section-playlist-singer">
-                                  {song.artist}
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                    {/* 플리 노래리스트 끝 */}
-                  </Link>
+                      {/* 노래리스트 */}
+                      <div className='first-section-playlist-wrap'>
+                        <ul className='first-section-playlist-box'>
+                          {result.songsData !== null &&
+                            result.songsData.map((song) => {
+                              return (
+                                <li
+                                  key={song.songId}
+                                  className='first-section-playlist-list'
+                                >
+                                  <img
+                                    alt='앨범 표지'
+                                    src={song.albumImage}
+                                    className='first-section-album-cover'
+                                  />
+                                  <div className='first-section-playlist-box-info'>
+                                    <strong className='first-section-playlist-song'>
+                                      {song.songTitle}
+                                    </strong>
+                                    <div className='first-section-playlist-singer'>
+                                      {song.artist}
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                      {/* 플리 노래리스트 끝 */}
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </StyledSlider>
       </section>
     </StyledSection>
