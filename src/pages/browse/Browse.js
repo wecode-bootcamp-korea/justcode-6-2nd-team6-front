@@ -133,7 +133,7 @@ const StyledBrowse = styled.div`
 
 const Browse = () => {
   const [chart, setChart] = useState([])
-  const [allchart, setAllChart] = useState([])
+  const [allChart, setAllChart] = useState([])
   const params = useParams();
   const { genre } = useParams();
   const [toggle, setToggle] = useState(false);
@@ -219,7 +219,8 @@ const Browse = () => {
             </ul>
           </div>
         </div>
-        <Chart genre={genre} params={params} chart={chart} setChart={setChart} />
+        <Chart genre={genre} params={params} chart={chart} setChart={setChart} allchart={allChart} setAllChart={setAllChart} />
+
         <Genre />
       </StyledBrowse>
     </Fade>

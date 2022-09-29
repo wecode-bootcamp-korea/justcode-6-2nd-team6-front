@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
@@ -177,6 +176,11 @@ function Router() {
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
         isLogin={isLogin} />
+         <Alert
+        alertOn={alertOn}
+        setAlertOn={setAlertOn}
+        isExpandedClicked={isExpandedClicked}
+      />
     </BrowserRouter>
   );
 }

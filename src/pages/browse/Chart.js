@@ -20,6 +20,7 @@ const StyledChart = styled.div`
       border-radius: 5px;
       background-color: #3f3fff;
       color: white;
+
       .edit-box {
         display: flex;
         align-items: center;
@@ -350,8 +351,7 @@ const StyledChart = styled.div`
   }}
   `;
 
-
-const Chart = ({ genre, chart, musicTracks, setMusicTracks}) => {
+const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpandedClicked, allChart, setAllChart }) => {
   const [checkList, setCheckList] = useState([]);
   const [visible, setVisible] = useState(10)
   const showMoreChart = () => {
@@ -383,10 +383,151 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks}) => {
 
   return (
     <Fade>
-    <StyledChart>
+      <StyledChart>
+        <div className='chart-inner-box'>
+          <div className='chart-main-box'>
+            {/* florida 차트 타이틀 */}
+            <div className='chart-title-box'>
+              <h3 className='chart-florida-chart-title'>{genre}</h3>
+              <button className='chart-whole-listen-box' type='button'>
+                <BsPlay className='chart-whole-listen-icon' />
+                전체듣기
+              </button>
+            </div>
+            {/* florida 차트 */}
+            <div className='chart-list-box'>
+              <table className='chart-list-table'>
+                <caption>곡 목록</caption>
+                <colgroup>
+                  <col width='42' data-cell='체크박스' />
+                  <col width='40' data-cell='번호' />
+                  <col width='*' data-cell='곡/앨범' />
+                  <col width='250' data-cell='아티스트' />
+                  <col width='70' data-cell='듣기' />
+                  <col width='75' data-cell='재생목록' />
+                  <col width='70' data-cell='더보기' />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope='col'>
+                      <input
+                        name='전체 곡 선택하기'
+                        className='chart-list-all-checkbox'
+                        type='checkbox'
+                        onChange={checkAll}
+                        checked={
+                          chart.length === checkList.length ? true : false
+                        }
+                      />
+                    </th>
+                    <th scope='col'>순위</th>
+                    <th scope='col' className='chart-list-info'>
+                      곡/앨범
+                    </th>
+                    <th scope='col' className='chart-list-artist'>
+                      아티스트
+                    </th>
+                    <th scope='col' className='chart-list-icon'>
+                      {' '}
+                      듣기{' '}
+                    </th>
+                    <th scope='col' className='chart-list-icon'>
+                      {' '}
+                      내 리스트{' '}
+                    </th>
+                    <th scope='col' className='chart-list-icon'>
+                      {' '}
+                      더보기{' '}
+                    </th>
+                  </tr>
+                </thead>
 
-      {/* 더보기 모달창 */}
-      {!checkList || checkList.length === 0 || (
+                {/* Table Body */}
+                {/* chart 데이터 0 부터 10자름 */}
+                {chart && chart.slice(0, visible).map((song, index) => {
+                  return (
+                    <tbody key={index}>
+                      <tr>
+                        <td className='chart-list-select'>
+                          <input
+                            name={`곡선택하기${index}`}
+                            id={`곡선택하기${index}`}
+                            className='chart-list-checkbox'
+                            type='checkbox'
+                            checked={checkList.includes(`곡선택하기${index}`) ? true : false}
+                            onChange={handleCheck}
+                          />
+                        </td>
+                        {/* 순위 */}
+                        <td className='chart-list-number'> {index + 1} </td>
+                        {/* 수록곡 곡/앨범 */}
+                        <td className='chart-list-info-wrap'>
+                          <div className='chart-list-info-box'>
+                            {/* 앨범사진 */}
+                            <div className='chart-list-info-thumb'>
+                              <NavLink to='#' className='chart-list-info-album'>
+                                <img
+                                  alt='앨범 이미지'
+                                  src={song.albumCover}
+                                  className='chart-list-info-img'
+                                />
+                              </NavLink>
+                            </div>
+                            {/* 곡명/앨범명 */}
+                            <div className='chart-list-info-txt-area'>
+                              {/* 곡명 */}
+                              <div className='chart-list-song'>
+                                {song.songTitle}
+                              </div>
+                              {/* 앨범명 */}
+                              <div className='chart-list-album-box'>
+                                <NavLink to='#' className='chart-list-album-link'>
+                                  <div className='chart-list-album'>
+                                    {song.albumTitle}
+                                  </div>
+                                </NavLink>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        {/* 수록곡 아티스트 */}
+                        <td className='chart-list-artist-box'>
+                          <Link to='#' className='chart-list-artist'>
+                            <span class='chart-artist'>{song.songArtist}</span>
+                          </Link>
+                        </td>
+                        {/* 수록곡 아이콘 */}
+                        {/* 플레이버튼 */}
+                        <td className='chart-list-icon'>
+                          <button type='button' className='chart-icon-listen'>
+                            <BsFillPlayFill className="icon" size="30" />
+                          </button>
+                        </td>
+                        {/* 리스트추가버튼 */}
+                        <td className='chart-list-icon'>
+                          <button type='button' className='chart-icon-listen'>
+                            <VscNewFolder size="25" />
+                          </button>
+                        </td>
+                        {/* 더보기버튼 */}
+                        <td className='chart-list-icon'>
+                          <button type='button' className='chart-icon-listen'>
+                            <AiOutlineMore size="30" />
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  )
+                })}
+              </table>
+            </div>
+          </div>
+          {/* 리스트더보기 버튼 */}
+          <button className='more-btn' onClick={showMoreChart}>더보기 &#8744;</button>
+        </div>
+
+        {/* 더보기 모달창 */}
+        {!checkList || checkList.length === 0 || (
           <div className="edit-inner-box">
             <div className="edit-container">
               <div className="edit-box">
@@ -404,30 +545,32 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks}) => {
               <div className="edit-box">
                 <div
                   className="wrapper"
-                  // onClick={() => {
-                  //   fetch(`http://localhost:8000${location.pathname}`, {
-                  //     headers: {
-                  //       Authorization: sessionStorage.getItem("token"),
-                  //     },
-                  //   })
-                  //     .then((res) => res.json())
-                  //     .then((plData) => {
-                  //       const selectedPlData = plData.filter(
-                  //         (el, i) => checkList.includes(el.songId) === true
-                  //       );
-                  //       const musicTracksId = chart.map(
-                  //         (el) => el.songId
-                  //       );
-                  //       const filteredSelectedPlData = selectedPlData.filter(
-                  //         (el, i) => musicTracksId.includes(el.songId) === false
-                  //       );
-                  //       setMusicTracks([
-                  //         ...filteredSelectedPlData,
-                  //         ...chart,
-                  //       ]);
-                  //       setCheckList([]);
-                  //     });
-                  // }}
+                  onClick={() => {
+                    if (chart[0].songTitle !== null) {
+                      fetch(`http://localhost:3000/genredata.json`, {
+                        headers: {
+                          Authorization: sessionStorage.getItem("token"),
+                        },
+                      })
+                        .then((res) => res.json())
+                        .then((plData) => {
+                          const musicTracksId = musicTracks.map((el)=>el.songId);
+                          const filteredNewTracks = plData.filter(
+                            (el, i) => musicTracksId.includes(el.songId) === false
+                          );
+                          setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                          setAlertOn(
+                            "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                          );
+                        })
+                        .catch((err) => {
+                          if (sessionStorage.getItem("token") !== null)
+                            setAlertOn(
+                              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                            );
+                        });
+                    }
+                  }}
                 >
                   <BsFillPlayFill className="icon" size="18" />
                   <div className="text">듣기</div>
@@ -436,146 +579,7 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks}) => {
             </div>
           </div>
         )}
-
-      <div className='chart-inner-box'>
-        <div className='chart-main-box'>
-          {/* florida 차트 타이틀 */}
-          <div className='chart-title-box'>
-            <h3 className='chart-florida-chart-title'>{genre}</h3>
-            <button className='chart-whole-listen-box' type='button'>
-              <BsPlay className='chart-whole-listen-icon' />
-              전체듣기
-            </button>
-          </div>
-          {/* florida 차트 */}
-          <div className='chart-list-box'>
-            <table className='chart-list-table'>
-              <caption>곡 목록</caption>
-              <colgroup>
-                <col width='42' data-cell='체크박스' />
-                <col width='40' data-cell='번호' />
-                <col width='*' data-cell='곡/앨범' />
-                <col width='250' data-cell='아티스트' />
-                <col width='70' data-cell='듣기' />
-                <col width='75' data-cell='재생목록' />
-                <col width='70' data-cell='더보기' />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th scope='col'>
-                    <input
-                      name='전체 곡 선택하기'
-                      className='chart-list-all-checkbox'
-                      type='checkbox'
-                      onChange={checkAll}
-                    />
-                  </th>
-                  <th scope='col'>순위</th>
-                  <th scope='col' className='chart-list-info'>
-                    곡/앨범
-                  </th>
-                  <th scope='col' className='chart-list-artist'>
-                    아티스트
-                  </th>
-                  <th scope='col' className='chart-list-icon'>
-                    {' '}
-                    듣기{' '}
-                  </th>
-                  <th scope='col' className='chart-list-icon'>
-                    {' '}
-                    내 리스트{' '}
-                  </th>
-                  <th scope='col' className='chart-list-icon'>
-                    {' '}
-                    더보기{' '}
-                  </th>
-                </tr>
-              </thead>
-
-              {/* Table Body */}
-              {/* chart 데이터 0 부터 10자름 */}
-              {chart && chart.slice(0, visible).map((song, index) => {
-                return (
-                  <tbody key={index}>
-                    <tr>
-                      <td className='chart-list-select'>
-                        <input
-                          name={`곡선택하기${index}`}
-                          id={`곡선택하기${index}`}
-                          className='chart-list-checkbox'
-                          type='checkbox'
-                          checked={checkList.includes(`곡선택하기${index}`) ? true : false}
-                          onChange={handleCheck}
-                        />
-                      </td>
-                      {/* 순위 */}
-                      <td className='chart-list-number'> {index + 1} </td>
-                      {/* 수록곡 곡/앨범 */}
-                      <td className='chart-list-info-wrap'>
-                        <div className='chart-list-info-box'>
-                          {/* 앨범사진 */}
-                          <div className='chart-list-info-thumb'>
-                            <NavLink to='#' className='chart-list-info-album'>
-                              <img
-                                alt='앨범 이미지'
-                                src={song.albumCover}
-                                className='chart-list-info-img'
-                              />
-                            </NavLink>
-                          </div>
-                          {/* 곡명/앨범명 */}
-                          <div className='chart-list-info-txt-area'>
-                            {/* 곡명 */}
-                            <div className='chart-list-song'>
-                              {song.songTitle}
-                            </div>
-                            {/* 앨범명 */}
-                            <div className='chart-list-album-box'>
-                              <NavLink to='#' className='chart-list-album-link'>
-                                <div className='chart-list-album'>
-                                  {song.albumTitle}
-                                </div>
-                              </NavLink>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      {/* 수록곡 아티스트 */}
-                      <td className='chart-list-artist-box'>
-                        <Link to='#' className='chart-list-artist'>
-                          <span class='chart-artist'>{song.songArtist}</span>
-                        </Link>
-                      </td>
-                      {/* 수록곡 아이콘 */}
-                      {/* 플레이버튼 */}
-                      <td className='chart-list-icon'>
-                        <button type='button' className='chart-icon-listen'>
-                        <BsFillPlayFill className="icon" size="18" />
-                        </button>
-                      </td>
-                      {/* 리스트추가버튼 */}
-                      <td className='chart-list-icon'>
-                        <button type='button' className='chart-icon-listen'>
-              <VscNewFolder size="25" />
-                        </button>
-                      </td>
-                      {/* 더보기버튼 */}
-                      <td className='chart-list-icon'>
-                        <button type='button' className='chart-icon-listen'>
-                        <AiOutlineMore size="30" />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                )
-              })}
-            </table>
-          </div>
-        </div>
-        {/* 리스트더보기 버튼 */}
-        <button className='more-btn' onClick={showMoreChart}>더보기 &#8744;</button>
-      </div>
-    </StyledChart>
+      </StyledChart>
     </Fade>
   );
 };
