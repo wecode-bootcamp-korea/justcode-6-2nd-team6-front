@@ -104,6 +104,7 @@ const MyPlayList = ({
       createdAt: "",
     },
   ]);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8000/storage", {
@@ -115,7 +116,7 @@ const MyPlayList = ({
       .then((data) => {
         if (sessionStorage.getItem("token") !== null) setMyListData(data.data);
       });
-  }, [isMyPlayListClicked]);
+  }, [isMyPlayListClicked, update]);
 
   return (
     <StyledDialog
@@ -151,7 +152,20 @@ const MyPlayList = ({
           <div className="title">내 리스트에 담기</div>
           <div className="play-lists">
             {/* 새로운 리스트 추가하기 토글 */}
-            <div className="add-list-box" onClick={() => {}}>
+            <div
+              className="add-list-box"
+              onClick={() => {
+                axios({
+                  url: `http://localhost:8000/storage`,
+                  method: "POST",
+                  headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                  },
+                }).then((res) => {
+                  setUpdate(!update);
+                });
+              }}
+            >
               <div className="add-list-cover">
                 <AiOutlinePlus />
               </div>

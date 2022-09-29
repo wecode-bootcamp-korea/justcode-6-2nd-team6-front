@@ -229,7 +229,8 @@ const PlayList = ({
       )
         .then((res) => res.json())
         .then((data) => {
-          setSameArtistsMusic(data);
+          console.log(data);
+          if (data.message !== "Need Voucher") setSameArtistsMusic(data);
         });
 
       fetch(
@@ -242,10 +243,10 @@ const PlayList = ({
       )
         .then((res) => res.json())
         .then((data) => {
-          setSameGenreMusic(data);
+          if (data.message !== "Need Voucher") setSameGenreMusic(data);
         });
     }
-  }, [trackIndex || musicTracks]);
+  }, [trackIndex, musicTracks]);
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -481,22 +482,26 @@ const PlayList = ({
               </div>
             )}
           {/* 아티스트 & 유사곡 */}
-          {!isArtistClicked || sameArtistsMusic.length === 0 || (
-            <SimilarSong
-              data={sameArtistsMusic}
-              musicTracks={musicTracks}
-              setMusicTracks={setMusicTracks}
-              setAlertOn={setAlertOn}
-            />
-          )}
-          {!isSimilarClicked || sameGenreMusic.length === 0 || (
-            <SimilarSong
-              data={sameGenreMusic}
-              musicTracks={musicTracks}
-              setMusicTracks={setMusicTracks}
-              setAlertOn={setAlertOn}
-            />
-          )}
+          {!isArtistClicked ||
+            sameArtistsMusic.length === 0 ||
+            musicTracks.length === 0 || (
+              <SimilarSong
+                data={sameArtistsMusic}
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+              />
+            )}
+          {!isSimilarClicked ||
+            sameGenreMusic.length === 0 ||
+            musicTracks.length === 0 || (
+              <SimilarSong
+                data={sameGenreMusic}
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+              />
+            )}
         </div>
         {!isEditClicked || checkedList.length == 0 || (
           <div className="edit-inner-box">
