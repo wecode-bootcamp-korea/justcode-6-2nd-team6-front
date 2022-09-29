@@ -181,7 +181,16 @@ const StyledDetail = styled.div`
   }
 `;
 
-const ArtistDetail = () => {
+const ArtistDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+  isLogin,
+}) => {
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isSelectClicked, setIsSelectClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
   const params = useParams();
   const [artistInfo, setArtistInfo] = useState([]);
@@ -203,7 +212,23 @@ const ArtistDetail = () => {
   };
 
   const tabArr = [
-    { name: '곡', content: <ArtistTrack name='곡' /> },
+    {
+      name: '곡',
+      content: (
+        <ArtistTrack
+          name='곡'
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+          setAlertOn={setAlertOn}
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          isSelectClicked={isSelectClicked}
+          setIsSelectClicked={setIsSelectClicked}
+          checkedList={checkedList}
+          setCheckedList={setCheckedList}
+        />
+      ),
+    },
     { name: '앨범', content: <ArtistAlbum name='앨범' /> },
   ];
 
