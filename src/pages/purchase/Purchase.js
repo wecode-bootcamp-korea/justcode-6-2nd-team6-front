@@ -25,13 +25,15 @@ const StyledPurchase = styled.section`
         height: 32px;
         li {
           margin: 0 15px;
-          vertical-align: top;
           color: black;
           border: none;
           &:hover {
-            color: blue;
+            color: #3f3fff;
             cursor: pointer;
           }
+        }
+        .btn-color-black {
+          color: black;
         }
         .btn-primary {
           color: white;
@@ -42,7 +44,7 @@ const StyledPurchase = styled.section`
       }
       .purchase-coupon {
         position: absolute;
-        top: 50px;
+        top: 42px;
         right: 40px;
         color: #000;
         width: auto;
@@ -74,7 +76,9 @@ const Purchase = () => {
             <li>
               <NavLink
                 to='/purchase/voucher'
-                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+                className={({ isActive }) =>
+                  isActive ? 'btn-primary' : 'btn-color-black'
+                }
               >
                 이용권
               </NavLink>
@@ -82,7 +86,9 @@ const Purchase = () => {
             <li>
               <NavLink
                 to='/purchase/affiliate'
-                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+                className={({ isActive }) =>
+                  isActive ? 'btn-primary' : 'btn-color-black'
+                }
               >
                 제휴
               </NavLink>
@@ -90,7 +96,9 @@ const Purchase = () => {
             <li>
               <NavLink
                 to='/purchase/my'
-                className={({ isActive }) => (isActive ? 'btn-primary' : '')}
+                className={({ isActive }) =>
+                  isActive ? 'btn-primary' : 'btn-color-black'
+                }
               >
                 My
               </NavLink>
