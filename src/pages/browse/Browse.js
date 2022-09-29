@@ -131,9 +131,8 @@ const StyledBrowse = styled.div`
     }
 `;
 
-const Browse = ({musicTracks, setMusicTracks, setAlertOn}) => {
+const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
   const [chart, setChart] = useState([])
-  const [allChart, setAllChart] = useState([])
   const params = useParams();
   const { genre } = useParams();
   const [toggle, setToggle] = useState(false);
@@ -147,11 +146,13 @@ const Browse = ({musicTracks, setMusicTracks, setAlertOn}) => {
    */
 
   useEffect(() => {
-    if (params.id === 0) {
+    if (params.id == 0){
       fetch('http://localhost:8000/browse')
         .then((res) => res.json())
         .then((res) => {
-          setAllChart(res.chart)
+          setChart(res.chart)
+
+
 
         });
 
@@ -161,14 +162,14 @@ const Browse = ({musicTracks, setMusicTracks, setAlertOn}) => {
         .then((res) => {
           setChart(res.chart)
 
+
         });
     }
   }, [params]);
 
 
-
-
   return (
+
     <Fade>
       <StyledBrowse>
         <div className='BrowseMenu-inner-box'>
@@ -219,13 +220,13 @@ const Browse = ({musicTracks, setMusicTracks, setAlertOn}) => {
             </ul>
           </div>
         </div>
-        <Chart genre={genre} params={params} chart={chart} setChart={setChart} allchart={allChart} setAllChart={setAllChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} />
+        <Chart genre={genre} params={params} chart={chart} setChart={setChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn} />
 
         <Genre />
       </StyledBrowse>
     </Fade>
-  );
-};
+  )
+}
 
 const Addtab = () => {
   const params = useParams();

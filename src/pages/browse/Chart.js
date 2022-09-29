@@ -358,15 +358,19 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
     setVisible(prevValue => prevValue + 10)
   }
   // 체크리스트 배열에 들어갈 반복문
-  let arr = []
-  for (let i = 0; i < chart.length; i++) {
-    arr.push(`${i}`)
-  }
+  // let arr = []
+  // if (chart.length !== 0) {
+  //   for (let i = 0; i < chart.length; i++) {
+  //     arr.push(`${i}`)
+  //   }
+  // }
 
-  // 전체동의시 모든 체크박스 활성화
+  // 전체동의시 모든 체크박스 활성화 (map사용)
   const checkAll = (e) => {
     e.target.checked
-      ? setCheckList(arr)
+      ? setCheckList(chart.map((song)=>{
+        return String(song.songId)
+      }))
       : setCheckList([]);
   };
 
@@ -379,8 +383,39 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
       : setCheckList(checkList.filter((el) => el !== e.target.name));
   };
 
+  const onClickhandle = () => {
+    fetch('http://localhost:8000/play/addsongs/popular/1', {
+      headers: {
+        Authorization: sessionStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((plData) => { 
+        console.log(plData[0].songId);
+
+        const selectedPlData = plData.filter(
+          (el) =>  checkList.includes(String(el.songId)) === true
+      
+        );
+        const musicTracksId = musicTracks.map(
+          (el, i) => String(el.songId)
+        );
+        const filteredSelectedPlData = selectedPlData.filter(
+          (el) => musicTracksId.includes(String(el.songId)) === false
+        );
+        setMusicTracks([
+          ...filteredSelectedPlData,
+          ...musicTracks,
+        ]);
+        setAlertOn(
+          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+        );
+        setCheckList([]);
+      });
+  }
 
   return (
+
     <Fade>
       <StyledChart>
         <div className='chart-inner-box'>
@@ -414,9 +449,9 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
                         className='chart-list-all-checkbox'
                         type='checkbox'
                         onChange={checkAll}
-                        checked={
-                          chart.length === checkList.length ? true : false
-                        }
+                      checked={
+                        chart.length === checkList.length ? true : false
+                      }
                       />
                     </th>
                     <th scope='col'>순위</th>
@@ -440,7 +475,7 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
                     </th>
                   </tr>
                 </thead>
-
+                {console.log(chart)}
                 {/* Table Body */}
                 {/* chart 데이터 0 부터 10자름 */}
                 {chart && chart.slice(0, visible).map((song, index) => {
@@ -448,12 +483,12 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
                     <tbody key={index}>
                       <tr>
                         <td className='chart-list-select'>
+                          {/* 개별체크박스 */}
                           <input
-                            name={`${index}`}
-                            id={`${index}`}
+                            name={song.songId}
                             className='chart-list-checkbox'
                             type='checkbox'
-                            checked={checkList.includes(`${index}`) ? true : false}
+                            checked={checkList.includes(String(song.songId)) ? true : false}
                             onChange={handleCheck}
                           />
                         </td>
@@ -543,42 +578,11 @@ const Chart = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpand
                 </div>
               </div>
               <div className="edit-box">
-                  {/* {arr.map((a,index)=>{
-                    return console.log(a);
-                  })} */}
                 <div
                   className="wrapper"
-                  onClick={() => {
-                    fetch('http://localhost:8000/play/addsongs/popular/1', {
-                      headers: {
-                        Authorization: sessionStorage.getItem("token"),
-                      },
-                    })
-                      .then((res) => res.json())
-                      .then((plData) => {
-                        console.log('곡네이터',plData);
-                        const selectedPlData = plData.filter(
-                          (el, i) => checkList.includes(el.songId) === true
-                        );
-                        const musicTracksId = musicTracks.map(
-                          (el,i) => el[i].songId
-                        );
-                        const filteredSelectedPlData = selectedPlData.filter(
-                          (el, i) => musicTracksId.includes(el[i].songId) === false
-                        );
-                        setMusicTracks([
-                          ...filteredSelectedPlData,
-                          ...musicTracks,
-                        ]);
-                        setAlertOn(
-                          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                        );
-                        setCheckList([]);
-                      });
-                  }
-                  }
+                  onClick={onClickhandle}
                 >
-                  {console.log('플레이리스트',musicTracks)}
+                  {/* {console.log('플레이리스트', musicTracks)} */}
                   <BsFillPlayFill className="icon" size="18" />
                   <div className="text">듣기</div>
                 </div>
