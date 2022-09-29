@@ -248,7 +248,7 @@ justify-content: center;
 }
 `
 
-const CreateStudio = ({ headerShow, setHeaderShow, footerShow, setFooterShow }) => {
+const CreateStudio = ({ isLogin}) => {
     return (
         <StyledCreateStudio>
             <div className="createstudio-inner-box">
@@ -268,7 +268,7 @@ const CreateStudio = ({ headerShow, setHeaderShow, footerShow, setFooterShow }) 
                     </Bounce>
 
                     {/* 콘텐츠 */}
-                    <Slide bottom delay={500}>
+                    <Slide  delay={500}>
                         <div className="content-inner-box">
                             <span className='content-text'>
                                 <Bounce cascade delay={500}>국내 최대 오디오 오픈 플랫폼<br />
@@ -320,8 +320,9 @@ const CreateStudio = ({ headerShow, setHeaderShow, footerShow, setFooterShow }) 
                             <div className="content-img-box">
                             <Roll left delay={500}>
                                 <img src="https://cdn.pixabay.com/photo/2015/12/09/01/02/mandalas-1084082_1280.jpg" alt="" />
-                                /</Roll>
+                                </Roll>
                             </div>
+                            
                             <div className="content-text-box">
                                 <span className="title">
                                     내가 만든 오디오로<br />
@@ -377,11 +378,11 @@ const CreateStudio = ({ headerShow, setHeaderShow, footerShow, setFooterShow }) 
                                 {/* 섹션박스3 */}
                                 <section className='section-box'>
                                     <div className="section-box-text-box">
-                                        <span className="section-title"><Bounce right cascade delay={500}>오픈 기념 프로모션</Bounce></span>
-                                        <span className='section-text'><Fade cascade delay={500}>우수 프로그램 선정 시 총 상금 1억!<br />
+                                        <span className="section-title"><Bounce right cascade delay={300}>오픈 기념 프로모션</Bounce></span>
+                                        <span className='section-text'><Fade cascade delay={300}>우수 프로그램 선정 시 총 상금 1억!<br />
                                             조건만 달성하면 100% 추가 혜택 제공까지!</Fade></span>
                                         <span className='section-sub-text'>
-                                            <Fade cascade delay={500}>
+                                            <Fade cascade delay={300}>
                                                 * 조건 : 에피소드 2개, 클립 길이의 총 합 10분 이상 + 팔로잉 수 10명
                                             </Fade>
                                         </span>
@@ -399,9 +400,9 @@ const CreateStudio = ({ headerShow, setHeaderShow, footerShow, setFooterShow }) 
                     </div>
                     </LightSpeed>
 
-                    <span className='last-text'>        <Bounce top cascade delay={500}>지금 바로 도전하세요!</Bounce></span>
-                    <Bounce top delay={500}>
-                        <NavLink to="/" className='sign-btn'>크리에이터 신청하기</NavLink>
+                    <span className='last-text'>        <Bounce top cascade >지금 바로 도전하세요!</Bounce></span>
+                    <Bounce top>
+                        <NavLink to={isLogin === true ? "/" : "/login"} className='sign-btn'>크리에이터 신청하기</NavLink>
                     </Bounce>
 
                 </div>

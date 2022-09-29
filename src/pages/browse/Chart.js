@@ -3,16 +3,71 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineFolderAdd } from 'react-icons/ai';
-import { FiMoreVertical } from 'react-icons/fi';
 import { useState } from 'react';
 import { Fade } from 'react-reveal';
-
-
+import { VscNewFolder } from "react-icons/vsc";
+import { AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
 
 
 const StyledChart = styled.div`
-    div.chart-inner-box {
+/* 선택 모달창 */
+    .edit-container {
+      display: flex;
+      position: fixed;
+      bottom: 150px;
+      right: calc(50% - 100px);
+      width: 200px;
+      border-radius: 5px;
+      background-color: #3f3fff;
+      color: white;
+      .edit-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 50%;
+        cursor: pointer;
+        font-size: 14px;
+        &:nth-of-type(2) {
+          .wrapper {
+            border-left: 2px solid #5252ff;
+          }
+        }
+        .checklist-counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 90px;
+          left: 15px;
+          width: 40px;
+          height: 40px;
+          border: 3px solid #3f3fff;
+          border-radius: 100%;
+          background-color: white;
+          color: #3f3fff;
+          font-weight: 700;
+          z-index: 1;
+        }
+
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 30px 0;
+
+          .icon {
+            margin-bottom: 20px;
+            transform: scale(1.75);
+          }
+        }
+      }
+    }
+
+    /* 차트 Body */
+    .chart-inner-box {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -296,8 +351,7 @@ const StyledChart = styled.div`
   `;
 
 
-
-const Chart = ({ genre, params, chart, setChart}) => {
+const Chart = ({ genre, chart, musicTracks, setMusicTracks}) => {
   const [checkList, setCheckList] = useState([]);
   const [visible, setVisible] = useState(10)
   const showMoreChart = () => {
@@ -330,6 +384,59 @@ const Chart = ({ genre, params, chart, setChart}) => {
   return (
     <Fade>
     <StyledChart>
+
+      {/* 더보기 모달창 */}
+      {!checkList || checkList.length === 0 || (
+          <div className="edit-inner-box">
+            <div className="edit-container">
+              <div className="edit-box">
+                <div className="checklist-counter">{checkList.length}</div>
+                <div
+                  className="wrapper"
+                  onClick={() => {
+                    setCheckList([]);
+                  }}
+                >
+                  <AiOutlineCheck className="icon" />
+                  <div className="text">선택해제</div>
+                </div>
+              </div>
+              <div className="edit-box">
+                <div
+                  className="wrapper"
+                  // onClick={() => {
+                  //   fetch(`http://localhost:8000${location.pathname}`, {
+                  //     headers: {
+                  //       Authorization: sessionStorage.getItem("token"),
+                  //     },
+                  //   })
+                  //     .then((res) => res.json())
+                  //     .then((plData) => {
+                  //       const selectedPlData = plData.filter(
+                  //         (el, i) => checkList.includes(el.songId) === true
+                  //       );
+                  //       const musicTracksId = chart.map(
+                  //         (el) => el.songId
+                  //       );
+                  //       const filteredSelectedPlData = selectedPlData.filter(
+                  //         (el, i) => musicTracksId.includes(el.songId) === false
+                  //       );
+                  //       setMusicTracks([
+                  //         ...filteredSelectedPlData,
+                  //         ...chart,
+                  //       ]);
+                  //       setCheckList([]);
+                  //     });
+                  // }}
+                >
+                  <BsFillPlayFill className="icon" size="18" />
+                  <div className="text">듣기</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       <div className='chart-inner-box'>
         <div className='chart-main-box'>
           {/* florida 차트 타이틀 */}
@@ -443,28 +550,25 @@ const Chart = ({ genre, params, chart, setChart}) => {
                       {/* 플레이버튼 */}
                       <td className='chart-list-icon'>
                         <button type='button' className='chart-icon-listen'>
-                          <BsFillPlayFill className='chart-icon-listen-icon' />
+                        <BsFillPlayFill className="icon" size="18" />
                         </button>
                       </td>
                       {/* 리스트추가버튼 */}
                       <td className='chart-list-icon'>
                         <button type='button' className='chart-icon-listen'>
-                          <AiOutlineFolderAdd className='chart-icon-listen-icon' />
+              <VscNewFolder size="25" />
                         </button>
                       </td>
                       {/* 더보기버튼 */}
                       <td className='chart-list-icon'>
                         <button type='button' className='chart-icon-listen'>
-                          <FiMoreVertical className='chart-icon-listen-icon' />
+                        <AiOutlineMore size="30" />
                         </button>
                       </td>
                     </tr>
                   </tbody>
-
                 )
-
               })}
-
             </table>
           </div>
         </div>

@@ -72,7 +72,7 @@ const Genre = () => {
   const [audio, setAudio] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/data/genredata.json')
+    fetch('http://localhost:8000/browse?genreid=1')
       .then((res) => res.json())
       .then((res) => {
         setGenre({ data: res.cards.genre });
