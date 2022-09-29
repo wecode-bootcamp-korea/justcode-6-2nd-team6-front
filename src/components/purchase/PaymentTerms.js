@@ -23,11 +23,18 @@ const StyledPaymentTerms = styled.div`
       margin: 0 -5px 15px;
       // 버튼 눌렀을 때 나오는 효과!
       .btn-selected {
+        width: calc(49.6499% - 10px);
+        height: 52px;
+        margin: 0 5px 10px 5px;
+        line-height: 16px;
+        vertical-align: middle;
+        font-size: 14px;
+        background-color: #fff;
         border: 1px solid #3f3fff !important;
         color: #3f3fff;
         font-weight: 600;
       }
-      button {
+      .btn-primary {
         width: calc(49.6499% - 10px);
         height: 52px;
         margin: 0 5px 10px 5px;
@@ -206,13 +213,12 @@ const StyledPaymentTerms = styled.div`
 const PaymentTerms = ({ closeModal }) => {
   const [checkList, setCheckList] = useState([]);
   const [disabled, setDisabled] = useState(true);
-  const buttonRef = useRef(null);
+  const [isNaverPayClicked, setIsNaverPayClicked] = useState(false);
+  const [isKakaoPayClicked, setIsKakaoPayClicked] = useState(false);
+  const [isCardClicked, setIsCardClicked] = useState(false);
+  const [isPhoneAllClicked, setIsPhoneAllClicked] = useState(false);
+  const [isPhoneClicked, setIsPhoneClicked] = useState(false);
   const navigate = useNavigate();
-
-  // 결제수단버튼 클릭 시 border 색깔 적용
-  useEffect(() => {
-    buttonRef.current.className = 'btn-selected';
-  }, []);
 
   // 전체체크 선택시 전체 선택 or 전체해제
   const checkAll = (e) => {
@@ -240,7 +246,8 @@ const PaymentTerms = ({ closeModal }) => {
     }
   }, [checkList]);
 
-  const onAlertAndGoMy = () => {
+  // 결제하기 버튼 클릭 시 POST 방식
+  const onPay = () => {
     alert('결제되셨습니다!');
     navigate('/purchase/my');
   };
@@ -250,19 +257,69 @@ const PaymentTerms = ({ closeModal }) => {
       <div className='payment-option'>
         <h3 className='payment-option-title'>결제방법</h3>
         <div className='options-list'>
-          <button type='button' ref={buttonRef}>
-            <span className='btn-naverpay pay-img'>Naver Pay</span>
+          <button
+            type='button'
+            className={isNaverPayClicked ? 'btn-selected' : 'btn-primary'}
+            onClick={() => {
+              setIsNaverPayClicked(true);
+              setIsKakaoPayClicked(false);
+              setIsCardClicked(false);
+              setIsPhoneAllClicked(false);
+              setIsPhoneClicked(false);
+            }}
+          >
+            <span className='btn-naverpay pay-img'>네이버페이</span>
           </button>
-          <button type='button' ref={buttonRef}>
-            <span className='btn-kakaopay pay-img'>Kakao Pay</span>
+          <button
+            type='button'
+            className={isKakaoPayClicked ? 'btn-selected' : 'btn-primary'}
+            onClick={() => {
+              setIsNaverPayClicked(false);
+              setIsKakaoPayClicked(true);
+              setIsCardClicked(false);
+              setIsPhoneAllClicked(false);
+              setIsPhoneClicked(false);
+            }}
+          >
+            <span className='btn-kakaopay pay-img'>카카오페이</span>
           </button>
-          <button type='button' ref={buttonRef}>
+          <button
+            type='button'
+            className={isCardClicked ? 'btn-selected' : 'btn-primary'}
+            onClick={() => {
+              setIsNaverPayClicked(false);
+              setIsKakaoPayClicked(false);
+              setIsCardClicked(true);
+              setIsPhoneAllClicked(false);
+              setIsPhoneClicked(false);
+            }}
+          >
             <span>신용/체크카드</span>
           </button>
-          <button type='button' ref={buttonRef}>
+          <button
+            type='button'
+            className={isPhoneAllClicked ? 'btn-selected' : 'btn-primary'}
+            onClick={() => {
+              setIsNaverPayClicked(false);
+              setIsKakaoPayClicked(false);
+              setIsCardClicked(false);
+              setIsPhoneAllClicked(true);
+              setIsPhoneClicked(false);
+            }}
+          >
             <span>휴대폰(공통)</span>
           </button>
-          <button type='button' ref={buttonRef}>
+          <button
+            type='button'
+            className={isPhoneClicked ? 'btn-selected' : 'btn-primary'}
+            onClick={() => {
+              setIsNaverPayClicked(false);
+              setIsKakaoPayClicked(false);
+              setIsCardClicked(false);
+              setIsPhoneAllClicked(false);
+              setIsPhoneClicked(true);
+            }}
+          >
             <span>휴대폰(SKT)</span>
           </button>
         </div>
@@ -317,11 +374,7 @@ const PaymentTerms = ({ closeModal }) => {
         <button className='btn-cancel-pay' onClick={closeModal}>
           결제취소
         </button>
-        <button
-          className='btn-pay'
-          disabled={disabled}
-          onClick={onAlertAndGoMy}
-        >
+        <button className='btn-pay' disabled={disabled} onClick={onPay}>
           결제하기
         </button>
       </div>
