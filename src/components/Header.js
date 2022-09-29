@@ -133,7 +133,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin, setMusicTracks, headerShow, setHeaderShow, footerShow, setFooterShow }) => {
+const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin, setMusicTracks,  }) => {
 
   const [toggle, setToggle] = useState(false)
   const logOut = () => {
@@ -149,10 +149,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin, set
       <div className='header-inner-box'>
         {/* 로고박스 */}
         <div className='header-logo-box'>
-          <NavLink to='/' className='header-logo' onClick={()=>{
-            setFooterShow(false)
-            setHeaderShow(false)
-          }}>
+          <NavLink to='/' className='header-logo' >
             <img src='/Images/logo.png' alt='Florida로고' />
           </NavLink>
         </div>
@@ -183,7 +180,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin, set
           <div className='header-login-menu-box'>
             <ul className='header-login-menu-list'>
               <li className='studio'>
-                <NavLink to='/promotion/cms/flocreators' onClick={() => { setHeaderShow(true) }}>크리에이터 스튜디오</NavLink>
+                <NavLink to='/promotion/cms/flocreators'>크리에이터 스튜디오</NavLink>
               </li>
               {isLogin ? (
                 <div onClick={() => { setToggle(!toggle) }}>
@@ -197,7 +194,7 @@ const Header = ({ token, setToken, user_name, user_img, setIsLogin, isLogin, set
               ) : (
                 <>
                   <li className='header-login-off' >
-                    <NavLink to='/login' onClick={()=>{setFooterShow(true) }}>로그인</NavLink>
+                    <NavLink to='/login' >로그인</NavLink>
                   </li>
                   <li className='header-login-off' >
                     <NavLink to='/signup'>회원가입</NavLink>

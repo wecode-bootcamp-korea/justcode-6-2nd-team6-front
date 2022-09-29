@@ -31,14 +31,13 @@ import CreateStudio from './creator/CreateStudio';
 
 
 
-
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   const [isLogin, setIsLogin] = useState(false)
   const [loginText, setLoginText] = useState(false) // 로그인시 팝업등장 토글 스테이트
-  const [headerShow, setHeaderShow] =useState(false) // 헤더 안보여주고 싶은곳에 사용
-  const [footerShow, setFooterShow] =useState(false) // 풋터 안보여주고 싶은곳에 사용
+  const [footerShow, setFooterShow] = useState(false) // 풋터 안보여주고 싶은곳에 사용
+
 
 
   // 새로고침해도 세션스토리지에 있는 값을 musicTracks로 가져옴
@@ -67,28 +66,37 @@ function Router() {
 
   return (
     <BrowserRouter>
-  
-      {headerShow === true ? null : <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} headerShow={headerShow} setHeaderShow={setHeaderShow} footerShow={footerShow} setFooterShow={setFooterShow} /> }
+
+      {/* 헤더 */}
+      <Header token={token} user_name={user_name} user_img={user_img} isLogin={isLogin} setIsLogin={setIsLogin} setMusicTracks={setMusicTracks} />
+
       <Routes>
+        {/* 로그인 */}
         <Route path="/login" element={<Login token={token} isLogin={isLogin} setIsLogin={setIsLogin} setLoginText={setLoginText} />} />
-        <Route path="/signup" element={<Signup setFooterShow={setFooterShow} />} />
+        {/* 회원가입  */}
+        <Route path="/signup" element={<Signup />} />
+        {/* 회원가입 - 약관동의 */}
         <Route path="/terms" element={<Terms />} />
+        {/* 회원가입 - 번호인증 */}
         <Route path="/certification" element={<Certification />} />
+        {/* 회원가입 - 아이디생성 */}
         <Route path="/signform" element={<Signform />} />
-        <Route path="/promotion/cms/flocreators" element={<CreateStudio headerShow={headerShow} setHeaderShow={setHeaderShow} footerShow={footerShow} setFooterShow={setFooterShow}   />} />
 
-
-        <Route
-          path='/test'
-          element={
-            <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
-          }
-        />
+        {/* 크리에이터 스튜디오 */}
+        <Route path="/promotion/cms/flocreators" element={<CreateStudio />} />
+        {/* 둘러보기 */}
         <Route path='/browse/:genre/:id' element={<Browse />} />
+
+
+        <Route path='/test' element={<Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />} />
+
+        {/* 이용권 */}
         <Route path='/purchase' element={<Purchase />}>
           <Route path='voucher' element={<Voucher />}></Route>
           <Route path='affiliate' element={<Affiliate />}></Route>
         </Route>
+
+        {/* 메인/상세페이지 */}
         <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
           <Route path='album' element={<AlbumDetail />} />
@@ -96,28 +104,26 @@ function Router() {
           <Route path='artist' element={<ArtistDetail />} />
           <Route path='mylist/:id' element={<MylistDetail />} />
         </Route>
+
+        {/* 보관함 */}
         <Route path='/storage' element={<Storage />}>
-          <Route
-            path='mylist'
-            element={
-              <MyList
-                musicTracks={musicTracks}
-                setMusicTracks={setMusicTracks}
-              />
-            }
-          />
+          <Route path='mylist' element={<MyList musicTracks={musicTracks} setMusicTracks={setMusicTracks} />} />
           <Route path='liketrack' element={<LikeTrack />} />
           <Route path='mostlisten' element={<MostListen />} />
           <Route path='recentlylisten' element={<RecentlyListen />} />
         </Route>
       </Routes>
-      {footerShow === true ? null :<Footer />}
-      {headerShow === true ? null : <Playbar
+
+      {/* 풋터 */}
+      <Footer />
+
+      {/* 뮤직 플레이어 Bar */}
+      <Playbar
         trackIndex={trackIndex}
         setTrackIndex={setTrackIndex}
         musicTracks={musicTracks}
         setMusicTracks={setMusicTracks}
-      />}
+      />
     </BrowserRouter>
   );
 }

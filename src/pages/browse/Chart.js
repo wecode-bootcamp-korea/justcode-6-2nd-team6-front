@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { FiMoreVertical } from 'react-icons/fi';
 import { useState } from 'react';
-import { useCallback } from 'react';
+import { Fade } from 'react-reveal';
+
+
+
 
 const StyledChart = styled.div`
     div.chart-inner-box {
@@ -295,9 +297,8 @@ const StyledChart = styled.div`
 
 
 
-const Chart = ({ genre, params, chart, setChart }) => {
+const Chart = ({ genre, params, chart, setChart}) => {
   const [checkList, setCheckList] = useState([]);
-  const [disabled, setDisabled] = useState(true);
   const [visible, setVisible] = useState(10)
   const showMoreChart = () => {
     setVisible(prevValue => prevValue + 10)
@@ -327,8 +328,8 @@ const Chart = ({ genre, params, chart, setChart }) => {
 
 
   return (
+    <Fade>
     <StyledChart>
-
       <div className='chart-inner-box'>
         <div className='chart-main-box'>
           {/* florida 차트 타이틀 */}
@@ -407,13 +408,13 @@ const Chart = ({ genre, params, chart, setChart }) => {
                         <div className='chart-list-info-box'>
                           {/* 앨범사진 */}
                           <div className='chart-list-info-thumb'>
-                            <a href='#' className='chart-list-info-album'>
+                            <NavLink to='#' className='chart-list-info-album'>
                               <img
                                 alt='앨범 이미지'
                                 src={song.albumCover}
                                 className='chart-list-info-img'
                               />
-                            </a>
+                            </NavLink>
                           </div>
                           {/* 곡명/앨범명 */}
                           <div className='chart-list-info-txt-area'>
@@ -423,11 +424,11 @@ const Chart = ({ genre, params, chart, setChart }) => {
                             </div>
                             {/* 앨범명 */}
                             <div className='chart-list-album-box'>
-                              <a href='#' className='chart-list-album-link'>
+                              <NavLink to='#' className='chart-list-album-link'>
                                 <div className='chart-list-album'>
                                   {song.albumTitle}
                                 </div>
-                              </a>
+                              </NavLink>
                             </div>
                           </div>
                         </div>
@@ -471,6 +472,7 @@ const Chart = ({ genre, params, chart, setChart }) => {
         <button className='more-btn' onClick={showMoreChart}>더보기 &#8744;</button>
       </div>
     </StyledChart>
+    </Fade>
   );
 };
 
