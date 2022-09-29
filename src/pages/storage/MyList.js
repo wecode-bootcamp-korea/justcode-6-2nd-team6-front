@@ -1,21 +1,62 @@
 import styled from "styled-components";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Fade } from "react-reveal";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { VscNewFolder, VscTrash } from "react-icons/vsc";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 const StyledMyList = styled.div`
-  .my-list-message-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    padding: 80px 0 60px 0;
-    color: #969696;
-    font-size: 20px;
-    font-weight: 700;
+  .full-msg {
+    position: relative;
+    min-height: 410px;
+    width: 100%;
+    height: 400px;
+    box-sizing: border-box;
+    .full-msg-cnt {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      text-align: center;
+      width: auto;
+      transform: translate(-50%, -50%);
+      .text-black {
+        font-size: 20px;
+        font-weight: 600;
+        color: #181818;
+        line-height: 1.3;
+        margin-bottom: 7px;
+      }
+      .text-gray {
+        color: #989898;
+        font-size: 15px;
+        line-height: 1.4;
+      }
+      .full-msg-btn {
+        padding-top: 28px;
+        width: 100%;
+        span {
+          width: auto;
+          height: 38px;
+          margin: 0 auto;
+          padding: 11px 18px;
+          color: #3f3fff;
+          border: 1px solid #3f3fff;
+          border-radius: 19px;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 38px;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
 
   .my-list-inner-box {
@@ -170,7 +211,7 @@ const StyledMyList = styled.div`
     .edit-container {
       display: flex;
       position: fixed;
-      bottom: 150px;
+      bottom: 200px;
       right: calc(50% - 100px);
       width: 200px;
       border-radius: 5px;
@@ -236,17 +277,8 @@ const MyList = ({
 }) => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
-
-  const [myListData, setMyListData] = useState([
-    {
-      userId: 0,
-      playlistId: 0,
-      title: "",
-      songTotalCount: "",
-      albumImage: "",
-      createdAt: "",
-    },
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [myListData, setMyListData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -258,17 +290,35 @@ const MyList = ({
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setLoading(true);
         if (sessionStorage.getItem("token") !== null || data.data.length !== 0)
           setMyListData(data.data);
       });
-  }, [isExpandedClicked || isEditClicked]);
+  }, [isExpandedClicked, isEditClicked]);
 
   return (
     <StyledMyList>
       {isLogin === false ? (
-        <div className="my-list-message-box">
-          <div className="message">로그인 후 이용하실 수 있습니다.</div>
+        <div className="full-msg">
+          <div className="full-msg-cnt">
+            <strong className="text-black">로그인해주세요.</strong>
+            <span className="text-gray">
+              로그인하시면 더욱 더 다양한
+              <br />
+              FLOrida를 즐길 수 있어요.
+            </span>
+            <div
+              className="full-msg-btn"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              <span>로그인</span>
+            </div>
+          </div>
         </div>
+      ) : !loading ? (
+        <Loading />
       ) : (
         <div className="my-list-inner-box">
           {!isEditClicked || (
@@ -427,14 +477,16 @@ const PlayListContainer = ({
                   ? true
                   : false
               }
-              onChange={() => {
+            />
+            <label
+              for="checkbox"
+              onClick={() => {
                 onCheckedElement(
                   checkedList.includes(data.playlistId),
                   data.playlistId
                 );
               }}
-            />
-            <label for="checkbox"></label>
+            ></label>
           </div>
         )}
         <FaPlay
@@ -450,22 +502,19 @@ const PlayListContainer = ({
             )
               .then((res) => res.json())
               .then((plData) => {
-                console.log(plData);
+                if (plData.message == "Need Voucher")
+                  setAlertOn(
+                    "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                  );
                 if (plData[0].songTitle !== null) {
-                  if (plData.message == "Need Voucher")
-                    setAlertOn(
-                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
-                    );
-                  else {
-                    const musicTracksId = musicTracks.map((el) => el.songId);
-                    const filteredNewTracks = plData.filter(
-                      (el, i) => musicTracksId.includes(el.songId) === false
-                    );
-                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                    setAlertOn(
-                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                    );
-                  }
+                  const musicTracksId = musicTracks.map((el) => el.songId);
+                  const filteredNewTracks = plData.filter(
+                    (el, i) => musicTracksId.includes(el.songId) === false
+                  );
+                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                  setAlertOn(
+                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                  );
                 }
               });
           }}

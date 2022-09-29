@@ -233,15 +233,16 @@ const Playbar = ({
   isExpandedClicked,
   setIsExpandedClicked,
   setAlertOn,
+  isLiked,
+  setIsLiked,
 }) => {
   const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false); // 재생목록에 추가할 때
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 내 재생목록 가져올 때
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false); // 더보기 클릭
   const [isAddManySongs, setIsAddManySongs] = useState(false); // 편집 탭에서 음악 여러개 추가할 때
-  const [isLiked, setIsLiked] = useState(false); // 현재 곡 좋아요 상태
   const [checkedList, setCheckedList] = useState([]); // 선택된 곡들의 아이디 배열
 
-  // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID)
+  // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID), voucher 없으면 플리에서 곡 삭제시킴
   useEffect(() => {
     if (musicTracks.length !== 0) {
       fetch(`http://localhost:8000/play/${musicTracks[trackIndex].songId}`, {
@@ -252,11 +253,15 @@ const Playbar = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.isLiked === "1") setIsLiked(true);
-          else setIsLiked(false);
+          console.log(data);
+          if (data.canPlay === "0") setMusicTracks([]);
+          else {
+            if (data.isLiked === "1") setIsLiked(true);
+            else setIsLiked(false);
+          }
         });
-    }
-  }, [trackIndex || musicTracks]);
+    } else if (musicTracks.length === 0) setIsLiked(false);
+  }, [trackIndex, musicTracks]);
 
   useEffect(
     () => console.log(isGetMyPlayListClicked),
@@ -267,7 +272,6 @@ const Playbar = ({
   useEffect(() => {
     console.log("CL", checkedList);
   }, [checkedList]);
-
 
   return (
     <StyledPlaybar>
@@ -373,9 +377,14 @@ const Playbar = ({
                     className="add-play-list"
                     size="30"
                     onClick={() => {
-                      setIsMyPlayListClicked(true);
-                      setIsGetMyPlayListClicked(false);
-                      setCheckedList([musicTracks[trackIndex].songId]);
+                      if (
+                        JSON.parse(sessionStorage.getItem("tracks")).length !==
+                        0
+                      ) {
+                        setIsMyPlayListClicked(true);
+                        setIsGetMyPlayListClicked(false);
+                        setCheckedList([musicTracks[trackIndex].songId]);
+                      }
                     }}
                   />
                 </div>
@@ -385,19 +394,23 @@ const Playbar = ({
                   size="35.1"
                   className="expanded-shuffle"
                   onClick={() => {
-                    const randomTracks = [...musicTracks].sort(
-                      () => Math.random() - 0.5
-                    );
-                    if (randomTracks[0] === musicTracks[0]) {
-                      let lastIndex = randomTracks.length - 1;
-                      let randomValue = Math.floor(
-                        Math.random() * (lastIndex - 1) + 1
+                    if (
+                      JSON.parse(sessionStorage.getItem("tracks")).length !== 0
+                    ) {
+                      const randomTracks = [...musicTracks].sort(
+                        () => Math.random() - 0.5
                       );
-                      const temp = randomTracks[0];
-                      randomTracks[0] = randomTracks[lastIndex];
-                      randomTracks[lastIndex] = temp;
+                      if (randomTracks[0] === musicTracks[0]) {
+                        let lastIndex = randomTracks.length - 1;
+                        let randomValue = Math.floor(
+                          Math.random() * (lastIndex - 1) + 1
+                        );
+                        const temp = randomTracks[0];
+                        randomTracks[0] = randomTracks[lastIndex];
+                        randomTracks[lastIndex] = temp;
+                      }
+                      setMusicTracks(randomTracks);
                     }
-                    setMusicTracks(randomTracks);
                   }}
                 />
               )}
@@ -467,19 +480,21 @@ const Playbar = ({
               size="35.1"
               className="shuffle"
               onClick={() => {
-                const randomTracks = [...musicTracks].sort(
-                  () => Math.random() - 0.5
-                );
-                if (randomTracks[0] === musicTracks[0]) {
-                  let lastIndex = randomTracks.length - 1;
-                  let randomValue = Math.floor(
-                    Math.random() * (lastIndex - 1) + 1
+                if (JSON.parse(sessionStorage.getItem("tracks")).length !== 0) {
+                  const randomTracks = [...musicTracks].sort(
+                    () => Math.random() - 0.5
                   );
-                  const temp = randomTracks[0];
-                  randomTracks[0] = randomTracks[lastIndex];
-                  randomTracks[lastIndex] = temp;
+                  if (randomTracks[0] === musicTracks[0]) {
+                    let lastIndex = randomTracks.length - 1;
+                    let randomValue = Math.floor(
+                      Math.random() * (lastIndex - 1) + 1
+                    );
+                    const temp = randomTracks[0];
+                    randomTracks[0] = randomTracks[lastIndex];
+                    randomTracks[lastIndex] = temp;
+                  }
+                  setMusicTracks(randomTracks);
                 }
-                setMusicTracks(randomTracks);
               }}
             />
           )}

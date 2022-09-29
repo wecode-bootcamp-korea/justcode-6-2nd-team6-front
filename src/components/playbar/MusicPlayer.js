@@ -51,7 +51,7 @@ const StyledMusicPlayer = styled.div`
       }
 
       .rhap_main-controls {
-        margin-right: 20px;
+        margin-right: 28px;
       }
 
       .rhap_volume-indicator {
@@ -198,7 +198,6 @@ const MusicPlayer = ({
   useEffect(() => {
     setTimeout(() => player.current.audio.current.pause(), 10);
   }, []);
-
 
   return (
     <StyledMusicPlayer>
