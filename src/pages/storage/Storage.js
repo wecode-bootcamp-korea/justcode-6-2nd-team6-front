@@ -40,6 +40,7 @@ const StyledStorage = styled.div`
         align-items: center;
         height: 40px;
         margin: 0 10px;
+        color: black;
         cursor: pointer;
 
         &:hover {

@@ -154,7 +154,7 @@ const StyledMusicContainer = styled.div`
     .edit-container {
       display: flex;
       position: fixed;
-      bottom: 150px;
+      bottom: 200px;
       right: calc(50% - 100px);
       width: 200px;
       border-radius: 5px;

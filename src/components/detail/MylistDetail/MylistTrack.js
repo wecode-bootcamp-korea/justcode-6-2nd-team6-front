@@ -155,7 +155,7 @@ const StyledTrack = styled.div`
     .edit-container {
       display: flex;
       position: fixed;
-      bottom: 150px;
+      bottom: 200px;
       right: calc(50% - 150px);
       width: 300px;
       border-radius: 5px;
