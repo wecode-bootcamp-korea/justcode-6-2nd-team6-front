@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FirstSection from './sections/FirstSection';
 import SecondSection from './sections/SecondSection';
+import ThirdSection from './sections/ThirdSection';
 import Container from '@mui/material/Container';
 import LoginPopup from '../login/LoginPopup';
 
@@ -30,6 +31,7 @@ const Main = ({ loginText }) => {
         <div className='main-wrap'>
           <FirstSection />
           <SecondSection />
+          <ThirdSection />
         </div>
       </div>
       {loginText === true ? <LoginPopup /> : null}
