@@ -203,7 +203,7 @@ const StyledPaymentTerms = styled.div`
   }
 `;
 
-const PaymentTerms = () => {
+const PaymentTerms = ({ closeModal }) => {
   const [checkList, setCheckList] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const buttonRef = useRef(null);
@@ -314,7 +314,9 @@ const PaymentTerms = () => {
         </ul>
       </div>
       <div className='btn-wrap bottom-fixed'>
-        <button className='btn-cancel-pay'>결제취소</button>
+        <button className='btn-cancel-pay' onClick={closeModal}>
+          결제취소
+        </button>
         <button
           className='btn-pay'
           disabled={disabled}

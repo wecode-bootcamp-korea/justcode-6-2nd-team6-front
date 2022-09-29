@@ -264,7 +264,7 @@ const PaymentModal = ({
                 </ul>
               </div>
             </div>
-            <PaymentTerms />
+            <PaymentTerms closeModal={closeModal} />
           </div>
         </div>
       </div>
