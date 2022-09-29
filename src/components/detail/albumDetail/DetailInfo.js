@@ -32,8 +32,6 @@ const StyledDetailInfo = styled.section`
   }
 `;
 
-const StyledNavLink = styled(NavLink)``;
-
 const DetailInfo = ({ albumInfo }) => {
   const params = useParams();
   const details = params.albumPage;
