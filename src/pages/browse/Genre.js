@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-
 import React, { useEffect, useState } from 'react';
+import { Fade } from 'react-reveal';
 import { NavLink } from 'react-router-dom';
 
 const StyledGenre = styled.div`
@@ -49,8 +49,7 @@ const StyledGenre = styled.div`
             img {
               width: 100%;
               height: 100%;
-              border-radius: 10px;
-              object-fit: cover;
+              border-radius: 7px;
             }
             span {
               position: absolute;
@@ -84,6 +83,7 @@ const Genre = () => {
   }, []);
 
   return (
+    <Fade>
     <StyledGenre>
       <section className='genre-inner-box'>
         {/* 장르 */}
@@ -171,6 +171,7 @@ const Genre = () => {
         </section>
       </section>
     </StyledGenre>
+    </Fade>
   );
 };
 

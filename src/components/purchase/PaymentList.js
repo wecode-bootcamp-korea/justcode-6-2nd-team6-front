@@ -51,7 +51,7 @@ const StyledPaymmentList = styled.li`
   }
 `;
 
-const PaymentList = ({ payment, voucherName }) => {
+const PaymentList = ({ payment, voucherName, voucherId }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const showModal = () => {
@@ -97,6 +97,8 @@ const PaymentList = ({ payment, voucherName }) => {
           paymentName={payment.name}
           originPrice={payment.originPrice}
           salePrice={payment.salePrice}
+          paymentType={payment.paymentType}
+          voucherId={voucherId}
         />
       )}
     </StyledPaymmentList>

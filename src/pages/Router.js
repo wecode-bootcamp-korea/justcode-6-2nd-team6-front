@@ -32,8 +32,9 @@ function Router() {
   const [musicTracks, setMusicTracks] = useState([]); // 현재 재생목록 리스트
   const [alertOn, setAlertOn] = useState(false); // 알림창 (상태값에 메세지 넣으면 메세지 출력됨)
   const [isExpandedClicked, setIsExpandedClicked] = useState(false); // playbar 확장 되었을 때
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(false); // 로그인 여부
   const [loginText, setLoginText] = useState(false); // 로그인시 팝업등장 토글 스테이트
+
   const [headerShow, setHeaderShow] = useState(false); // 헤더 안보여주고 싶은곳에 사용
   const [footerShow, setFooterShow] = useState(false); // 풋터 안보여주고 싶은곳에 사용
   const [isLiked, setIsLiked] = useState(false); // 현재 곡 좋아요 상태
@@ -63,21 +64,19 @@ function Router() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      {headerShow === true ? null : (
-        <Header
-          token={token}
-          user_name={user_name}
-          user_img={user_img}
-          isLogin={isLogin}
-          setIsLogin={setIsLogin}
-          setMusicTracks={setMusicTracks}
-          headerShow={headerShow}
-          setHeaderShow={setHeaderShow}
-          footerShow={footerShow}
-          setFooterShow={setFooterShow}
-        />
-      )}
+
+      {/* 헤더 */}
+      <Header
+        token={token}
+        user_name={user_name}
+        user_img={user_img}
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        setMusicTracks={setMusicTracks}
+      />
+
       <Routes>
+        {/* 로그인 */}
         <Route
           path="/login"
           element={
@@ -89,21 +88,30 @@ function Router() {
             />
           }
         />
-        <Route
-          path="/signup"
-          element={<Signup setFooterShow={setFooterShow} />}
-        />
+        {/* 회원가입  */}
+        <Route path="/signup" element={<Signup />} />
+        {/* 회원가입 - 약관동의 */}
         <Route path="/terms" element={<Terms />} />
+        {/* 회원가입 - 번호인증 */}
         <Route path="/certification" element={<Certification />} />
+        {/* 회원가입 - 아이디생성 */}
         <Route path="/signform" element={<Signform />} />
+        {/* 크리에이터 스튜디오 */}
         <Route
           path="/promotion/cms/flocreators"
+          element={<CreateStudio isLogin={isLogin} />}
+        />
+
+        {/* 둘러보기 */}
+        <Route
+          path="/browse/:genre/:id"
           element={
-            <CreateStudio
-              headerShow={headerShow}
-              setHeaderShow={setHeaderShow}
-              footerShow={footerShow}
-              setFooterShow={setFooterShow}
+            <Browse
+              musicTracks={musicTracks}
+              setMusicTracks={setMusicTracks}
+              setAlertOn={setAlertOn}
+              isExpandedClicked={isExpandedClicked}
+              setIsExpandedClicked={setIsExpandedClicked}
             />
           }
         />
@@ -114,16 +122,20 @@ function Router() {
             <Test musicTracks={musicTracks} setMusicTracks={setMusicTracks} />
           }
         />
-        <Route path="/browse/:genre/:id" element={<Browse />} />
+
+        {/* 이용권 */}
         <Route path="/purchase" element={<Purchase />}>
           <Route path="voucher" element={<Voucher />}></Route>
           <Route path="affiliate" element={<Affiliate />}></Route>
           <Route path="my" element={<My token={token} />}></Route>
         </Route>
+
+        {/* 메인/상세페이지 */}
         <Route
           path="/"
           element={
             <Main
+              loginText={loginText}
               loginText={loginText}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
@@ -168,6 +180,7 @@ function Router() {
               />
             }
           />
+
           <Route
             path="mylist/:id"
             element={
@@ -180,6 +193,8 @@ function Router() {
             }
           />
         </Route>
+
+        {/* 보관함 */}
         <Route path="/storage" element={<Storage />}>
           <Route
             path="mylist"

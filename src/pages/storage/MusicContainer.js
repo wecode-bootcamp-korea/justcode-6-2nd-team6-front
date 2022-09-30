@@ -516,6 +516,7 @@ const SongBar = ({
                 setIsMyPlayListClicked(true);
               }}
             >
+              {console.log('El',el)}
               <VscNewFolder size="25" />
             </div>
             <div

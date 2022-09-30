@@ -1,17 +1,20 @@
 import React from 'react';
-import { Bounce, Slide, Fade, Roll } from 'react-reveal';
+import { Bounce, Slide, Fade, Roll ,LightSpeed} from 'react-reveal';
 import { NavLink } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 const titleanimation = keyframes`
 0%{
+    background-image: url('https://ifh.cc/g/YpoAxs.png');
+}
+25%{
     background-image:url('https://ifh.cc/g/pJsnjd.png') ;
 }
-33%{
+50%{
     background-image:url('https://ifh.cc/g/GYPtj1.png') ;
 
 }
-66%{
+75%{
     background-image:url('https://ifh.cc/g/MfGsSL.png') ;
 
 }
@@ -39,36 +42,6 @@ justify-content: center;
     align-items: center;
     width: 1280px;
     padding-top: 50px;
-    /* 헤더 */
-    .createstudio-header-inner-box{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        padding: 20px 0px;
-        background: #fff;
-        border-bottom: 1px solid #000;
-        z-index: 10;
-        /* 헤더 Nav 박스 */
-        .createstudio-nav-box{
-            a{
-                font: 15px/1 'apple';
-                color: #777;
-                margin-right: 15px;
-            }
-        }
-        /* 헤더 로고 박스 */
-        .createstudio-header-title-box{
-            width: 70%;
-            .logo{
-                font:bold 30px/1 'apple';
-                color: #000;
-            }
-        }
-    }
 
     /* 메인 */
     .createstudio-main-inner-box{
@@ -133,7 +106,7 @@ justify-content: center;
                 left: 100px;
                 width: 500px;
                 height: 100px;
-                animation:${titleanimation} 15s 1s ease-in-out infinite;
+                animation:${titleanimation} 5s 1s ease-in-out infinite;
                 background-size: cover;
                 margin:40px 0px;
             }
@@ -244,7 +217,7 @@ justify-content: center;
                 width: 100%;
                 height: 100%;
                 background-size: contain;
-                background-image: url('https://cdn.music-flo.com/poc/p/image/promotion-template-table/20220713/994ab2942efd4d51b169b62a35559c09.png');
+                background-image: url('https://ifh.cc/g/zWWcC2.png');
             }
         }
 
@@ -275,53 +248,41 @@ justify-content: center;
 }
 `
 
-const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) => {
+const CreateStudio = ({ isLogin}) => {
     return (
         <StyledCreateStudio>
             <div className="createstudio-inner-box">
-                {/* 헤더 */}
-                <div className="createstudio-header-inner-box">
-                    {/* 헤더 로고 박스 */}
-                    <NavLink to="/" className="createstudio-header-title-box">
-                        <span className='logo' onClick={()=>{
-                            setHeaderShow(false)
-                            setFooterShow(false)
-                        }}>FLORIDA CREATOR</span>
-                    </NavLink>
-                    {/* 헤더 Nav 박스 */}
-                    <div className="createstudio-nav-box">
-                        <NavLink to="/">크리에이터 스튜디오</NavLink>
-                        <NavLink to="/">크리에이터 스쿨</NavLink>
-                    </div>
-                </div>
+
                 {/* 메인 */}
                 <div className="createstudio-main-inner-box">
                     <h1><Roll bottom cascade>FLORIDA<br />CREATOR</Roll></h1>
                     {/* 탑타이틀 */}
                     <Bounce>
                         <div className="top-title">
-                            <span className='top-title-text-1'><Bounce top cascade>너의</Bounce></span>
+                            <span className='top-title-text-1'><roll top cascade>너의</roll></span>
                             <div className='top-title-img'>
                                 <div className="img-animation"></div>
                             </div>
-                            <span className='top-title-text-2'><Bounce top cascade>들려줘</Bounce></span>
+                            <span className='top-title-text-2'><roll top cascade delay={300}>들려줘</roll></span>
                         </div>
                     </Bounce>
 
                     {/* 콘텐츠 */}
-                    <Slide bottom>
+                    <Slide  delay={500}>
                         <div className="content-inner-box">
                             <span className='content-text'>
-                                <Fade cascade>국내 최대 오디오 오픈 플랫폼<br />
+                                <Bounce cascade delay={500}>국내 최대 오디오 오픈 플랫폼<br />
                                     FLORIDA에서는 누구나 오디오를 직접<br />
                                     제작하고, 공유할 수 있습니다.
-                                </Fade>
+                                </Bounce>
                             </span>
                         </div>
                         {/* 콘텐츠박스1 */}
                         <section className="content-box-1">
                             <div className="content-img-box">
-                                <img src="https://www.music-flo.com/img/debut.8718598d.gif" alt="" />
+                                <Roll left delay={500}>
+                                    <img src="https://cdn.pixabay.com/photo/2016/12/06/01/26/colour-1885352_1280.jpg" alt="" />
+                                </Roll>
                             </div>
                             <div className="content-text-box">
                                 <span className="title">
@@ -349,14 +310,19 @@ const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) =>
                                 </span>
                             </div>
                             <div className="content-img-box">
-                                <img src="https://www.music-flo.com/img/fandom.56d29787.gif" alt="" />
+                            <Roll right delay={500}>
+                                <img src="https://cdn.pixabay.com/photo/2016/06/02/02/33/triangles-1430105_1280.png" alt="" />
+                                </Roll>
                             </div>
                         </section>
                         {/* 콘텐츠박스3 */}
                         <section className="content-box-1">
                             <div className="content-img-box">
-                                <img src="https://www.music-flo.com/img/income.69fbfac8.gif" alt="" />
+                            <Roll left delay={500}>
+                                <img src="https://cdn.pixabay.com/photo/2015/12/09/01/02/mandalas-1084082_1280.jpg" alt="" />
+                                </Roll>
                             </div>
+                            
                             <div className="content-text-box">
                                 <span className="title">
                                     내가 만든 오디오로<br />
@@ -372,11 +338,13 @@ const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) =>
 
                         {/* 콘텐츠2 */}
                         <div className="content-create-inner-box">
+                        <Fade right delay={500}>
                             <span className="content-create-title">
                                 지금<br />
                                 FLORIDA <span className='color-blue'>크리에이터</span>  가<br />
                                 된다면
                             </span>
+                            </Fade>
                             <span className='content-create-sub-title'>
                                 FLORIDA와 함께 빠르게 성장해 나갈 수 있도록 A-Z를 지원합니다.
                             </span>
@@ -384,10 +352,10 @@ const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) =>
                                 {/* 센셕박스1 */}
                                 <section className='section-box'>
                                     <div className="section-box-text-box">
-                                        <span className="section-title"><Bounce right cascade>업계 최고, 청취 당 수익 창출!</Bounce></span>
-                                        <span className='section-text'><Fade cascade>음악저작권과 동일하게 내 오디오가 재생될 때마다 수익을 창출해 보세요.</Fade></span>
+                                        <span className="section-title"><Bounce right cascade delay={500}>업계 최고, 청취 당 수익 창출!</Bounce></span>
+                                        <span className='section-text'><Fade cascade delay={500}>음악저작권과 동일하게 내 오디오가 재생될 때마다 수익을 창출해 보세요.</Fade></span>
                                         <span className='section-sub-text'>
-                                            <Fade cascade>
+                                            <Fade cascade delay={500}>
                                                 정산 금액: 건 당 50원, 변경/종료 공지 시까지<br />
                                                 정산 기준에 대한 내용은 FLORIDA 크리에이터 스튜디오의 정산 가이드를 참고해주세요.
                                             </Fade>
@@ -410,11 +378,11 @@ const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) =>
                                 {/* 섹션박스3 */}
                                 <section className='section-box'>
                                     <div className="section-box-text-box">
-                                        <span className="section-title"><Bounce right cascade>오픈 기념 프로모션</Bounce></span>
-                                        <span className='section-text'><Fade cascade>우수 프로그램 선정 시 총 상금 1억!<br />
+                                        <span className="section-title"><Bounce right cascade delay={300}>오픈 기념 프로모션</Bounce></span>
+                                        <span className='section-text'><Fade cascade delay={300}>우수 프로그램 선정 시 총 상금 1억!<br />
                                             조건만 달성하면 100% 추가 혜택 제공까지!</Fade></span>
                                         <span className='section-sub-text'>
-                                            <Fade cascade>
+                                            <Fade cascade delay={300}>
                                                 * 조건 : 에피소드 2개, 클립 길이의 총 합 10분 이상 + 팔로잉 수 10명
                                             </Fade>
                                         </span>
@@ -426,14 +394,16 @@ const CreateStudio = ({headerShow, setHeaderShow, footerShow, setFooterShow}) =>
                     </Slide>
 
                     {/* 배너 */}
+                    <LightSpeed right delay={500}>
                     <div className="content-create-banner">
                         <div className="banner"></div>
                     </div>
+                    </LightSpeed>
 
-                    <span className='last-text'>        <Bounce top cascade>지금 바로 도전하세요!</Bounce></span>
-                    <Slide bottom>
-                    <NavLink to="/" className='sign-btn'>크리에이터 신청하기</NavLink>
-                    </Slide>
+                    <span className='last-text'>        <Bounce top cascade >지금 바로 도전하세요!</Bounce></span>
+                    <Bounce top>
+                        <NavLink to={isLogin === true ? "/" : "/login"} className='sign-btn'>크리에이터 신청하기</NavLink>
+                    </Bounce>
 
                 </div>
 
