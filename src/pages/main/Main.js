@@ -6,6 +6,7 @@ import SecondSection from "./sections/SecondSection";
 import Container from "@mui/material/Container";
 import LoginPopup from "../login/LoginPopup";
 import Loading from "../../components/Loading";
+import ThirdSection from "./sections/ThirdSection";
 
 const StyledMain = styled.main`
   width: 1280px;
@@ -67,6 +68,13 @@ const Main = ({ loginText, musicTracks, setMusicTracks, setAlertOn }) => {
                 setSlide={setSlide}
               />
               <SecondSection
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                albumList={albumList}
+                setAlbumList={setAlbumList}
+              />
+              <ThirdSection
                 musicTracks={musicTracks}
                 setMusicTracks={setMusicTracks}
                 setAlertOn={setAlertOn}

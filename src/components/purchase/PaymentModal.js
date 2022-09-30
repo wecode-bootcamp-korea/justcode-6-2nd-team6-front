@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import PaymentTerms from './PaymentTerms';
+import React from "react";
+import styled from "styled-components";
+import PaymentTerms from "./PaymentTerms";
 
 const StyledPaymentModal = styled.div`
   .payment-inner-box {
@@ -10,10 +10,10 @@ const StyledPaymentModal = styled.div`
       position: fixed;
       inset: 0;
       display: flex;
-      padding: 50px 0 130px 0;
+      padding: 120px 0 130px 0;
       background-color: rgba(0, 0, 0, 0.7);
       .payment-modal {
-        font-family: 'NanumBarunGothic', sans-serif;
+        font-family: "NanumBarunGothic", sans-serif;
         overflow-y: scroll;
         position: relative;
         min-width: 560px;
@@ -89,10 +89,10 @@ const StyledPaymentModal = styled.div`
                 flex-grow: 1;
                 font-size: 13px;
                 line-height: 14px;
-                input[type='checkbox'] {
+                input[type="checkbox"] {
                   display: none;
                 }
-                input[type='checkbox'] + label {
+                input[type="checkbox"] + label {
                   display: inline-block;
                   width: 20px;
                   height: 20px;
@@ -101,14 +101,14 @@ const StyledPaymentModal = styled.div`
                   background: #fff;
                   cursor: pointer;
                 }
-                input[type='checkbox']:checked + label {
+                input[type="checkbox"]:checked + label {
                   position: relative;
                   background: #3d40ff;
                   &::before {
                     position: absolute;
                     top: 3px;
                     left: 3px;
-                    content: '\f00c';
+                    content: "\f00c";
                     font-family: FontAwesome;
                     font-size: 12px;
                     text-align: center;
@@ -201,35 +201,35 @@ const PaymentModal = ({
 
   return (
     <StyledPaymentModal>
-      <div className='payment-inner-box'>
-        <div className='payment-wrapper'>
-          <div className='payment-modal'>
-            <span onClick={closeModal} className='modal-close'>
+      <div className="payment-inner-box">
+        <div className="payment-wrapper">
+          <div className="payment-modal">
+            <span onClick={closeModal} className="modal-close">
               X
             </span>
-            <h1 className='payment-title'>이용권 구매</h1>
-            <div className='payment-form'>
-              <h3 className='payment-form-title'>
+            <h1 className="payment-title">이용권 구매</h1>
+            <div className="payment-form">
+              <h3 className="payment-form-title">
                 <span>
                   {voucherName} {paymentName}
                 </span>
               </h3>
-              <div className='payment-form-membership'>
-                {paymentName === 'T멤버십' ? (
-                  <div className='membership'>
-                    <div className='membership-header'>
-                      <p className='membership-bi'>T멤버십 적용</p>
+              <div className="payment-form-membership">
+                {paymentName === "T멤버십" ? (
+                  <div className="membership">
+                    <div className="membership-header">
+                      <p className="membership-bi">T멤버십 적용</p>
                     </div>
-                    <div className='membership-policy'>
-                      <div className='membership-check'>
+                    <div className="membership-policy">
+                      <div className="membership-check">
                         <input
-                          type='checkbox'
-                          id='checkPolicy'
-                          name='checkPolicy'
+                          type="checkbox"
+                          id="checkPolicy"
+                          name="checkPolicy"
                         />
-                        <label htmlFor='checkPolicy'></label>
+                        <label htmlFor="checkPolicy"></label>
                         <span>개인정보 제3자 제공 동의</span>
-                        <a target='_blank' className='btn-view'>
+                        <a target="_blank" className="btn-view">
                           보기
                         </a>
                       </div>
@@ -237,28 +237,28 @@ const PaymentModal = ({
                   </div>
                 ) : null}
               </div>
-              <div className='payment-form-sum'>
-                <ul className='list-sum'>
-                  {paymentName !== '1개월권' && (
+              <div className="payment-form-sum">
+                <ul className="list-sum">
+                  {paymentName !== "1개월권" && (
                     <li>
-                      <span className='th'>기본 결제 금액</span>
-                      <span className='td'>
+                      <span className="th">기본 결제 금액</span>
+                      <span className="td">
                         <em>{originPrice}</em>원
                       </span>
                     </li>
                   )}
-                  {paymentName === '정기결제' ? (
+                  {paymentName === "정기결제" ? (
                     <li>
-                      <span className='th emColor'>할인적용</span>
-                      <span className='td emColor'>
+                      <span className="th emColor">할인적용</span>
+                      <span className="td emColor">
                         <em>-100</em>원
                       </span>
                     </li>
                   ) : null}
-                  <li className='final'>
-                    <span className='th'>최종 결제금액</span>
-                    <span className='td price'>
-                      <span className='discounted'>
+                  <li className="final">
+                    <span className="th">최종 결제금액</span>
+                    <span className="td price">
+                      <span className="discounted">
                         <em>{salePrice}</em>원
                       </span>
                     </span>

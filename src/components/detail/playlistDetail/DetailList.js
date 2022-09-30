@@ -360,7 +360,6 @@ const DetailList = ({
   checkedList,
   setCheckedList,
 }) => {
-  const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();

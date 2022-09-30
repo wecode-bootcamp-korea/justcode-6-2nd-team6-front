@@ -578,7 +578,7 @@ const DetailTrack = ({
                             }}
                           >
                             {" "}
-                            {data.songTItle}(inst.){" "}
+                            {data.songTitle}
                           </div>
                           <div className="detail-track-list-album-box">
                             <Link
