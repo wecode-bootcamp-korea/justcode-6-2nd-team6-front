@@ -2,8 +2,10 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Genre from './Genre';
-import Chart from './Chart';
 import { Fade } from 'react-reveal';
+import Charts from './Charts';
+
+
 
 const StyledBrowse = styled.div`
   .BrowseMenu-inner-box {
@@ -129,13 +131,12 @@ const StyledBrowse = styled.div`
     }
 `;
 
-const Browse = () => {
+const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
   const [chart, setChart] = useState([])
-  const [allchart, setAllChart] = useState([])
   const params = useParams();
   const { genre } = useParams();
   const [toggle, setToggle] = useState(false);
-  const [parmasId, setParamsId] = useState(params.id)
+
 
   // 카테고리별 리스트 가져오기
 
@@ -145,83 +146,86 @@ const Browse = () => {
    */
 
   useEffect(() => {
-    if (params.id === 0) {
+    if (params.id == 0){
       fetch('http://localhost:8000/browse')
-      .then((res) => res.json())
-      .then((res) => {
-        setAllChart(res.chart)
+      // fetch('http://localhost:3000/data/genredata.json')
+        .then((res) => res.json())
+        .then((res) => {
+          setChart(res.chart)
 
-      });
-  
-    }  else{
-    fetch(`http://localhost:8000/browse?genreid=${params.id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setChart(res.chart)
+        });
 
-      });
-  }}, [params]);
+    } else {
+      fetch(`http://localhost:8000/browse?genreid=${params.id}`)
+        .then((res) => res.json())
+        .then((res) => {
+          setChart(res.chart)
+console.log(res.chart);
 
-
+        });
+    }
+  }, [params]);
 
 
   return (
+
     <Fade>
-    <StyledBrowse>
-      <div className='BrowseMenu-inner-box'>
-        <div className='BrowseMenu-tab-box'>
-          {/* 탭 리스트 */}
-          <ul className='BrowseMenu-tab'>
-            {[
-              '추천차트',
-              '국내 발라드',
-              '해외 팝',
-              '국내 댄스',
-              '국내 알앤비',
-              '국내 힙합',
-              '트로트',
-              'OST',
-              '키즈',
-              '국내 인디',
-              '뉴에이지',
-            ].map((tab, index) => {
-              return (
-                <li
-                  key={tab}
-                  className={params.category === tab ? 'tab-on' : 'tab-off'}
-                >
-                  <NavLink to={`/browse/${tab}/${index}`}>{tab}</NavLink>
-                </li>
-              );
-            })}
+      <StyledBrowse>
+        <div className='BrowseMenu-inner-box'>
+          <div className='BrowseMenu-tab-box'>
+            {/* 탭 리스트 */}
+            <ul className='BrowseMenu-tab'>
+              {[
+                '추천차트',
+                '국내 발라드',
+                '해외 팝',
+                '국내 댄스',
+                '국내 알앤비',
+                '국내 힙합',
+                '트로트',
+                'OST',
+                '키즈',
+                '국내 인디',
+                '뉴에이지',
+              ].map((tab, index) => {
+                return (
+                  <li
+                    key={tab}
+                    className={params.category === tab ? 'tab-on' : 'tab-off'}
+                  >
+                    <NavLink to={`/browse/${tab}/${index}`}>{tab}</NavLink>
+                  </li>
+                );
+              })}
 
-            {/* 목록 펼치기 버튼 */}
-            <button
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-              className={
-                toggle === true ? 'tab-more-btn-on' : 'tab-more-btn-off'
-              }
-            >
-              {toggle === true ? (
-                <spna className='hidden'>차트 카테고리 목록 펼치기</spna>
-              ) : (
-                <span className='hidden'>차트 카테고리 목록 접기</span>
-              )}
-            </button>
+              {/* 목록 펼치기 버튼 */}
+              <button
+                onClick={() => {
+                  setToggle(!toggle);
+                }}
+                className={
+                  toggle === true ? 'tab-more-btn-on' : 'tab-more-btn-off'
+                }
+              >
+                {toggle === true ? (
+                  <spna className='hidden'>차트 카테고리 목록 펼치기</spna>
+                ) : (
+                  <span className='hidden'>차트 카테고리 목록 접기</span>
+                )}
+              </button>
 
-            {/* 추가 탭 리스트 */}
-            {toggle === true ? <Addtab /> : null}
-          </ul>
+              {/* 추가 탭 리스트 */}
+              {toggle === true ? <Addtab /> : null}
+            </ul>
+          </div>
         </div>
-      </div>
-      <Chart genre={genre} params={params} chart={chart} setChart={setChart} />
-      <Genre />
-    </StyledBrowse>
+        <Charts genre={genre} params={params} chart={chart} setChart={setChart} musicTracks={musicTracks} setMusicTracks={setMusicTracks} setAlertOn={setAlertOn}/>
+
+        <Genre />
+      </StyledBrowse>
     </Fade>
-  );
-};
+  )
+}
 
 const Addtab = () => {
   const params = useParams();
