@@ -196,7 +196,16 @@ const StyledDetail = styled.div`
   }
 `;
 
-const AlbumDetail = () => {
+const AlbumDetail = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  isExpandedClicked,
+  isLogin,
+}) => {
+  const [isMyPlayListClicked, setIsMyPlayListClicked] = useState(false);
+  const [isSelectClicked, setIsSelectClicked] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
   const [albumInfo, setAlbumInfo] = useState([]);
   const params = useParams();
@@ -211,18 +220,11 @@ const AlbumDetail = () => {
       .then((res) => res.json())
       .then((data) => {
         setAlbumInfo(data[0]);
-        //console.log('곡 정보 =>', data[0]);
       });
   }, [albumId]);
 
   const selectTabHandler = (index) => {
     setCurrentTab(index);
-  };
-
-  const clickHandler = () => {
-    if (currentTab === 0) {
-      return navigate('');
-    }
   };
 
   const tabArr = [
@@ -232,7 +234,19 @@ const AlbumDetail = () => {
     },
     {
       name: '수록곡',
-      content: <DetailTrack />,
+      content: (
+        <DetailTrack
+          musicTracks={musicTracks}
+          setMusicTracks={setMusicTracks}
+          setAlertOn={setAlertOn}
+          isMyPlayListClicked={isMyPlayListClicked}
+          setIsMyPlayListClicked={setIsMyPlayListClicked}
+          isSelectClicked={isSelectClicked}
+          setIsSelectClicked={setIsSelectClicked}
+          checkedList={checkedList}
+          setCheckedList={setCheckedList}
+        />
+      ),
     },
   ];
 

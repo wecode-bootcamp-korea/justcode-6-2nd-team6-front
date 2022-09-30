@@ -90,6 +90,7 @@ const VoucherCard = () => {
                             <PaymentList
                               payment={payment}
                               voucherName={voucherCard.voucherName}
+                              voucherId={voucherCard.voucherId}
                             />
                           );
                       })}
