@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Slider from 'react-slick';
-import NextArrow from '../arrowIcon/NextArrow';
-import PrevArrow from '../arrowIcon/PrevArrow';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import { BsFillPlayCircleFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Slider from "react-slick";
+import NextArrow from "../arrowIcon/NextArrow";
+import PrevArrow from "../arrowIcon/PrevArrow";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { BsFillPlayCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import Loading from "../../../components/Loading";
 
 const StyledSection = styled.section`
   width: 1080px;
@@ -58,7 +60,7 @@ const StyledSlider = styled(Slider)`
     background-color: #444e62;
     border-radius: 7px;
 
-    a.first-section-slider-flex {
+    .first-section-slider-flex {
       height: 350px;
       width: 100%;
       display: flex;
@@ -80,6 +82,7 @@ const StyledSlider = styled(Slider)`
       font-size: 30px;
       font-weight: 600;
       line-height: 40px;
+      cursor: pointer;
     }
 
     div.first-section-slider-date {
@@ -102,6 +105,7 @@ const StyledSlider = styled(Slider)`
         width: 55px;
         height: 55px;
         color: white;
+        cursor: pointer;
       }
     }
   }
@@ -145,19 +149,14 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const FirstSection = () => {
-  const [slide, setSlide] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/', {
-      method: 'GET',
-      headers: { 'content-type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setSlide(data.slideData);
-      });
-  }, []);
+const FirstSection = ({
+  musicTracks,
+  setMusicTracks,
+  setAlertOn,
+  slide,
+  setSlide,
+}) => {
+  const navigate = useNavigate();
 
   const settings = {
     dots: true,
@@ -181,59 +180,96 @@ const FirstSection = () => {
 
   return (
     <StyledSection>
-      <section className='first-section-inner-box'>
+      <section className="first-section-inner-box">
         <StyledSlider {...settings}>
           {slide !== null &&
             slide.map((result) => {
               return (
                 <div
                   key={result.titleData[0].playlistId}
-                  className='first-section-wrap'
+                  className="first-section-wrap"
                 >
                   {/* 첫번째 슬라이드 */}
-                  <div className='first-section-slider-box'>
-                    <Link
-                      to={`/detail/playlist/${result.titleData[0].playlistId}`}
-                      className='first-section-slider-flex'
-                    >
+                  <div className="first-section-slider-box">
+                    <div className="first-section-slider-flex">
                       {/* 플리 소개 */}
-                      <div className='first-section-slider-info'>
-                        <h4 className='first-section-slider-title'>
+                      <div className="first-section-slider-info">
+                        <h4
+                          className="first-section-slider-title"
+                          onClick={() =>
+                            navigate(
+                              `/detail/playlist/${result.titleData[0].playlistId}`
+                            )
+                          }
+                        >
                           {result.titleData[0].playlistTitle}
                         </h4>
-                        <div className='first-section-slider-date'>
+                        <div className="first-section-slider-date">
                           총 {result.titleData[0].playlistSongsCount}곡
-                          <span className='first-section-stick'>|</span>
+                          <span className="first-section-stick">|</span>
                           {result.titleData[0].createdDate}
                         </div>
                         <button
-                          title='퇴근 후 쇠질엔 이만한 플리가 없지😎'
-                          type='button'
-                          className='first-section-button'
+                          type="button"
+                          className="first-section-button"
+                          onClick={() => {
+                            fetch(
+                              `http://localhost:8000/play/addsongs/playlist/${result.titleData[0].playlistId}`,
+                              {
+                                headers: {
+                                  Authorization:
+                                    sessionStorage.getItem("token"),
+                                },
+                              }
+                            )
+                              .then((res) => res.json())
+                              .then((plData) => {
+                                const musicTracksId = musicTracks.map(
+                                  (el) => el.songId
+                                );
+                                const filteredNewTracks = plData.filter(
+                                  (el, i) =>
+                                    musicTracksId.includes(el.songId) === false
+                                );
+                                setMusicTracks([
+                                  ...filteredNewTracks,
+                                  ...musicTracks,
+                                ]);
+                                setAlertOn(
+                                  "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                                );
+                              })
+                              .catch((err) => {
+                                if (sessionStorage.getItem("token") !== null)
+                                  setAlertOn(
+                                    "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                                  );
+                              });
+                          }}
                         >
-                          <BsFillPlayCircleFill className='first-section-play-button' />
+                          <BsFillPlayCircleFill className="first-section-play-button" />
                         </button>
                       </div>
                       {/* 노래리스트 */}
-                      <div className='first-section-playlist-wrap'>
-                        <ul className='first-section-playlist-box'>
+                      <div className="first-section-playlist-wrap">
+                        <ul className="first-section-playlist-box">
                           {result.songsData !== null &&
                             result.songsData.map((song) => {
                               return (
                                 <li
                                   key={song.songId}
-                                  className='first-section-playlist-list'
+                                  className="first-section-playlist-list"
                                 >
                                   <img
-                                    alt='앨범 표지'
+                                    alt="앨범 표지"
                                     src={song.albumImage}
-                                    className='first-section-album-cover'
+                                    className="first-section-album-cover"
                                   />
-                                  <div className='first-section-playlist-box-info'>
-                                    <strong className='first-section-playlist-song'>
+                                  <div className="first-section-playlist-box-info">
+                                    <strong className="first-section-playlist-song">
                                       {song.songTitle}
                                     </strong>
-                                    <div className='first-section-playlist-singer'>
+                                    <div className="first-section-playlist-singer">
                                       {song.artist}
                                     </div>
                                   </div>
@@ -243,7 +279,7 @@ const FirstSection = () => {
                         </ul>
                       </div>
                       {/* 플리 노래리스트 끝 */}
-                    </Link>
+                    </div>
                   </div>
                 </div>
               );

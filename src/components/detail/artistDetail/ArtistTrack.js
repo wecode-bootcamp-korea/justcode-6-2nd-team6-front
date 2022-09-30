@@ -9,6 +9,7 @@ import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { IoDiscOutline } from "react-icons/io5";
 import MyPlayList from "../../playbar/MyPlayList";
+import Loading from "../../Loading";
 
 const StyledLi = styled.li`
   color: ${(props) => (props.selected ? "#3f3fff" : "black")};
@@ -397,6 +398,7 @@ const ArtistTrack = ({
   checkedList,
   setCheckedList,
 }) => {
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const params = useParams();
   const [roleType, setRoleType] = useState([
@@ -472,11 +474,17 @@ const ArtistTrack = ({
     }
   };
 
+  console.log(songsData.join("&"));
+
   useEffect(() => {
     const result = name == "곡" ? "songs" : "albums";
-    const queryString = songsData.length == 0 ? "" : "?" + songsData.join("&");
+    const queryString =
+      songsData.length == 0
+        ? "?sortType=WORD&roleType=ALL"
+        : "?" + songsData.join("&");
+
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs/${queryString}`,
+      `http://localhost:8000/detail/artist/${params.artistId}/songs${queryString}`,
       {
         method: "GET",
         headers: { "content-type": "application/json" },
@@ -484,11 +492,14 @@ const ArtistTrack = ({
     )
       .then((res) => res.json())
       .then((data) => {
+        setLoading(true);
         setTrackData(data.artistSongs);
       });
   }, [songsData]);
 
-  return (
+  return !loading ? (
+    <Loading />
+  ) : (
     <StyledTrack>
       <div className="artist-track-inner-box">
         <div className="artist-track-whole-box">
@@ -529,7 +540,7 @@ const ArtistTrack = ({
             <span className="artist-track-whole-play">전체듣기</span>
           </button>
           <div className="artist-track-head-wrap">
-            <ul>
+            {/* <ul>
               {roleType.map((result) => {
                 return (
                   <StyledLi
@@ -542,9 +553,9 @@ const ArtistTrack = ({
                   </StyledLi>
                 );
               })}
-            </ul>
+            </ul> */}
             <span className="artist-track-stick" />
-            <ul>
+            {/* <ul>
               {sortType.map((result) => {
                 return (
                   <StyledLi
@@ -557,7 +568,7 @@ const ArtistTrack = ({
                   </StyledLi>
                 );
               })}
-            </ul>
+            </ul> */}
           </div>
         </div>
         {/* 수록곡 정보 */}

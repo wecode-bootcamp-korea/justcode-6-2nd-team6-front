@@ -200,16 +200,19 @@ const ArtistDetail = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/detail/artist/${params.artistId}`, {
-      method: "GET",
-      headers: { "content-type": "application/json" },
-    })
+    fetch(
+      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=WORD&roleType=RELEASE`,
+      {
+        method: "GET",
+        headers: { "content-type": "application/json" },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setLoading(true);
         setArtistInfo(data.artistInfo);
         setSongList(data.artistSongs);
-        console.log(data.artistInfo);
+        console.log(data);
       });
   }, []);
 

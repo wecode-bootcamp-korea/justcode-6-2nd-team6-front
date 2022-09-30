@@ -11,7 +11,7 @@ const StyledLoading = styled.div`
     height: 100vh;
 
     .loading {
-      position: absolute;
+      position: fixed;
       top: 50vh;
       right: calc(50% - 30px);
     }
