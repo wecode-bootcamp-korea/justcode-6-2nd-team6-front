@@ -124,6 +124,18 @@ function Router() {
         <Route path='/' element={<Main loginText={loginText} />} />
         <Route path='/detail' elememt={<Detail />}>
           <Route
+            path='track/:songId'
+            element={
+              <SongDetail
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
+          <Route
             path='album/:albumId/:albumPage'
             element={
               <AlbumDetail
@@ -171,7 +183,6 @@ function Router() {
             }
           />
         </Route>
-        <Route path='/detail/track/:songId' element={<SongDetail />} />
         <Route path='/storage' element={<Storage />}>
           <Route
             path='mylist'
