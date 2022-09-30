@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import BuyMyVoucher from "../../components/purchase/BuyMyVoucher";
-import NoMyVoucher from "../../components/purchase/NoMyVoucher";
-import Loading from "../../components/Loading";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import BuyMyVoucher from '../../components/purchase/BuyMyVoucher';
+import NoMyVoucher from '../../components/purchase/NoMyVoucher';
+import Loading from '../../components/Loading';
 
 const StyledMy = styled.div`
   .my-wrap {
@@ -82,13 +82,15 @@ const My = ({ token }) => {
 
   // fetch('/data/userVoucherdata.json')
   useEffect(() => {
-    fetch("http://localhost:8000/purchase/my", {
-      headers: { Authorization: sessionStorage.getItem("token") },
+    fetch('http://localhost:8000/purchase/my', {
+      headers: { Authorization: sessionStorage.getItem('token') },
     })
       .then((res) => res.json())
       .then((res) => {
         setLoading(true);
-        setUserVoucher(res.data[0]);
+        if (res.data.length > 0) {
+          setUserVoucher(res.data[0]);
+        }
       });
   }, []);
 
@@ -96,20 +98,20 @@ const My = ({ token }) => {
     <Loading />
   ) : (
     <StyledMy>
-      <div className="my-wrap">
+      <div className='my-wrap'>
         {!token ? (
-          <div className="full-msg">
-            <div className="full-msg-cnt">
-              <strong className="text-black">로그인해주세요.</strong>
-              <span className="text-gray">
+          <div className='full-msg'>
+            <div className='full-msg-cnt'>
+              <strong className='text-black'>로그인해주세요.</strong>
+              <span className='text-gray'>
                 로그인하시면 더욱 더 다양한
                 <br />
                 FLOrida를 즐길 수 있어요.
               </span>
               <div
-                className="full-msg-btn"
+                className='full-msg-btn'
                 onClick={() => {
-                  navigate("/login");
+                  navigate('/login');
                 }}
               >
                 <span>로그인</span>
@@ -117,10 +119,10 @@ const My = ({ token }) => {
             </div>
           </div>
         ) : (
-          <div className="now-voucher-wrap">
-            <section className="my-voucher-section">
-              <h3 className="my-section-title">사용 중인 이용권</h3>
-              <div className="voucher-card">
+          <div className='now-voucher-wrap'>
+            <section className='my-voucher-section'>
+              <h3 className='my-section-title'>사용 중인 이용권</h3>
+              <div className='voucher-card'>
                 {userVoucher.voucherId ? (
                   <BuyMyVoucher userVoucher={userVoucher} />
                 ) : (

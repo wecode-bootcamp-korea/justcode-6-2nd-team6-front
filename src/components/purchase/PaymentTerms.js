@@ -279,6 +279,7 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
             type='button'
             className={isNaverPayClicked ? 'btn-selected' : 'btn-primary'}
             onClick={() => {
+              setPayWith('네이버페이');
               setIsNaverPayClicked(true);
               setIsKakaoPayClicked(false);
               setIsCardClicked(false);
@@ -286,19 +287,13 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span
-              className='btn-naverpay pay-img'
-              onClick={() => {
-                setPayWith('네이버페이');
-              }}
-            >
-              네이버페이
-            </span>
+            <span className='btn-naverpay pay-img'>네이버페이</span>
           </button>
           <button
             type='button'
             className={isKakaoPayClicked ? 'btn-selected' : 'btn-primary'}
             onClick={() => {
+              setPayWith('카카오페이');
               setIsNaverPayClicked(false);
               setIsKakaoPayClicked(true);
               setIsCardClicked(false);
@@ -306,19 +301,13 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span
-              className='btn-kakaopay pay-img'
-              onClick={() => {
-                setPayWith('카카오페이');
-              }}
-            >
-              카카오페이
-            </span>
+            <span className='btn-kakaopay pay-img'>카카오페이</span>
           </button>
           <button
             type='button'
             className={isCardClicked ? 'btn-selected' : 'btn-primary'}
             onClick={() => {
+              setPayWith('신용/체크카드');
               setIsNaverPayClicked(false);
               setIsKakaoPayClicked(false);
               setIsCardClicked(true);
@@ -326,18 +315,13 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span
-              onClick={() => {
-                setPayWith('신용/체크카드');
-              }}
-            >
-              신용/체크카드
-            </span>
+            <span>신용/체크카드</span>
           </button>
           <button
             type='button'
             className={isPhoneAllClicked ? 'btn-selected' : 'btn-primary'}
             onClick={() => {
+              setPayWith('휴대폰(공통)');
               setIsNaverPayClicked(false);
               setIsKakaoPayClicked(false);
               setIsCardClicked(false);
@@ -345,18 +329,13 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span
-              onClick={() => {
-                setPayWith('휴대폰(공통)');
-              }}
-            >
-              휴대폰(공통)
-            </span>
+            <span>휴대폰(공통)</span>
           </button>
           <button
             type='button'
             className={isPhoneClicked ? 'btn-selected' : 'btn-primary'}
             onClick={() => {
+              setPayWith('휴대폰(SKT)');
               setIsNaverPayClicked(false);
               setIsKakaoPayClicked(false);
               setIsCardClicked(false);
@@ -364,13 +343,7 @@ const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
               setIsPhoneClicked(true);
             }}
           >
-            <span
-              onClick={() => {
-                setPayWith('휴대폰(SKT)');
-              }}
-            >
-              휴대폰(SKT)
-            </span>
+            <span>휴대폰(SKT)</span>
           </button>
         </div>
         <p className='agree-check-all'>
