@@ -9,6 +9,7 @@ import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { IoDiscOutline } from "react-icons/io5";
 import MyPlayList from "../../playbar/MyPlayList";
+import Loading from "../../Loading";
 
 const StyledTrack = styled.div`
   padding-top: 40px;
@@ -368,6 +369,7 @@ const DetailTrack = ({
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
   const musicTracksId = musicTracks.map((el) => el.songId);
+  const [loading, setLoading] = useState(false);
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -385,11 +387,14 @@ const DetailTrack = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(true);
         setAlbumTrack(data.albumSongs);
       });
   }, [albumId]);
 
-  return (
+  return !loading ? (
+    <Loading />
+  ) : (
     <StyledTrack>
       <div className="detail-track-inner-box">
         <div className="detail-track-whole-box">

@@ -136,7 +136,6 @@ function Router() {
           element={
             <Main
               loginText={loginText}
-              loginText={loginText}
               musicTracks={musicTracks}
               setMusicTracks={setMusicTracks}
               setAlertOn={setAlertOn}
