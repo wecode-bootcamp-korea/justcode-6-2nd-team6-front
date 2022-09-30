@@ -192,6 +192,8 @@ const PaymentModal = ({
   paymentName,
   originPrice,
   salePrice,
+  paymentType,
+  voucherId,
 }) => {
   const closeModal = () => {
     setModalOpen(false);
@@ -264,7 +266,12 @@ const PaymentModal = ({
                 </ul>
               </div>
             </div>
-            <PaymentTerms closeModal={closeModal} />
+            <PaymentTerms
+              closeModal={closeModal}
+              salePrice={salePrice}
+              paymentType={paymentType}
+              voucherId={voucherId}
+            />
           </div>
         </div>
       </div>
