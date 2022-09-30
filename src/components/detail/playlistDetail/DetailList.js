@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsPlay } from 'react-icons/bs';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -361,6 +361,7 @@ const DetailList = ({
   setCheckedList,
 }) => {
   const location = useLocation();
+  const params = useParams();
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
   const musicTracksId = musicTracks.map((el) => el.songId);
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
@@ -629,9 +630,12 @@ const DetailList = ({
                           {data.songId !== checkedList[0] ||
                             !isMoreMenuClicked || (
                               <div className='more-menu-list'>
-                                <div className='more-menu' onClick={() => {}}>
+                                <Link
+                                  to={`/detail/track/${data.songId}`}
+                                  className='more-menu'
+                                >
                                   <FiMusic className='icon' />곡 정보
-                                </div>
+                                </Link>
                                 <div className='more-menu'>
                                   <IoDiscOutline className='icon' />
                                   앨범 정보
