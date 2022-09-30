@@ -774,9 +774,12 @@ const ArtistTrack = ({
                           </button>
                           {el.songId !== checkedList[0] || !isMoreMenuClicked || (
                             <div className="more-menu-list">
-                              <div className="more-menu" onClick={() => {}}>
+                              <Link
+                                className="more-menu"
+                                to={`/detail/track/${el.songId}`}
+                              >
                                 <FiMusic className="icon" />곡 정보
-                              </div>
+                              </Link>
                               <Link
                                 to={`/detail/album/${el.albumId}/details`}
                                 className="more-menu"

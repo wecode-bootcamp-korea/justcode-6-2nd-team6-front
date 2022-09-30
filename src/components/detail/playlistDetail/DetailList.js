@@ -363,6 +363,7 @@ const DetailList = ({
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
   const musicTracksId = musicTracks.map((el) => el.songId);
   const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
@@ -632,9 +633,7 @@ const DetailList = ({
                                 <div
                                   className="more-menu"
                                   onClick={() => {
-                                    navigate(
-                                      `/detail/album/${data.albumId}/details`
-                                    );
+                                    navigate(`/detail/track/${data.songId}`);
                                   }}
                                 >
                                   <FiMusic className="icon" />곡 정보

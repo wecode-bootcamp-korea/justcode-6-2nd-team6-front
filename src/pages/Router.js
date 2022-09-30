@@ -26,6 +26,7 @@ import ScrollToTop from "./ScrollToTop";
 import Alert from "../components/Alert";
 import { Browse } from "./browse/Browse";
 import CreateStudio from "./creator/CreateStudio";
+import SongDetail from "../components/detail/songDetail/SongDetail";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스
@@ -143,6 +144,18 @@ function Router() {
           }
         />
         <Route path="/detail" elememt={<Detail />}>
+          <Route
+            path="track/:songId"
+            element={
+              <SongDetail
+                musicTracks={musicTracks}
+                setMusicTracks={setMusicTracks}
+                setAlertOn={setAlertOn}
+                isExpandedClicked={isExpandedClicked}
+                isLogin={isLogin}
+              />
+            }
+          />
           <Route
             path="album/:albumId/:albumPage"
             element={

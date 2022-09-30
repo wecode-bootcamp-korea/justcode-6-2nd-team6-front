@@ -645,9 +645,12 @@ const DetailTrack = ({
                           {data.songId !== checkedList[0] ||
                             !isMoreMenuClicked || (
                               <div className="more-menu-list">
-                                <div className="more-menu" onClick={() => {}}>
+                                <Link
+                                  className="more-menu"
+                                  to={`/detail/track/${data.songId}`}
+                                >
                                   <FiMusic className="icon" />곡 정보
-                                </div>
+                                </Link>
                                 <div className="more-menu">
                                   <IoDiscOutline className="icon" />
                                   앨범 정보
