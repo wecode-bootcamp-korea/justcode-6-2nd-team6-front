@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { BsPlay } from 'react-icons/bs';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineMore, AiOutlineCheck } from 'react-icons/ai';
-import { VscNewFolder, VscTrash } from 'react-icons/vsc';
-import { BiMicrophone } from 'react-icons/bi';
-import { IoDiscOutline } from 'react-icons/io5';
-import { IoMdHeartEmpty } from 'react-icons/io';
-import { FiMusic } from 'react-icons/fi';
+import React, { useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { BsPlay } from "react-icons/bs";
+import { BsFillPlayFill } from "react-icons/bs";
+import { AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
+import { VscNewFolder, VscTrash } from "react-icons/vsc";
+import { BiMicrophone } from "react-icons/bi";
+import { IoDiscOutline } from "react-icons/io5";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { FiMusic } from "react-icons/fi";
 
-import MyPlayList from '../../playbar/MyPlayList';
+import MyPlayList from "../../playbar/MyPlayList";
 
-import axios from 'axios';
+import axios from "axios";
 
 const StyledTrack = styled.div`
   padding-top: 40px;
@@ -110,6 +110,7 @@ const StyledTrack = styled.div`
         }
         .artist {
           width: auto;
+          color: black;
         }
       }
 
@@ -242,17 +243,17 @@ const MylistTrack = ({
 
   return (
     <StyledTrack>
-      <div className='mylist-track-inner-box'>
-        <div className='list-first-menu'>
+      <div className="mylist-track-inner-box">
+        <div className="list-first-menu">
           <div
-            className='play-all flex-center hover'
+            className="play-all flex-center hover"
             onClick={() => {
               if (playlistSongs[0].songTitle !== null) {
                 fetch(
                   `http://localhost:8000/play/addsongs/playlist/${params.id}`,
                   {
                     headers: {
-                      Authorization: sessionStorage.getItem('token'),
+                      Authorization: sessionStorage.getItem("token"),
                     },
                   }
                 )
@@ -264,39 +265,39 @@ const MylistTrack = ({
                     );
                     setMusicTracks([...filteredNewTracks, ...musicTracks]);
                     setAlertOn(
-                      '현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다.'
+                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                     );
                   })
                   .catch((err) => {
-                    if (sessionStorage.getItem('token') !== null)
+                    if (sessionStorage.getItem("token") !== null)
                       setAlertOn(
-                        '이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다.'
+                        "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
                       );
                   });
               }
             }}
           >
-            <BsPlay size='18' />
+            <BsPlay size="18" />
             전체듣기
           </div>
 
           <p
-            className='edit hover'
+            className="edit hover"
             onClick={() => {
               setIsEditClicked(!isEditClicked);
               setCheckedList([]);
             }}
           >
-            {isEditClicked ? '완료' : '편집'}
+            {isEditClicked ? "완료" : "편집"}
           </p>
         </div>
 
-        <div className='list-second-menu'>
-          <div className='song-info flex-center'>
+        <div className="list-second-menu">
+          <div className="song-info flex-center">
             <input
-              name='전체 곡 선택하기'
-              className='select-all-checkbox'
-              type='checkbox'
+              name="전체 곡 선택하기"
+              className="select-all-checkbox"
+              type="checkbox"
               disabled={isEditClicked ? false : true}
               checked={
                 playlistSongs.length === checkedList.length ? true : false
@@ -307,14 +308,14 @@ const MylistTrack = ({
                 } else setCheckedList([]);
               }}
             />
-            <p className='song-album'>곡/앨범</p>
-            <p className='artist'>아티스트</p>
+            <p className="song-album">곡/앨범</p>
+            <p className="artist">아티스트</p>
           </div>
           {isEditClicked || (
-            <div className='menu-box flex-center'>
-              <p className='menu flex-center'>듣기</p>
-              <p className='menu flex-center'>내 리스트</p>
-              <p className='menu flex-center'>더보기</p>
+            <div className="menu-box flex-center">
+              <p className="menu flex-center">듣기</p>
+              <p className="menu flex-center">내 리스트</p>
+              <p className="menu flex-center">더보기</p>
             </div>
           )}
         </div>
@@ -338,29 +339,29 @@ const MylistTrack = ({
         )}
 
         {!isEditClicked || checkedList.length === 0 || (
-          <div className='edit-inner-box'>
-            <div className='edit-container'>
-              <div className='edit-box'>
-                <div className='checklist-counter'>{checkedList.length}</div>
+          <div className="edit-inner-box">
+            <div className="edit-container">
+              <div className="edit-box">
+                <div className="checklist-counter">{checkedList.length}</div>
                 <div
-                  className='wrapper'
+                  className="wrapper"
                   onClick={() => {
                     setCheckedList([]);
                   }}
                 >
-                  <AiOutlineCheck className='icon' />
-                  <div className='text'>선택해제</div>
+                  <AiOutlineCheck className="icon" />
+                  <div className="text">선택해제</div>
                 </div>
               </div>
-              <div className='edit-box'>
+              <div className="edit-box">
                 <div
-                  className='wrapper'
+                  className="wrapper"
                   onClick={() => {
                     fetch(
                       `http://localhost:8000/play/addsongs/playlist/${params.id}`,
                       {
                         headers: {
-                          Authorization: sessionStorage.getItem('token'),
+                          Authorization: sessionStorage.getItem("token"),
                         },
                       }
                     )
@@ -380,7 +381,7 @@ const MylistTrack = ({
                           ...musicTracks,
                         ]);
                         setAlertOn(
-                          '재생목록에 추가되었습니다. 중복된 곡은 제외됩니다.'
+                          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                         );
                         setCheckedList([]);
                       })
@@ -392,19 +393,19 @@ const MylistTrack = ({
                       });
                   }}
                 >
-                  <BsFillPlayFill className='icon' size='18' />
-                  <div className='text'>듣기</div>
+                  <BsFillPlayFill className="icon" size="18" />
+                  <div className="text">듣기</div>
                 </div>
               </div>
-              <div className='edit-box'>
+              <div className="edit-box">
                 <div
-                  className='wrapper'
+                  className="wrapper"
                   onClick={() => {
                     axios({
                       url: `http://localhost:8000/detail/mylist/${params.id}`,
-                      method: 'DELETE',
+                      method: "DELETE",
                       headers: {
-                        Authorization: sessionStorage.getItem('token'),
+                        Authorization: sessionStorage.getItem("token"),
                       },
                       data: {
                         songId: checkedList,
@@ -416,8 +417,8 @@ const MylistTrack = ({
                     });
                   }}
                 >
-                  <VscTrash className='icon' />
-                  <div className='text'>삭제</div>
+                  <VscTrash className="icon" />
+                  <div className="text">삭제</div>
                 </div>
               </div>
             </div>
@@ -458,39 +459,39 @@ const SongBar = ({
     const songPlay = () => {
       fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
         headers: {
-          Authorization: sessionStorage.getItem('token'),
+          Authorization: sessionStorage.getItem("token"),
         },
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.message == 'Need Voucher')
+          if (data.message == "Need Voucher")
             setAlertOn(
-              '이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다.'
+              "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
             );
-          else if (data !== 'Error: Invaild Access') {
+          else if (data !== "Error: Invaild Access") {
             console.log(data);
             const song = data[0];
             if (musicTracksId.includes(song.songId) === false) {
               setMusicTracks([song, ...musicTracks]);
-              setAlertOn('현재 재생목록에 추가되었습니다.');
-            } else setAlertOn('이미 현재 재생목록에 있는 곡입니다.');
+              setAlertOn("현재 재생목록에 추가되었습니다.");
+            } else setAlertOn("이미 현재 재생목록에 있는 곡입니다.");
           }
         });
     };
 
     return (
-      <div key={el.songId} className='song-bar flex-center'>
+      <div key={el.songId} className="song-bar flex-center">
         <div
-          className='song-info flex-center'
+          className="song-info flex-center"
           onClick={() => {
             if (isEditClicked === true)
               onCheckedElement(checkedList.includes(el.songId), el.songId);
           }}
         >
           <input
-            name='곡 선택하기'
-            className='checkbox'
-            type='checkbox'
+            name="곡 선택하기"
+            className="checkbox"
+            type="checkbox"
             disabled={isEditClicked ? false : true}
             checked={
               checkedList.includes(el.songId) && isEditClicked ? true : false
@@ -499,45 +500,48 @@ const SongBar = ({
               onCheckedElement(checkedList.includes(el.songId), el.songId);
             }}
           />
-          <div className='album-n-title'>
-            <img src={el.albumImage} alt='앨범커버' className='album-cover' />
-            <div className='wrapper'>
+          <div className="album-n-title">
+            <img src={el.albumImage} alt="앨범커버" className="album-cover" />
+            <div className="wrapper">
               <p
-                className='title hover'
+                className="title hover"
                 onClick={() => {
                   if (isEditClicked === false) songPlay();
                 }}
               >
                 {el.songTitle}
               </p>
-              <p
-                className='album-title'
-                onClick={() => {
-                  if (isEditClicked === false) navigate('/');
-                }}
+              <Link
+                to={`/detail/album/${el.albumId}/details`}
+                className="album-title"
               >
                 {el.albumTitle}
-              </p>
+              </Link>
             </div>
           </div>
-          <p className='artist hover'>{el.artist}</p>
+          <Link
+            to={`/detail/artist/${el.atsId}/songs`}
+            className="artist hover"
+          >
+            {el.artist}
+          </Link>
         </div>
         {isEditClicked || (
-          <div className='menu-box flex-center'>
-            <div className='menu flex-center hover' onClick={() => songPlay()}>
-              <BsFillPlayFill size='30' />
+          <div className="menu-box flex-center">
+            <div className="menu flex-center hover" onClick={() => songPlay()}>
+              <BsFillPlayFill size="30" />
             </div>
             <div
-              className='menu flex-center hover'
+              className="menu flex-center hover"
               onClick={() => {
                 setCheckedList([el.songId]);
                 setIsMyPlayListClicked(true);
               }}
             >
-              <VscNewFolder size='25' />
+              <VscNewFolder size="25" />
             </div>
             <div
-              className='menu flex-center hover'
+              className="menu flex-center hover"
               onClick={() => {
                 setCheckedList([el.songId]);
                 if (el.songId === checkedList[0])
@@ -545,19 +549,34 @@ const SongBar = ({
                 else setIsMoreMenuClicked(true);
               }}
             >
-              <AiOutlineMore size='30' />
+              <AiOutlineMore size="30" />
             </div>
             {el.songId !== checkedList[0] || !isMoreMenuClicked || (
-              <div className='more-menu-list'>
-                <div className='more-menu' onClick={() => {}}>
-                  <FiMusic className='icon' />곡 정보
+              <div className="more-menu-list">
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/album/${el.albumId}/details`);
+                  }}
+                >
+                  <FiMusic className="icon" />곡 정보
                 </div>
-                <div className='more-menu'>
-                  <IoDiscOutline className='icon' />
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/album/${el.albumId}/details`);
+                  }}
+                >
+                  <IoDiscOutline className="icon" />
                   앨범 정보
                 </div>
-                <div className='more-menu'>
-                  <BiMicrophone className='icon' />
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    navigate(`/detail/artist/${el.atsId}/songs`);
+                  }}
+                >
+                  <BiMicrophone className="icon" />
                   아티스트 정보
                 </div>
               </div>

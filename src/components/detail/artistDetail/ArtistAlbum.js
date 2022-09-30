@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { MdOutlineNavigateNext } from 'react-icons/md';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import { RiFolderAddLine } from 'react-icons/ri';
-import { BsSuitHeart } from 'react-icons/bs';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { BsFillPlayFill } from "react-icons/bs";
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { RiPlayListAddFill } from "react-icons/ri";
+import { RiFolderAddLine } from "react-icons/ri";
+import { BsSuitHeart } from "react-icons/bs";
 
 const StyledLi = styled.li`
-  color: ${(props) => (props.selected ? '#3f3fff' : 'black')};
+  color: ${(props) => (props.selected ? "#3f3fff" : "black")};
 `;
 
 const StyledArtistAlbum = styled.section`
@@ -55,7 +55,7 @@ const StyledArtistAlbum = styled.section`
           width: 1px;
           height: 8px;
           background-color: #dcdcdc;
-          content: '';
+          content: "";
         }
       }
     }
@@ -169,7 +169,7 @@ const StyledArtistAlbum = styled.section`
                   top: 1px;
                   right: 1;
                   display: inline-block;
-                  content: '';
+                  content: "";
                 }
               }
             }
@@ -211,14 +211,14 @@ const StyledArtistAlbum = styled.section`
 const ArtistAlbum = ({ name }) => {
   const params = useParams();
   const [roleType, setRoleType] = useState([
-    { id: 1, name: '전체', selected: false },
-    { id: 2, name: '정규/싱글', selected: false },
-    { id: 3, name: '참여', selected: false },
+    { id: 1, name: "전체", selected: false },
+    { id: 2, name: "정규/싱글", selected: false },
+    { id: 3, name: "참여", selected: false },
   ]);
   const [sortType, setSortType] = useState([
-    { id: 1, name: '최신순', selected: false },
-    { id: 2, name: '인기순', selected: false },
-    { id: 3, name: '가나다순', selected: false },
+    { id: 1, name: "최신순", selected: false },
+    { id: 2, name: "인기순", selected: false },
+    { id: 3, name: "가나다순", selected: false },
   ]);
   const [albumsData, setAlbumsData] = useState([]);
   const [albumList, setAlbumList] = useState([]);
@@ -235,15 +235,15 @@ const ArtistAlbum = ({ name }) => {
       return result.selected;
     })[0].name;
     const newArr = albumsData.filter((data) => {
-      return !data.includes('sortType=');
+      return !data.includes("sortType=");
     });
 
-    if (selectedName == '최신순') {
-      setAlbumsData(() => [...newArr, 'sortType=RECENT']);
-    } else if (selectedName == '인기순') {
-      return setAlbumsData(() => [...newArr, 'sortType=POPULARITY']);
-    } else if (selectedName == '가나다순') {
-      return setAlbumsData(() => [...newArr, 'sortType=WORD']);
+    if (selectedName == "최신순") {
+      setAlbumsData(() => [...newArr, "sortType=RECENT"]);
+    } else if (selectedName == "인기순") {
+      return setAlbumsData(() => [...newArr, "sortType=POPULARITY"]);
+    } else if (selectedName == "가나다순") {
+      return setAlbumsData(() => [...newArr, "sortType=WORD"]);
     }
   };
 
@@ -259,26 +259,28 @@ const ArtistAlbum = ({ name }) => {
       return result.selected;
     })[0].name;
     const newArr = albumsData.filter((data) => {
-      return !data.includes('roleType=');
+      return !data.includes("roleType=");
     });
 
-    if (selectedName == '전체') {
-      setAlbumsData(() => [...newArr, ' roleType=ALL']);
-    } else if (selectedName == '정규/싱글') {
-      return setAlbumsData(() => [...newArr, 'roleType=RELEASE']);
-    } else if (selectedName == '참여') {
-      return setAlbumsData(() => [...newArr, 'roleType=JOIN']);
+    if (selectedName == "전체") {
+      setAlbumsData(() => [...newArr, " roleType=ALL"]);
+    } else if (selectedName == "정규/싱글") {
+      return setAlbumsData(() => [...newArr, "roleType=RELEASE"]);
+    } else if (selectedName == "참여") {
+      return setAlbumsData(() => [...newArr, "roleType=JOIN"]);
     }
   };
 
   useEffect(() => {
     const queryString =
-      albumsData.length == 0 ? '' : '?' + albumsData.join('&');
+      albumsData.length == 0
+        ? "?sortType=WORD&roleType=ALL"
+        : "?" + albumsData.join("&");
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/albums/${queryString}`,
+      `http://localhost:8000/detail/artist/${params.artistId}/albums${queryString}`,
       {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
+        method: "GET",
+        headers: { "content-type": "application/json" },
       }
     )
       .then((res) => res.json())
@@ -289,90 +291,90 @@ const ArtistAlbum = ({ name }) => {
 
   return (
     <StyledArtistAlbum>
-      <div className='artist-album-inner-box'>
-        <div className='artist-album-head-wrap'>
-          <ul>
+      <div className="artist-album-inner-box">
+        <div className="artist-album-head-wrap">
+          {/* <ul>
             {roleType.map((result) => {
               return (
                 <StyledLi
                   type={result.id}
                   selected={result.selected}
-                  className='type'
+                  className="type"
                   onClick={roleHandler}
                 >
                   {result.name}
                 </StyledLi>
               );
             })}
-          </ul>
-          <span className='artist-album-stick' />
-          <ul>
+          </ul> */}
+          <span className="artist-album-stick" />
+          {/* <ul>
             {sortType.map((result) => {
               return (
                 <StyledLi
                   type={result.id}
                   selected={result.selected}
-                  className='type'
+                  className="type"
                   onClick={sortHandler}
                 >
                   {result.name}
                 </StyledLi>
               );
             })}
-          </ul>
+          </ul> */}
         </div>
-        <ul className='artist-album-list-wrap'>
+        <ul className="artist-album-list-wrap">
           {albumList.map((el) => {
             return (
-              <li key={el.albumId} className='artist-album-list-box'>
-                <div className='artist-album-list'>
+              <li key={el.albumId} className="artist-album-list-box">
+                <div className="artist-album-list">
                   {/* 앨범 표지 */}
-                  <div className='artist-album-list-thumbnail'>
+                  <div className="artist-album-list-thumbnail">
                     <Link
                       to={`/detail/album/${params.albumId}/details`}
-                      className='artist-album-list-link'
+                      className="artist-album-list-link"
                     >
                       <img
-                        alt='앨범 표지'
+                        alt="앨범 표지"
                         src={el.albumImage}
-                        className='artist-album-list-image'
+                        className="artist-album-list-image"
                       />
                     </Link>
                   </div>
                   {/* 앨범 설명 */}
-                  <div className='track-info-wrap'>
+                  <div className="track-info-wrap">
                     {/* 앨범 타이틀/가수 */}
-                    <div className='track-info-top'>
-                      <p className='track-info-top-title'>
+                    <div className="track-info-top">
+                      <p className="track-info-top-title">
                         <Link
                           to={`/detail/album/${params.albumId}/details`}
-                          className='track-info-album-link'
+                          className="track-info-album-link"
                         >
                           {el.albumTitle}
                         </Link>
                       </p>
-                      <p className='track-info-top-singer'>
+                      <p className="track-info-top-singer">
                         <Link
                           to={`/detail/artist/${params.artistId}/songs`}
-                          className='track-info-singer-link'
+                          className="track-info-singer-link"
                         >
                           {el.artistName}
-                          <MdOutlineNavigateNext className='track-info-singer-icon' />
+                          <MdOutlineNavigateNext className="track-info-singer-icon" />
                         </Link>
                       </p>
                     </div>
                     {/* 앨범 종류/발매 날짜 */}
-                    <div className='track-info-middle'>
-                      <div className='track-info-sort'>{el.albumType}</div>
-                      <div className='track-info-date'>
+                    <div className="track-info-middle">
+                      <div className="track-info-sort">{el.albumType}</div>
+                      <div className="track-info-date">
                         {el.albumReleaseDate}
                       </div>
                     </div>
                     {/* 앨범 아이콘 */}
-                    <div className='track-info-bottom'>
-                      <RiPlayListAddFill className='track-info-icon' />
-                      <RiFolderAddLine className='track-info-icon' />
-                      <BsSuitHeart className='track-info-icon' />
+                    <div className="track-info-bottom">
+                      <RiPlayListAddFill className="track-info-icon" />
+                      <RiFolderAddLine className="track-info-icon" />
+                      <BsSuitHeart className="track-info-icon" />
                     </div>
                   </div>
                 </div>
