@@ -160,7 +160,7 @@ const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
         .then((res) => res.json())
         .then((res) => {
           setChart(res.chart)
-
+console.log(res.chart);
 
         });
     }

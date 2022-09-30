@@ -237,7 +237,7 @@ const Charts = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpan
         }
     };
 
-
+console.log(params.id);
 
     return (
         <StyledCharts>
@@ -248,7 +248,7 @@ const Charts = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpan
                         onClick={() => {
                             if (chart[0].songTitle !== null) {
                                 fetch(
-                                    `http://localhost:8000/play/addsongs/popular/${params.id}`,
+                                    `http://localhost:8000/play/addsongs/popular/1`,
                                     {
                                         headers: {
                                             Authorization: sessionStorage.getItem("token"),
@@ -359,7 +359,7 @@ const Charts = ({ genre, chart, musicTracks, setMusicTracks, setAlertOn, isExpan
                                     className="wrapper"
                                     onClick={() => {
                                         fetch(
-                                            `http://localhost:8000/play/addsongs/popular/${params.id}`,
+                                            `http://localhost:8000/play/addsongs/popular/1`,
                                             {
                                                 headers: {
                                                     Authorization: sessionStorage.getItem("token"),
@@ -424,7 +424,7 @@ const SongBar = ({ chart, musicTracks, setMusicTracks, isSelectClicked, checkedL
     const params = useParams();
     return chart.slice(0, visible).map((el, i) => {
         const songPlay = () => {
-            fetch( `http://localhost:8000/play/addsongs/popular/${params.id}`, {
+            fetch( `http://localhost:8000/play/addsongs/popular/1`, {
                 headers: {
                     Authorization: sessionStorage.getItem("token"),
                 },
@@ -437,7 +437,7 @@ const SongBar = ({ chart, musicTracks, setMusicTracks, isSelectClicked, checkedL
                         );
                     else if (data !== "Error: Invaild Access") {
                         console.log(data);
-                        const song = data[0];
+                        const song = data[i];
                         if (musicTracksId.includes(song.songId) === false) {
                             setMusicTracks([song, ...musicTracks]);
                             setAlertOn("현재 재생목록에 추가되었습니다.");
