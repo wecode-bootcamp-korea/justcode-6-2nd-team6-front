@@ -210,14 +210,17 @@ const StyledPaymentTerms = styled.div`
   }
 `;
 
-const PaymentTerms = ({ closeModal, paymentType }) => {
+const PaymentTerms = ({ closeModal, voucherId, salePrice, paymentType }) => {
   const [checkList, setCheckList] = useState([]);
   const [disabled, setDisabled] = useState(true);
+  // 결제수단 클릭시 색깔 변화
   const [isNaverPayClicked, setIsNaverPayClicked] = useState(false);
   const [isKakaoPayClicked, setIsKakaoPayClicked] = useState(false);
   const [isCardClicked, setIsCardClicked] = useState(false);
   const [isPhoneAllClicked, setIsPhoneAllClicked] = useState(false);
   const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+  // 결제수단 클릭시 Post로 보낼 경우 필요!
+  const [payWith, setPayWith] = useState('');
   const navigate = useNavigate();
 
   // 전체체크 선택시 전체 선택 or 전체해제
@@ -242,9 +245,29 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
   }, [checkList]);
 
   // 결제하기 버튼 클릭 시 POST 방식
-  const onPay = () => {
-    alert('결제되셨습니다!');
-    navigate('/purchase/my');
+  const onPayClick = () => {
+    fetch('http://localhost:8000/purchase/my', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: sessionStorage.getItem('token'),
+      },
+      body: JSON.stringify({
+        voucherId: voucherId,
+        payment: salePrice,
+        payWith: payWith,
+        paymentType: paymentType,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.message === 'PURCHASE_SUCCESS') {
+          alert('결제되었습니다!');
+          navigate('/');
+        } else {
+          alert('결제에 실패하였습니다.');
+        }
+      });
   };
 
   return (
@@ -263,7 +286,14 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span className='btn-naverpay pay-img'>네이버페이</span>
+            <span
+              className='btn-naverpay pay-img'
+              onClick={() => {
+                setPayWith('네이버페이');
+              }}
+            >
+              네이버페이
+            </span>
           </button>
           <button
             type='button'
@@ -276,7 +306,14 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span className='btn-kakaopay pay-img'>카카오페이</span>
+            <span
+              className='btn-kakaopay pay-img'
+              onClick={() => {
+                setPayWith('카카오페이');
+              }}
+            >
+              카카오페이
+            </span>
           </button>
           <button
             type='button'
@@ -289,7 +326,13 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span>신용/체크카드</span>
+            <span
+              onClick={() => {
+                setPayWith('신용/체크카드');
+              }}
+            >
+              신용/체크카드
+            </span>
           </button>
           <button
             type='button'
@@ -302,7 +345,13 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
               setIsPhoneClicked(false);
             }}
           >
-            <span>휴대폰(공통)</span>
+            <span
+              onClick={() => {
+                setPayWith('휴대폰(공통)');
+              }}
+            >
+              휴대폰(공통)
+            </span>
           </button>
           <button
             type='button'
@@ -315,7 +364,13 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
               setIsPhoneClicked(true);
             }}
           >
-            <span>휴대폰(SKT)</span>
+            <span
+              onClick={() => {
+                setPayWith('휴대폰(SKT)');
+              }}
+            >
+              휴대폰(SKT)
+            </span>
           </button>
         </div>
         <p className='agree-check-all'>
@@ -370,7 +425,7 @@ const PaymentTerms = ({ closeModal, paymentType }) => {
         <button className='btn-cancel-pay' onClick={closeModal}>
           결제취소
         </button>
-        <button className='btn-pay' disabled={disabled} onClick={onPay}>
+        <button className='btn-pay' disabled={disabled} onClick={onPayClick}>
           결제하기
         </button>
       </div>
