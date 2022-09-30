@@ -269,6 +269,7 @@ const MylistDetail = ({
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSended, setIsSended] = useState(false);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -289,7 +290,7 @@ const MylistDetail = ({
         setPlaylistSongs(data.playlistSongs);
         setTitleValue(data.playlistInfo[0].playlistTitle);
       });
-  }, [isEditClicked, isExpandedClicked]);
+  }, [isEditClicked, isExpandedClicked, isSended]);
 
   return (
     <Fade>
@@ -393,7 +394,7 @@ const MylistDetail = ({
                                 newTitle: titleValue,
                               },
                             }).then((res) => {
-                              console.log(res.data);
+                              setIsSended(!isSended);
                               setIsTitleEditClicked(false);
                             });
                           }
@@ -405,7 +406,7 @@ const MylistDetail = ({
                   </div>
                 ) : (
                   <div className="playlist-detail-title flex-center">
-                    {titleValue}
+                    {playlistInfo.playlistTitle}
                     <HiPencil
                       className="pencil hover"
                       onClick={() => setIsTitleEditClicked(true)}
