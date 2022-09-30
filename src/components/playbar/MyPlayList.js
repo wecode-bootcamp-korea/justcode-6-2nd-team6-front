@@ -241,10 +241,15 @@ const PlayListBar = ({
             },
           })
             .then((res) => {
+              console.log(res, "res");
+              setCheckedList([]);
               setIsMyPlayListClicked(false);
-              setAlertOn("플레이리스트에 추가되었습니다.");
+              setAlertOn(
+                "플레이리스트에 추가되었습니다. 중복된 곡은 제외됩니다."
+              );
             })
             .catch((error) => {
+              console.log(error, "에러");
               setAlertOn("이미 플레이리스트에 존재하는 곡입니다.");
             });
         }
