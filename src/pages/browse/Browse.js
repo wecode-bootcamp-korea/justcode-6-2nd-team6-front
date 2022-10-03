@@ -146,7 +146,7 @@ const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
 
   useEffect(() => {
     if (params.id == 0) {
-      fetch("http://localhost:8000/browse")
+      fetch("http://3.34.53.252:8000/browse")
         // fetch('http://localhost:3000/data/genredata.json')
         .then((res) => res.json())
         .then((res) => {
@@ -154,7 +154,7 @@ const Browse = ({ musicTracks, setMusicTracks, setAlertOn }) => {
           setChart(res.chart);
         });
     } else {
-      fetch(`http://localhost:8000/browse?genreid=${params.id}`)
+      fetch(`http://3.34.53.252:8000/browse?genreid=${params.id}`)
         .then((res) => res.json())
         .then((res) => {
           setLoading(true);

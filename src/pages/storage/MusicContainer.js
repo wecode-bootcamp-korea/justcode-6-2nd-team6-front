@@ -235,12 +235,7 @@ const MusicContainer = ({
     } else if (checked === true) {
       setCheckedList(checkedList.filter((el) => el !== item));
     }
-    console.log(checkedList);
   };
-
-  console.log(
-    `http://localhost:8000/play/addsongs/${location.pathname.slice(9)}`
-  );
 
   return (
     <StyledMusicContainer>
@@ -251,7 +246,7 @@ const MusicContainer = ({
             onClick={() => {
               if (playlistSongs[0].songTitle !== null) {
                 fetch(
-                  `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                  `http://3.34.53.252:8000/play/addsongs/${location.pathname.slice(
                     9
                   )}/1`,
                   {
@@ -359,7 +354,7 @@ const MusicContainer = ({
                   className="wrapper"
                   onClick={() => {
                     fetch(
-                      `http://localhost:8000/play/addsongs/${location.pathname.slice(
+                      `http://3.34.53.252:8000/play/addsongs/${location.pathname.slice(
                         9
                       )}/1`,
                       {
@@ -435,7 +430,7 @@ const SongBar = ({
   const navigate = useNavigate();
   return playlistSongs.map((el, i) => {
     const songPlay = () => {
-      fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
+      fetch(`http://3.34.53.252:8000/play/addsongs/song/${el.songId}`, {
         headers: {
           Authorization: sessionStorage.getItem("token"),
         },
@@ -516,7 +511,7 @@ const SongBar = ({
                 setIsMyPlayListClicked(true);
               }}
             >
-              {console.log('El',el)}
+              {console.log("El", el)}
               <VscNewFolder size="25" />
             </div>
             <div

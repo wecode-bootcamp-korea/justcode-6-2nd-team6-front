@@ -50,7 +50,7 @@ const SimilarSong = ({ data, musicTracks, setMusicTracks, setAlertOn }) => {
       {data.map((el, i) => {
         const musicTracksId = musicTracks.map((el) => el.songId);
         const songPlay = () => {
-          fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
+          fetch(`http://3.34.53.252:8000/play/addsongs/song/${el.songId}`, {
             headers: {
               Authorization: sessionStorage.getItem("token"),
             },

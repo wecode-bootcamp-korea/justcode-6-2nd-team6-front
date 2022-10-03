@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { AiFillEye } from 'react-icons/ai';
-import { AiFillEyeInvisible } from 'react-icons/ai';
-import LoginFooter from '../../components/LoginFooter';
-import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Fade } from 'react-reveal';
-
-
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { AiFillEye } from "react-icons/ai";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import LoginFooter from "../../components/LoginFooter";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Fade } from "react-reveal";
 
 const StyledLogin = styled.div`
   .login-inner-box {
@@ -37,7 +35,7 @@ const StyledLogin = styled.div`
         /* 아이디창 */
         .login-form-id {
           position: relative;
-          input[type='text'] {
+          input[type="text"] {
             width: 400px;
             height: 50px;
             margin-bottom: 30px;
@@ -48,7 +46,7 @@ const StyledLogin = styled.div`
             display: flex;
             position: absolute;
             bottom: 10px;
-            font: 12px/1 'apple';
+            font: 12px/1 "apple";
             color: red;
           }
         }
@@ -56,13 +54,13 @@ const StyledLogin = styled.div`
         .login-form-pwd {
           position: relative;
           margin-bottom: 20px;
-          input[type='password'] {
+          input[type="password"] {
             width: 400px;
             height: 50px;
             border: none;
             border-bottom: 1px solid #eee;
           }
-          input[type='text'] {
+          input[type="text"] {
             width: 400px;
             height: 50px;
             border: none;
@@ -84,10 +82,10 @@ const StyledLogin = styled.div`
           width: 100%;
           padding-left: 10px;
           margin-bottom: 20px;
-          input[type='checkbox'] {
+          input[type="checkbox"] {
             display: none;
           }
-          input[id='save-id'] + label {
+          input[id="save-id"] + label {
             display: inline-block;
             width: 20px;
             height: 20px;
@@ -96,14 +94,14 @@ const StyledLogin = styled.div`
             background: #fff;
             cursor: pointer;
           }
-          input[id='save-id']:checked + label {
+          input[id="save-id"]:checked + label {
             position: relative;
             background: #3d40ff;
             &::before {
               position: absolute;
               top: 3px;
               left: 3px;
-              content: '\f00c';
+              content: "\f00c";
               font-family: FontAwesome;
               font-size: 12px;
               text-align: center;
@@ -111,7 +109,7 @@ const StyledLogin = styled.div`
             }
           }
           span {
-            font: 16px/1 'NanumBarunGothic';
+            font: 16px/1 "NanumBarunGothic";
             padding-left: 15px;
           }
         }
@@ -125,14 +123,13 @@ const StyledLogin = styled.div`
           height: 50px;
           border: none;
           cursor: pointer;
-          font: bold 18px/1 'NanumBarunGothic';
+          font: bold 18px/1 "NanumBarunGothic";
           color: #fff;
-          
+
           &:disabled {
             background: #ddd;
             cursor: default;
           }
-
         }
         .login-btn-on {
           display: flex;
@@ -149,17 +146,17 @@ const StyledLogin = styled.div`
           justify-content: space-between;
           width: 100%;
           padding: 20px 10px;
-          font: 16px/1 'NanumBarunGothic';
+          font: 16px/1 "NanumBarunGothic";
           ul {
             display: flex;
             li {
               margin-right: 10px;
               &::after {
-                content: '|';
+                content: "|";
                 margin-left: 10px;
               }
               &:last-child::after {
-                content: '';
+                content: "";
               }
               a {
                 color: #929292;
@@ -183,7 +180,7 @@ const StyledLogin = styled.div`
             align-items: center;
             width: 49%;
             height: 50px;
-            font: bold 15px/1 'NanumBarunGothic';
+            font: bold 15px/1 "NanumBarunGothic";
             background: #333;
             color: #fff;
           }
@@ -194,7 +191,7 @@ const StyledLogin = styled.div`
             width: 49%;
             height: 50px;
             border: 1px solid #333;
-            font: bold 15px/1 'NanumBarunGothic';
+            font: bold 15px/1 "NanumBarunGothic";
             background: #fff;
             color: #333;
           }
@@ -208,20 +205,20 @@ const StyledLogin = styled.div`
             width: 50px;
             height: 50px;
             margin-right: 20px;
-            background: url('https://cdn.music-flo.com/poc/p/image/social/btn_login_naver.png');
+            background: url("https://cdn.music-flo.com/poc/p/image/social/btn_login_naver.png");
             background-size: cover;
           }
           .kakao-login {
             width: 50px;
             height: 50px;
-            background: url('https://ifh.cc/g/Jjqw68.png');
+            background: url("https://ifh.cc/g/Jjqw68.png");
             background-size: cover;
           }
           .apple-login {
             width: 50px;
             height: 50px;
             margin-left: 20px;
-            background: url('https://ifh.cc/g/Zv407V.png');
+            background: url("https://ifh.cc/g/Zv407V.png");
             background-size: cover;
           }
         }
@@ -230,12 +227,11 @@ const StyledLogin = styled.div`
   }
 `;
 
-const Login = ({setIsLogin, setLoginText}) => {
+const Login = ({ setIsLogin, setLoginText }) => {
   const navigate = useNavigate();
   // 비밀번호 토글버튼
   const [blind, setBlind] = useState(false);
-  const [input, setInput] = React.useState({ email: '', password: '' });
- 
+  const [input, setInput] = React.useState({ email: "", password: "" });
 
   const [disabled, setDisabled] = useState(true);
 
@@ -258,7 +254,7 @@ const Login = ({setIsLogin, setLoginText}) => {
   const isLogin = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:8000/users/login', {
+      .post("http://3.34.53.252:8000/users/login", {
         email: input.email,
         password: input.password,
       })
@@ -268,112 +264,117 @@ const Login = ({setIsLogin, setLoginText}) => {
         let name = response.data.data[0].name;
         let profileImage = response.data.data[0].profileImage;
         // seesionStorage로 창을 닫으면 자동 로그아웃됨
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('name', name);
-        sessionStorage.setItem('profileImage', profileImage);
-        console.log('로그인이 완료되었습니다!!');
-        navigate('/');
-        setIsLogin(true)
-        setLoginText(true)
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("name", name);
+        sessionStorage.setItem("profileImage", profileImage);
+        console.log("로그인이 완료되었습니다!!");
+        navigate("/");
+        setIsLogin(true);
+        setLoginText(true);
       })
       .catch((error) => {
         // Handle error.
-        console.log('로그인에 실패 했습니다.', error.response);
+        console.log("로그인에 실패 했습니다.", error.response);
       });
   };
 
   return (
-    <Fade >
-    <StyledLogin>
-      <div className='login-inner-box'>
-        <div className='login-container'>
-          {/* 웹접근성 스크린 리더기 부분 */}
-          <h1 className='hidden'>로그인</h1>
-          <form className='login-form-inner-box'>
-            {/* 아이디창 */}
-            <div className='login-form-id'>
-              <input
-                type='text'
-                placeholder='아이디(이메일)'
-                name='email'
-                onChange={handleChange}
-                value={input.email}
-              />
-            </div>
+    <Fade>
+      <StyledLogin>
+        <div className="login-inner-box">
+          <div className="login-container">
+            {/* 웹접근성 스크린 리더기 부분 */}
+            <h1 className="hidden">로그인</h1>
+            <form className="login-form-inner-box">
+              {/* 아이디창 */}
+              <div className="login-form-id">
+                <input
+                  type="text"
+                  placeholder="아이디(이메일)"
+                  name="email"
+                  onChange={handleChange}
+                  value={input.email}
+                />
+              </div>
 
-            {/* 페스워드창 */}
-            <div className='login-form-pwd'>
-              <input
-                type={blind === false ? 'password' : 'text'}
-                placeholder='비밀번호'
-                name='password'
-                onChange={handleChange}
-                value={input.password}
-              />
-              <span
-                className='blind-pwd'
-                onClick={() => {
-                  setBlind(!blind);
-                }}
+              {/* 페스워드창 */}
+              <div className="login-form-pwd">
+                <input
+                  type={blind === false ? "password" : "text"}
+                  placeholder="비밀번호"
+                  name="password"
+                  onChange={handleChange}
+                  value={input.password}
+                />
+                <span
+                  className="blind-pwd"
+                  onClick={() => {
+                    setBlind(!blind);
+                  }}
+                >
+                  {blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </span>
+              </div>
+
+              {/* 아이디 저장버튼 */}
+              <div className="login-save-id">
+                <input type="checkbox" name="save-id" id="save-id" />
+                <label for="save-id"></label>
+                <span>아이디 저장</span>
+              </div>
+
+              {/* 로그인버튼 */}
+              <button
+                type="submit"
+                className="login-btn"
+                disabled={disabled}
+                onClick={isLogin}
               >
-                {blind === false ? <AiFillEyeInvisible /> : <AiFillEye />}
-              </span>
-            </div>
+                로그인
+              </button>
 
-            {/* 아이디 저장버튼 */}
-            <div className='login-save-id'>
-              <input type='checkbox' name='save-id' id='save-id' />
-              <label for='save-id'></label>
-              <span>아이디 저장</span>
-            </div>
+              {/* 아이디 비밀번호 찾기 */}
+              <div className="login-find-idpw">
+                <ul>
+                  <li>
+                    <NavLink to="#">아이디 찾기</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="#">비밀번호 찾기</NavLink>
+                  </li>
+                </ul>
+                <NavLink to="/signup" className="link-signup">
+                  회원가입
+                </NavLink>
+              </div>
 
-            {/* 로그인버튼 */}
-            <button type='submit' className='login-btn' disabled={disabled} onClick={isLogin}>
-              로그인
-            </button>
+              {/* T아이디로 로그인 / 휴대폰 번호로 로그인 */}
+              <div className="login-btn-box">
+                <NavLink to="#" className="t-login">
+                  <span>T아이디로 로그인</span>
+                </NavLink>
+                <NavLink to="#" className="tel-login">
+                  <span>휴대폰 번호로 로그인</span>
+                </NavLink>
+              </div>
 
-            {/* 아이디 비밀번호 찾기 */}
-            <div className='login-find-idpw'>
-              <ul>
-                <li>
-                  <NavLink to='#'>아이디 찾기</NavLink>
-                </li>
-                <li>
-                  <NavLink to='#'>비밀번호 찾기</NavLink>
-                </li>
-              </ul>
-              <NavLink to='/signup' className='link-signup'>
-                회원가입
-              </NavLink>
-            </div>
-
-            {/* T아이디로 로그인 / 휴대폰 번호로 로그인 */}
-            <div className='login-btn-box'>
-              <NavLink to='#' className='t-login'>
-                <span>T아이디로 로그인</span>
-              </NavLink>
-              <NavLink to='#' className='tel-login'>
-                <span>휴대폰 번호로 로그인</span>
-              </NavLink>
-            </div>
-
-            {/* SNS로그인 */}
-            <div className='login-sns-box'>
-              <NavLink to='' className='naver-login'>
-                <span className='hidden'>네이버로그인</span>
-              </NavLink>
-              <NavLink to='' className='kakao-login'>
-                <span className='hidden'>카카오로그인</span>
-              </NavLink>
-              <NavLink to='' className='apple-login'>
-                <span className='hidden'>애플로그인</span>
-              </NavLink>
-            </div>
-          </form>
+              {/* SNS로그인 */}
+              <div className="login-sns-box">
+                <NavLink to="" className="naver-login">
+                  <span className="hidden">네이버로그인</span>
+                </NavLink>
+                <NavLink to="" className="kakao-login">
+                  <span className="hidden">카카오로그인</span>
+                </NavLink>
+                <NavLink to="" className="apple-login">
+                  <span className="hidden">애플로그인</span>
+                </NavLink>
+              </div>
+            </form>
+          </div>
+          <LoginFooter />
         </div>
-        <LoginFooter />
-      </div>
-    </StyledLogin>
+      </StyledLogin>
     </Fade>
   );
 };

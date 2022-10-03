@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 import { Fade } from "react-reveal";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -224,7 +224,7 @@ const PlaylistDetail = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/detail/playlist/${playlistId}`)
+    fetch(`http://3.34.53.252:8000/detail/playlist/${playlistId}`)
       .then((res) => res.json())
 
       .then((data) => {
@@ -258,7 +258,7 @@ const PlaylistDetail = ({
                     onClick={() => {
                       if (playlistSong[0].songTitle !== null) {
                         fetch(
-                          `http://localhost:8000/play/addsongs/playlist/${params.playlistId}`,
+                          `http://3.34.53.252:8000/play/addsongs/playlist/${params.playlistId}`,
                           {
                             headers: {
                               Authorization: sessionStorage.getItem("token"),

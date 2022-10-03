@@ -216,7 +216,7 @@ const AlbumDetail = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/detail/album/${albumId}/details`, {
+    fetch(`http://3.34.53.252:8000/detail/album/${albumId}/details`, {
       method: "GET",
       headers: { "content-type": "application/json" },
     })
@@ -276,7 +276,7 @@ const AlbumDetail = ({
                     className="album-detail-play hover"
                     onClick={() => {
                       fetch(
-                        `http://localhost:8000/play/addsongs/albumtrack/${params.albumId}`,
+                        `http://3.34.53.252:8000/play/addsongs/albumtrack/${params.albumId}`,
                         {
                           headers: {
                             Authorization: sessionStorage.getItem("token"),

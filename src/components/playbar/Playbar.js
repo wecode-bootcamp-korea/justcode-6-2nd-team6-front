@@ -245,7 +245,7 @@ const Playbar = ({
   // 곡 변경될 때마다 데이터 보냄 (토큰, 곡 ID), voucher 없으면 플리에서 곡 삭제시킴
   useEffect(() => {
     if (musicTracks.length !== 0) {
-      fetch(`http://localhost:8000/play/${musicTracks[trackIndex].songId}`, {
+      fetch(`http://3.34.53.252:8000/play/${musicTracks[trackIndex].songId}`, {
         method: "PATCH",
         headers: {
           Authorization: sessionStorage.getItem("token"),
@@ -336,7 +336,7 @@ const Playbar = ({
                       size="32"
                       onClick={() => {
                         fetch(
-                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          `http://3.34.53.252:8000/users/like/${musicTracks[trackIndex].songId}`,
                           {
                             method: "PATCH",
                             headers: {
@@ -357,7 +357,7 @@ const Playbar = ({
                       size="32"
                       onClick={() => {
                         fetch(
-                          `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                          `http://3.34.53.252:8000/users/like/${musicTracks[trackIndex].songId}`,
                           {
                             method: "PATCH",
                             headers: {
@@ -430,7 +430,7 @@ const Playbar = ({
               size="32"
               onClick={() => {
                 fetch(
-                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  `http://3.34.53.252:8000/users/like/${musicTracks[trackIndex].songId}`,
                   {
                     method: "PATCH",
                     headers: {
@@ -451,7 +451,7 @@ const Playbar = ({
               size="32"
               onClick={() => {
                 fetch(
-                  `http://localhost:8000/users/like/${musicTracks[trackIndex].songId}`,
+                  `http://3.34.53.252:8000/users/like/${musicTracks[trackIndex].songId}`,
                   {
                     method: "PATCH",
                     headers: {

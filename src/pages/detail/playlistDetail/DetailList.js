@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
@@ -8,17 +8,12 @@ import { AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { IoDiscOutline } from "react-icons/io5";
-import MyPlayList from "../../playbar/MyPlayList";
-import Loading from "../../Loading";
+import MyPlayList from "../../../components/playbar/MyPlayList";
 
 const StyledTrack = styled.div`
   padding-top: 40px;
 
   div.detail-track-inner-box {
-    div.detail-track-whole-box {
-      margin-left: 10px;
-    }
-
     button.detail-track-whole-play-btn {
       display: flex;
       align-items: flex-end;
@@ -220,6 +215,7 @@ const StyledTrack = styled.div`
 
         span.detail-track-artist {
           display: block;
+          overflow: hidden;
           text-overflow: ellipsis;
           text-align: left;
           white-space: nowrap;
@@ -351,7 +347,9 @@ const StyledTrack = styled.div`
   }
 `;
 
-const DetailTrack = ({
+const DetailList = ({
+  playlistSong,
+  setPlaylistSong,
   musicTracks,
   setMusicTracks,
   setAlertOn,
@@ -362,14 +360,12 @@ const DetailTrack = ({
   checkedList,
   setCheckedList,
 }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
-  const albumId = params.albumId;
-  const [albumTrack, setAlbumTrack] = useState([]);
   const [isMoreMenuClicked, setIsMoreMenuClicked] = useState(false);
-  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
   const musicTracksId = musicTracks.map((el) => el.songId);
-  const [loading, setLoading] = useState(false);
+  const [isGetMyPlayListClicked, setIsGetMyPlayListClicked] = useState(false); // 오류 안뜨게하는 용도
 
   const onCheckedElement = (checked, item) => {
     if (checked === false) {
@@ -380,21 +376,7 @@ const DetailTrack = ({
     console.log(checkedList);
   };
 
-  useEffect(() => {
-    fetch(`http://localhost:8000/detail/album/${albumId}/tracklist`, {
-      method: "GET",
-      headers: { "content-type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(true);
-        setAlbumTrack(data.albumSongs);
-      });
-  }, [albumId]);
-
-  return !loading ? (
-    <Loading />
-  ) : (
+  return (
     <StyledTrack>
       <div className="detail-track-inner-box">
         <div className="detail-track-whole-box">
@@ -402,31 +384,33 @@ const DetailTrack = ({
             className="detail-track-whole-play-btn"
             type="button"
             onClick={() => {
-              fetch(
-                `http://localhost:8000/play/addsongs/albumtrack/${params.albumId}`,
-                {
-                  headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                  },
-                }
-              )
-                .then((res) => res.json())
-                .then((plData) => {
-                  const musicTracksId = musicTracks.map((el) => el.songId);
-                  const filteredNewTracks = plData.filter(
-                    (el, i) => musicTracksId.includes(el.songId) === false
-                  );
-                  setMusicTracks([...filteredNewTracks, ...musicTracks]);
-                  setAlertOn(
-                    "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
-                  );
-                })
-                .catch((err) => {
-                  if (sessionStorage.getItem("token") !== null)
-                    setAlertOn(
-                      "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+              if (playlistSong[0].songTitle !== null) {
+                fetch(
+                  `http://3.34.53.252:8000/play/addsongs/playlist/${params.playlistId}`,
+                  {
+                    headers: {
+                      Authorization: sessionStorage.getItem("token"),
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((plData) => {
+                    const musicTracksId = musicTracks.map((el) => el.songId);
+                    const filteredNewTracks = plData.filter(
+                      (el, i) => musicTracksId.includes(el.songId) === false
                     );
-                });
+                    setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                    setAlertOn(
+                      "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                    );
+                  })
+                  .catch((err) => {
+                    if (sessionStorage.getItem("token") !== null)
+                      setAlertOn(
+                        "이용권을 구매해야 음악 재생 서비스를 이용하실 수 있습니다."
+                      );
+                  });
+              }
             }}
           >
             <BsPlay className="detail-track-whole-icon" />
@@ -447,8 +431,7 @@ const DetailTrack = ({
           <table className="detail-track-list-table">
             <caption>곡 목록</caption>
             <colgroup>
-              <col width="42" data-cell="체크박스" />
-              <col width="40" data-cell="번호" />
+              <col width="45" data-cell="체크박스" />
               <col width="*" data-cell="곡/앨범" />
               <col width="250" data-cell="아티스트" />
               <col width="70" data-cell="듣기" />
@@ -464,41 +447,44 @@ const DetailTrack = ({
                     type="checkbox"
                     disabled={isSelectClicked ? false : true}
                     checked={
-                      albumTrack.length === checkedList.length ? true : false
+                      playlistSong.length === checkedList.length ? true : false
                     }
                     onClick={() => {
-                      if (checkedList.length < albumTrack.length) {
-                        setCheckedList(albumTrack.map((el) => el.songId));
+                      if (checkedList.length < playlistSong.length) {
+                        setCheckedList(playlistSong.map((el) => el.songId));
                       } else setCheckedList([]);
                     }}
                   />
                 </th>
-                <th scope="col">번호</th>
                 <th scope="col" className="detail-track-list-info">
                   곡/앨범
                 </th>
                 <th scope="col" className="detail-track-list-artist">
                   아티스트
                 </th>
-                <th scope="col" className="detiail-track-list-icon">
-                  {" "}
-                  듣기{" "}
-                </th>
-                <th scope="col" className="detiail-track-list-icon">
-                  {" "}
-                  내 리스트{" "}
-                </th>
-                <th scope="col" className="detiail-track-list-icon">
-                  {" "}
-                  더보기{" "}
-                </th>
+                {isSelectClicked || (
+                  <>
+                    <th scope="col" className="detiail-track-list-icon">
+                      {" "}
+                      듣기{" "}
+                    </th>
+                    <th scope="col" className="detiail-track-list-icon">
+                      {" "}
+                      내 리스트{" "}
+                    </th>
+                    <th scope="col" className="detiail-track-list-icon">
+                      {" "}
+                      더보기{" "}
+                    </th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody>
-              {albumTrack.map((data) => {
+              {playlistSong.map((data) => {
                 const songPlay = () => {
                   fetch(
-                    `http://localhost:8000/play/addsongs/song/${data.songId}`,
+                    `http://3.34.53.252:8000/play/addsongs/song/${data.songId}`,
                     {
                       headers: {
                         Authorization: sessionStorage.getItem("token"),
@@ -522,8 +508,9 @@ const DetailTrack = ({
                       }
                     });
                 };
+
                 return (
-                  <tr key={data.trackNumber}>
+                  <tr key={data.songId}>
                     <td
                       className="detail-track-list-select"
                       onClick={() => {
@@ -552,9 +539,6 @@ const DetailTrack = ({
                         }}
                       />
                     </td>
-                    <td className="detail-track-list-number">
-                      {data.trackNumber}
-                    </td>
                     {/* 수록곡 곡/앨범 */}
                     <td className="detail-track-list-info-wrap">
                       <div className="detail-track-list-info-box">
@@ -565,7 +549,7 @@ const DetailTrack = ({
                           >
                             <img
                               alt="앨범 이미지"
-                              src={data.albumCover}
+                              src={data.albumImage}
                               className="detail-track-list-info-img"
                             />
                           </Link>
@@ -578,7 +562,7 @@ const DetailTrack = ({
                             }}
                           >
                             {" "}
-                            {data.songTitle}
+                            {data.songTitle}{" "}
                           </div>
                           <div className="detail-track-list-album-box">
                             <Link
@@ -597,7 +581,7 @@ const DetailTrack = ({
                     {/* 수록곡 아티스트 */}
                     <td className="detail-track-list-artist-box">
                       <Link
-                        to={`/detail/artist/${data.artistId}/songs`}
+                        to={`/detail/artist/${data.atsId}/songs`}
                         className="detail-track-list-artist"
                       >
                         <span className="detail-track-artist">
@@ -645,17 +629,33 @@ const DetailTrack = ({
                           {data.songId !== checkedList[0] ||
                             !isMoreMenuClicked || (
                               <div className="more-menu-list">
-                                <Link
+                                <div
                                   className="more-menu"
-                                  to={`/detail/track/${data.songId}`}
+                                  onClick={() => {
+                                    navigate(`/detail/track/${data.songId}`);
+                                  }}
                                 >
                                   <FiMusic className="icon" />곡 정보
-                                </Link>
-                                <div className="more-menu">
+                                </div>
+                                <div
+                                  className="more-menu"
+                                  onClick={() => {
+                                    navigate(
+                                      `/detail/album/${data.albumId}/details`
+                                    );
+                                  }}
+                                >
                                   <IoDiscOutline className="icon" />
                                   앨범 정보
                                 </div>
-                                <div className="more-menu">
+                                <div
+                                  className="more-menu"
+                                  onClick={() => {
+                                    navigate(
+                                      `/detail/artist/${data.atsId}/songs`
+                                    );
+                                  }}
+                                >
                                   <BiMicrophone className="icon" />
                                   아티스트 정보
                                 </div>
@@ -691,7 +691,7 @@ const DetailTrack = ({
                   className="wrapper"
                   onClick={() => {
                     fetch(
-                      `http://localhost:8000/play/addsongs/albumtrack/${params.albumId}`,
+                      `http://3.34.53.252:8000/play/addsongs/playlist/${params.playlistId}`,
                       {
                         headers: {
                           Authorization: sessionStorage.getItem("token"),
@@ -700,16 +700,24 @@ const DetailTrack = ({
                     )
                       .then((res) => res.json())
                       .then((plData) => {
+                        console.log(plData);
+                        const selectedPlData = plData.filter(
+                          (el, i) => checkedList.includes(el.songId) === true
+                        );
                         const musicTracksId = musicTracks.map(
                           (el) => el.songId
                         );
-                        const filteredNewTracks = plData.filter(
+                        const filteredSelectedPlData = selectedPlData.filter(
                           (el, i) => musicTracksId.includes(el.songId) === false
                         );
-                        setMusicTracks([...filteredNewTracks, ...musicTracks]);
+                        setMusicTracks([
+                          ...filteredSelectedPlData,
+                          ...musicTracks,
+                        ]);
                         setAlertOn(
-                          "현재 재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
+                          "재생목록에 추가되었습니다. 중복된 곡은 제외됩니다."
                         );
+                        setCheckedList([]);
                       })
                       .catch((err) => {
                         if (sessionStorage.getItem("token") !== null)
@@ -740,4 +748,4 @@ const DetailTrack = ({
   );
 };
 
-export default DetailTrack;
+export default DetailList;

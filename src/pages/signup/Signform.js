@@ -1,25 +1,25 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { Fade } from 'react-reveal';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { Fade } from "react-reveal";
 
 const StyledSignform = styled.div`
-  input[type='text'] {
+  input[type="text"] {
     height: 50px;
     margin-bottom: 50px;
     padding-left: 10px;
     border: none;
     border-bottom: 1px solid #eee;
   }
-  input[type='number'] {
+  input[type="number"] {
     height: 50px;
     margin-bottom: 50px;
     padding-left: 10px;
     border: none;
     border-bottom: 1px solid #eee;
   }
-  input[type='password'] {
+  input[type="password"] {
     height: 50px;
     margin-bottom: 50px;
     padding-left: 10px;
@@ -74,10 +74,10 @@ const StyledSignform = styled.div`
           margin-top: 50px;
           margin-bottom: 20px;
           text-align: center;
-          font: bold 30px/1 'apple';
+          font: bold 30px/1 "apple";
         }
         .signform-sub-text {
-          font: 16px/1 'apple';
+          font: 16px/1 "apple";
           color: #444;
           margin-bottom: 70px;
         }
@@ -89,19 +89,19 @@ const StyledSignform = styled.div`
         justify-content: center;
         align-items: center;
         width: 100%;
-        input[type='text'] {
+        input[type="text"] {
           width: 460px;
           margin-right: 20px;
         }
         span {
-          font: 18px/1 'apple';
+          font: 18px/1 "apple";
           margin-right: 20px;
         }
         .id-error {
           position: absolute;
           left: 95px;
           top: 60px;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
       }
@@ -113,21 +113,21 @@ const StyledSignform = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        input[type='password'] {
+        input[type="password"] {
           width: 460px;
         }
         .pwd-text {
           position: absolute;
           top: 60px;
           left: 0%;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
         .pwd-unacces {
           position: absolute;
           top: 160px;
           left: 0;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
         .re-pwd-access {
@@ -135,7 +135,7 @@ const StyledSignform = styled.div`
           position: absolute;
           top: 160px;
           left: 0%;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
       }
@@ -147,18 +147,18 @@ const StyledSignform = styled.div`
         justify-content: center;
         align-items: center;
         width: 100%;
-        input[type='number'] {
+        input[type="number"] {
           padding-left: 10px;
           width: 200px;
           margin-right: 20px;
         }
-        input[type='text'] {
+        input[type="text"] {
           padding-left: 10px;
           width: 200px;
           margin-right: 20px;
         }
         span {
-          font: 18px/1 'apple';
+          font: 18px/1 "apple";
           margin-right: 20px;
         }
         .hyphen {
@@ -169,20 +169,20 @@ const StyledSignform = styled.div`
           position: absolute;
           right: 130px;
           top: 12px;
-          font: bold 25px/1 'apple';
+          font: bold 25px/1 "apple";
         }
         .birth-access {
           position: absolute;
           top: 60px;
           left: 95px;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
         .gender-access {
           position: absolute;
           top: 60px;
           left: 340px;
-          font: 12px/1 'apple';
+          font: 12px/1 "apple";
           color: #3f3fff;
         }
       }
@@ -212,17 +212,17 @@ const Signform = () => {
   const navigate = useNavigate();
 
   // Input값을 담을 스테이트
-  const [emailId, setEmailId] = useState('');
-  const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
-  const [birth, setBirth] = useState('');
-  const [gender, setGender] = useState('');
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
+  const [birth, setBirth] = useState("");
+  const [gender, setGender] = useState("");
 
   // 오류메세지
-  const [pwdError, setPwdError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [birthError, setBirthError] = useState('');
-  const [genderError, setGenderError] = useState('');
+  const [pwdError, setPwdError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [birthError, setBirthError] = useState("");
+  const [genderError, setGenderError] = useState("");
 
   // 가입완료 버튼 토글
   const [disabled, setDisabled] = useState(true);
@@ -262,54 +262,54 @@ const Signform = () => {
   // 비밀번호 Validation
   useEffect(() => {
     if (password.length < 1 || rePassword.length < 1) {
-      return setPwdError('비밀번호를 입력해주세요');
+      return setPwdError("비밀번호를 입력해주세요");
     } else if (password === rePassword) {
-      return setPwdError('비밀번호가 일치합니다.');
+      return setPwdError("비밀번호가 일치합니다.");
     } else {
-      setPwdError('앗! 비밀번호가 일치하지 않습니다.');
+      setPwdError("앗! 비밀번호가 일치하지 않습니다.");
     }
   }, [password, rePassword]);
 
   // 이메일 Validation
   useEffect(() => {
     if (emailId.length < 1) {
-      return setEmailError('이메일을 입력해주세요');
+      return setEmailError("이메일을 입력해주세요");
     } else if (
       emailId.length > 7 &&
-      emailId.includes('@') &&
-      emailId.includes('.')
+      emailId.includes("@") &&
+      emailId.includes(".")
     ) {
-      return setEmailError('사용가능한 이메일 입니다.');
+      return setEmailError("사용가능한 이메일 입니다.");
     } else {
-      return setEmailError('정확한 이메일을 작성해 주세요');
+      return setEmailError("정확한 이메일을 작성해 주세요");
     }
   }, [emailId]);
 
   // 생년월일 Validation
   useEffect(() => {
     if (birth.length < 1) {
-      return setBirthError('생년월일을 입력해주세요');
+      return setBirthError("생년월일을 입력해주세요");
     } else if (birth.length < 6) {
-      return setBirthError('');
+      return setBirthError("");
     } else if (birth.length > 6) {
-      return setBirthError('생년월알 6자리를 초과했습니다.');
+      return setBirthError("생년월알 6자리를 초과했습니다.");
     }
   }, [birth]);
 
   // 주민등록 뒷번호 Validation
   useEffect(() => {
     if (gender.length < 1 && gender.length < 2) {
-      return setGenderError('주민등록번호 앞에 한자리수를 입력해주세요');
-    } else if (gender.valueOf('1') === '1') {
-      return setGenderError('');
-    } else if (gender.valueOf('2') === '2') {
-      return setGenderError('');
-    } else if (gender.valueOf('3') === '3') {
-      return setGenderError('');
-    } else if (gender.valueOf('4') === '4') {
-      return setGenderError('');
+      return setGenderError("주민등록번호 앞에 한자리수를 입력해주세요");
+    } else if (gender.valueOf("1") === "1") {
+      return setGenderError("");
+    } else if (gender.valueOf("2") === "2") {
+      return setGenderError("");
+    } else if (gender.valueOf("3") === "3") {
+      return setGenderError("");
+    } else if (gender.valueOf("4") === "4") {
+      return setGenderError("");
     } else {
-      return setGenderError('정확한 주민등록번호 앞자리를 입력해주세요');
+      return setGenderError("정확한 주민등록번호 앞자리를 입력해주세요");
     }
   }, [gender]);
 
@@ -321,7 +321,7 @@ const Signform = () => {
     console.log(phone);
     console.log(birth);
     axios
-      .post('http://localhost:8000/users/signup', {
+      .post("http://3.34.53.252:8000/users/signup", {
         email: emailId,
         password: password,
         name: name,
@@ -330,109 +330,109 @@ const Signform = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log('회원가입이 완료되었습니다.');
-        navigate('/');
+        console.log("회원가입이 완료되었습니다.");
+        navigate("/");
       })
       .catch((error) => {
         // Handle error.
-        console.log('회원가입에 실패했습니다.', error.response);
+        console.log("회원가입에 실패했습니다.", error.response);
       });
   };
 
   // 로컬스토리지 name/phone 값 가져오기
-  const name = window.localStorage.getItem('name-state');
-  const phone = window.localStorage.getItem('phone-state');
+  const name = window.localStorage.getItem("name-state");
+  const phone = window.localStorage.getItem("phone-state");
 
   // 창닫을때 로컬스토리지 비우는 코드
   window.onbeforeunload = function () {
-    localStorage.removeItem('name-state');
-    localStorage.removeItem('phone-state');
-    return '';
+    localStorage.removeItem("name-state");
+    localStorage.removeItem("phone-state");
+    return "";
   };
 
   return (
-    <Fade >
-    <StyledSignform>
-      <div className='signform-inner-box'>
-        {/* 로고박스 */}
-        <NavLink to='/' className='signform-logo-box'>
-          <img
-            src={process.env.PUBLIC_URL + '/Images/logo.png'}
-            alt='플로리다로고'
-          />
-        </NavLink>
-        <div className='signform-container'>
-          {/* 제목 */}
-          <div className='signform-title-box'>
-            <div className='signform-title-text'>
-              <span>회원가입</span>
+    <Fade>
+      <StyledSignform>
+        <div className="signform-inner-box">
+          {/* 로고박스 */}
+          <NavLink to="/" className="signform-logo-box">
+            <img
+              src={process.env.PUBLIC_URL + "/Images/logo.png"}
+              alt="플로리다로고"
+            />
+          </NavLink>
+          <div className="signform-container">
+            {/* 제목 */}
+            <div className="signform-title-box">
+              <div className="signform-title-text">
+                <span>회원가입</span>
+              </div>
+              <div className="signform-sub-text">
+                <span>이름:{name}</span> <span>휴대폰번호:{phone}</span>
+              </div>
             </div>
-            <div className='signform-sub-text'>
-              <span>이름:{name}</span> <span>휴대폰번호:{phone}</span>
+            {/* form박스 - 이메일 */}
+            <div className="email-box">
+              <div className="signform-form-box">
+                <input
+                  type="text"
+                  placeholder="아이디(이메일)"
+                  onChange={onChangeEmilId}
+                />
+                <span className="id-error">{emailError}</span>
+              </div>
             </div>
-          </div>
-          {/* form박스 - 이메일 */}
-          <div className='email-box'>
-            <div className='signform-form-box'>
+
+            {/* form박스 - 비밀번호 */}
+            <div className="password-box">
               <input
-                type='text'
-                placeholder='아이디(이메일)'
-                onChange={onChangeEmilId}
+                type="password"
+                placeholder="비밀번호"
+                name="pwd"
+                id="pwd"
+                onChange={onChangePassword}
               />
-              <span className='id-error'>{emailError}</span>
+              {/* 기본으로 보여줄 PW 조건 */}
+              <span className="pwd-text">
+                영문과 숫자 조합으로 최소 6-15자로 입력해주세요
+              </span>
+              <input
+                type="password"
+                placeholder="비밀번호 재확인"
+                name="re-pwd"
+                id="re-pwd"
+                onChange={onChangeRePassword}
+              />
+              {/* 비밀번호 일치/오류 text */}
+              <span className="pwd-unacces">{pwdError}</span>
             </div>
-          </div>
 
-          {/* form박스 - 비밀번호 */}
-          <div className='password-box'>
-            <input
-              type='password'
-              placeholder='비밀번호'
-              name='pwd'
-              id='pwd'
-              onChange={onChangePassword}
-            />
-            {/* 기본으로 보여줄 PW 조건 */}
-            <span className='pwd-text'>
-              영문과 숫자 조합으로 최소 6-15자로 입력해주세요
-            </span>
-            <input
-              type='password'
-              placeholder='비밀번호 재확인'
-              name='re-pwd'
-              id='re-pwd'
-              onChange={onChangeRePassword}
-            />
-            {/* 비밀번호 일치/오류 text */}
-            <span className='pwd-unacces'>{pwdError}</span>
-          </div>
+            {/* form박스 - 주민번호 */}
+            <div className="birthday">
+              <input
+                type="number"
+                placeholder="생년월일 (ex.880101)"
+                onChange={onChangeBirth}
+                maxLength={"6"}
+              />
+              <span className="hyphen">-</span>
+              <input type="text" maxLength={"1"} onChange={onChangeGender} />
+              <span className="bullet">••••••</span>
+              <span className="birth-access">{birthError}</span>
+              <span className="gender-access">{genderError}</span>
+            </div>
 
-          {/* form박스 - 주민번호 */}
-          <div className='birthday'>
-            <input
-              type='number'
-              placeholder='생년월일 (ex.880101)'
-              onChange={onChangeBirth}
-              maxLength={'6'}
-            />
-            <span className='hyphen'>-</span>
-            <input type='text' maxLength={'1'} onChange={onChangeGender} />
-            <span className='bullet'>••••••</span>
-            <span className='birth-access'>{birthError}</span>
-            <span className='gender-access'>{genderError}</span>
+            <button
+              type="submit"
+              disabled={disabled}
+              className="signform-btn"
+              onClick={register}
+            >
+              가입 완료
+            </button>
           </div>
-
-          <button
-            type='submit'
-            disabled={disabled}
-            className='signform-btn'
-            onClick={register}
-          >
-            가입 완료
-          </button>
         </div>
-      </div>
-    </StyledSignform>
+      </StyledSignform>
     </Fade>
   );
 };

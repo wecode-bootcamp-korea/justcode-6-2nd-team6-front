@@ -282,7 +282,7 @@ const MyList = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/storage", {
+    fetch("http://3.34.53.252:8000/storage", {
       headers: {
         Authorization: sessionStorage.getItem("token"),
       },
@@ -358,7 +358,7 @@ const MyList = ({
             className="play-list-container"
             onClick={() => {
               axios({
-                url: `http://localhost:8000/storage`,
+                url: `http://3.34.53.252:8000/storage`,
                 method: "POST",
                 headers: {
                   Authorization: sessionStorage.getItem("token"),
@@ -399,7 +399,7 @@ const MyList = ({
                     className="wrapper"
                     onClick={() => {
                       axios({
-                        url: `http://localhost:8000/storage`,
+                        url: `http://3.34.53.252:8000/storage`,
                         method: "DELETE",
                         headers: {
                           Authorization: sessionStorage.getItem("token"),
@@ -493,7 +493,7 @@ const PlayListContainer = ({
           className="play"
           onClick={() => {
             fetch(
-              `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+              `http://3.34.53.252:8000/play/addsongs/playlist/${data.playlistId}`,
               {
                 headers: {
                   Authorization: sessionStorage.getItem("token"),

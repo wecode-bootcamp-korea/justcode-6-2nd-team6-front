@@ -253,7 +253,7 @@ const SecondSection = ({
                       type="button"
                       onClick={() => {
                         fetch(
-                          `http://localhost:8000/play/addsongs/albumtrack/${el.albumId}`,
+                          `http://3.34.53.252:8000/play/addsongs/albumtrack/${el.albumId}`,
                           {
                             headers: {
                               Authorization: sessionStorage.getItem("token"),

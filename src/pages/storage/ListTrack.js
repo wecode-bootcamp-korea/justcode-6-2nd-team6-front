@@ -77,7 +77,7 @@ const ListTrack = ({
 
   useEffect(() => {
     setLoading(false);
-    fetch(`http://localhost:8000${location.pathname}`, {
+    fetch(`http://3.34.53.252:8000${location.pathname}`, {
       headers: {
         Authorization: sessionStorage.getItem("token"),
       },

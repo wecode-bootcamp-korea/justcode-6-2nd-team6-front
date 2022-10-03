@@ -107,7 +107,7 @@ const MyPlayList = ({
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/storage", {
+    fetch("http://3.34.53.252:8000/storage", {
       headers: {
         Authorization: sessionStorage.getItem("token"),
       },
@@ -156,7 +156,7 @@ const MyPlayList = ({
               className="add-list-box"
               onClick={() => {
                 axios({
-                  url: `http://localhost:8000/storage`,
+                  url: `http://3.34.53.252:8000/storage`,
                   method: "POST",
                   headers: {
                     Authorization: sessionStorage.getItem("token"),
@@ -208,7 +208,7 @@ const PlayListBar = ({
       onClick={() => {
         if (isGetMyPlayListClicked === true) {
           fetch(
-            `http://localhost:8000/play/addsongs/playlist/${data.playlistId}`,
+            `http://3.34.53.252:8000/play/addsongs/playlist/${data.playlistId}`,
             {
               headers: {
                 Authorization: sessionStorage.getItem("token"),
@@ -231,7 +231,7 @@ const PlayListBar = ({
             });
         } else {
           axios({
-            url: `http://localhost:8000/detail/mylist/${data.playlistId}`,
+            url: `http://3.34.53.252:8000/detail/mylist/${data.playlistId}`,
             method: "POST",
             headers: {
               Authorization: sessionStorage.getItem("token"),

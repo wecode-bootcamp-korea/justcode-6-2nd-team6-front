@@ -17,16 +17,16 @@ import Main from "./main/Main";
 import Storage from "./storage/Storage";
 import MyList from "./storage/MyList";
 import ListTrack from "./storage/ListTrack";
-import AlbumDetail from "../components/detail/albumDetail/AlbumDetail";
-import ArtistDetail from "../components/detail/artistDetail/ArtistDetail";
-import PlaylistDetail from "../components/detail/playlistDetail/PlaylistDetail";
-import Detail from "../components/detail/Detail";
-import MylistDetail from "../components/detail/MylistDetail/MylistDetail";
+import AlbumDetail from "./detail/albumDetail/AlbumDetail";
+import ArtistDetail from "./detail/artistDetail/ArtistDetail";
+import PlaylistDetail from "./detail/playlistDetail/PlaylistDetail";
+import Detail from "./detail/Detail";
+import MylistDetail from "./detail/MylistDetail/MylistDetail";
 import ScrollToTop from "./ScrollToTop";
 import Alert from "../components/Alert";
 import { Browse } from "./browse/Browse";
 import CreateStudio from "./creator/CreateStudio";
-import SongDetail from "../components/detail/songDetail/SongDetail";
+import SongDetail from "./detail/songDetail/SongDetail";
 
 function Router() {
   const [trackIndex, setTrackIndex] = useState(0); // 현재 재생되고있는 음악 인덱스

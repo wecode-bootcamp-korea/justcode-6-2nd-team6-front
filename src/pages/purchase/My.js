@@ -82,7 +82,7 @@ const My = ({ token }) => {
 
   // fetch('/data/userVoucherdata.json')
   useEffect(() => {
-    fetch("http://localhost:8000/purchase/my", {
+    fetch("http://3.34.53.252:8000/purchase/my", {
       headers: { Authorization: sessionStorage.getItem("token") },
     })
       .then((res) => res.json())

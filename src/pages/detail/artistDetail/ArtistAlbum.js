@@ -277,7 +277,7 @@ const ArtistAlbum = ({ name }) => {
         ? "?sortType=WORD&roleType=ALL"
         : "?" + albumsData.join("&");
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/albums${queryString}`,
+      `http://3.34.53.252:8000/detail/artist/${params.artistId}/albums${queryString}`,
       {
         method: "GET",
         headers: { "content-type": "application/json" },
