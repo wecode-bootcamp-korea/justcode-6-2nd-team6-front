@@ -8,7 +8,7 @@ import { RiPlayListAddFill } from "react-icons/ri";
 import { RiFolderAddLine } from "react-icons/ri";
 import { BsSuitHeart } from "react-icons/bs";
 import { Fade } from "react-reveal";
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 
 const StyledDetail = styled.div`
   width: 100%;

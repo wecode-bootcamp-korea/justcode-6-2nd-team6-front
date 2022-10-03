@@ -75,6 +75,10 @@ const ListTrack = ({
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(location.pathname);
+
+  console.log(`http://3.34.53.252:8000${location.pathname}`);
+
   useEffect(() => {
     setLoading(false);
     fetch(`http://3.34.53.252:8000${location.pathname}`, {
@@ -84,8 +88,8 @@ const ListTrack = ({
     })
       .then((res) => res.json())
       .then((data) => {
-        setLoading(true);
         console.log(data, "ListTrack!");
+        setLoading(true);
         setPlaylistSongs(data);
       });
     setIsSelectClicked(false);

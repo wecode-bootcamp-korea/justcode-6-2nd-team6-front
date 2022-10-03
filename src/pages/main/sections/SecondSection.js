@@ -231,7 +231,6 @@ const SecondSection = ({
           <div className="second-section-album-wrap">
             {/*앨범리스트*/}
             {countryArr[currentTab].content.map((el) => {
-              console.log(el, "el");
               return (
                 <div key={el.albumId} className="second-section-album-box">
                   <div className="second-section-album-list">
