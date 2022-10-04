@@ -213,7 +213,12 @@ const PlayListMusic = ({
             )}
             {el.songId !== checkedList[0] || !isMoreMenuClicked || (
               <div className="more-menu-list">
-                <div className="more-menu">
+                <div
+                  className="more-menu"
+                  onClick={() => {
+                    console.log(el);
+                  }}
+                >
                   <FiMusic className="icon" />곡 정보
                 </div>
                 <div className="more-menu">

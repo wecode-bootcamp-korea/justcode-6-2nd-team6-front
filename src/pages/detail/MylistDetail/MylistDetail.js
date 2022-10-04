@@ -6,7 +6,7 @@ import MylistTrack from "./MylistTrack";
 import { BsFillPlayFill } from "react-icons/bs";
 import { HiPencil } from "react-icons/hi";
 import axios from "axios";
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -277,7 +277,7 @@ const MylistDetail = ({
   }, [isTitleEditClicked]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/detail/mylist/${params.id}`, {
+    fetch(`http://3.34.53.252:8000/detail/mylist/${params.id}`, {
       headers: {
         Authorization: sessionStorage.getItem("token"),
       },
@@ -321,7 +321,7 @@ const MylistDetail = ({
                       onClick={() => {
                         if (playlistSongs[0].songTitle !== null) {
                           fetch(
-                            `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                            `http://3.34.53.252:8000/play/addsongs/playlist/${params.id}`,
                             {
                               headers: {
                                 Authorization: sessionStorage.getItem("token"),
@@ -384,7 +384,7 @@ const MylistDetail = ({
                         onClick={() => {
                           if (titleValue.length !== 0) {
                             axios({
-                              url: `http://localhost:8000/detail/mylist/${params.id}
+                              url: `http://3.34.53.252:8000/detail/mylist/${params.id}
                         `,
                               method: "PATCH",
                               headers: {

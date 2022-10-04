@@ -32,7 +32,7 @@ const Main = ({ loginText, musicTracks, setMusicTracks, setAlertOn }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/", {
+    fetch("http://3.34.53.252:8000/", {
       method: "GET",
       headers: { "content-type": "application/json" },
     })
@@ -43,7 +43,7 @@ const Main = ({ loginText, musicTracks, setMusicTracks, setAlertOn }) => {
         setSlide(data.slideData);
       });
 
-    fetch("http://localhost:8000/")
+    fetch("http://3.34.53.252:8000/")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

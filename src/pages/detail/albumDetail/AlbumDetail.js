@@ -8,7 +8,7 @@ import { RiPlayListAddFill } from "react-icons/ri";
 import { RiFolderAddLine } from "react-icons/ri";
 import { BsSuitHeart } from "react-icons/bs";
 import { Fade } from "react-reveal";
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 
 const StyledDetail = styled.div`
   width: 100%;
@@ -216,7 +216,7 @@ const AlbumDetail = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/detail/album/${albumId}/details`, {
+    fetch(`http://3.34.53.252:8000/detail/album/${albumId}/details`, {
       method: "GET",
       headers: { "content-type": "application/json" },
     })
@@ -276,7 +276,7 @@ const AlbumDetail = ({
                     className="album-detail-play hover"
                     onClick={() => {
                       fetch(
-                        `http://localhost:8000/play/addsongs/albumtrack/${params.albumId}`,
+                        `http://3.34.53.252:8000/play/addsongs/albumtrack/${params.albumId}`,
                         {
                           headers: {
                             Authorization: sessionStorage.getItem("token"),

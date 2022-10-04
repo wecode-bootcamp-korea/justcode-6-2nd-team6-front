@@ -10,7 +10,7 @@ import { IoDiscOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FiMusic } from "react-icons/fi";
 
-import MyPlayList from "../../playbar/MyPlayList";
+import MyPlayList from "../../../components/playbar/MyPlayList";
 
 import axios from "axios";
 
@@ -250,7 +250,7 @@ const MylistTrack = ({
             onClick={() => {
               if (playlistSongs[0].songTitle !== null) {
                 fetch(
-                  `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                  `http://3.34.53.252:8000/play/addsongs/playlist/${params.id}`,
                   {
                     headers: {
                       Authorization: sessionStorage.getItem("token"),
@@ -358,7 +358,7 @@ const MylistTrack = ({
                   className="wrapper"
                   onClick={() => {
                     fetch(
-                      `http://localhost:8000/play/addsongs/playlist/${params.id}`,
+                      `http://3.34.53.252:8000/play/addsongs/playlist/${params.id}`,
                       {
                         headers: {
                           Authorization: sessionStorage.getItem("token"),
@@ -402,7 +402,7 @@ const MylistTrack = ({
                   className="wrapper"
                   onClick={() => {
                     axios({
-                      url: `http://localhost:8000/detail/mylist/${params.id}`,
+                      url: `http://3.34.53.252:8000/detail/mylist/${params.id}`,
                       method: "DELETE",
                       headers: {
                         Authorization: sessionStorage.getItem("token"),
@@ -457,7 +457,7 @@ const SongBar = ({
   const navigate = useNavigate();
   return playlistSongs.map((el, i) => {
     const songPlay = () => {
-      fetch(`http://localhost:8000/play/addsongs/song/${el.songId}`, {
+      fetch(`http://3.34.53.252:8000/play/addsongs/song/${el.songId}`, {
         headers: {
           Authorization: sessionStorage.getItem("token"),
         },

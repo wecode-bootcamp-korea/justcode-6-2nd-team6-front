@@ -75,17 +75,21 @@ const ListTrack = ({
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(location.pathname);
+
+  console.log(`http://3.34.53.252:8000${location.pathname}`);
+
   useEffect(() => {
     setLoading(false);
-    fetch(`http://localhost:8000${location.pathname}`, {
+    fetch(`http://3.34.53.252:8000${location.pathname}`, {
       headers: {
         Authorization: sessionStorage.getItem("token"),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        setLoading(true);
         console.log(data, "ListTrack!");
+        setLoading(true);
         setPlaylistSongs(data);
       });
     setIsSelectClicked(false);

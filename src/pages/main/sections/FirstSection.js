@@ -214,7 +214,7 @@ const FirstSection = ({
                           className="first-section-button"
                           onClick={() => {
                             fetch(
-                              `http://localhost:8000/play/addsongs/playlist/${result.titleData[0].playlistId}`,
+                              `http://3.34.53.252:8000/play/addsongs/playlist/${result.titleData[0].playlistId}`,
                               {
                                 headers: {
                                   Authorization:

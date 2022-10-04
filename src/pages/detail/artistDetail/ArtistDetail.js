@@ -7,7 +7,7 @@ import { BsFillPlayFill } from "react-icons/bs";
 import { RiPlayListAddFill } from "react-icons/ri";
 import { RiFolderAddLine } from "react-icons/ri";
 import { BsSuitHeart } from "react-icons/bs";
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 import { Fade } from "react-reveal";
 
 const StyledDetail = styled.div`
@@ -201,7 +201,7 @@ const ArtistDetail = ({
 
   useEffect(() => {
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs?sortType=WORD&roleType=RELEASE`,
+      `http://3.34.53.252:8000/detail/artist/${params.artistId}/songs?sortType=WORD&roleType=RELEASE`,
       {
         method: "GET",
         headers: { "content-type": "application/json" },
@@ -266,7 +266,7 @@ const ArtistDetail = ({
                       className="artist-detail-play-icon"
                       onClick={() => {
                         fetch(
-                          `http://localhost:8000/play/addsongs/artist/${songList[0].songId}`,
+                          `http://3.34.53.252:8000/play/addsongs/artist/${songList[0].songId}`,
                           {
                             headers: {
                               Authorization: sessionStorage.getItem("token"),

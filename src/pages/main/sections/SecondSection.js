@@ -231,7 +231,6 @@ const SecondSection = ({
           <div className="second-section-album-wrap">
             {/*앨범리스트*/}
             {countryArr[currentTab].content.map((el) => {
-              console.log(el, "el");
               return (
                 <div key={el.albumId} className="second-section-album-box">
                   <div className="second-section-album-list">
@@ -253,7 +252,7 @@ const SecondSection = ({
                       type="button"
                       onClick={() => {
                         fetch(
-                          `http://localhost:8000/play/addsongs/albumtrack/${el.albumId}`,
+                          `http://3.34.53.252:8000/play/addsongs/albumtrack/${el.albumId}`,
                           {
                             headers: {
                               Authorization: sessionStorage.getItem("token"),

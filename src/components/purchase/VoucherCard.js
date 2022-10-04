@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import PaymentList from './PaymentList';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import PaymentList from "./PaymentList";
 
 const StyledVoucherCard = styled.li`
   .voucher-carditem {
@@ -63,7 +63,7 @@ const VoucherCard = () => {
 
   // fetch('/data/voucherdata.json')
   useEffect(() => {
-    fetch('http://localhost:8000/purchase/voucher')
+    fetch("http://3.34.53.252:8000/purchase/voucher")
       .then((res) => res.json())
       .then((res) => {
         setVoucher(res.data);
@@ -76,13 +76,13 @@ const VoucherCard = () => {
         voucher.map((voucherCard, index) => {
           return (
             <li key={voucherCard.voucherId}>
-              <div className='voucher-carditem'>
-                <div className='card-left'>
-                  <h3 className='name'>{voucherCard.voucherName}</h3>
-                  <p className='desc'>{voucherCard.description}</p>
+              <div className="voucher-carditem">
+                <div className="card-left">
+                  <h3 className="name">{voucherCard.voucherName}</h3>
+                  <p className="desc">{voucherCard.description}</p>
                 </div>
-                <div className='card-right'>
-                  <ul className='voucher-list-sub'>
+                <div className="card-right">
+                  <ul className="voucher-list-sub">
                     {voucherCard.payments &&
                       voucherCard.payments.map((payment, index) => {
                         if (payment.salePrice)
@@ -96,12 +96,12 @@ const VoucherCard = () => {
                       })}
                   </ul>
                 </div>
-                <button type='button' className='btn-detail'>
+                <button type="button" className="btn-detail">
                   이용권 자세히 보기
                   <img
-                    alt='화살표'
-                    src='/Images/next.png'
-                    className='next-arrow-img'
+                    alt="화살표"
+                    src="/Images/next.png"
+                    className="next-arrow-img"
                   />
                 </button>
               </div>

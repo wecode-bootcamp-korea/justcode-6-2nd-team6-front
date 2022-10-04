@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import axios from 'axios';
-import React, {  useEffect, useState } from 'react';
-import { Fade } from 'react-reveal';
-import { NavLink, useNavigate } from 'react-router-dom';
-import LoginFooter from '../../components/LoginFooter';
+import styled from "@emotion/styled";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Fade } from "react-reveal";
+import { NavLink, useNavigate } from "react-router-dom";
+import LoginFooter from "../../components/LoginFooter";
 
 const StyledCertification = styled.div`
   .certification-inner-box {
@@ -43,7 +43,7 @@ const StyledCertification = styled.div`
         justify-content: center;
         width: 100%;
         padding: 50px 0px;
-        font: bold 30px/1 'apple';
+        font: bold 30px/1 "apple";
       }
       /* 본인인증 폼박스 */
       .certification-form-box {
@@ -58,7 +58,7 @@ const StyledCertification = styled.div`
           position: relative;
           display: flex;
           flex-direction: column;
-          input[type='text'] {
+          input[type="text"] {
             width: 400px;
             height: 50px;
             margin-bottom: 50px;
@@ -77,14 +77,14 @@ const StyledCertification = styled.div`
           .name-error {
             position: absolute;
             top: 60px;
-            font: 13px/1 'apple';
+            font: 13px/1 "apple";
             color: red;
           }
         }
         /* 폰번호 */
         .certification-tel-input {
           position: relative;
-          input[type='number'] {
+          input[type="number"] {
             width: 400px;
             height: 50px;
             margin-bottom: 30px;
@@ -137,7 +137,7 @@ const StyledCertification = styled.div`
         position: relative;
         display: flex;
         flex-direction: column;
-        input[type='text'] {
+        input[type="text"] {
           width: 400px;
           height: 50px;
           margin-bottom: 50px;
@@ -185,12 +185,12 @@ const StyledCertification = styled.div`
 const Certification = () => {
   const navigate = useNavigate();
 
-  // 로그인시 받아오는 
+  // 로그인시 받아오는
 
   // Input값을 담을 State생성
-  const [certification, setCertification] = useState('');
-  const [phone, setPhone] = useState('');
-  const [name, setName] = useState('');
+  const [certification, setCertification] = useState("");
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
 
   // 본인인증 완료 버튼 토글
   const [disabled, setDisabled] = useState(true);
@@ -208,7 +208,7 @@ const Certification = () => {
 
   // 이름 초기화 함수
   const onResetName = () => {
-    setName(' ');
+    setName(" ");
   };
 
   // 핸드폰번호 Input값 State에 담는 함수
@@ -217,7 +217,7 @@ const Certification = () => {
   };
   // 핸드폰번호 초기화 함수
   const onResetPhone = () => {
-    setPhone(' ');
+    setPhone(" ");
   };
   // 인증번호 Input값 State에 담는 함수
   const onChangeCertification = (e) => {
@@ -262,16 +262,16 @@ const Certification = () => {
   // 번호인증 검증버튼 Axios
   const isCertification = () => {
     axios
-      .post('http://localhost:8000/users/verify', {
+      .post("http://3.34.53.252:8000/users/verify", {
         phone: phone,
         verifyCode: certification,
       })
       .then((response) => {
-        console.log('번호인증을 성공했습니다.',response);
-        navigate('/signform');
+        console.log("번호인증을 성공했습니다.", response);
+        navigate("/signform");
       })
       .catch((error) => {
-        console.log('번호인증을 실패했습니다.', error.response);
+        console.log("번호인증을 실패했습니다.", error.response);
       });
   };
 
@@ -279,23 +279,23 @@ const Certification = () => {
   const isSend = (e) => {
     setToggle(!toggle);
     axios
-      .post('http://localhost:8000/users/send', {
+      .post("http://3.34.53.252:8000/users/send", {
         phone: phone,
       })
       .then((response) => {
-        console.log('인증번호를 발송했습니다.',response);
-        navigate('/certification');
+        console.log("인증번호를 발송했습니다.", response);
+        navigate("/certification");
       })
       .catch((error) => {
-        console.log('인증번호 발송을 실패했습니다.', error.response);
+        console.log("인증번호 발송을 실패했습니다.", error.response);
       });
     e.preventDefault();
   };
 
   // 로컬스토리지 새로고침시 제거되지 않도록 하는 코드
   useEffect(() => {
-    const nameData = localStorage.getItem('name-state');
-    const phoneData = localStorage.getItem('phone-state');
+    const nameData = localStorage.getItem("name-state");
+    const phoneData = localStorage.getItem("phone-state");
     if (nameData) {
       setName(JSON.parse(nameData));
     }
@@ -306,119 +306,121 @@ const Certification = () => {
 
   // 로컬스토리지에 저장 코드
   useEffect(() => {
-    localStorage.setItem('name-state', JSON.stringify(name));
-    localStorage.setItem('phone-state', JSON.stringify(phone));
+    localStorage.setItem("name-state", JSON.stringify(name));
+    localStorage.setItem("phone-state", JSON.stringify(phone));
   }, [name, phone]);
 
   return (
-    <Fade >
-    <StyledCertification>
-      <div className='certification-inner-box'>
-                  {/* 로고박스 */}
-        <NavLink to='/' className='certification-logo-box'>
-          <img
-            src={process.env.PUBLIC_URL + '/Images/logo.png'}
-            alt='플로리다로고'
-          />
-        </NavLink>
-        <div className='certification-container'>
-          {/* 본인인증 타이틀 */}
-          <div className='certification-title-box'>
-            <span className='certification-title'>본인인증</span>
-          </div>
-
-          {/* 본인인증 폼박스 */}
-          <div className='certification-form-box'>
-            <div className='certification-name-input'>
-              {/* 이름 Input */}
-              <input
-                type='text'
-                placeholder='이름'
-                onChange={onChangeName}
-                value={name}
-              />
-              {/* 리셋 버튼 */}
-              {name.length > 0 ? (
-                <button
-                  type='reset'
-                  className='reset-btn'
-                  onClick={onResetName}
-                >
-                  X
-                </button>
-              ) : null}
+    <Fade>
+      <StyledCertification>
+        <div className="certification-inner-box">
+          {/* 로고박스 */}
+          <NavLink to="/" className="certification-logo-box">
+            <img
+              src={process.env.PUBLIC_URL + "/Images/logo.png"}
+              alt="플로리다로고"
+            />
+          </NavLink>
+          <div className="certification-container">
+            {/* 본인인증 타이틀 */}
+            <div className="certification-title-box">
+              <span className="certification-title">본인인증</span>
             </div>
 
-            <div className='certification-tel-input'>
-              {/* 폰번호 Input */}
-              <input
-                type='number'
-                placeholder='휴대폰 번호(-제외)'
-                name='phonenumber'
-                id='phonenumber'
-                onChange={onChangePhone}
-                value={phone}
-              />
-              {/* 리셋버튼 */}
-              {phone.length > 0 ? (
-                <button
-                  type='reset'
-                  className='reset-btn'
-                  onClick={onResetPhone}
-                >
-                  X
-                </button>
-              ) : null}
-              {/* 인증번호전송 버튼 */}
-              <button
-                type='submit'
-                className={
-                  certificationBtn === true ? 'submit-btn-off' : 'submit-btn-on'
-                }
-                onClick={isSend}
-              >
-                인증번호 전송
-              </button>
-            </div>
-          </div>
-
-          {certificationBtn === false ? (
-            <div className='certification-number-box'>
-              {/* 인증번호 Input */}
-              {toggle === false ? (
+            {/* 본인인증 폼박스 */}
+            <div className="certification-form-box">
+              <div className="certification-name-input">
+                {/* 이름 Input */}
                 <input
-                  type='text'
-                  placeholder='인증번호'
-                  onChange={onChangeCertification}
-                  value={certification}
+                  type="text"
+                  placeholder="이름"
+                  onChange={onChangeName}
+                  value={name}
                 />
-              ) : null}
-              {/* 타이머 */}
-              {toggle === false ? (
-                <span className='timer'>
-                  {' '}
-                  {minute}:{second < 10 ? `0${second}` : second}
-                </span>
-              ) : null}
-            </div>
-          ) : null}
+                {/* 리셋 버튼 */}
+                {name.length > 0 ? (
+                  <button
+                    type="reset"
+                    className="reset-btn"
+                    onClick={onResetName}
+                  >
+                    X
+                  </button>
+                ) : null}
+              </div>
 
-          {/* 본인인증 완료 버튼 */}
-          <span
-            className={
-              certification.length === 6
-                ? 'certification-btn-on'
-                : 'certification-btn-off'
-            }
-            disabled={disabled}
-            onClick={isCertification}
-          >
-            본인인증 완료
-          </span>
+              <div className="certification-tel-input">
+                {/* 폰번호 Input */}
+                <input
+                  type="number"
+                  placeholder="휴대폰 번호(-제외)"
+                  name="phonenumber"
+                  id="phonenumber"
+                  onChange={onChangePhone}
+                  value={phone}
+                />
+                {/* 리셋버튼 */}
+                {phone.length > 0 ? (
+                  <button
+                    type="reset"
+                    className="reset-btn"
+                    onClick={onResetPhone}
+                  >
+                    X
+                  </button>
+                ) : null}
+                {/* 인증번호전송 버튼 */}
+                <button
+                  type="submit"
+                  className={
+                    certificationBtn === true
+                      ? "submit-btn-off"
+                      : "submit-btn-on"
+                  }
+                  onClick={isSend}
+                >
+                  인증번호 전송
+                </button>
+              </div>
+            </div>
+
+            {certificationBtn === false ? (
+              <div className="certification-number-box">
+                {/* 인증번호 Input */}
+                {toggle === false ? (
+                  <input
+                    type="text"
+                    placeholder="인증번호"
+                    onChange={onChangeCertification}
+                    value={certification}
+                  />
+                ) : null}
+                {/* 타이머 */}
+                {toggle === false ? (
+                  <span className="timer">
+                    {" "}
+                    {minute}:{second < 10 ? `0${second}` : second}
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+
+            {/* 본인인증 완료 버튼 */}
+            <span
+              className={
+                certification.length === 6
+                  ? "certification-btn-on"
+                  : "certification-btn-off"
+              }
+              disabled={disabled}
+              onClick={isCertification}
+            >
+              본인인증 완료
+            </span>
+          </div>
         </div>
-      </div>
-      <LoginFooter />
-    </StyledCertification>
+        <LoginFooter />
+      </StyledCertification>
     </Fade>
   );
 };

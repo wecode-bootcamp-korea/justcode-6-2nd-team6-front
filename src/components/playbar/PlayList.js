@@ -220,7 +220,7 @@ const PlayList = ({
   useEffect(() => {
     if (musicTracks.length !== 0) {
       fetch(
-        `http://localhost:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
+        `http://3.34.53.252:8000/play/addsongs/artist/${musicTracks[trackIndex].songId}`,
         {
           headers: {
             Authorization: sessionStorage.getItem("token"),
@@ -234,7 +234,7 @@ const PlayList = ({
         });
 
       fetch(
-        `http://localhost:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
+        `http://3.34.53.252:8000/play/addsongs/genre/${musicTracks[trackIndex].songId}`,
         {
           headers: {
             Authorization: sessionStorage.getItem("token"),

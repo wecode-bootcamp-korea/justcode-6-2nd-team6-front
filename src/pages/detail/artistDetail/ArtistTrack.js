@@ -8,8 +8,8 @@ import { AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
 import { BiMicrophone } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { IoDiscOutline } from "react-icons/io5";
-import MyPlayList from "../../playbar/MyPlayList";
-import Loading from "../../Loading";
+import MyPlayList from "../../../components/playbar/MyPlayList";
+import Loading from "../../../components/Loading";
 
 const StyledLi = styled.li`
   color: ${(props) => (props.selected ? "#3f3fff" : "black")};
@@ -484,7 +484,7 @@ const ArtistTrack = ({
         : "?" + songsData.join("&");
 
     fetch(
-      `http://localhost:8000/detail/artist/${params.artistId}/songs${queryString}`,
+      `http://3.34.53.252:8000/detail/artist/${params.artistId}/songs${queryString}`,
       {
         method: "GET",
         headers: { "content-type": "application/json" },
@@ -509,7 +509,7 @@ const ArtistTrack = ({
             onClick={() => {
               if (trackData[0].songTitle !== null) {
                 fetch(
-                  `http://localhost:8000/play/addsongs/artist/${trackData[0].songId}`,
+                  `http://3.34.53.252:8000/play/addsongs/artist/${trackData[0].songId}`,
                   {
                     headers: {
                       Authorization: sessionStorage.getItem("token"),
@@ -634,7 +634,7 @@ const ArtistTrack = ({
               {trackData.map((el) => {
                 const songPlay = () => {
                   fetch(
-                    `http://localhost:8000/play/addsongs/song/${el.songId}`,
+                    `http://3.34.53.252:8000/play/addsongs/song/${el.songId}`,
                     {
                       headers: {
                         Authorization: sessionStorage.getItem("token"),
@@ -826,7 +826,7 @@ const ArtistTrack = ({
                   className="wrapper"
                   onClick={() => {
                     fetch(
-                      `http://localhost:8000/play/addsongs/artist/${trackData[0].songId}`,
+                      `http://3.34.53.252:8000/play/addsongs/artist/${trackData[0].songId}`,
                       {
                         headers: {
                           Authorization: sessionStorage.getItem("token"),
