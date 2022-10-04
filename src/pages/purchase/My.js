@@ -88,7 +88,9 @@ const My = ({ token }) => {
       .then((res) => res.json())
       .then((res) => {
         setLoading(true);
-        setUserVoucher(res.data[0]);
+        if (res.data.length > 0) {
+          setUserVoucher(res.data[0]);
+        }
       });
   }, []);
 
