@@ -47,7 +47,11 @@ Github, Slack, Notion, Naver Clova, zep, zoom
 
 **임지영**
 
-* 이용권
+* 이용권 - 이용권탭 UI 및 조회 API
+* 이용권 - 제휴탭 UI
+* 이용권 - MY탭 UI 및 조회 API
+* 이용권 - 결제(모달)창 UI 및 POST API
+
 
 **최승철**
 
@@ -67,6 +71,7 @@ Github, Slack, Notion, Naver Clova, zep, zoom
 
 **임지영**
 
+* [블로그 게시글](https://roxylife-twinkledawn101.tistory.com/36)에 작성했습니다.
 
 **최승철**
 
