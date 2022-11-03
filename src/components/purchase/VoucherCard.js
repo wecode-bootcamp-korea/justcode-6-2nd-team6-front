@@ -1,12 +1,67 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import PaymentList from "./PaymentList";
+import React, { useState, useEffect } from 'react';
+import PaymentList from './PaymentList';
+import styled from 'styled-components';
+
+const VoucherCard = () => {
+  const [voucher, setVoucher] = useState([]);
+
+  // fetch('/data/voucherdata.json')
+  useEffect(() => {
+    fetch('http://3.34.53.252:8000/purchase/voucher')
+      .then((res) => res.json())
+      .then((res) => {
+        setVoucher(res.data);
+      });
+  }, []);
+
+  return (
+    <StyledVoucherCard>
+      {voucher &&
+        voucher.map((voucherCard, index) => {
+          return (
+            <li key={voucherCard.voucherId}>
+              <div className='voucher-carditem'>
+                <div className='card-left'>
+                  <h3 className='name'>{voucherCard.voucherName}</h3>
+                  <p className='desc'>{voucherCard.description}</p>
+                </div>
+                <div className='card-right'>
+                  <ul className='voucher-list-sub'>
+                    {voucherCard.payments &&
+                      voucherCard.payments.map((payment, index) => {
+                        if (payment.salePrice)
+                          return (
+                            <PaymentList
+                              payment={payment}
+                              voucherName={voucherCard.voucherName}
+                              voucherId={voucherCard.voucherId}
+                            />
+                          );
+                      })}
+                  </ul>
+                </div>
+                <button type='button' className='btn-detail'>
+                  이용권 자세히 보기
+                  <img
+                    alt='화살표'
+                    src='/Images/next.png'
+                    className='next-arrow-img'
+                  />
+                </button>
+              </div>
+            </li>
+          );
+        })}
+    </StyledVoucherCard>
+  );
+};
 
 const StyledVoucherCard = styled.li`
   .voucher-carditem {
     position: relative;
     padding: 50px 60px;
     background-color: #f4f5f8;
+
     .card-left {
       width: 310px;
       margin-right: 14px;
@@ -25,6 +80,7 @@ const StyledVoucherCard = styled.li`
         color: #555;
       }
     }
+
     .card-right {
       flex: 1;
       padding-left: 49px;
@@ -34,6 +90,7 @@ const StyledVoucherCard = styled.li`
         list-style: none;
       }
     }
+
     .btn-detail {
       position: absolute;
       bottom: 57px;
@@ -57,59 +114,5 @@ const StyledVoucherCard = styled.li`
     }
   }
 `;
-
-const VoucherCard = () => {
-  const [voucher, setVoucher] = useState([]);
-
-  // fetch('/data/voucherdata.json')
-  useEffect(() => {
-    fetch("http://3.34.53.252:8000/purchase/voucher")
-      .then((res) => res.json())
-      .then((res) => {
-        setVoucher(res.data);
-      });
-  }, []);
-
-  return (
-    <StyledVoucherCard>
-      {voucher &&
-        voucher.map((voucherCard, index) => {
-          return (
-            <li key={voucherCard.voucherId}>
-              <div className="voucher-carditem">
-                <div className="card-left">
-                  <h3 className="name">{voucherCard.voucherName}</h3>
-                  <p className="desc">{voucherCard.description}</p>
-                </div>
-                <div className="card-right">
-                  <ul className="voucher-list-sub">
-                    {voucherCard.payments &&
-                      voucherCard.payments.map((payment, index) => {
-                        if (payment.salePrice)
-                          return (
-                            <PaymentList
-                              payment={payment}
-                              voucherName={voucherCard.voucherName}
-                              voucherId={voucherCard.voucherId}
-                            />
-                          );
-                      })}
-                  </ul>
-                </div>
-                <button type="button" className="btn-detail">
-                  이용권 자세히 보기
-                  <img
-                    alt="화살표"
-                    src="/Images/next.png"
-                    className="next-arrow-img"
-                  />
-                </button>
-              </div>
-            </li>
-          );
-        })}
-    </StyledVoucherCard>
-  );
-};
 
 export default VoucherCard;

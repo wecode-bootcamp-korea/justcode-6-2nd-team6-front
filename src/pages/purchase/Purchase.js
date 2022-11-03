@@ -1,14 +1,66 @@
-import React from "react";
-import { Fade } from "react-reveal";
-import { NavLink, Outlet } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { Fade } from 'react-reveal';
+import { NavLink, Outlet } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Purchase = () => {
+  return (
+    <Fade>
+      <StyledPurchase>
+        <section className='purchase-main'>
+          <div className='purchase-inner-box'>
+            <ul className='purchase-tab'>
+              <li>
+                <NavLink
+                  to='/purchase/voucher'
+                  className={({ isActive }) =>
+                    isActive ? 'btn-primary' : 'btn-color-black'
+                  }
+                >
+                  이용권
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to='/purchase/affiliate'
+                  className={({ isActive }) =>
+                    isActive ? 'btn-primary' : 'btn-color-black'
+                  }
+                >
+                  제휴
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to='/purchase/my'
+                  className={({ isActive }) =>
+                    isActive ? 'btn-primary' : 'btn-color-black'
+                  }
+                >
+                  My
+                </NavLink>
+              </li>
+            </ul>
+            <div className='purchase-coupon'>
+              <button type='button' className='btn-coupon'>
+                쿠폰
+              </button>
+            </div>
+            <Outlet />
+          </div>
+        </section>
+      </StyledPurchase>
+    </Fade>
+  );
+};
 
 const StyledPurchase = styled.section`
   .purchase-main {
-    font-family: "NanumBarunGothic", sans-serif;
+    font-family: 'NanumBarunGothic', sans-serif;
     height: 100%;
     padding: 95px 80px 40px;
     background-color: #fff;
+
     .purchase-inner-box {
       display: flex;
       flex-direction: column;
@@ -18,6 +70,7 @@ const StyledPurchase = styled.section`
       position: relative;
       margin: 0 auto;
       padding-top: 50px;
+
       .purchase-tab {
         display: flex;
         justify-content: center;
@@ -43,6 +96,7 @@ const StyledPurchase = styled.section`
           border-radius: 16px;
         }
       }
+
       .purchase-coupon {
         position: absolute;
         top: 42px;
@@ -67,56 +121,5 @@ const StyledPurchase = styled.section`
     }
   }
 `;
-
-const Purchase = () => {
-  return (
-    <Fade>
-      <StyledPurchase>
-        <section className="purchase-main">
-          <div className="purchase-inner-box">
-            <ul className="purchase-tab">
-              <li>
-                <NavLink
-                  to="/purchase/voucher"
-                  className={({ isActive }) =>
-                    isActive ? "btn-primary" : "btn-color-black"
-                  }
-                >
-                  이용권
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/purchase/affiliate"
-                  className={({ isActive }) =>
-                    isActive ? "btn-primary" : "btn-color-black"
-                  }
-                >
-                  제휴
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/purchase/my"
-                  className={({ isActive }) =>
-                    isActive ? "btn-primary" : "btn-color-black"
-                  }
-                >
-                  My
-                </NavLink>
-              </li>
-            </ul>
-            <div className="purchase-coupon">
-              <button type="button" className="btn-coupon">
-                쿠폰
-              </button>
-            </div>
-            <Outlet />
-          </div>
-        </section>
-      </StyledPurchase>
-    </Fade>
-  );
-};
 
 export default Purchase;
