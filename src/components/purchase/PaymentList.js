@@ -1,55 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import PaymentModal from './PaymentModal';
-
-const StyledPaymmentList = styled.li`
-  .payment-list {
-    margin-top: 30px;
-    .item {
-      justify-content: space-between;
-      margin-bottom: 0;
-      text-align: right;
-      .item-left {
-        display: block;
-        flex: 0 1 auto;
-        text-align: left;
-        .subject {
-          font-size: 16px;
-          color: #181818;
-        }
-      }
-      .item-right {
-        flex: 1 0 auto;
-        .price-box {
-          .first-cost {
-            margin-right: 10px;
-            color: #bdbdbd;
-          }
-          .price {
-            color: #3f3fff;
-          }
-          .color-red {
-            color: #e61313 !important;
-          }
-        }
-        .btn-buy {
-          margin-left: 20px;
-        }
-      }
-    }
-    .voucher-item-cautions {
-      margin-top: 8px;
-      list-style: none;
-      .voucher-item-caution {
-        display: flex;
-        max-width: 330px;
-        font-size: 11px;
-        line-height: 14px;
-        color: #929292;
-      }
-    }
-  }
-`;
+import styled from 'styled-components';
 
 const PaymentList = ({ payment, voucherName, voucherId }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -104,5 +55,60 @@ const PaymentList = ({ payment, voucherName, voucherId }) => {
     </StyledPaymmentList>
   );
 };
+
+const StyledPaymmentList = styled.li`
+  .payment-list {
+    margin-top: 30px;
+
+    .item {
+      justify-content: space-between;
+      margin-bottom: 0;
+      text-align: right;
+
+      .item-left {
+        display: block;
+        flex: 0 1 auto;
+        text-align: left;
+        .subject {
+          font-size: 16px;
+          color: #181818;
+        }
+      }
+
+      .item-right {
+        flex: 1 0 auto;
+
+        .price-box {
+          .first-cost {
+            margin-right: 10px;
+            color: #bdbdbd;
+          }
+          .price {
+            color: #3f3fff;
+          }
+          .color-red {
+            color: #e61313 !important;
+          }
+        }
+
+        .btn-buy {
+          margin-left: 20px;
+        }
+      }
+    }
+
+    .voucher-item-cautions {
+      margin-top: 8px;
+      list-style: none;
+      .voucher-item-caution {
+        display: flex;
+        max-width: 330px;
+        font-size: 11px;
+        line-height: 14px;
+        color: #929292;
+      }
+    }
+  }
+`;
 
 export default PaymentList;

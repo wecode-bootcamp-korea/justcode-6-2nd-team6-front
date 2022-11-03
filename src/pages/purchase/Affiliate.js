@@ -1,180 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledAffiliate = styled.div`
-  .affiliate-wrap {
-    padding: 40px;
-    .affiliate-cardlist {
-      list-style: none;
-      li {
-        list-style: none;
-        .affilite-carditem {
-          position: relative;
-          display: flex;
-          flex-wrap: wrap;
-          min-height: 200px;
-          margin-bottom: 20px;
-          padding: 50px 60px;
-          background-color: #f4f5f8;
-          border-radius: 8px;
-          box-sizing: border-box;
-          .card-left {
-            width: 310px;
-            margin-right: 14px;
-            padding-bottom: 40px;
-            .name {
-              margin-top: 4px;
-              font-size: 20px;
-              line-height: 1.2;
-              color: #000;
-              font-weight: 600;
-            }
-            .desc {
-              margin-top: 17px;
-              font-size: 13px;
-              line-height: 20px;
-              color: #555;
-            }
-          }
-          .card-right {
-            flex: 1;
-            align-self: center;
-            .item {
-              position: relative;
-              margin-bottom: 30px;
-              text-align: right;
-              .price-box {
-                line-height: 1.2;
-                display: inline-block;
-                .subject {
-                  margin-right: 20px;
-                  font-size: 16px;
-                  color: #181818;
-                  vertical-align: middle;
-                }
-                .price {
-                  font-size: 20px;
-                  color: #3f3fff;
-                  vertical-align: middle;
-                }
-              }
-              .btn-buy {
-                margin-left: 20px;
-                padding: 5px 17px;
-                text-align: center;
-                font-size: 14px;
-                color: #fff;
-                background-color: #3f3fff;
-                border: none;
-                border-radius: 22px;
-                box-sizing: border-box;
-                &:hover {
-                  cursor: pointer;
-                }
-              }
-            }
-            .blind {
-              position: absolute;
-              overflow: hidden;
-              margin: -1px;
-              width: 1px;
-              height: 1px;
-            }
-            .voucher-combi-list {
-              list-style: none;
-              position: relative;
-              li {
-                position: relative;
-                display: flex;
-                align-items: center;
-                min-height: 95px;
-                padding: 24px 45px;
-                margin: 10px 0;
-                background-color: #fff;
-                border-radius: 8px;
-                box-sizing: border-box;
-                .combi-logo {
-                  width: 155px;
-                  margin-right: 20px;
-                  img {
-                    width: 54px;
-                    vertical-align: top;
-                  }
-                }
-                .combi-info {
-                  flex: 0 1 100%;
-                  margin-top: 5px;
-                  .subject {
-                    font-size: 16px;
-                    color: #181818;
-                  }
-                  .desc {
-                    margin-top: 17px;
-                    font-size: 13px;
-                    color: #929292;
-                  }
-                }
-              }
-              .plus-img {
-                width: 33px;
-                height: 33px;
-                border-radius: 50%;
-                position: absolute;
-                top: 88px;
-                left: 245px;
-                z-index: 2;
-              }
-            }
-          }
-          .btn-detail {
-            position: absolute;
-            bottom: 57px;
-            left: 60px;
-            font-size: 13px;
-            color: #929292;
-            background-color: transparent;
-            border: none;
-            .next-arrow-img {
-              position: absolute;
-              bottom: 2px;
-              width: 15px;
-              height: 15px;
-              vertical-align: middle;
-              color: #929292;
-              opacity: 0.5;
-            }
-            &:hover {
-              cursor: pointer;
-            }
-          }
-        }
-      }
-    }
-    .pass-notice {
-      padding-top: 30px;
-      text-align: left;
-      width: 955px;
-      .notice-title {
-        height: 25px;
-        color: #222;
-        font-size: 14px;
-        font-weight: 600;
-      }
-      .no-dot {
-        list-style: none;
-        li {
-          padding-left: 0;
-          margin-top: 5px;
-          font-size: 13px;
-          line-height: 1.4;
-          color: #777;
-          padding-bottom: 7px;
-        }
-      }
-    }
-  }
-`;
-
 const Affiliate = () => {
   return (
     <StyledAffiliate>
@@ -322,5 +148,191 @@ const Affiliate = () => {
     </StyledAffiliate>
   );
 };
+
+const StyledAffiliate = styled.div`
+  .affiliate-wrap {
+    padding: 40px;
+
+    .affiliate-cardlist {
+      list-style: none;
+      li {
+        list-style: none;
+        .affilite-carditem {
+          position: relative;
+          display: flex;
+          flex-wrap: wrap;
+          min-height: 200px;
+          margin-bottom: 20px;
+          padding: 50px 60px;
+          background-color: #f4f5f8;
+          border-radius: 8px;
+          box-sizing: border-box;
+
+          .card-left {
+            width: 310px;
+            margin-right: 14px;
+            padding-bottom: 40px;
+            .name {
+              margin-top: 4px;
+              font-size: 20px;
+              line-height: 1.2;
+              color: #000;
+              font-weight: 600;
+            }
+            .desc {
+              margin-top: 17px;
+              font-size: 13px;
+              line-height: 20px;
+              color: #555;
+            }
+          }
+
+          .card-right {
+            flex: 1;
+            align-self: center;
+            .item {
+              position: relative;
+              margin-bottom: 30px;
+              text-align: right;
+              .price-box {
+                line-height: 1.2;
+                display: inline-block;
+                .subject {
+                  margin-right: 20px;
+                  font-size: 16px;
+                  color: #181818;
+                  vertical-align: middle;
+                }
+                .price {
+                  font-size: 20px;
+                  color: #3f3fff;
+                  vertical-align: middle;
+                }
+              }
+
+              .btn-buy {
+                margin-left: 20px;
+                padding: 5px 17px;
+                text-align: center;
+                font-size: 14px;
+                color: #fff;
+                background-color: #3f3fff;
+                border: none;
+                border-radius: 22px;
+                box-sizing: border-box;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
+            }
+
+            .blind {
+              position: absolute;
+              overflow: hidden;
+              margin: -1px;
+              width: 1px;
+              height: 1px;
+            }
+
+            .voucher-combi-list {
+              list-style: none;
+              position: relative;
+
+              li {
+                position: relative;
+                display: flex;
+                align-items: center;
+                min-height: 95px;
+                padding: 24px 45px;
+                margin: 10px 0;
+                background-color: #fff;
+                border-radius: 8px;
+                box-sizing: border-box;
+
+                .combi-logo {
+                  width: 155px;
+                  margin-right: 20px;
+                  img {
+                    width: 54px;
+                    vertical-align: top;
+                  }
+                }
+
+                .combi-info {
+                  flex: 0 1 100%;
+                  margin-top: 5px;
+                  .subject {
+                    font-size: 16px;
+                    color: #181818;
+                  }
+                  .desc {
+                    margin-top: 17px;
+                    font-size: 13px;
+                    color: #929292;
+                  }
+                }
+              }
+
+              .plus-img {
+                width: 33px;
+                height: 33px;
+                border-radius: 50%;
+                position: absolute;
+                top: 88px;
+                left: 245px;
+                z-index: 2;
+              }
+            }
+          }
+
+          .btn-detail {
+            position: absolute;
+            bottom: 57px;
+            left: 60px;
+            font-size: 13px;
+            color: #929292;
+            background-color: transparent;
+            border: none;
+            .next-arrow-img {
+              position: absolute;
+              bottom: 2px;
+              width: 15px;
+              height: 15px;
+              vertical-align: middle;
+              color: #929292;
+              opacity: 0.5;
+            }
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    .pass-notice {
+      padding-top: 30px;
+      text-align: left;
+      width: 955px;
+      .notice-title {
+        height: 25px;
+        color: #222;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .no-dot {
+        list-style: none;
+        li {
+          padding-left: 0;
+          margin-top: 5px;
+          font-size: 13px;
+          line-height: 1.4;
+          color: #777;
+          padding-bottom: 7px;
+        }
+      }
+    }
+  }
+`;
 
 export default Affiliate;
